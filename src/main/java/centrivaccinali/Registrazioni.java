@@ -16,9 +16,13 @@ import java.awt.event.ActionListener;
  * la classe Registrazioni estende la classe <code>JFrame</code> e implementa l'interfaccia <code>ActionListener</code>;
  * Permette la registrazione al programma di un centro vaccinale oppure di un vaccinato in base alla scelta effettuata in <code>OperazioniCentro</code>
  *
- * @author Daniele Caspani
+ * @author Daniele Caspani, Manuel Marceca
  */
 public abstract class Registrazioni extends JFrame implements ActionListener {
+
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    int displayWidth = (int)screenSize.getWidth();
+    int displayHeight = (int)screenSize.getHeight();
 
     Utility utility = new Utility();
     SwingAwt swing_awt = new SwingAwt();
@@ -43,33 +47,43 @@ public abstract class Registrazioni extends JFrame implements ActionListener {
      * @param title
      */
     protected void settings(String title) {
+
+
+        //TODO Da rimuovere se si vuole permettere il ridimensionamento!
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //setResizable(false);
+        setBounds(0,0,displayWidth,displayHeight);
+        ////////
+
         setTitle(title);
         this.setFocusable(true);
         this.requestFocusInWindow();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        this.setPreferredSize(new Dimension(1870, 1040));
+        this.setPreferredSize(new Dimension(displayWidth, displayHeight));
 
         layered_pane = new JLayeredPane();
         add(layered_pane, BorderLayout.CENTER);
-        layered_pane.setBounds(0, 0, 2000, 1000);
+        layered_pane.setBounds(0, 0, displayWidth, displayHeight);
 
         JPanel panel = new JPanel();
         panel.setBackground(Color.GRAY);
-        panel.setBounds(0, 0, 2000, 1000);
+        panel.setBounds(0, 0, displayWidth, displayHeight);
         panel.setOpaque(true);
 
         JPanel bg_panel = new JPanel();
         bg_panel.setBackground(Color.WHITE);
         bg_panel.setBorder(new LineBorder(Color.CYAN, 30, false));
-        bg_panel.setBounds(300, 100, 1250, 800);
+        bg_panel.setBounds((int) (0.025 * displayWidth), (int) (0.025 * displayHeight),
+                (int) (0.95 * displayWidth), (int) (0.85 * displayHeight));
+
         bg_panel.setOpaque(true);
 
         layered_pane.add(panel, 0, 0);
         layered_pane.add(bg_panel, 1, 0);
 
-        pack();
+        //pack();
+
     }
 
     /**
