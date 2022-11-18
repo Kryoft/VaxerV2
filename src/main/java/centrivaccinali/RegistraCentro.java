@@ -24,28 +24,59 @@ public class RegistraCentro extends Registrazioni {
     /**
      * permette l'inizializzazione dei componenti JFrame per quanto riguarda la registrazione del centro vaccinale
      *
-     * @author Daniele Caspani
+     * @author Daniele Caspani, Manuel Marceca
      */
     private void initRegistraCentro() {
+
         settings("Registra Centro Vaccinale");
+
+
+        int base_height = 40;
+
+
 
         conferma_registrazione_centro = new JButton("CONFERMA");
         annulla = new JButton("TORNA INDIETRO");
+
+        int width_buttons = 200;
+        int height_buttons = 100;
+
+
         jtipologia = new JComboBox<>(array_tipologia);
+        int width_jtipologia = 310;
+
         jqualificatore = new JComboBox<>(array_qualificatori);
+        int width_jqualificatore = 110;
 
         layered_pane.add(annulla, 2, 0);
         layered_pane.add(conferma_registrazione_centro, 2, 0);
 
         nome_label = new JLabel("Nome Centro e Tipologia:");
+        int x_nome_label = (int)(0.1 * displayWidth);
+        int y_nome_label = (int)(0.15 * displayHeight);
+        int width_nome_label = 250;
+
+
         JLabel indirizzo_label = new JLabel("Indirizzo:");
+        int width_indirizzo_label = 250;
 
         nome = new PTextField("Nome centro");
+        int width_nome = 310;
+
         via = new PTextField("Nome via");
+        int width_via = 250;
+
         numcivico = new PTextField("Numero civico");
+        int width_numcivico = 100;
+
         comune = new PTextField("Comune");
+        int width_comune = 250;
+
         sigla = new PTextField("Sigla");
+        int width_sigla = 110;
+
         cap = new PTextField("CAP");
+        int width_cap = 110;
 
         layered_pane.add(nome_label, 2, 0);
         layered_pane.add(indirizzo_label, 2, 0);
@@ -54,29 +85,86 @@ public class RegistraCentro extends Registrazioni {
         layered_pane.add(jqualificatore, 2, 0);
 
         layered_pane.add(nome, 2, 0);
+
         layered_pane.add(via, 2, 0);
         layered_pane.add(numcivico, 2, 0);
         layered_pane.add(cap, 2, 0);
         layered_pane.add(comune, 2, 0);
         layered_pane.add(sigla, 2, 0);
 
-        layeredPaneSettings(0, new Rectangle(940, 530, 110, 40), 15, 0, true);
-        layeredPaneSettings(1, new Rectangle(680, 530, 250, 40), 15, 0, true);
-        layeredPaneSettings(2, new Rectangle(1200, 430, 110, 40), 15, 0, true);
-        layeredPaneSettings(3, new Rectangle(1060, 430, 100, 40), 15, 0, true);
-        layeredPaneSettings(4, new Rectangle(800, 430, 250, 40), 15, 0, true);
-        layeredPaneSettings(5, new Rectangle(680, 200, 310, 40), 15, 0, true);
-        layeredPaneSettings(6, new Rectangle(680, 430, 110, 40), 12, 0, false);
-        layeredPaneSettings(7, new Rectangle(990, 200, 310, 40), 12, 0, false);
-        layeredPaneSettings(8, new Rectangle(450, 390, 520, 120), 16, 1, false);
-        layeredPaneSettings(9, new Rectangle(450, 160, 520, 120), 16, 1, false);
-        layeredPaneSettings(10, new Rectangle(650, 700, 200, 100), 15, 1, false);
-        layeredPaneSettings(11, new Rectangle(1050, 700, 200, 100), 15, 1, false);
+        int margin = displayWidth * 10 / 1536;      //Margine standardizzato e proporzionato a partire dal mio schermo,
+                                                    //che ha display width pari a 1536 @Marceca
+
+        int first_row_x = (displayWidth/2) - ((width_nome_label + width_nome + width_jtipologia + (margin * 2))/2);
+        int first_row_y = (int)(0.2 * displayHeight);
+
+        int x_nome = first_row_x + width_nome_label + margin;
+        int x_jtipologia = x_nome + width_nome + margin;
+
+
+        int second_row_x = (displayWidth/2) -
+                ((width_indirizzo_label + width_jqualificatore + width_via + width_numcivico + width_cap + (margin * 4))/2);
+        int second_row_y = (int)(0.4 * displayHeight);
+
+        int x_jqualificatore = second_row_x + width_indirizzo_label + margin;
+        int x_via = x_jqualificatore + width_jqualificatore + margin;
+        int x_numcivico = x_via + width_via + margin;
+        int x_cap = x_numcivico + width_numcivico + margin;
+
+
+        int third_row_x = second_row_x + width_indirizzo_label;
+        int third_row_y = (int)(0.5 * displayHeight);
+
+        int x_comune = x_via + margin;
+        int x_sigla = x_comune + width_comune + margin;
+
+
+        int fourth_row_x = (displayWidth/2) -
+                ((width_buttons * 2 + 200)/2);
+        int fourth_row_y = (int)(0.7 * displayHeight);
+
+
+        layeredPaneSettings(0, new Rectangle(x_sigla, third_row_y,                  //sigla
+                width_sigla, base_height), 15, 0, true);
+
+        layeredPaneSettings(1, new Rectangle(x_comune, third_row_y,                 //comune
+                width_comune, base_height), 15, 0, true);
+
+        layeredPaneSettings(2, new Rectangle(x_cap, second_row_y,                   //cap
+                width_cap, base_height), 15, 0, true);
+
+        layeredPaneSettings(3, new Rectangle(x_numcivico, second_row_y,             //numcivico
+                width_numcivico, base_height), 15, 0, true);
+
+        layeredPaneSettings(4, new Rectangle(x_via, second_row_y,                   //via
+                width_via, base_height), 15, 0, true);
+
+        layeredPaneSettings(5, new Rectangle(x_nome, first_row_y,                   //nome
+                width_nome, base_height), 15, 0, true);
+
+        layeredPaneSettings(6, new Rectangle(x_jqualificatore, second_row_y,        //jqualificatore
+                width_jqualificatore, base_height), 12, 0, false);
+
+        layeredPaneSettings(7, new Rectangle(x_jtipologia, first_row_y,             //jtipologia
+                width_jtipologia, base_height), 12, 0, false);
+
+        layeredPaneSettings(8, new Rectangle(second_row_x, second_row_y,            //indirizzo_label
+                width_indirizzo_label, base_height), 16, 1, false);
+
+        layeredPaneSettings(9, new Rectangle(first_row_x, first_row_y,              //nome_label
+                width_nome_label, base_height), 16, 1, false);
+
+        layeredPaneSettings(10, new Rectangle(fourth_row_x + width_buttons + 200, fourth_row_y,      //conferma
+                width_buttons, height_buttons), 15, 1, false);
+
+        layeredPaneSettings(11, new Rectangle(fourth_row_x, fourth_row_y,     //annulla
+                width_buttons, height_buttons), 15, 1, false);
 
         border = nome.getBorder();
 
         annulla.addActionListener(this);
         conferma_registrazione_centro.addActionListener(this);
+
 
         setVisible(true);
     }
@@ -106,6 +194,12 @@ public class RegistraCentro extends Registrazioni {
                     sigla.setBorder(border);
                     try {
                         Ic = new IndirizzoComposto(swing_awt.DecidiQualificatore(jqualificatore), Via, codice, Comune, Sigla, Cap);
+
+                        if(!Ic.controllaNumeroCivico(codice)){
+                            numcivico.setBorder(new LineBorder(Color.RED, 3, true));
+                            message = "Il numero civico è invalido";
+                            throw new Eccezione();
+                        }
 
                         if (!Ic.controllaCap(Cap)) {
                             cap.setBorder(new LineBorder(Color.RED, 3, true));

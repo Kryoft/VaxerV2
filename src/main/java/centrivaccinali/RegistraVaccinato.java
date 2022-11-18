@@ -34,9 +34,15 @@ public class RegistraVaccinato extends Registrazioni {
     private void initRegistraVaccinato() {
         settings("Registra Vaccinato");
 
+        int base_height = 40;
+
         conferma_registrazione_vaccinato = new JButton("CONFERMA");
         annulla = new JButton("TORNA INDIETRO");
+        int width_buttons = 200;
+        int height_buttons = 100;
+
         jvaccino = new JComboBox<>(array_vaccini);
+
 
         layered_pane.add(annulla, 2, 0);
         layered_pane.add(conferma_registrazione_vaccinato, 2, 0);

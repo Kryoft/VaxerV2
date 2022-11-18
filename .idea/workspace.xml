@@ -5,38 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="355679f2-659d-40bc-b5c0-c47ca03405e2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/centrivaccinali/CentriVaccinaliGUI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/centrivaccinali/OperazioniCentroGUI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/centrivaccinali/RegistraCentro.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/centrivaccinali/RegistraVaccinato.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/autori.txt" beforeDir="false" afterPath="$PROJECT_DIR$/autori.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/centrivaccinali/CentriVaccinali.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/centrivaccinali/Indirizzo_composto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/centrivaccinali/IndirizzoComposto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/centrivaccinali/Operazioni_Centro.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/centrivaccinali/PTextField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/centrivaccinali/PTextField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/centrivaccinali/IndirizzoComposto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/centrivaccinali/IndirizzoComposto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/centrivaccinali/RegistraCentro.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/centrivaccinali/RegistraCentro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/centrivaccinali/RegistraVaccinato.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/centrivaccinali/RegistraVaccinato.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/centrivaccinali/Registrazioni.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/centrivaccinali/Registrazioni.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/centrivaccinali/StruttureVaccinali.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/centrivaccinali/StruttureVaccinali.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/centrivaccinali/SwingAwt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/centrivaccinali/SwingAwt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/centrivaccinali/Utility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/centrivaccinali/Utility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/centrivaccinali/eccezione.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/centrivaccinali/Eccezione.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cittadini/ApplicazioneCittadini.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cittadini/ApplicazioneCittadini.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cittadini/Cittadini.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cittadini/Cittadini.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cittadini/Eventi_Avversi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cittadini/Eventi_Avversi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cittadini/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cittadini/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cittadini/Registra_Cittadini.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cittadini/Registra_Cittadini.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cittadini/Ricerca.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cittadini/Ricerca.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cittadini/Vaccinati.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cittadini/Vaccinati.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cittadini/VisualizzaInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cittadini/VisualizzaInfo.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -51,6 +32,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
   <component name="ProjectId" id="2HEETZeIsa6CA8sBiPCm8Dn6WzV" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -62,7 +46,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/fulmi/Desktop/File/Programmi/IntelliJ IDEA/Projects/VaxerV2/src/main/resources&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/marce/Desktop/Universita/Lab A-B/Lab A - Vaxer/vaxer&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;

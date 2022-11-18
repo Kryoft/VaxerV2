@@ -167,14 +167,18 @@ public class IndirizzoComposto {
      */
     public boolean controllaCap(String cap) {
         if (cap.length() == 5) {
-            for (int i = 0; i < 5; i++) {
+            for (char n : cap.toCharArray()) {
                 // se un carattere del CAP non è un numero, restituisce false
-                if (cap.charAt(i) < '0' || cap.charAt(i) > '9')
+                if (!Character.isDigit(n))
                     return false;
             }
             return true;
         } else
             return false;
+    }
+
+    public boolean controllaNumeroCivico(int numcivico){
+        return numcivico > 0;
     }
 
     /**
@@ -186,8 +190,8 @@ public class IndirizzoComposto {
      */
     public boolean controllaSigla(String sigla) {
         if (sigla.length() == 2) {
-            for (int i = 0; i < 2; i++) {
-                if (sigla.charAt(i) < 'A' || sigla.charAt(i) > 'Z')
+            for (char c: sigla.toCharArray()) {
+                if (Character.isDigit(c))
                     return false;
             }
             return true;
@@ -203,8 +207,8 @@ public class IndirizzoComposto {
      * @author Daniele Caspani
      */
     public boolean controllaComune(String comune) {
-        for (int i = 0; i < comune.length(); i++) {
-            if (comune.charAt(i) < 'A' || comune.charAt(i) > 'Z')
+        for (char c: comune.toCharArray()) {
+            if (Character.isDigit(c))
                 return false;
         }
         return true;
