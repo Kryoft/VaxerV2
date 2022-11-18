@@ -29,7 +29,7 @@ public class RegistraVaccinato extends Registrazioni {
     /**
      * permette l'inizializzazione dei componenti JFrame per quanto riguarda la registrazione di un vaccinato
      *
-     * @author Daniele Caspani
+     * @author Daniele Caspani, Manuel Marceca
      */
     private void initRegistraVaccinato() {
         settings("Registra Vaccinato");
@@ -49,12 +49,14 @@ public class RegistraVaccinato extends Registrazioni {
         layered_pane.add(jvaccino, 2, 0);
 
 
-        JLabel lblnomeC = new JLabel("Nome_Centro:");
-        JLabel tipologia_label = new JLabel("Tipologia");
-        nome_label = new JLabel("Nome:");
-        JLabel lblcognome = new JLabel("Cognome:");
-        JLabel lblcodice = new JLabel("Codice Fiscale");
-        JLabel lbldata = new JLabel("Data Vaccinazione(dd/mm/yy):");
+        JLabel nomeCentro_label = new JLabel("Nome_Centro:", SwingConstants.CENTER);
+        JLabel tipologia_label = new JLabel("Tipologia:", SwingConstants.CENTER);
+        nome_label = new JLabel("Nome:", SwingConstants.CENTER);
+        JLabel cognome_label = new JLabel("Cognome:", SwingConstants.CENTER);
+        JLabel codice_label = new JLabel("Codice Fiscale", SwingConstants.CENTER);
+        JLabel data_label = new JLabel("Data Vaccinazione(dd/mm/yy):", SwingConstants.CENTER);
+
+        int w_label = 250;
 
         txtNomeC = new JTextField();
         txtnome = new JTextField();
@@ -62,12 +64,14 @@ public class RegistraVaccinato extends Registrazioni {
         txtcodice = new JTextField();
         txtdata = new JTextField();
 
-        layered_pane.add(lblnomeC, 2, 0);
+        int w_txt = 310;
+
+        layered_pane.add(nomeCentro_label, 2, 0);
         layered_pane.add(tipologia_label, 2, 0);
         layered_pane.add(nome_label, 2, 0);
-        layered_pane.add(lblcognome, 2, 0);
-        layered_pane.add(lblcodice, 2, 0);
-        layered_pane.add(lbldata, 2, 0);
+        layered_pane.add(cognome_label, 2, 0);
+        layered_pane.add(codice_label, 2, 0);
+        layered_pane.add(data_label, 2, 0);
 
         layered_pane.add(txtNomeC, 2, 0);
         layered_pane.add(txtnome, 2, 0);
@@ -75,20 +79,41 @@ public class RegistraVaccinato extends Registrazioni {
         layered_pane.add(txtcodice, 2, 0);
         layered_pane.add(txtdata, 2, 0);
 
-        layeredPaneSettings(0, new Rectangle(1090, 530, 310, 40), 15, 1, false);
-        layeredPaneSettings(1, new Rectangle(530, 530, 310, 40), 15, 1, false);
-        layeredPaneSettings(2, new Rectangle(1090, 380, 310, 40), 15, 1, false);
-        layeredPaneSettings(3, new Rectangle(530, 380, 310, 40), 15, 1, false);
-        layeredPaneSettings(4, new Rectangle(530, 230, 310, 40), 15, 1, false);
-        layeredPaneSettings(5, new Rectangle(870, 490, 520, 120), 16, 0, false);
-        layeredPaneSettings(6, new Rectangle(410, 490, 520, 120), 16, 0, false);
-        layeredPaneSettings(7, new Rectangle(930, 340, 520, 120), 16, 0, false);
-        layeredPaneSettings(8, new Rectangle(410, 340, 520, 120), 16, 0, false);
-        layeredPaneSettings(9, new Rectangle(930, 190, 520, 120), 16, 0, false);
-        layeredPaneSettings(10, new Rectangle(410, 190, 520, 120), 16, 0, false);
-        layeredPaneSettings(11, new Rectangle(1090, 230, 310, 40), 12, 1, false);
-        layeredPaneSettings(12, new Rectangle(1100, 700, 200, 100), 18, 1, false);
-        layeredPaneSettings(13, new Rectangle(630, 700, 200, 100), 18, 1, false);
+        int secondColumnMargin = displayWidth * 100 / 1536;         // Margine standardizzato e proporzionato a partire
+                                                                    // dal mio schermo, che ha display width pari a
+                                                                    // 1536 @Marceca
+
+        int first_row_x = (displayWidth/2) - ((w_txt * 2 + w_label * 2 + secondColumnMargin)/2);
+        int first_row_y = (int)(0.15 * displayHeight);
+
+        int x_label1 = first_row_x;
+        int x_txt1 = first_row_x + w_label;
+        int x_label2 = secondColumnMargin + x_txt1 + w_txt;
+        int x_txt2 = x_label2 + w_label;
+
+        int second_row_y = (int)(0.3 * displayHeight);
+
+        int third_row_y = (int)(0.45  * displayHeight);
+
+        int fourth_row_x = (displayWidth/2) - ((width_buttons * 2 + 200)/2);
+        int fourth_row_y = (int)(0.7 * displayHeight);
+
+
+
+        layeredPaneSettings(0, new Rectangle(x_txt2, third_row_y, w_txt, base_height), 15, 1, false);
+        layeredPaneSettings(1, new Rectangle(x_txt1, third_row_y, w_txt, base_height), 15, 1, false);
+        layeredPaneSettings(2, new Rectangle(x_txt2, second_row_y, w_txt, base_height), 15, 1, false);
+        layeredPaneSettings(3, new Rectangle(x_txt1, second_row_y, w_txt, base_height), 15, 1, false);
+        layeredPaneSettings(4, new Rectangle(x_txt1, first_row_y, w_txt, base_height), 15, 1, false);
+        layeredPaneSettings(5, new Rectangle(x_label2, third_row_y, w_label, base_height), 16, 0, false);
+        layeredPaneSettings(6, new Rectangle(x_label1, third_row_y, w_label, base_height), 16, 0, false);
+        layeredPaneSettings(7, new Rectangle(x_label2, second_row_y, w_label, base_height), 16, 0, false);
+        layeredPaneSettings(8, new Rectangle(x_label1, second_row_y, w_label, base_height), 16, 0, false);
+        layeredPaneSettings(9, new Rectangle(x_label2, first_row_y, w_label, base_height), 16, 0, false);
+        layeredPaneSettings(10, new Rectangle(x_label1, first_row_y, w_label, base_height), 16, 0, false);
+        layeredPaneSettings(11, new Rectangle(x_txt2, first_row_y, w_txt, base_height), 12, 1, false);
+        layeredPaneSettings(12, new Rectangle(fourth_row_x + width_buttons + 200, fourth_row_y, width_buttons, height_buttons), 18, 1, false);
+        layeredPaneSettings(13, new Rectangle(fourth_row_x, fourth_row_y, width_buttons, height_buttons), 18, 1, false);
 
         conferma_registrazione_vaccinato.addActionListener(this);
         annulla.addActionListener(this);

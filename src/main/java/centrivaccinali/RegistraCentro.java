@@ -73,7 +73,7 @@ public class RegistraCentro extends Registrazioni {
         int width_comune = 250;
 
         sigla = new PTextField("Sigla");
-        int width_sigla = 110;
+        int width_sigla = 100;
 
         cap = new PTextField("CAP");
         int width_cap = 110;
@@ -115,7 +115,7 @@ public class RegistraCentro extends Registrazioni {
         int third_row_x = second_row_x + width_indirizzo_label;
         int third_row_y = (int)(0.5 * displayHeight);
 
-        int x_comune = x_via + margin;
+        int x_comune = x_via;
         int x_sigla = x_comune + width_comune + margin;
 
 
