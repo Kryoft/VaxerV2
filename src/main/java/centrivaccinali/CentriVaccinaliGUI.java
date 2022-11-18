@@ -6,7 +6,7 @@
 package centrivaccinali;
 
 
-import cittadini.ApplicazioneCittadini;
+import cittadini.CittadiniGUI;
 
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
@@ -100,7 +100,7 @@ public class CentriVaccinaliGUI extends JFrame implements ActionListener {
         if (e.getSource() == cittadini_button) {
             new OperazioniCentroGUI();
         } else if (e.getSource() == centro_button) {
-            new ApplicazioneCittadini();
+            new CittadiniGUI();
         }
         this.dispose();
     }

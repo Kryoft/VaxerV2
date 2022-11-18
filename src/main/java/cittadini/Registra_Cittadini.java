@@ -244,7 +244,7 @@ public class Registra_Cittadini extends JFrame implements ActionListener {
                                 throw new Eccezione();
                             }
                             txtemail.setBorder(border);
-                            if (!c.controllacf(Codice)) {
+                            if (!c.controllaCodiceFiscale(Codice)) {
                                 txtcodice.setBorder(new LineBorder(Color.RED, 3, true));
                                 message = "Sintassi del codice fiscale errata";
                                 throw new Eccezione();
@@ -340,7 +340,7 @@ public class Registra_Cittadini extends JFrame implements ActionListener {
             }
 
             if (e.getSource() == annulla) {
-                ApplicazioneCittadini ac = new ApplicazioneCittadini();
+                CittadiniGUI ac = new CittadiniGUI();
                 this.dispose();
             }
 

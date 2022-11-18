@@ -117,7 +117,7 @@ public class RegistraVaccinato extends Registrazioni {
                     txtcognome.setBorder(border);
 
                     if (utility.EsisteCentro(0, centro, "./data/CentriVaccinali.dati.txt")) {
-                        if (va.controllacf(Codice)) {
+                        if (va.controllaCodiceFiscale(Codice)) {
                             txtcodice.setBorder(border);
 
                             Random random = new Random();
@@ -126,7 +126,7 @@ public class RegistraVaccinato extends Registrazioni {
 
                             if (id != 0) {
                                 va = new Vaccinati(Data, swing_awt.DecidiVaccino(jvaccino), centro, id, Nome, Cognome, Codice);
-                                utility.ScriviFile("./data/Vaccinati_" + va.getNome_centro() + ".dati.txt", va.toString());
+                                utility.ScriviFile("./data/Vaccinati_" + va.getNomeCentro() + ".dati.txt", va.toString());
                             } else
                                 JOptionPane.showMessageDialog(this, "Non e' possibile inserire più vaccinati per questo centro", "Errore", JOptionPane.WARNING_MESSAGE);
                             txtdata.setBorder(border);

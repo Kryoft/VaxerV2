@@ -319,7 +319,7 @@ public class Ricerca extends JFrame implements ActionListener {
         }
 
         if (e.getSource() == annulla) {
-            ApplicazioneCittadini Ac = new ApplicazioneCittadini();
+            CittadiniGUI Ac = new CittadiniGUI();
             this.dispose();
         }
     }

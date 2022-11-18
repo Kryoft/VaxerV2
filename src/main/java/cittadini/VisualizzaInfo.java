@@ -143,7 +143,7 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == menu) {
-            ApplicazioneCittadini Ap = new ApplicazioneCittadini();
+            CittadiniGUI Ap = new CittadiniGUI();
             this.dispose();
         }
     }

@@ -94,6 +94,7 @@ public class Utility {
     public void ScriviFile(String file, String o) throws IOException, URISyntaxException {
         File f = new File(file);
         if (!f.exists())
+            // TODO: Gestire il caso in cui il percorso specificato non esiste (ad esempio se non esiste la cartella "/data/" durante la registrazione di un centro vaccinale)
             f.createNewFile();
 
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(f, true))) {
@@ -209,6 +210,7 @@ public class Utility {
      * @author Daniele Caspani
      */
     public boolean ControlloLogin(String l, String nfile) {
+        // TODO: Gestire il caso in cui il file non esiste (altrimenti viene lanciata un'eccezione)
         HashSet<String> hs = CaricaFile(nfile);
         return hs.contains(l);
     }

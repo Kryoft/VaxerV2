@@ -9,8 +9,9 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 /**
- * la classe comprende le informazioni relative ai cittadini registrati all'applicazione.
+ * La classe comprende le informazioni relative ai cittadini registrati all'applicazione.
  *
  * @author daniele Caspani
  */
@@ -22,27 +23,27 @@ public class Cittadini {
     private short id;
     private String nome;
     private String cognome;
-    private String codicefiscale;
+    private String codice_fiscale;
 
     public Cittadini() {
     }
 
-    public Cittadini(String email, Login login, String nome_centro, short id, String nome, String cognome, String codicefiscale) {
+    public Cittadini(String email, Login login, String nome_centro, short id, String nome, String cognome, String codice_fiscale) {
         this.email = email;
         this.nome_centro = nome_centro;
         this.id = id;
         this.nome = nome;
         this.cognome = cognome;
-        this.codicefiscale = codicefiscale;
+        this.codice_fiscale = codice_fiscale;
         this.login = login;
     }
 
-    public Cittadini(String nome_centro, short id, String nome, String cognome, String codicefiscale) {
+    public Cittadini(String nome_centro, short id, String nome, String cognome, String codice_fiscale) {
         this.nome_centro = nome_centro;
         this.id = id;
         this.nome = nome;
         this.cognome = cognome;
-        this.codicefiscale = codicefiscale;
+        this.codice_fiscale = codice_fiscale;
     }
 
     /**
@@ -66,7 +67,7 @@ public class Cittadini {
     /**
      * restituisce il nome del centro.
      */
-    public String getNome_centro() {
+    public String getNomeCentro() {
         return nome_centro;
     }
 
@@ -75,7 +76,7 @@ public class Cittadini {
      *
      * @param nome_centro
      */
-    public void setNome_centro(String nome_centro) {
+    public void setNomeCentro(String nome_centro) {
         this.nome_centro = nome_centro;
     }
 
@@ -136,18 +137,18 @@ public class Cittadini {
      *
      * @return
      */
-    public String getCodicefiscale() {
-        return codicefiscale;
+    public String getCodiceFiscale() {
+        return codice_fiscale;
     }
 
 
     /**
      * assegna un valore a codice fiscale
      *
-     * @param codicefiscale
+     * @param codice_fiscale
      */
-    public void setCodicefiscale(String codicefiscale) {
-        this.codicefiscale = codicefiscale;
+    public void setCodiceFiscale(String codice_fiscale) {
+        this.codice_fiscale = codice_fiscale;
     }
 
     /**
@@ -177,50 +178,47 @@ public class Cittadini {
      */
     @Override
     public String toString() {
-        return id + "," + email + "," + login + "," + nome_centro + "," + nome + "," + cognome + "," + codicefiscale;
+        return id + "," + email + "," + login + "," + nome_centro + "," + nome + "," + cognome + "," + codice_fiscale;
     }
 
     /**
-     * metodo che controlla la formattazione del codice fiscale servendosi di un <code> Pattern </code> preimpostato;
+     * metodo che controlla la formattazione del codice fiscale servendosi di un <code>Pattern</code> preimpostato;
      *
-     * @param cf codice fiscale
+     * @param codice_fiscale codice fiscale
      * @return restituisce vero se la formattazione è corretta
      * @author Daniele Caspani
      * @see Pattern
      */
-    public boolean controllacf(String cf) {
-        Pattern p = Pattern.compile("[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]");
-        Matcher m = p.matcher(cf);
-        boolean matchFound = m.matches();
-        if (matchFound)
-            return true;
-        else
-            return false;
+    public boolean controllaCodiceFiscale(String codice_fiscale) {
+        Pattern pattern = Pattern.compile("[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]");
+        Matcher matcher = pattern.matcher(codice_fiscale);
+        boolean matchFound = matcher.matches();
+        return matchFound;
     }
 
     /**
-     * metodo che controlla la formattazione della mail servendosi di un <code> Pattern </code> preimpostato;
+     * metodo che controlla la formattazione della mail servendosi di un <code>Pattern</code> preimpostato;
      *
      * @param email email per la registrazione
-     * @return restirtuisce vero se la formattazione è corretta
+     * @return restituisce vero se la formattazione è corretta
      * @author Daniele Caspani
      * @see Pattern
      */
     public final boolean mailSyntaxCheck(String email) {
-        Pattern p = Pattern.compile(".+@.+\\.[a-z]+");
-        Matcher m = p.matcher(email);
-        boolean matchFound = m.matches();
+        Pattern pattern = Pattern.compile(".+@.+\\.[a-z]+");
+        Matcher matcher = pattern.matcher(email);
+        boolean matchFound = matcher.matches();
+//        String[] string_array = email.split("\\.");
+//        String token = null;
+//        for (String s : string_array)
+//            token = s;
         StringTokenizer st = new StringTokenizer(email, ".");
         String lastToken = null;
         while (st.hasMoreTokens()) {
             lastToken = st.nextToken();
         }
 
-        if (matchFound && lastToken.length() >= 2
-                && email.length() - 1 != lastToken.length()) {
-            return true;
-        } else {
-            return false;
-        }
+        return matchFound && lastToken.length() >= 2
+                && email.length() - 1 != lastToken.length();
     }
 }
