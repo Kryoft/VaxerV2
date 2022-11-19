@@ -16,12 +16,13 @@ import java.awt.event.ActionListener;
 
 
 /**
- * La classe ApplicazioneCittadini estende <code>JFrame</code> e implementa <code>ActionListener</code> e <code>MouseListener</code>
+ * La classe CittadiniGUI estende <code>JFrame</code> e implementa <code>ActionListener</code>.
  * Offre 3 opzioni per i cittadini:
- * Registrazione all'applicazione attraverso il bottone <code>registra</code>,
- * Inserire Evento Avverso a seguito del login (password e userid) selezionando il bottone <code>evento</code> ,
- * Visualizzare informazioni relative ad un dato centro (Attraverso una ricerca per nome centro o per comune e tipologia) con il bottone <code>cerca1</code>;
- * il bottone <code>Menu</code> permette di tornare al menù
+ * Registrazione all'applicazione attraverso il bottone <code>Registrati</code>;
+ * Visualizzare informazioni relative ad un dato centro (con una ricerca per nome centro o per comune e tipologia)
+ * attraverso il bottone <code>Visualizza informazioni</code>;
+ * Inserire eventi avversi a seguito del login (con userid e password) selezionando il bottone <code>Evento Avverso</code>;
+ * Il bottone <code>Menu</code> permette di tornare al menù
  *
  * @author daniele Caspani
  */
@@ -32,7 +33,7 @@ public class CittadiniGUI extends JFrame implements ActionListener {
     private JPanel bg_panel, button_panel;
     private JLabel logo_label, error = new JLabel();
     /**
-     * oggetto inserito in un <code>JOptionPane</code> utilizzato per il login
+     * Oggetto inserito in un <code>JOptionPane</code>. Utilizzato per il login
      *
      * @author Daniele Caspani
      */
@@ -43,13 +44,13 @@ public class CittadiniGUI extends JFrame implements ActionListener {
     };
 
     /**
-     * viene utilizzata per lanciare la classe registrazioni(i) dove i rappresenta l'opzione scelta
+     * Viene utilizzata per lanciare la classe registrazioni(i) dove i rappresenta l'opzione scelta
      *
      * @author Daniele Caspani
      */
-    private JButton evento_avverso_button, informazioni_button, registrati_button, menu_button;
+    private JButton registrati_button, informazioni_button, evento_avverso_button, menu_button;
     /**
-     * oggetto inserito in un <code>JOptionPane</code> utilizzato per la scelta del tipo di ricerca che si vuole effettuare
+     * Oggetto inserito in un <code>JOptionPane</code>. Utilizzato per la scelta del tipo di ricerca che si vuole effettuare
      *
      * @author Daniele Caspani
      */
@@ -65,7 +66,7 @@ public class CittadiniGUI extends JFrame implements ActionListener {
     }
 
     /**
-     * metodo utilizzato per l'inizializzazione della finestra JFrame.
+     * Metodo utilizzato per l'inizializzazione della finestra JFrame.
      *
      * @param title
      */
@@ -81,7 +82,7 @@ public class CittadiniGUI extends JFrame implements ActionListener {
     }
 
     /**
-     * metodo utilizzato per l'inizializzazione dei componenti JFrame
+     * Metodo utilizzato per l'inizializzazione dei componenti JFrame
      *
      * @author Daniele Caspani
      */
@@ -134,7 +135,7 @@ public class CittadiniGUI extends JFrame implements ActionListener {
     }
 
     /**
-     * metodo appartenente all'interfaccia ActionListener
+     * Metodo appartenente all'interfaccia ActionListener
      *
      * @param e evento che si è verificato
      * @author Daniele Caspani

@@ -5,15 +5,14 @@
  */
 package cittadini;
 
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
 /**
- * La classe comprende le informazioni relative ai cittadini registrati all'applicazione.
+ * La classe Cittadini comprende le informazioni relative ai cittadini registrati all'applicazione.
  *
- * @author daniele Caspani
+ * @author Daniele Caspani
  */
 public class Cittadini {
 
@@ -47,7 +46,7 @@ public class Cittadini {
     }
 
     /**
-     * restituisce la mail
+     * Restituisce la mail
      *
      * @return
      */
@@ -56,32 +55,34 @@ public class Cittadini {
     }
 
     /**
-     * assegna un valore a email
+     * Assegna un valore a email
      *
-     * @param email
+     * @param email email del cittadino
      */
     public void setEmail(String email) {
         this.email = email;
     }
 
     /**
-     * restituisce il nome del centro.
+     * Restituisce il nome del centro.
+     *
+     * @return
      */
     public String getNomeCentro() {
         return nome_centro;
     }
 
     /**
-     * assegna un valore a nome del centro
+     * Assegna un valore a nome del centro
      *
-     * @param nome_centro
+     * @param nome_centro Nome del centro vaccinale
      */
     public void setNomeCentro(String nome_centro) {
         this.nome_centro = nome_centro;
     }
 
     /**
-     * restituisce il valore di id
+     * Restituisce il valore di id
      *
      * @return
      */
@@ -90,7 +91,7 @@ public class Cittadini {
     }
 
     /**
-     * assegna un valore a id
+     * Assegna un valore a id
      *
      * @author Daniele Caspani
      */
@@ -108,14 +109,16 @@ public class Cittadini {
     }
 
     /**
-     * assegna un valore a nome.
+     * Assegna un valore a nome.
+     *
+     * @param nome Nome del cittadino
      */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
     /**
-     * restituisce il valore di cognome
+     * Restituisce il valore di cognome
      *
      * @return
      */
@@ -124,16 +127,16 @@ public class Cittadini {
     }
 
     /**
-     * assegna un valore a cognome
+     * Assegna un valore a cognome
      *
-     * @param cognome
+     * @param cognome Cognome del cittadino
      */
     public void setCognome(String cognome) {
         this.cognome = cognome;
     }
 
     /**
-     * restituisce il codice fiscale
+     * Restituisce il codice fiscale
      *
      * @return
      */
@@ -143,16 +146,16 @@ public class Cittadini {
 
 
     /**
-     * assegna un valore a codice fiscale
+     * Assegna un valore a codice fiscale
      *
-     * @param codice_fiscale
+     * @param codice_fiscale codice fiscale
      */
     public void setCodiceFiscale(String codice_fiscale) {
         this.codice_fiscale = codice_fiscale;
     }
 
     /**
-     * restituisce il valore di login di tipo Login
+     * Restituisce il valore di login di tipo Login
      *
      * @return
      * @see Login
@@ -162,7 +165,7 @@ public class Cittadini {
     }
 
     /**
-     * assegna un valore a login
+     * Assegna un valore a login
      *
      * @param login
      */
@@ -171,10 +174,10 @@ public class Cittadini {
     }
 
     /**
-     * converte un oggetto in stringa
+     * Converte un oggetto in stringa
      *
-     * @return
-     * @author daniele Caspani
+     * @return una stringa composta dai dati memorizzati in questo oggetto
+     * @author Daniele Caspani
      */
     @Override
     public String toString() {
@@ -182,12 +185,13 @@ public class Cittadini {
     }
 
     /**
-     * metodo che controlla la formattazione del codice fiscale servendosi di un <code>Pattern</code> preimpostato;
+     * Metodo che controlla la formattazione del codice fiscale servendosi di un <code>Pattern</code> preimpostato;
      *
      * @param codice_fiscale codice fiscale
-     * @return restituisce vero se la formattazione è corretta
+     * @return vero se la formattazione è corretta
      * @author Daniele Caspani
      * @see Pattern
+     * @see Matcher
      */
     public boolean controllaCodiceFiscale(String codice_fiscale) {
         Pattern pattern = Pattern.compile("[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]");
@@ -197,28 +201,21 @@ public class Cittadini {
     }
 
     /**
-     * metodo che controlla la formattazione della mail servendosi di un <code>Pattern</code> preimpostato;
+     * Metodo che controlla la formattazione della mail servendosi di un <code>Pattern</code> preimpostato;
+     * Il pattern è un'espressione regolare fornita dall'OWASP Validation Regex Repository.
+     * Per ulteriori informazioni consultare <a href="https://owasp.org/www-community/OWASP_Validation_Regex_Repository">questo link</a>.
      *
      * @param email email per la registrazione
-     * @return restituisce vero se la formattazione è corretta
-     * @author Daniele Caspani
+     * @return vero se la formattazione è corretta
+     * @author Daniele Caspani, Cristian Corti
      * @see Pattern
+     * @see Matcher
      */
     public final boolean mailSyntaxCheck(String email) {
-        Pattern pattern = Pattern.compile(".+@.+\\.[a-z]+");
+        // https://www.baeldung.com/java-email-validation-regex Ho usato il pattern #9
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\\\.)+[a-zA-Z]{2,7}$");
         Matcher matcher = pattern.matcher(email);
         boolean matchFound = matcher.matches();
-//        String[] string_array = email.split("\\.");
-//        String token = null;
-//        for (String s : string_array)
-//            token = s;
-        StringTokenizer st = new StringTokenizer(email, ".");
-        String lastToken = null;
-        while (st.hasMoreTokens()) {
-            lastToken = st.nextToken();
-        }
-
-        return matchFound && lastToken.length() >= 2
-                && email.length() - 1 != lastToken.length();
+        return matchFound;
     }
 }
