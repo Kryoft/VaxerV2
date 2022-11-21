@@ -8,8 +8,8 @@ package cittadini;
 import java.util.Date;
 
 /**
- * classe utilizzata per l'inserimento dei vaccinati da parte dei centri vaccinali;
- * Estende la classe <code> Cittadini </code>.
+ * Classe utilizzata per l'inserimento dei vaccinati da parte dei centri vaccinali;
+ * Estende la classe <code>Cittadini</code>.
  *
  * @author daniele Caspani
  */
@@ -18,38 +18,37 @@ public class Vaccinati extends Cittadini {
     private Date data = new Date();
     private Vaccino vaccino;
 
-    ;
     public Vaccinati() {
-
     }
-    public Vaccinati(Date data, Vaccino vaccino, String nome_centro, short id, String nome, String cognome, String codicefiscale) {
-        super(nome_centro, id, nome, cognome, codicefiscale);
+
+    public Vaccinati(Date data, Vaccino vaccino, String nome_centro, short id, String nome, String cognome, String codice_fiscale) {
+        super(nome_centro, id, nome, cognome, codice_fiscale);
         this.data = data;
         this.vaccino = vaccino;
     }
 
     /**
-     * restituisce il valore della data di vaccinazione
+     * Restituisce il valore della data di vaccinazione
      *
-     * @return
+     * @return Data di vaccinazione del cittadino
      */
     public Date getData() {
         return data;
     }
 
     /**
-     * assegna un valore a data
+     * Assegna un valore alla data
      *
-     * @param data
+     * @param data data in cui il cittadino ha effettuato la vaccinazione
      */
     public void setData(Date data) {
         this.data = data;
     }
 
     /**
-     * restituisce il tipo di vaccino
+     * Restituisce il tipo di vaccino
      *
-     * @return
+     * @return Tipo di vaccino somministrato al cittadino
      * @author Daniele Caspani
      */
     public Vaccino getVaccino() {
@@ -57,16 +56,16 @@ public class Vaccinati extends Cittadini {
     }
 
     /**
-     * assegna un valore a vaccino
+     * Assegna un valore a vaccino
      *
-     * @param vaccino
+     * @param vaccino il vaccino somministrato al cittadino
      */
     public void setVaccino(Vaccino vaccino) {
         this.vaccino = vaccino;
     }
 
     /**
-     * converte un oggetto in stringa
+     * Converte un oggetto in stringa
      *
      * @return
      */
@@ -76,7 +75,7 @@ public class Vaccinati extends Cittadini {
     }
 
     /**
-     * classe enumerativa che può assumere solo i valori dei diversi tipi di vaccino che possono essere somministrati
+     * Classe enumerativa che può assumere solo i valori dei diversi tipi di vaccino che possono essere somministrati
      *
      * @author Daniele Caspani
      */

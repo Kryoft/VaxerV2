@@ -75,7 +75,7 @@ public abstract class Registrazioni extends JFrame implements ActionListener {
      * @param font            definisce il tipo di scritta (BOLD o PLAIN)
      * @param light_gray_text definisce il colore della scritta
      */
-    public void Bsettings(int button, Rectangle rect, int size, int font, boolean light_gray_text) {
+    public void layeredPaneSettings(int button, Rectangle rect, int size, int font, boolean light_gray_text) {
         lpane.getComponent(button).setBounds(rect);
         lpane.getComponent(button).setFont(new Font("Arial", font, size));
         if (light_gray_text)

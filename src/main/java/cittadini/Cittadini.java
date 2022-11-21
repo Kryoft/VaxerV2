@@ -212,7 +212,9 @@ public class Cittadini {
      * @see Matcher
      */
     public final boolean mailSyntaxCheck(String email) {
-        // https://www.baeldung.com/java-email-validation-regex Ho usato il pattern #9
+        // https://www.baeldung.com/java-email-validation-regex Ho usato il pattern #9 (Nota: su questo sito la fine del pattern
+        // è "{2,7}$", ma ciò causa a certe email 'normali' di risultare invalide. Sul sito ufficiale dell'OWASP Validation Regex Repository
+        // invece finisce con "{2,}$", validando le email correttamente).
         Pattern pattern = Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$");
         Matcher matcher = pattern.matcher(email);
         boolean matchFound = matcher.matches();

@@ -48,15 +48,15 @@ public class RegistraEventiAvversi extends Registrazioni {
         lpane.add(txtindice, 2, 0);
         lpane.add(txtnote, 2, 0);
 
-        Bsettings(0, new Rectangle(750, 540, 500, 100), 15, 0, false);
-        Bsettings(1, new Rectangle(1080, 390, 150, 40), 15, 1, true);
-        Bsettings(2, new Rectangle(750, 390, 310, 40), 15, 0, false);
-        Bsettings(3, new Rectangle(750, 240, 310, 40), 15, 0, false);
-        Bsettings(4, new Rectangle(600, 500, 520, 120), 16, 1, false);
-        Bsettings(5, new Rectangle(600, 350, 520, 120), 16, 1, false);
-        Bsettings(6, new Rectangle(600, 200, 520, 120), 16, 1, false);
-        Bsettings(7, new Rectangle(1000, 720, 200, 100), 16, 1, false);
-        Bsettings(8, new Rectangle(580, 720, 200, 100), 16, 1, false);
+        layeredPaneSettings(0, new Rectangle(750, 540, 500, 100), 15, 0, false);
+        layeredPaneSettings(1, new Rectangle(1080, 390, 150, 40), 15, 1, true);
+        layeredPaneSettings(2, new Rectangle(750, 390, 310, 40), 15, 0, false);
+        layeredPaneSettings(3, new Rectangle(750, 240, 310, 40), 15, 0, false);
+        layeredPaneSettings(4, new Rectangle(600, 500, 520, 120), 16, 1, false);
+        layeredPaneSettings(5, new Rectangle(600, 350, 520, 120), 16, 1, false);
+        layeredPaneSettings(6, new Rectangle(600, 200, 520, 120), 16, 1, false);
+        layeredPaneSettings(7, new Rectangle(1000, 720, 200, 100), 16, 1, false);
+        layeredPaneSettings(8, new Rectangle(580, 720, 200, 100), 16, 1, false);
 
         conferma_registrazione_evento_avverso.addActionListener(this);
         annulla.addActionListener(this);

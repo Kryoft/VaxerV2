@@ -70,20 +70,20 @@ public class RegistraCittadini extends Registrazioni {
         lpane.add(id_txt, 2, 0);
         lpane.add(centro_txt, 2, 0);
 
-        Bsettings(0, new Rectangle(610, 710, 310, 40), 15, 0, false);
-        Bsettings(1, new Rectangle(930, 710, 160, 40), 15, 0, true);
-        Bsettings(2, new Rectangle(610, 560, 200, 40), 15, 0, true);
-        Bsettings(3, new Rectangle(820, 560, 200, 40), 15, 0, true);
-        Bsettings(4, new Rectangle(1040, 560, 240, 40), 15, 0, true);
-        Bsettings(5, new Rectangle(610, 410, 310, 40), 15, 0, false);
-        Bsettings(6, new Rectangle(870, 260, 250, 40), 15, 0, true);
-        Bsettings(7, new Rectangle(610, 260, 250, 40), 15, 0, true);
-        Bsettings(8, new Rectangle(410, 670, 520, 120), 16, 1, false);
-        Bsettings(9, new Rectangle(410, 370, 520, 120), 16, 1, false);
-        Bsettings(10, new Rectangle(410, 520, 520, 120), 16, 1, false);
-        Bsettings(11, new Rectangle(410, 220, 520, 120), 16, 1, false);
-        Bsettings(12, new Rectangle(1250, 680, 200, 100), 18, 1, false);
-        Bsettings(13, new Rectangle(1250, 230, 200, 100), 18, 1, false);
+        layeredPaneSettings(0, new Rectangle(610, 710, 310, 40), 15, 0, false);
+        layeredPaneSettings(1, new Rectangle(930, 710, 160, 40), 15, 0, true);
+        layeredPaneSettings(2, new Rectangle(610, 560, 200, 40), 15, 0, true);
+        layeredPaneSettings(3, new Rectangle(820, 560, 200, 40), 15, 0, true);
+        layeredPaneSettings(4, new Rectangle(1040, 560, 240, 40), 15, 0, true);
+        layeredPaneSettings(5, new Rectangle(610, 410, 310, 40), 15, 0, false);
+        layeredPaneSettings(6, new Rectangle(870, 260, 250, 40), 15, 0, true);
+        layeredPaneSettings(7, new Rectangle(610, 260, 250, 40), 15, 0, true);
+        layeredPaneSettings(8, new Rectangle(410, 670, 520, 120), 16, 1, false);
+        layeredPaneSettings(9, new Rectangle(410, 370, 520, 120), 16, 1, false);
+        layeredPaneSettings(10, new Rectangle(410, 520, 520, 120), 16, 1, false);
+        layeredPaneSettings(11, new Rectangle(410, 220, 520, 120), 16, 1, false);
+        layeredPaneSettings(12, new Rectangle(1250, 680, 200, 100), 18, 1, false);
+        layeredPaneSettings(13, new Rectangle(1250, 230, 200, 100), 18, 1, false);
 
         border = nome_txt.getBorder();
         conferma_registrazione_cittadino.addActionListener(this);
