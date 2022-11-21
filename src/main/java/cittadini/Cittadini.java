@@ -213,7 +213,7 @@ public class Cittadini {
      */
     public final boolean mailSyntaxCheck(String email) {
         // https://www.baeldung.com/java-email-validation-regex Ho usato il pattern #9
-        Pattern pattern = Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\\\.)+[a-zA-Z]{2,7}$");
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$");
         Matcher matcher = pattern.matcher(email);
         boolean matchFound = matcher.matches();
         return matchFound;

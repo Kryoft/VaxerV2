@@ -147,7 +147,7 @@ public class CittadiniGUI extends JFrame implements ActionListener {
             new CentriVaccinaliGUI();
             this.dispose();
         } else if (e.getSource() == registrati_button) {
-            new Registra_Cittadini(2);
+            new RegistraCittadini();
             this.dispose();
         } else if (e.getSource() == informazioni_button) {
             JComboBox<Object> comboBox = new JComboBox<>(ricerca);
@@ -172,7 +172,7 @@ public class CittadiniGUI extends JFrame implements ActionListener {
                     Login login = new Login(username.getText(), password.getText());
                     if (utility.ControlloLogin(login.toString(), "./data/log.txt")) {
                         logged_in = true;
-                        new Registra_Cittadini(1);
+                        new RegistraEventiAvversi();
                         dispose();
                     } else {
                         password.setBorder(new LineBorder(Color.RED, 3, true));
