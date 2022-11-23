@@ -129,8 +129,8 @@ public class Ricerca extends JFrame implements ActionListener {
                     String s = (String) it.next();
                     a = s.split(",");
                     if (a[0].equals(jList1.getSelectedValue())) {
-                        ic = new IndirizzoComposto(Utility.DecidiQualifier(a[2]), a[3], Integer.parseInt(a[4]), a[5], a[6], a[7]);
-                        strutture_vaccinali = new StruttureVaccinali(a[0], Utility.Deciditipo(a[1]), ic);
+                        ic = new IndirizzoComposto(Utility.decidiQualifier(a[2]), a[3], Integer.parseInt(a[4]), a[5], a[6], a[7]);
+                        strutture_vaccinali = new StruttureVaccinali(a[0], Utility.decidiTipo(a[1]), ic);
                         break;
                     }
                 }
@@ -190,8 +190,8 @@ public class Ricerca extends JFrame implements ActionListener {
                     String s = (String) it.next();
                     a = s.split(",");
                     if (a[0].equals(jList1.getSelectedValue())) {
-                        ic = new IndirizzoComposto(Utility.DecidiQualifier(a[2]), a[3], Integer.parseInt(a[4]), a[5], a[6], a[7]);
-                        strutture_vaccinali = new StruttureVaccinali(a[0], Utility.Deciditipo(a[1]), ic);
+                        ic = new IndirizzoComposto(Utility.decidiQualifier(a[2]), a[3], Integer.parseInt(a[4]), a[5], a[6], a[7]);
+                        strutture_vaccinali = new StruttureVaccinali(a[0], Utility.decidiTipo(a[1]), ic);
                         break;
                     }
                 }
@@ -250,7 +250,7 @@ public class Ricerca extends JFrame implements ActionListener {
             String copy = null;
             String s = centro_txt.getText();
             String[] a;
-            v = Utility.CaricaFile("./data/CentriVaccinali.dati.txt");
+            v = Utility.caricaFile("./data/CentriVaccinali.dati.txt");
             Iterator<String> it = v.iterator();
 
             if (!s.equals("")) {
@@ -284,7 +284,7 @@ public class Ricerca extends JFrame implements ActionListener {
             boolean s1 = false;
             if (swing_awt.DecidiTipologia(jcentro) != null && !comune.equals("")) {
 
-                v = Utility.CaricaFile("./data/CentriVaccinali.dati.txt");
+                v = Utility.caricaFile("./data/CentriVaccinali.dati.txt");
                 Iterator<String> it = v.iterator();
                 String[] a = null;
                 while (it.hasNext()) {
@@ -292,7 +292,7 @@ public class Ricerca extends JFrame implements ActionListener {
                     String s = (String) it.next();
                     if (!s.equals("")) {
                         a = s.split(",");
-                        if (comune.equals(a[5]) && swing_awt.DecidiTipologia(jcentro) == Utility.Deciditipo(a[1])) {
+                        if (comune.equals(a[5]) && swing_awt.DecidiTipologia(jcentro) == Utility.decidiTipo(a[1])) {
                             listModel.addElement(a[0]);
                             s1 = true;
                         }

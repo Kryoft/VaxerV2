@@ -3,6 +3,8 @@ package cittadini;
 import centrivaccinali.CentriVaccinaliGUI;
 import centrivaccinali.PTextField;
 
+import shared.Utility;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -76,13 +78,13 @@ public class RegistraEventiAvversi extends Registrazioni {
                 int Indice = Integer.parseInt(indice_severita_text.getText());
                 EventiAvversi ev = new EventiAvversi(Evento, Indice, Note, centro);
 
-                if (utility.EsisteCentro(0, centro, "./data/CentriVaccinali.dati.txt")) {
+                if (Utility.esisteCentro(0, centro, "./data/CentriVaccinali.dati.txt")) {
 
                     if (!centro.equals("") && !Evento.equals("")) {
                         evento_text.setBorder(border);
                         if (Indice >= 1 && Indice <= 5) {
                             if (Note.length() < 256) {
-                                utility.ScriviFile("./data/Vaccinati_" + centro + ".dati.txt", ev.toString());
+                                Utility.scriviFile("./data/Vaccinati_" + centro + ".dati.txt", ev.toString());
                                 evento_text.setBorder(border);
                                 nome_centro_text.setBorder(border);
                                 indice_severita_text.setBorder(border);

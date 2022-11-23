@@ -2,7 +2,6 @@ package cittadini;
 
 import centrivaccinali.PTextField;
 import centrivaccinali.SwingAwt;
-import centrivaccinali.Utility;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -12,7 +11,6 @@ import java.awt.event.ActionListener;
 
 public abstract class Registrazioni extends JFrame implements ActionListener {
 
-    Utility utility = new Utility();
     SwingAwt swing_awt = new SwingAwt();
     protected JLabel nome_label, codice_label, login_label, centro_label;
     protected JTextField codice_txt, centro_txt;

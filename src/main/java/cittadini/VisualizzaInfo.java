@@ -73,7 +73,7 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
         inizio_label = new JLabel("Informazioni Centro " + sv.getNome_centro());
         evento_label = new JLabel("Prospetto Riassuntivo Eventi Avversi");
 
-        v = Utility.CaricaFile1("./data/Vaccinati_" + sv.getNome_centro() + ".dati.txt");
+        v = Utility.caricaFile1("./data/Vaccinati_" + sv.getNome_centro() + ".dati.txt");
         int j = 0;
         double media = 0.00d;
         String s;

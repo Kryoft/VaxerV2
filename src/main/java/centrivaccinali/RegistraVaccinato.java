@@ -131,11 +131,11 @@ public class RegistraVaccinato extends Registrazioni {
 
 
         layered_pane.add(annulla, 2, 0);
-        layeredPaneSettings(13, new Rectangle(fourth_row_x, fourth_row_y, width_buttons, height_buttons),
+        layeredPaneSettings(0, new Rectangle(fourth_row_x, fourth_row_y, width_buttons, height_buttons),
                 18, 1, false);              //annulla
 
         layered_pane.add(conferma_registrazione_vaccinato, 2, 0);
-        layeredPaneSettings(12,
+        layeredPaneSettings(0,
                 new Rectangle(fourth_row_x + width_buttons + 200, fourth_row_y, width_buttons, height_buttons),
                 18, 1, false);              //conferma
 
