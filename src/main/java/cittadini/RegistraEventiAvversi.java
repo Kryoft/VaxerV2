@@ -29,24 +29,24 @@ public class RegistraEventiAvversi extends Registrazioni {
 
         conferma_registrazione_evento_avverso = new JButton("CONFERMA");
         annulla = new JButton("TORNA INDIETRO");
-        txtNomeC = new JTextField();
-        txtevento = new JTextField();
-        txtindice = new PTextField("Indice(da 1 a 5)");
-        txtnote = new TextArea();
+        nome_centro_text = new JTextField();
+        evento_text = new JTextField();
+        indice_severita_text = new PTextField("Indice(da 1 a 5)");
+        note_text = new TextArea();
 
-        lblnomeC = new JLabel("Nome_Centro:");
-        lblevento = new JLabel("Evento:");
-        lblnote = new JLabel("Note(opzionale):");
+        nome_centro_label = new JLabel("Nome_Centro:");
+        evento_label = new JLabel("Evento:");
+        note_label = new JLabel("Note(opzionale):");
 
         lpane.add(conferma_registrazione_evento_avverso, 2, 0);
         lpane.add(annulla, 2, 0);
-        lpane.add(lblnomeC, 2, 0);
-        lpane.add(lblevento, 2, 0);
-        lpane.add(lblnote, 2, 0);
-        lpane.add(txtNomeC, 2, 0);
-        lpane.add(txtevento, 2, 0);
-        lpane.add(txtindice, 2, 0);
-        lpane.add(txtnote, 2, 0);
+        lpane.add(nome_centro_label, 2, 0);
+        lpane.add(evento_label, 2, 0);
+        lpane.add(note_label, 2, 0);
+        lpane.add(nome_centro_text, 2, 0);
+        lpane.add(evento_text, 2, 0);
+        lpane.add(indice_severita_text, 2, 0);
+        lpane.add(note_text, 2, 0);
 
         layeredPaneSettings(0, new Rectangle(750, 540, 500, 100), 15, 0, false);
         layeredPaneSettings(1, new Rectangle(1080, 390, 150, 40), 15, 1, true);
@@ -63,47 +63,47 @@ public class RegistraEventiAvversi extends Registrazioni {
 
         setVisible(true);
 
-        border = txtNomeC.getBorder();
+        border = nome_centro_text.getBorder();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
             if (e.getSource() == conferma_registrazione_evento_avverso) {
-                String centro = txtNomeC.getText();
-                String Note = txtnote.getText();
-                String Evento = txtevento.getText();
-                int Indice = Integer.parseInt(txtindice.getText());
+                String centro = nome_centro_text.getText();
+                String Note = note_text.getText();
+                String Evento = evento_text.getText();
+                int Indice = Integer.parseInt(indice_severita_text.getText());
                 EventiAvversi ev = new EventiAvversi(Evento, Indice, Note, centro);
 
                 if (utility.EsisteCentro(0, centro, "./data/CentriVaccinali.dati.txt")) {
 
                     if (!centro.equals("") && !Evento.equals("")) {
-                        txtevento.setBorder(border);
+                        evento_text.setBorder(border);
                         if (Indice >= 1 && Indice <= 5) {
                             if (Note.length() < 256) {
                                 utility.ScriviFile("./data/Vaccinati_" + centro + ".dati.txt", ev.toString());
-                                txtevento.setBorder(border);
-                                txtNomeC.setBorder(border);
-                                txtindice.setBorder(border);
+                                evento_text.setBorder(border);
+                                nome_centro_text.setBorder(border);
+                                indice_severita_text.setBorder(border);
                                 JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
-                                CentriVaccinaliGUI cv = new CentriVaccinaliGUI();
+                                new CentriVaccinaliGUI();
                                 this.dispose();
                             } else {
                                 JOptionPane.showMessageDialog(this, "I caratteri delle note opzionali non possono essere più di 256", "Errore Formato", JOptionPane.ERROR_MESSAGE);
                             }
                         } else {
-                            txtindice.setBorder(new LineBorder(Color.RED, 3, true));
+                            indice_severita_text.setBorder(new LineBorder(Color.RED, 3, true));
                             JOptionPane.showMessageDialog(this, "Inserire un indice che va da 1 a 5", "Errore Formato", JOptionPane.ERROR_MESSAGE);
                         }
                     } else {
 
-                        swing_awt.Bordo(Evento, txtevento, border);
-                        swing_awt.Bordo(centro, txtNomeC, border);
+                        swing_awt.Bordo(Evento, evento_text, border);
+                        swing_awt.Bordo(centro, nome_centro_text, border);
                         JOptionPane.showMessageDialog(this, "riempire tutti i campi", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
-                    txtNomeC.setBorder(new LineBorder(Color.RED, 3, true));
+                    nome_centro_text.setBorder(new LineBorder(Color.RED, 3, true));
                     JOptionPane.showMessageDialog(this, "Il centro da lei indicato non esiste o non si e' registrato all'applicazione", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else if (e.getSource() == annulla) {

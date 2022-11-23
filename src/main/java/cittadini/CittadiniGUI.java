@@ -34,8 +34,6 @@ public class CittadiniGUI extends JFrame implements ActionListener {
     private JLabel logo_label, error = new JLabel();
     /**
      * Oggetto inserito in un <code>JOptionPane</code>. Utilizzato per il login
-     *
-     * @author Daniele Caspani
      */
     private Object[] message = {
             "Username:", username,
@@ -45,14 +43,10 @@ public class CittadiniGUI extends JFrame implements ActionListener {
 
     /**
      * Viene utilizzata per lanciare la classe registrazioni(i) dove i rappresenta l'opzione scelta
-     *
-     * @author Daniele Caspani
      */
     private JButton registrati_button, informazioni_button, evento_avverso_button, menu_button;
     /**
      * Oggetto inserito in un <code>JOptionPane</code>. Utilizzato per la scelta del tipo di ricerca che si vuole effettuare
-     *
-     * @author Daniele Caspani
      */
     private Object[] ricerca = {"Ricerca per Comune e Tipologia", "Ricerca per Nome Centro"};
     private Utility utility = new Utility();

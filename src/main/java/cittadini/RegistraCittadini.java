@@ -86,6 +86,7 @@ public class RegistraCittadini extends Registrazioni {
         layeredPaneSettings(13, new Rectangle(1250, 230, 200, 100), 18, 1, false);
 
         border = nome_txt.getBorder();
+
         conferma_registrazione_cittadino.addActionListener(this);
         annulla.addActionListener(this);
 
@@ -100,7 +101,7 @@ public class RegistraCittadini extends Registrazioni {
                 String Nome = nome_txt.getText();
                 String Cognome = cognome_txt.getText();
                 String Codice = codice_txt.getText().toUpperCase();
-                short id = (short) (Integer.parseInt(id_txt.getText()) - 32767);
+                short id = (short) (Integer.parseInt(id_txt.getText()) - 32767);  // ?
                 String user = user_txt.getText();
                 String password = password_txt.getText();
                 String email = email_txt.getText();
@@ -144,7 +145,7 @@ public class RegistraCittadini extends Registrazioni {
                                     utility.ScriviFile("./data/log.txt", l.toString());
                                     utility.ScriviFile("./data/Cittadini_Registrati.dati.txt", c.toString());
                                     JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
-                                    CentriVaccinaliGUI cv = new CentriVaccinaliGUI();
+                                    new CentriVaccinaliGUI();
                                     this.dispose();
                                 } else {
                                     user_txt.setBorder(new LineBorder(Color.RED, 3, true));

@@ -19,10 +19,10 @@ public abstract class Registrazioni extends JFrame implements ActionListener {
     protected PTextField nome_txt, cognome_txt, email_txt, password_txt, user_txt, id_txt;
     protected Border border;
     protected JButton conferma_registrazione_cittadino, annulla;
-    protected JLabel lblnomeC, lblnote, lblevento;
-    protected JTextField txtNomeC, txtevento;
-    protected TextArea txtnote;
-    protected PTextField txtindice;
+    protected JLabel nome_centro_label, note_label, evento_label;
+    protected JTextField nome_centro_text, evento_text;
+    protected TextArea note_text;
+    protected PTextField indice_severita_text;
     protected JButton conferma_registrazione_evento_avverso;
     protected JLayeredPane lpane;
     protected JPanel background, panel1;
