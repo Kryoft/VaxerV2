@@ -5,7 +5,6 @@
  */
 package centrivaccinali;
 
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -24,15 +23,14 @@ public abstract class Registrazioni extends JFrame implements ActionListener {
     int displayWidth = (int)screenSize.getWidth();
     int displayHeight = (int)screenSize.getHeight();
 
-    Utility utility = new Utility();
     SwingAwt swing_awt = new SwingAwt();
-    protected JLabel nome_label;
-    protected JButton conferma_registrazione_centro, conferma_registrazione_vaccinato, annulla;
-    protected PTextField nome, via, numcivico, comune, sigla, cap;
+    //protected JLabel nome_label;
+    //protected JButton conferma_registrazione_centro, conferma_registrazione_vaccinato, annulla;
+    //protected PTextField nome, via, numcivico, comune, sigla, cap;
     protected final String[] array_tipologia = new String[]{"Ospedaliero", "Aziendale", "Hub"};
     protected final String[] array_qualificatori = new String[]{"Via", "Piazza", "Viale"};
-    protected JComboBox<String> jtipologia, jqualificatore, jvaccino;
-    protected JTextField txtNomeC, txtnome, txtcognome, txtcodice, txtdata;
+    //protected JComboBox<String> jtipologia, jqualificatore, jvaccino;
+    //protected JTextField txtNomeC, txtnome, txtcognome, txtcodice, txtdata;
     protected Border border;
     protected final String[] array_vaccini = new String[]{"JJ", "Moderna", "Pfizer", "AstraZeneca"};
     /**

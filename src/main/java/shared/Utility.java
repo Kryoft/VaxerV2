@@ -3,7 +3,10 @@
  * Cristian Corti, 744359, CO
  * Daniele Caspani, 744628, CO
  */
-package centrivaccinali;
+package shared;
+
+import centrivaccinali.IndirizzoComposto;
+import centrivaccinali.StruttureVaccinali;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -23,17 +26,14 @@ import java.util.stream.Stream;
  *
  * @author Daniele Caspani
  */
-public class Utility {
-
-    public Utility() {
-    }
+public abstract class Utility {
 
     /**
      * metodo utile per calcolare lo spazio in memoria in un dato momento
      *
      * @author Daniele Caspani
      */
-    public void run() {
+    public static void run() {
         Runtime runtime = Runtime.getRuntime();
         long usedMemoryBefore = runtime.totalMemory() - runtime.freeMemory();
         System.out.println("Used Memory before: " + usedMemoryBefore);
@@ -49,7 +49,7 @@ public class Utility {
      * @return
      * @author Daniele Caspani
      */
-    public StruttureVaccinali.Tipologia Deciditipo(String tipo) {
+    public static StruttureVaccinali.Tipologia decidiTipo(String tipo) {
         if (tipo.equals("OSPEDALIERO")) {
             return StruttureVaccinali.Tipologia.OSPEDALIERO;
         }
@@ -69,7 +69,7 @@ public class Utility {
      * @return
      * @author Daniele Caspani
      */
-    public IndirizzoComposto.Qualificatore DecidiQualifier(String tipo) {
+    public static IndirizzoComposto.Qualificatore decidiQualifier(String tipo) {
         if (tipo.equals("PIAZZA")) {
             return IndirizzoComposto.Qualificatore.PIAZZA;
         }
@@ -91,7 +91,7 @@ public class Utility {
      * @throws URISyntaxException
      * @author Daniele Caspani
      */
-    public void ScriviFile(String file, String o) throws IOException, URISyntaxException {
+    public static void scriviFile(String file, String o) throws IOException, URISyntaxException {
         File f = new File(file);
         if (!f.exists())
             // TODO: Gestire il caso in cui il percorso specificato non esiste (ad esempio se non esiste la cartella "/data/" durante la registrazione di un centro vaccinale)
@@ -112,7 +112,7 @@ public class Utility {
      * @return
      * @author daniele caspani
      */
-    public HashSet CaricaFile(String nfile) {
+    public static HashSet caricaFile(String nfile) {
         HashSet h = new HashSet();
         try (final Stream<String> stream = Files.lines(Paths.get(nfile))) {
             h = stream.collect(Collectors.toCollection(HashSet::new));
@@ -130,7 +130,7 @@ public class Utility {
      * @return
      * @author daniele caspani
      */
-    public ArrayList CaricaFile1(String nfile) {
+    public static ArrayList caricaFile1(String nfile) {
         ArrayList<String> h = new ArrayList();
         try (final Stream<String> stream = Files.lines(Paths.get(nfile))) {
             h = stream.collect(Collectors.toCollection(ArrayList::new));
@@ -148,7 +148,7 @@ public class Utility {
      * @param nfile percorso del file
      * @return
      */
-    public HashSet leggiFile(int sc, String nfile) {
+    public static HashSet leggiFile(int sc, String nfile) {
         HashSet<String> h = new HashSet();
         String[] a;
         try (final BufferedReader bR = new BufferedReader(
@@ -175,7 +175,7 @@ public class Utility {
      * @return
      * @throws IOException
      */
-    public boolean EsisteCentro(int sc, String centro, String nfile) throws IOException {
+    public static boolean esisteCentro(int sc, String centro, String nfile) throws IOException {
         HashSet<String> v = leggiFile(sc, nfile);
         return v.contains(centro);
     }
@@ -189,7 +189,7 @@ public class Utility {
      * @return
      * @throws IOException
      */
-    public short Idcontrol(int sc, String id, String nfile) throws IOException {
+    public static short idControl(int sc, String id, String nfile) throws IOException {
         HashSet<String> v = leggiFile(sc, nfile);
         if (v.size() < 65534) {
             Short Id = Short.parseShort(id);
@@ -209,9 +209,9 @@ public class Utility {
      * @return
      * @author Daniele Caspani
      */
-    public boolean ControlloLogin(String l, String nfile) {
+    public static boolean controlloLogin(String l, String nfile) {
         // TODO: Gestire il caso in cui il file non esiste (altrimenti viene lanciata un'eccezione)
-        HashSet<String> hs = CaricaFile(nfile);
+        HashSet<String> hs = caricaFile(nfile);
         return hs.contains(l);
     }
 
@@ -223,8 +223,8 @@ public class Utility {
      * @param nfile percorso file
      * @return
      */
-    public boolean controllocf(String l, short id, String nfile) {
-        HashSet h = CaricaFile(nfile);
+    public static boolean controlloCF(String l, short id, String nfile) {
+        HashSet h = caricaFile(nfile);
         Iterator it = h.iterator();
         String[] a;
         while (it.hasNext()) {
@@ -246,8 +246,8 @@ public class Utility {
      * @return
      * @author Daniele Caspani
      */
-    public String ControllaComune(String centro, String nfile) {
-        HashSet h = CaricaFile(nfile);
+    public static String controllaComune(String centro, String nfile) {
+        HashSet h = caricaFile(nfile);
         Iterator it = h.iterator();
         String[] a;
         while (it.hasNext()) {
