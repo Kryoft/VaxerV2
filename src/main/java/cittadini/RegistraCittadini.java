@@ -7,6 +7,8 @@ package cittadini;
 
 import centrivaccinali.*;
 
+import shared.Utility;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -97,7 +99,7 @@ public class RegistraCittadini extends Registrazioni {
     public void actionPerformed(ActionEvent e) {
         try {
             if (e.getSource() == conferma_registrazione_cittadino) {
-                utility.run();
+                Utility.run();
                 String Nome = nome_txt.getText();
                 String Cognome = cognome_txt.getText();
                 String Codice = codice_txt.getText().toUpperCase();
@@ -117,7 +119,7 @@ public class RegistraCittadini extends Registrazioni {
                     password_txt.setBorder(border);
                     user_txt.setBorder(border);
 
-                    if (utility.EsisteCentro(0, Centro, "./data/CentriVaccinali.dati.txt")) {
+                    if (Utility.esisteCentro(0, Centro, "./data/CentriVaccinali.dati.txt")) {
                         centro_txt.setBorder(border);
                         try {
                             if (!c.mailSyntaxCheck(email)) {
@@ -133,17 +135,17 @@ public class RegistraCittadini extends Registrazioni {
                             }
                             codice_txt.setBorder(border);
 
-                            if (utility.controllocf(Codice, id, "./data/Vaccinati_" + Centro + ".dati.txt")) {
+                            if (Utility.controlloCF(Codice, id, "./data/Vaccinati_" + Centro + ".dati.txt")) {
                                 l = new Login(user, password);
-                                if (utility.ControlloLogin(l.toString(), "./data/log.txt") == false) {
+                                if (Utility.controlloLogin(l.toString(), "./data/log.txt") == false) {
                                     c = new Cittadini(email, l, Centro, id, Nome, Cognome, Codice);
                                     codice_txt.setBorder(border);
                                     id_txt.setBorder(border);
                                     user_txt.setBorder(border);
                                     password_txt.setBorder(border);
 
-                                    utility.ScriviFile("./data/log.txt", l.toString());
-                                    utility.ScriviFile("./data/Cittadini_Registrati.dati.txt", c.toString());
+                                    Utility.scriviFile("./data/log.txt", l.toString());
+                                    Utility.scriviFile("./data/Cittadini_Registrati.dati.txt", c.toString());
                                     JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
                                     new CentriVaccinaliGUI();
                                     this.dispose();
