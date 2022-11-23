@@ -12,48 +12,48 @@ package cittadini;
  */
 public class Login {
 
-    String userid;
+    String user_id;
     String password;
 
     public Login() {
     }
 
-    public Login(String userid, String password) {
+    public Login(String user_id, String password) {
         this.password = password;
-        this.userid = userid;
+        this.user_id = user_id;
     }
 
     /**
-     * restituisce l'userid preso in considerazione
+     * Restituisce l'user_id preso in considerazione
      *
-     * @return
+     * @return L'userID dell'utente
      */
-    public String getUserid() {
-        return userid;
+    public String getUserId() {
+        return user_id;
     }
 
     /**
-     * assegna un valore a userid
+     * Assegna un valore a user_id
      *
-     * @param userid
+     * @param user_id l'user ID dell'utente
      */
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setUserId(String user_id) {
+        this.user_id = user_id;
     }
 
     /**
-     * restituisce la password presa in considerazione
+     * Restituisce la password presa in considerazione
      *
-     * @return
+     * @return Password dell'utente
      */
     public String getPassword() {
         return password;
     }
 
     /**
-     * assegna un valore a password
+     * Assegna un valore a password
      *
-     * @param password
+     * @param password password dell'utente
      * @author Daniele Caspani
      */
     public void setPassword(String password) {
@@ -61,12 +61,12 @@ public class Login {
     }
 
     /**
-     * converte un oggetto in stringa
+     * Converte un oggetto in stringa
      *
-     * @return
+     * @author Daniele Caspani
      */
     @Override
     public String toString() {
-        return "Login{" + "userid=" + userid + ", password=" + password + '}';
+        return "Login{" + "userid=" + user_id + ", password=" + password + '}';
     }
 }

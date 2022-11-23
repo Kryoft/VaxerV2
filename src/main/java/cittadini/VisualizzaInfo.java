@@ -15,29 +15,29 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
- * la classe visualizza le informazioni relative ad un dato centro
- * calcolando anche la media dell'indice di gravità e il numero di segnalazioni per ogni evento avverso
+ * Questa classe visualizza le informazioni relative a un dato centro calcolando anche
+ * la media dell'indice di gravità e il numero di segnalazioni per ogni evento avverso
  *
- * @author daniele Caspani
+ * @author Daniele Caspani
  */
 public class VisualizzaInfo extends JFrame implements ActionListener {
 
-    Utility u = new Utility();
+    Utility utility = new Utility();
 
-    private JLabel lblnome, lblcomune, lblsigla, lblcap, lblindirizzo, lbltipo, lblmedia, lblnum, lblinizio, lblevento;
+    private JLabel nome_label, comune_label, sigla_label, cap_label, indirizzo_label, tipo_label, media_label, num_segnalazioni_label, inizio_label, evento_label;
     private JPanel background;
     private JButton menu;
-    private ArrayList<String> v = new ArrayList();
+    private ArrayList<String> v = new ArrayList<>();
 
     /**
-     * @param sv oggetto di tipo StruttureVaccinali da prendere in considerazione
+     * @param strutture_vaccinali oggetto di tipo StruttureVaccinali da prendere in considerazione
      */
-    public VisualizzaInfo(StruttureVaccinali sv) {
-        init(sv);
+    public VisualizzaInfo(StruttureVaccinali strutture_vaccinali) {
+        init(strutture_vaccinali);
     }
 
     /**
-     * utilizzato per l'inizializzazione delle finestre JFrame.
+     * Utilizzato per l'inizializzazione delle finestre JFrame.
      *
      * @author Daniele Caspani
      */
@@ -57,31 +57,31 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
     }
 
     /**
-     * utiizzato per l'inizializzazione dei componenti JFrame
+     * Utiizzato per l'inizializzazione dei componenti JFrame
      *
      * @param sv
      */
     private void init(StruttureVaccinali sv) {
         settings("VISUALIZZA INFORMAZIONI");
-        lblnome = new JLabel("Nome_Centro: " + sv.getNome_centro());
-        lblindirizzo = new JLabel("Indirizzo: " + sv.getIndirizzo().getQualificatore() + " " + sv.getIndirizzo().getNomeVia() + " " + sv.getIndirizzo().getNumCivico());
-        lblcomune = new JLabel("Comune: " + sv.getIndirizzo().getComune());
-        lblsigla = new JLabel("Sigla :" + sv.getIndirizzo().getSiglaProvincia());
-        lblcap = new JLabel("Cap :" + sv.getIndirizzo().getCap());
-        lbltipo = new JLabel("Tipologia: " + sv.getTipologia());
-        lblnum = new JLabel();
-        lblmedia = new JLabel();
-        lblinizio = new JLabel("Informazioni Centro " + sv.getNome_centro());
-        lblevento = new JLabel("Prospetto Riassuntivo Eventi Avversi");
+        nome_label = new JLabel("Nome_Centro: " + sv.getNome_centro());
+        indirizzo_label = new JLabel("Indirizzo: " + sv.getIndirizzo().getQualificatore() + " " + sv.getIndirizzo().getNomeVia() + " " + sv.getIndirizzo().getNumCivico());
+        comune_label = new JLabel("Comune: " + sv.getIndirizzo().getComune());
+        sigla_label = new JLabel("Sigla :" + sv.getIndirizzo().getSiglaProvincia());
+        cap_label = new JLabel("Cap :" + sv.getIndirizzo().getCap());
+        tipo_label = new JLabel("Tipologia: " + sv.getTipologia());
+        num_segnalazioni_label = new JLabel();
+        media_label = new JLabel();
+        inizio_label = new JLabel("Informazioni Centro " + sv.getNome_centro());
+        evento_label = new JLabel("Prospetto Riassuntivo Eventi Avversi");
 
-        v = u.CaricaFile1("./data/Vaccinati_" + sv.getNome_centro() + ".dati.txt");
+        v = utility.CaricaFile1("./data/Vaccinati_" + sv.getNome_centro() + ".dati.txt");
         int j = 0;
         double media = 0.00d;
         String s;
 
         String[] a;
         for (int i = 0; i < v.size(); i++) {
-            s = (String) v.get(i);
+            s = v.get(i);
             a = s.split(",");
             if (a.length == 4) {
                 media = media + Integer.parseInt(a[1]);
@@ -91,34 +91,34 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
         if (j != 0)
             media = media / j;
 
-        lblnum.setText("Numero di Segnalazioni: " + j);
-        lblmedia.setText("Severità media: " + media);
+        num_segnalazioni_label.setText("Numero di Segnalazioni: " + j);
+        media_label.setText("Severità media: " + media);
 
         menu = new JButton("Torna al menu");
 
-        background.add(lblinizio);
-        background.add(lblnome);
-        background.add(lbltipo);
-        background.add(lblindirizzo);
-        background.add(lblcomune);
-        background.add(lblsigla);
-        background.add(lblcap);
-        background.add(lblevento);
-        background.add(lblnum);
-        background.add(lblmedia);
+        background.add(inizio_label);
+        background.add(nome_label);
+        background.add(tipo_label);
+        background.add(indirizzo_label);
+        background.add(comune_label);
+        background.add(sigla_label);
+        background.add(cap_label);
+        background.add(evento_label);
+        background.add(num_segnalazioni_label);
+        background.add(media_label);
         background.add(menu);
 
-        Bsettings(0, new Rectangle(380, 50, 520, 120), 24, 1, true);
-        Bsettings(1, new Rectangle(280, 150, 520, 120), 18, 1, false);
-        Bsettings(2, new Rectangle(280, 180, 520, 120), 18, 1, false);
-        Bsettings(3, new Rectangle(280, 210, 520, 120), 18, 1, false);
-        Bsettings(4, new Rectangle(280, 240, 520, 120), 18, 1, false);
-        Bsettings(5, new Rectangle(280, 270, 520, 120), 18, 1, false);
-        Bsettings(6, new Rectangle(280, 300, 520, 120), 18, 1, false);
-        Bsettings(7, new Rectangle(380, 440, 520, 120), 24, 1, true);
-        Bsettings(8, new Rectangle(280, 540, 520, 120), 18, 1, false);
-        Bsettings(9, new Rectangle(280, 570, 520, 120), 18, 1, false);
-        Bsettings(10, new Rectangle(200, 900, 150, 50), 14, 1, false);
+        backgroundSettings(0, new Rectangle(380, 50, 520, 120), 24, 1, true);
+        backgroundSettings(1, new Rectangle(280, 150, 520, 120), 18, 1, false);
+        backgroundSettings(2, new Rectangle(280, 180, 520, 120), 18, 1, false);
+        backgroundSettings(3, new Rectangle(280, 210, 520, 120), 18, 1, false);
+        backgroundSettings(4, new Rectangle(280, 240, 520, 120), 18, 1, false);
+        backgroundSettings(5, new Rectangle(280, 270, 520, 120), 18, 1, false);
+        backgroundSettings(6, new Rectangle(280, 300, 520, 120), 18, 1, false);
+        backgroundSettings(7, new Rectangle(380, 440, 520, 120), 24, 1, true);
+        backgroundSettings(8, new Rectangle(280, 540, 520, 120), 18, 1, false);
+        backgroundSettings(9, new Rectangle(280, 570, 520, 120), 18, 1, false);
+        backgroundSettings(10, new Rectangle(200, 900, 150, 50), 14, 1, false);
 
         menu.addActionListener(this);
         setVisible(true);
@@ -127,15 +127,15 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
     /**
      * utilizzato per la definizione di alcune caratteristiche dei componenti JFrame
      *
-     * @param button componente JFrame in ordine di inserimento
-     * @param r      Ogetto che definisce la misura
-     * @param d      dimensioni della scritta
+     * @param button componente JFrame in ordine d' inserimento
+     * @param rect      Ogetto che definisce la misura
+     * @param size      dimensioni della scritta
      * @param font   definisce le caratteristiche della scritta(BOLD o PLAIN)
      * @param b      definisce il colore della scritta
      */
-    public void Bsettings(int button, Rectangle r, int d, int font, boolean b) {
-        background.getComponent(button).setBounds(r);
-        background.getComponent(button).setFont(new Font("Arial", font, d));
+    public void backgroundSettings(int button, Rectangle rect, int size, int font, boolean b) {
+        background.getComponent(button).setBounds(rect);
+        background.getComponent(button).setFont(new Font("Arial", font, size));
         if (b)
             background.getComponent(button).setForeground(Color.red);
     }
@@ -143,7 +143,7 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == menu) {
-            CittadiniGUI Ap = new CittadiniGUI();
+            new CittadiniGUI();
             this.dispose();
         }
     }
