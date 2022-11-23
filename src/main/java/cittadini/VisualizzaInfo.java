@@ -6,7 +6,7 @@
 package cittadini;
 
 import centrivaccinali.StruttureVaccinali;
-import centrivaccinali.Utility;
+import shared.Utility;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +22,6 @@ import java.util.ArrayList;
  */
 public class VisualizzaInfo extends JFrame implements ActionListener {
 
-    Utility u = new Utility();
 
     private JLabel lblnome, lblcomune, lblsigla, lblcap, lblindirizzo, lbltipo, lblmedia, lblnum, lblinizio, lblevento;
     private JPanel background;
@@ -74,7 +73,7 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
         lblinizio = new JLabel("Informazioni Centro " + sv.getNome_centro());
         lblevento = new JLabel("Prospetto Riassuntivo Eventi Avversi");
 
-        v = u.CaricaFile1("./data/Vaccinati_" + sv.getNome_centro() + ".dati.txt");
+        v = Utility.caricaFile1("./data/Vaccinati_" + sv.getNome_centro() + ".dati.txt");
         int j = 0;
         double media = 0.00d;
         String s;

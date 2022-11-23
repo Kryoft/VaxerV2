@@ -6,7 +6,7 @@
 package cittadini;
 
 import centrivaccinali.CentriVaccinaliGUI;
-import centrivaccinali.Utility;
+import shared.Utility;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -54,7 +54,6 @@ public class CittadiniGUI extends JFrame implements ActionListener {
      * @author Daniele Caspani
      */
     private Object[] ricerca = {"Ricerca per Comune e Tipologia", "Ricerca per Nome Centro"};
-    private Utility utility = new Utility();
 
     public CittadiniGUI() {
         initWindow();
@@ -169,7 +168,7 @@ public class CittadiniGUI extends JFrame implements ActionListener {
                 chosen_option = JOptionPane.showConfirmDialog(null, message, "Esegui il Login per Segnalare un Evento Avverso", JOptionPane.OK_CANCEL_OPTION);
                 if (chosen_option == JOptionPane.OK_OPTION) {
                     Login login = new Login(username.getText(), password.getText());
-                    if (utility.ControlloLogin(login.toString(), "./data/log.txt")) {
+                    if (Utility.controlloLogin(login.toString(), "./data/log.txt")) {
                         logged_in = true;
                         new Registra_Cittadini(1);
                         dispose();

@@ -8,7 +8,7 @@ package cittadini;
 import centrivaccinali.IndirizzoComposto;
 import centrivaccinali.StruttureVaccinali;
 import centrivaccinali.SwingAwt;
-import centrivaccinali.Utility;
+import shared.Utility;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -35,7 +35,6 @@ public class Ricerca extends JFrame implements ActionListener {
      * @author Daniele Caspani
      */
     JList<String> jList1 = new JList();
-    Utility u = new Utility();
     SwingAwt sw = new SwingAwt();
     private HashSet<String> v = new HashSet();
     private int i = -1;
@@ -130,8 +129,8 @@ public class Ricerca extends JFrame implements ActionListener {
                     String s = (String) it.next();
                     a = s.split(",");
                     if (a[0].equals(jList1.getSelectedValue())) {
-                        ic = new IndirizzoComposto(u.DecidiQualifier(a[2]), a[3], Integer.parseInt(a[4]), a[5], a[6], a[7]);
-                        sv = new StruttureVaccinali(a[0], u.Deciditipo(a[1]), ic);
+                        ic = new IndirizzoComposto(Utility.decidiQualifier(a[2]), a[3], Integer.parseInt(a[4]), a[5], a[6], a[7]);
+                        sv = new StruttureVaccinali(a[0], Utility.decidiTipo(a[1]), ic);
                         break;
                     }
                 }
@@ -191,8 +190,8 @@ public class Ricerca extends JFrame implements ActionListener {
                     String s = (String) it.next();
                     a = s.split(",");
                     if (a[0].equals(jList1.getSelectedValue())) {
-                        ic = new IndirizzoComposto(u.DecidiQualifier(a[2]), a[3], Integer.parseInt(a[4]), a[5], a[6], a[7]);
-                        sv = new StruttureVaccinali(a[0], u.Deciditipo(a[1]), ic);
+                        ic = new IndirizzoComposto(Utility.decidiQualifier(a[2]), a[3], Integer.parseInt(a[4]), a[5], a[6], a[7]);
+                        sv = new StruttureVaccinali(a[0], Utility.decidiTipo(a[1]), ic);
                         break;
                     }
                 }
@@ -251,7 +250,7 @@ public class Ricerca extends JFrame implements ActionListener {
             String copy = null;
             String s = txtcentro.getText();
             String[] a;
-            v = u.CaricaFile("./data/CentriVaccinali.dati.txt");
+            v = Utility.caricaFile("./data/CentriVaccinali.dati.txt");
             Iterator it = v.iterator();
 
             if (!s.equals("")) {
@@ -285,7 +284,7 @@ public class Ricerca extends JFrame implements ActionListener {
             boolean s1 = false;
             if (sw.DecidiTipologia(jcentro) != null && !comune.equals("")) {
 
-                v = u.CaricaFile("./data/CentriVaccinali.dati.txt");
+                v = Utility.caricaFile("./data/CentriVaccinali.dati.txt");
                 Iterator it = v.iterator();
                 String[] a = null;
                 while (it.hasNext()) {
@@ -293,7 +292,7 @@ public class Ricerca extends JFrame implements ActionListener {
                     String s = (String) it.next();
                     if (!s.equals("")) {
                         a = s.split(",");
-                        if (comune.equals(a[5]) && sw.DecidiTipologia(jcentro) == u.Deciditipo(a[1])) {
+                        if (comune.equals(a[5]) && sw.DecidiTipologia(jcentro) == Utility.decidiTipo(a[1])) {
                             listModel.addElement(a[0]);
                             s1 = true;
                         }

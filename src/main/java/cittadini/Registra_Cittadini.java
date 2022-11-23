@@ -6,6 +6,7 @@
 package cittadini;
 
 import centrivaccinali.*;
+import shared.Utility;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -27,7 +28,6 @@ import java.util.logging.Logger;
  */
 public class Registra_Cittadini extends JFrame implements ActionListener {
 
-    Utility u = new Utility();
     SwingAwt sw = new SwingAwt();
     private JLabel lblnome, lblcodice, lbllogin, lblcentro;
     private JTextField txtcodice, txtcentro;
@@ -215,7 +215,7 @@ public class Registra_Cittadini extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         try {
             if (e.getSource() == c1) {
-                u.run();
+                Utility.run();
                 String Nome = txtNome.getText();
                 String Cognome = txtcognome.getText();
                 String Codice = txtcodice.getText().toUpperCase();
@@ -235,7 +235,7 @@ public class Registra_Cittadini extends JFrame implements ActionListener {
                     txtpassword.setBorder(border);
                     txtuser.setBorder(border);
 
-                    if (u.EsisteCentro(0, Centro, "./data/CentriVaccinali.dati.txt")) {
+                    if (Utility.esisteCentro(0, Centro, "./data/CentriVaccinali.dati.txt")) {
                         txtcentro.setBorder(border);
                         try {
                             if (!c.mailSyntaxCheck(email)) {
@@ -251,17 +251,17 @@ public class Registra_Cittadini extends JFrame implements ActionListener {
                             }
                             txtcodice.setBorder(border);
 
-                            if (u.controllocf(Codice, id, "./data/Vaccinati_" + Centro + ".dati.txt")) {
+                            if (Utility.controlloCF(Codice, id, "./data/Vaccinati_" + Centro + ".dati.txt")) {
                                 l = new Login(user, password);
-                                if (u.ControlloLogin(l.toString(), "./data/log.txt") == false) {
+                                if (Utility.controlloLogin(l.toString(), "./data/log.txt") == false) {
                                     c = new Cittadini(email, l, Centro, id, Nome, Cognome, Codice);
                                     txtcodice.setBorder(border);
                                     txtid.setBorder(border);
                                     txtuser.setBorder(border);
                                     txtpassword.setBorder(border);
 
-                                    u.ScriviFile("./data/log.txt", l.toString());
-                                    u.ScriviFile("./data/Cittadini_Registrati.dati.txt", c.toString());
+                                    Utility.scriviFile("./data/log.txt", l.toString());
+                                    Utility.scriviFile("./data/Cittadini_Registrati.dati.txt", c.toString());
                                     JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
                                     CentriVaccinaliGUI cv = new CentriVaccinaliGUI();
                                     this.dispose();
@@ -307,13 +307,13 @@ public class Registra_Cittadini extends JFrame implements ActionListener {
                 int Indice = Integer.parseInt(txtindice.getText());
                 Eventi_Avversi ev = new Eventi_Avversi(Evento, Indice, Note, centro);
 
-                if (u.EsisteCentro(0, centro, "./data/CentriVaccinali.dati.txt")) {
+                if (Utility.esisteCentro(0, centro, "./data/CentriVaccinali.dati.txt")) {
 
                     if (!centro.equals("") && !Evento.equals("")) {
                         txtevento.setBorder(border);
                         if (Indice >= 1 && Indice <= 5) {
                             if (Note.length() < 256) {
-                                u.ScriviFile("./data/Vaccinati_" + centro + ".dati.txt", ev.toString());
+                                Utility.scriviFile("./data/Vaccinati_" + centro + ".dati.txt", ev.toString());
                                 txtevento.setBorder(border);
                                 txtNomeC.setBorder(border);
                                 txtindice.setBorder(border);
