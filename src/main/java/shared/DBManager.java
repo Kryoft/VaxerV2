@@ -4,8 +4,8 @@ import java.sql.*;
 
 public class DBManager {
     public static void main(String[] args) throws SQLException {
-        //TODO:decidere se mettere i controlli esistecentro(), controlloid() su db e come gestire eccezioni
-        //String TrovaCentro = "SELECT Cod_Centro,Identificativo FROM Vaccinato";
+        //TODO:decidere se mettere i controlli esistecentro(), controlloid(), ControllaCF(), ControllaLogin() per cittadino su db e come gestire eccezioni
+        //String CercaCentro = "SELECT * FROM Centro";
         String InsVaccinato ="INSERT INTO Vaccinato\n" +
         "VALUES('CSPDNL01M11I577Q','Daniele','Caspani','11/10/2001','31500','Moderna','3')";
         UpData(InsVaccinato);
