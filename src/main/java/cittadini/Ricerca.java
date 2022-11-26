@@ -28,25 +28,23 @@ import java.util.Iterator;
 public class Ricerca extends JFrame implements ActionListener {
 
     StruttureVaccinali strutture_vaccinali = null;
-    DefaultListModel<String> listModel;
+    DefaultListModel<String> list_model;
     /**
      * Utilizzata per contenere i nomi dei centri ricercati
-     *
-     * @author Daniele Caspani
      */
-    JList<String> jList1 = new JList<>();
+    JList<String> lista_centri = new JList<>();
     SwingAwt swing_awt = new SwingAwt();
-    private HashSet<String> v = new HashSet<>();
+
+    private int display_width = Utility.getDisplayWidth();
+    private int display_height = Utility.getDisplayHeight();
+    private HashSet<String> hash_set = new HashSet<>();
     private int i = -1;
     private JPanel background;
-    private JButton cerca, annulla;
-    private JLabel centro_label;
-    private JTextField centro_txt;
-    private JLabel comune_label, tipologia_label;
-    private JTextField comune_txt;
-    private JComboBox<String> jcentro;
-    private final String[] Combo = new String[]{"Seleziona", "Aziendale", "Hub", "Ospedaliero"};
-    private JButton cerca1, conferma;
+    private JButton cerca, annulla, cerca1, conferma;
+    private JLabel centro_label, comune_label, tipologia_label;
+    private JTextField centro_txt, comune_txt;
+    private JComboBox<String> centro_combo;
+    private final String[] tipologia = new String[]{"Seleziona", "Aziendale", "Hub", "Ospedaliero"};
     private JScrollPane scroll;
 
     public Ricerca(int i) {
@@ -63,13 +61,13 @@ public class Ricerca extends JFrame implements ActionListener {
      */
     private void settings(String title) {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setSize(1920, 1080);
+        setSize(display_width, display_height);
         setTitle(title);
         this.setFocusable(true);
         this.requestFocusInWindow();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        background = new JPanel();
 
+        background = new JPanel();
         add(background);
         background.setLayout(null);
         background.setBackground(Color.WHITE);
@@ -84,10 +82,10 @@ public class Ricerca extends JFrame implements ActionListener {
     public void init() {
         settings("RICERCA PER Comune e Tipologia");
 
-        comune_txt = new JTextField();
-        comune_label = new JLabel("Comune");
         tipologia_label = new JLabel("Tipologia Centro");
-        jcentro = new JComboBox(Combo);
+        centro_combo = new JComboBox<>(tipologia);
+        comune_label = new JLabel("Comune");
+        comune_txt = new JTextField();
 
         cerca1 = new JButton(new ImageIcon(ClassLoader.getSystemResource("search.png")));
         conferma = new JButton("CONFERMA");
@@ -98,7 +96,7 @@ public class Ricerca extends JFrame implements ActionListener {
         background.add(conferma).setEnabled(false);
         background.add(comune_label);
         background.add(tipologia_label);
-        background.add(jcentro);
+        background.add(centro_combo);
         background.add(comune_txt);
 
         backgroundSettings(0, new Rectangle(1350, 130, 40, 40), 15, 0);
@@ -114,22 +112,21 @@ public class Ricerca extends JFrame implements ActionListener {
         cerca1.addActionListener(this);
         annulla.addActionListener(this);
         conferma.addActionListener(this);
-        /**
-         * a <code>JList1</code> viene aggiunto SelectionListener per assegnare all'oggetto di tipo <code>StruttureVaccinali</code>
-         * sv l'elemento selezionato
-         * @author Daniele Caspani
+        /*
+         * A lista_centri viene aggiunto SelectionListener per assegnare all'oggetto di tipo
+         * StruttureVaccinali strutture_vaccinali l'elemento selezionato
          */
-        jList1.addListSelectionListener(new ListSelectionListener() {
+        lista_centri.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                Iterator<String> it = v.iterator();
+                Iterator<String> it = hash_set.iterator();
                 String[] a;
-                IndirizzoComposto ic = null;
+                IndirizzoComposto ic;
                 while (it.hasNext()) {
-                    String s = (String) it.next();
+                    String s = it.next();
                     a = s.split(",");
-                    if (a[0].equals(jList1.getSelectedValue())) {
-                        ic = new IndirizzoComposto(Utility.decidiQualifier(a[2]), a[3], Integer.parseInt(a[4]), a[5], a[6], a[7]);
+                    if (a[0].equals(lista_centri.getSelectedValue())) {
+                        ic = new IndirizzoComposto(Utility.decidiQualificatore(a[2]), a[3], Integer.parseInt(a[4]), a[5], a[6], a[7]);
                         strutture_vaccinali = new StruttureVaccinali(a[0], Utility.decidiTipo(a[1]), ic);
                         break;
                     }
@@ -153,9 +150,9 @@ public class Ricerca extends JFrame implements ActionListener {
         conferma = new JButton("CONFERMA");
         centro_label = new JLabel("Nome Centro:");
         centro_txt = new JTextField();
-        jcentro = new JComboBox<>(Combo);
+        centro_combo = new JComboBox<>(tipologia);
 
-        jcentro.setSelectedIndex(0);
+        centro_combo.setSelectedIndex(0);
 
         background.add(cerca);
         background.add(annulla);
@@ -180,17 +177,17 @@ public class Ricerca extends JFrame implements ActionListener {
          * sv l'elemento selezionato
          * @author Daniele Caspani
          */
-        jList1.addListSelectionListener(new ListSelectionListener() {
+        lista_centri.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                Iterator<String> it = v.iterator();
+                Iterator<String> it = hash_set.iterator();
                 String[] a;
                 IndirizzoComposto ic = null;
                 while (it.hasNext()) {
                     String s = (String) it.next();
                     a = s.split(",");
-                    if (a[0].equals(jList1.getSelectedValue())) {
-                        ic = new IndirizzoComposto(Utility.decidiQualifier(a[2]), a[3], Integer.parseInt(a[4]), a[5], a[6], a[7]);
+                    if (a[0].equals(lista_centri.getSelectedValue())) {
+                        ic = new IndirizzoComposto(Utility.decidiQualificatore(a[2]), a[3], Integer.parseInt(a[4]), a[5], a[6], a[7]);
                         strutture_vaccinali = new StruttureVaccinali(a[0], Utility.decidiTipo(a[1]), ic);
                         break;
                     }
@@ -206,14 +203,14 @@ public class Ricerca extends JFrame implements ActionListener {
      * @author Daniele Caspani
      */
     private void creaLista() {
-        listModel = new DefaultListModel<>();
-        jList1 = new JList<>(listModel);
-        jList1.setBounds(0, 400, 1800, 1000);
-        jList1.setFont(new Font("Arial", Font.BOLD, 18));
-        background.add(jList1);
+        list_model = new DefaultListModel<>();
+        lista_centri = new JList<>(list_model);
+        lista_centri.setBounds(0, 400, 1800, 1000);
+        lista_centri.setFont(new Font("Arial", Font.BOLD, 18));
+        background.add(lista_centri);
         scroll = new JScrollPane();
         scroll.setBounds(400, 250, 1000, 680);
-        scroll.setViewportView(jList1);
+        scroll.setViewportView(lista_centri);
         background.add(scroll);
     }
 
@@ -245,20 +242,20 @@ public class Ricerca extends JFrame implements ActionListener {
 
         if (e.getSource() == cerca) {
             conferma.setEnabled(false);
-            listModel.removeAllElements();
-            v.clear();
+            list_model.removeAllElements();
+            hash_set.clear();
             String copy = null;
             String s = centro_txt.getText();
             String[] a;
-            v = Utility.caricaFile("./data/CentriVaccinali.dati.txt");
-            Iterator<String> it = v.iterator();
+            hash_set = Utility.caricaFileInHashSet("./data/CentriVaccinali.dati.txt");
+            Iterator<String> it = hash_set.iterator();
 
             if (!s.equals("")) {
                 while (it.hasNext()) {
                     copy = (String) it.next();
                     a = copy.split(",");
                     if (a[0].toLowerCase().contains(s.toLowerCase())) {
-                        listModel.addElement(a[0]);
+                        list_model.addElement(a[0]);
                         i++;
                     }
                 }
@@ -266,7 +263,7 @@ public class Ricerca extends JFrame implements ActionListener {
                 if (i == 0) {
                     JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo, Nessun elemento trovato");
                 } else if (i > 0) {
-                    jList1.setBackground(Color.LIGHT_GRAY);
+                    lista_centri.setBackground(Color.LIGHT_GRAY);
                     JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo, Elementi trovati: " + i);
                     conferma.setEnabled(true);
                 }
@@ -277,30 +274,30 @@ public class Ricerca extends JFrame implements ActionListener {
 
         if (e.getSource() == cerca1) {
             conferma.setEnabled(false);
-            jList1.setBackground(Color.LIGHT_GRAY);
-            v.clear();
-            listModel.removeAllElements();
+            lista_centri.setBackground(Color.LIGHT_GRAY);
+            hash_set.clear();
+            list_model.removeAllElements();
             String comune = comune_txt.getText().toUpperCase();
             boolean s1 = false;
-            if (swing_awt.DecidiTipologia(jcentro) != null && !comune.equals("")) {
+            if (swing_awt.decidiTipologia(centro_combo) != null && !comune.equals("")) {
 
-                v = Utility.caricaFile("./data/CentriVaccinali.dati.txt");
-                Iterator<String> it = v.iterator();
+                hash_set = Utility.caricaFileInHashSet("./data/CentriVaccinali.dati.txt");
+                Iterator<String> it = hash_set.iterator();
                 String[] a = null;
                 while (it.hasNext()) {
 
                     String s = (String) it.next();
                     if (!s.equals("")) {
                         a = s.split(",");
-                        if (comune.equals(a[5]) && swing_awt.DecidiTipologia(jcentro) == Utility.decidiTipo(a[1])) {
-                            listModel.addElement(a[0]);
+                        if (comune.equals(a[5]) && swing_awt.decidiTipologia(centro_combo) == Utility.decidiTipo(a[1])) {
+                            list_model.addElement(a[0]);
                             s1 = true;
                         }
                     }
                 }
 
                 if (s1) {
-                    JOptionPane.showMessageDialog(this, "Operazione completata con Successo, Elementi trovati: " + listModel.size());
+                    JOptionPane.showMessageDialog(this, "Operazione completata con Successo, Elementi trovati: " + list_model.size());
                     conferma.setEnabled(true);
                 } else
                     JOptionPane.showMessageDialog(this, " Nessun elemento trovato");

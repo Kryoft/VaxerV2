@@ -62,7 +62,7 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
      */
     private void init(StruttureVaccinali sv) {
         settings("VISUALIZZA INFORMAZIONI");
-        nome_label = new JLabel("Nome_Centro: " + sv.getNome_centro());
+        nome_label = new JLabel("Nome_Centro: " + sv.getNomeCentro());
         indirizzo_label = new JLabel("Indirizzo: " + sv.getIndirizzo().getQualificatore() + " " + sv.getIndirizzo().getNomeVia() + " " + sv.getIndirizzo().getNumCivico());
         comune_label = new JLabel("Comune: " + sv.getIndirizzo().getComune());
         sigla_label = new JLabel("Sigla :" + sv.getIndirizzo().getSiglaProvincia());
@@ -70,10 +70,10 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
         tipo_label = new JLabel("Tipologia: " + sv.getTipologia());
         num_segnalazioni_label = new JLabel();
         media_label = new JLabel();
-        inizio_label = new JLabel("Informazioni Centro " + sv.getNome_centro());
+        inizio_label = new JLabel("Informazioni Centro " + sv.getNomeCentro());
         evento_label = new JLabel("Prospetto Riassuntivo Eventi Avversi");
 
-        v = Utility.caricaFile1("./data/Vaccinati_" + sv.getNome_centro() + ".dati.txt");
+        v = Utility.caricaFileInArrayList("./data/Vaccinati_" + sv.getNomeCentro() + ".dati.txt");
         int j = 0;
         double media = 0.00d;
         String s;

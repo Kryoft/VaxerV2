@@ -32,7 +32,7 @@ public class RegistraVaccinato extends Registrazioni {
 
     private final JComboBox<String> jvaccino = new JComboBox<>(array_vaccini);
 
-    private final JLabel nomeCentro_label = new JLabel("Nome Centro:", SwingConstants.CENTER);
+    private final JLabel nome_centro_label = new JLabel("Nome Centro:", SwingConstants.CENTER);
     private final JLabel tipologia_label = new JLabel("Tipologia:", SwingConstants.CENTER);
     private final JLabel nome_label = new JLabel("Nome:", SwingConstants.CENTER);
     private final JLabel cognome_label = new JLabel("Cognome:", SwingConstants.CENTER);
@@ -47,28 +47,30 @@ public class RegistraVaccinato extends Registrazioni {
     private final JTextField txt_data = new JTextField();
     private final int width_txt = 310;
 
-    private final int secondColumnMargin = displayWidth * 100 / 1536;         // Margine standardizzato e proporzionato a partire
+
+
+    private final int secondColumnMargin = display_width * 100 / 1536;         // Margine standardizzato e proporzionato a partire
     // dal mio schermo, che ha display width pari a
     // 1536 @Marceca
 
-    private final int first_row_x = (displayWidth/2) - ((width_txt * 2 + width_label * 2 + secondColumnMargin)/2);
-    private final int first_row_y = (int)(0.15 * displayHeight);
+    private final int first_row_x = (display_width /2) - ((width_txt * 2 + width_label * 2 + secondColumnMargin)/2);
+    private final int first_row_y = (int)(0.15 * display_height);
 
     private final int x_label1 = first_row_x;
     private final int x_txt1 = first_row_x + width_label;
     private final int x_label2 = secondColumnMargin + x_txt1 + width_txt;
     private final int x_txt2 = x_label2 + width_label;
 
-    private final int second_row_y = (int)(0.3 * displayHeight);
+    private final int second_row_y = (int)(0.3 * display_height);
 
-    private final int third_row_y = (int)(0.45  * displayHeight);
+    private final int third_row_y = (int)(0.45  * display_height);
 
-    private final int fourth_row_x = (displayWidth/2) - ((width_buttons * 2 + 200)/2);
-    private final int fourth_row_y = (int)(0.7 * displayHeight);
+    private final int fourth_row_x = (display_width /2) - ((width_buttons * 2 + 200)/2);
+    private final int fourth_row_y = (int)(0.7 * display_height);
 
 
     public RegistraVaccinato() {
-        initRegistraVaccinato();
+        initWindow();
     }
 
     /**
@@ -76,10 +78,10 @@ public class RegistraVaccinato extends Registrazioni {
      *
      * @author Daniele Caspani, Manuel Marceca
      */
-    private void initRegistraVaccinato() {
+    private void initWindow() {
         settings("Registra Vaccinato");
 
-        layered_pane.add(nomeCentro_label, 2, 0);
+        layered_pane.add(nome_centro_label, 2, 0);
         layeredPaneSettings(0, new Rectangle(x_label1, first_row_y, width_label, base_height),
                 16, 0, false);              //nomeCentro_label
 
@@ -181,7 +183,7 @@ public class RegistraVaccinato extends Registrazioni {
                             id = Utility.idControl(2, String.valueOf(id), "./data/Vaccinati_" + centro + ".dati.txt");
 
                             if (id != 0) {
-                                va = new Vaccinati(Data, swing_awt.DecidiVaccino(jvaccino), centro, id, Nome, Cognome, Codice);
+                                va = new Vaccinati(Data, swing_awt.decidiVaccino(jvaccino), centro, id, Nome, Cognome, Codice);
                                 Utility.scriviFile("./data/Vaccinati_" + va.getNomeCentro() + ".dati.txt", va.toString());
                             } else
                                 JOptionPane.showMessageDialog(this, "Non e' possibile inserire più vaccinati per questo centro", "Errore", JOptionPane.WARNING_MESSAGE);
@@ -201,11 +203,11 @@ public class RegistraVaccinato extends Registrazioni {
                         JOptionPane.showMessageDialog(this, "Il centro da lei indicato non esiste o non si e' registarto all'applicazione", "Errore", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
-                    swing_awt.Bordo(centro, txt_nome_centro, border);
-                    swing_awt.Bordo(Nome, txt_nome, border);
-                    swing_awt.Bordo(Cognome, txt_cognome, border);
-                    swing_awt.Bordo(Codice, txt_codice, border);
-                    swing_awt.Bordo(SData, txt_data, border);
+                    swing_awt.modificaBordo(centro, txt_nome_centro, border);
+                    swing_awt.modificaBordo(Nome, txt_nome, border);
+                    swing_awt.modificaBordo(Cognome, txt_cognome, border);
+                    swing_awt.modificaBordo(Codice, txt_codice, border);
+                    swing_awt.modificaBordo(SData, txt_data, border);
                     JOptionPane.showMessageDialog(this, "Riempire Tutti i Campi", "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (ParseException ex) {

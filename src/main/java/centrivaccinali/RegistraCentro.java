@@ -38,36 +38,38 @@ public class RegistraCentro extends Registrazioni {
     private final JLabel indirizzo_label = new JLabel("Indirizzo:");
     private final int width_indirizzo_label = 250;
 
-    private final PTextField nome_centro = new PTextField("Nome centro");
+    private final PlaceholderTextField nome_centro = new PlaceholderTextField("Nome centro");
     private final int width_nome = 310;
 
-    private final PTextField via = new PTextField("Nome via");
+    private final PlaceholderTextField via = new PlaceholderTextField("Nome via");
     private final int width_via = 250;
 
-    private final PTextField num_civico = new PTextField("Numero civico");
+    private final PlaceholderTextField num_civico = new PlaceholderTextField("Numero civico");
     private final int width_numcivico = 100;
 
-    private final PTextField comune = new PTextField("Comune");
+    private final PlaceholderTextField comune = new PlaceholderTextField("Comune");
     private final int width_comune = 250;
 
-    private final PTextField sigla = new PTextField("Sigla");
+    private final PlaceholderTextField sigla = new PlaceholderTextField("Sigla");
     private final int width_sigla = 100;
 
-    private final PTextField cap = new PTextField("CAP");
+    private final PlaceholderTextField cap = new PlaceholderTextField("CAP");
     private final int width_cap = 110;
 
-    private final int margin = displayWidth * 10 / 1536;      //Margine standardizzato e proporzionato a partire dal mio schermo,
+
+
+    private final int margin = display_width * 10 / 1536;      //Margine standardizzato e proporzionato a partire dal mio schermo,
     //che ha display width pari a 1536 @Marceca
 
-    private final int first_row_x = (displayWidth/2) - ((width_nome_label + width_nome + width_jtipologia + (margin * 2))/2);
-    private final int first_row_y = (int)(0.2 * displayHeight);
+    private final int first_row_x = (display_width /2) - ((width_nome_label + width_nome + width_jtipologia + (margin * 2))/2);
+    private final int first_row_y = (int)(0.2 * display_height);
 
     private final int x_nome = first_row_x + width_nome_label + margin;
     private final int x_jtipologia = x_nome + width_nome + margin;
 
-    private final int second_row_x = (displayWidth/2) -
+    private final int second_row_x = (display_width /2) -
             ((width_indirizzo_label + width_jqualificatore + width_via + width_numcivico + width_cap + (margin * 4))/2);
-    private final  int second_row_y = (int)(0.4 * displayHeight);
+    private final  int second_row_y = (int)(0.4 * display_height);
 
     private final int x_jqualificatore = second_row_x + width_indirizzo_label + margin;
     private final int x_via = x_jqualificatore + width_jqualificatore + margin;
@@ -76,27 +78,26 @@ public class RegistraCentro extends Registrazioni {
 
 
     private final int third_row_x = second_row_x + width_indirizzo_label;
-    private final int third_row_y = (int)(0.5 * displayHeight);
+    private final int third_row_y = (int)(0.5 * display_height);
 
     private final int x_comune = x_via;
     private final int x_sigla = x_comune + width_comune + margin;
 
 
-    private final int fourth_row_x = (displayWidth/2) -
+    private final int fourth_row_x = (display_width /2) -
             ((width_buttons * 2 + 200)/2);
-    private final int fourth_row_y = (int)(0.7 * displayHeight);
+    private final int fourth_row_y = (int)(0.7 * display_height);
 
     public RegistraCentro() {
-        initRegistraCentro();
+        initWindow();
     }
 
     /**
-     * permette l'inizializzazione dei componenti JFrame per quanto riguarda la registrazione del centro vaccinale
+     * Permette l'inizializzazione dei componenti JFrame per quanto riguarda la registrazione del centro vaccinale
      *
      * @author Daniele Caspani, Manuel Marceca
      */
-    private void initRegistraCentro() {
-
+    private void initWindow() {
         settings("Registra Centro Vaccinale");
 
         layered_pane.add(nome_label, 2, 0);
@@ -148,17 +149,15 @@ public class RegistraCentro extends Registrazioni {
                 width_buttons, height_buttons), 15, 1, false);
 
 
-        border = nome_centro.getBorder();
-
-        annulla.addActionListener(this);
         conferma_registrazione_centro.addActionListener(this);
-
+        annulla.addActionListener(this);
+        border = nome_centro.getBorder();
 
         setVisible(true);
     }
 
     /**
-     * metodo ereditato dall'interfaccia <code>ActionListener</code>
+     * Metodo ereditato dall'interfaccia <code>ActionListener</code>
      *
      * @param e
      */
@@ -176,12 +175,12 @@ public class RegistraCentro extends Registrazioni {
                 String Cap = cap.getText();
                 num_civico.setBorder(border);
                 if (!centro.equals("") && !Via.equals("") && !Comune.equals("") && !Sigla.equals("") && !Cap.equals("") && !centro.equals("Nome centro") && !Via.equals("Nome Via") && !Comune.equals("comune") && !Sigla.equals("sigla") && !Cap.equals("cap")) {
-                    swing_awt.Bordo(centro, nome_centro, border);
-                    swing_awt.Bordo(Via, via, border);
+                    swing_awt.modificaBordo(centro, nome_centro, border);
+                    swing_awt.modificaBordo(Via, via, border);
                     comune.setBorder(border);
                     sigla.setBorder(border);
                     try {
-                        Ic = new IndirizzoComposto(swing_awt.DecidiQualificatore(jqualificatore), Via, codice, Comune, Sigla, Cap);
+                        Ic = new IndirizzoComposto(swing_awt.decidiQualificatore(jqualificatore), Via, codice, Comune, Sigla, Cap);
 
                         if(!Ic.controllaNumeroCivico(codice)){
                             num_civico.setBorder(new LineBorder(Color.RED, 3, true));
@@ -194,24 +193,24 @@ public class RegistraCentro extends Registrazioni {
                             message = "Il cap contiene 5 cifre decimali";
                             throw new Eccezione();
                         } else
-                            swing_awt.Bordo(Cap, cap, border);
+                            swing_awt.modificaBordo(Cap, cap, border);
 
                         if (!Ic.controllaComune(Comune)) {
                             comune.setBorder(new LineBorder(Color.RED, 3, true));
                             message = "Un comune puo' contenere solo caratteri letterali";
                             throw new Eccezione();
                         } else
-                            swing_awt.Bordo(Comune, comune, border);
+                            swing_awt.modificaBordo(Comune, comune, border);
 
                         if (!Ic.controllaSigla(Sigla)) {
                             sigla.setBorder(new LineBorder(Color.RED, 3, true));
                             message = "Una sigla di provincia contiene solo 2 caratteri letterali";
                             throw new Eccezione();
                         } else
-                            swing_awt.Bordo(Sigla, sigla, border);
+                            swing_awt.modificaBordo(Sigla, sigla, border);
 
-                        StruttureVaccinali sv = new StruttureVaccinali(centro, swing_awt.DecidiTipologia(jtipologia), Ic);
-                        if (Utility.esisteCentro(0, sv.getNome_centro(), "./data/CentriVaccinali.dati.txt")) {
+                        StruttureVaccinali sv = new StruttureVaccinali(centro, swing_awt.decidiTipologia(jtipologia), Ic);
+                        if (Utility.esisteCentro(0, sv.getNomeCentro(), "./data/CentriVaccinali.dati.txt")) {
                             JOptionPane.showMessageDialog(this, "Centro gia' esistente nell'applicazione; Cambiare Nome", "error", JOptionPane.ERROR_MESSAGE);
                         } else {
                             Utility.scriviFile("./data/CentriVaccinali.dati.txt", sv.toString());
@@ -228,11 +227,11 @@ public class RegistraCentro extends Registrazioni {
                         Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
-                    swing_awt.Bordo(centro, nome_centro, border);
-                    swing_awt.Bordo(Via, via, border);
-                    swing_awt.Bordo(Sigla, sigla, border);
-                    swing_awt.Bordo(Comune, comune, border);
-                    swing_awt.Bordo(Cap, cap, border);
+                    swing_awt.modificaBordo(centro, nome_centro, border);
+                    swing_awt.modificaBordo(Via, via, border);
+                    swing_awt.modificaBordo(Sigla, sigla, border);
+                    swing_awt.modificaBordo(Comune, comune, border);
+                    swing_awt.modificaBordo(Cap, cap, border);
                     JOptionPane.showMessageDialog(this, " Riempire Tutti i Campi", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }

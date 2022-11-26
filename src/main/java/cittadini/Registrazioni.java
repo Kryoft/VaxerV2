@@ -1,7 +1,7 @@
 package cittadini;
 
-import centrivaccinali.PTextField;
 import centrivaccinali.SwingAwt;
+import shared.Utility;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -9,21 +9,22 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+ * Classe che estende <code>JFrame</code> e implementa l'interfaccia <code>ActionListener</code>;
+ * Contiene il codice per la creazione delle GUI per la registrazione degli eventi avversi e
+ * dei cittadini.
+ *
+ * @author Daniele Caspani, Cristian Corti
+ */
 public abstract class Registrazioni extends JFrame implements ActionListener {
 
+    protected int display_width = Utility.getDisplayWidth();
+    protected int display_height = Utility.getDisplayHeight();
+
     SwingAwt swing_awt = new SwingAwt();
-    protected JLabel nome_label, codice_label, login_label, centro_label;
-    protected JTextField codice_txt, centro_txt;
-    protected PTextField nome_txt, cognome_txt, email_txt, password_txt, user_txt, id_txt;
     protected Border border;
-    protected JButton conferma_registrazione_cittadino, annulla;
-    protected JLabel nome_centro_label, note_label, evento_label;
-    protected JTextField nome_centro_text, evento_text;
-    protected TextArea note_text;
-    protected PTextField indice_severita_text;
-    protected JButton conferma_registrazione_evento_avverso;
-    protected JLayeredPane lpane;
-    protected JPanel background, panel1;
+    protected JLayeredPane layered_pane;
+    protected JPanel background_panel, panel;
 
     /**
      * Metodo utile per inizializzare la finestra JFrame e il <strong>LayeredPane</strong>,
@@ -38,46 +39,48 @@ public abstract class Registrazioni extends JFrame implements ActionListener {
         this.requestFocusInWindow();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        this.setPreferredSize(new Dimension(1870, 1040));
+        this.setPreferredSize(new Dimension(display_width, display_height));
 
-        background = new JPanel();
-        add(background);
-        background.setLayout(null);
-        background.setBackground(Color.WHITE);
+        layered_pane = new JLayeredPane();
+        add(layered_pane, BorderLayout.CENTER);
+        layered_pane.setBounds(0, 0, display_width, display_height);
 
-        lpane = new JLayeredPane();
-        panel1 = new JPanel();
-        background = new JPanel();
-        add(lpane, BorderLayout.CENTER);
-        lpane.setBounds(0, 0, 2000, 1000);
-        panel1.setBackground(Color.GRAY);
-        panel1.setBounds(0, 0, 2000, 1000);
-        panel1.setOpaque(true);
+        panel = new JPanel();
+        panel.setBackground(Color.GRAY);
+        panel.setBounds(0, 0, display_width, display_height);
+        panel.setOpaque(true);
 
-        background.setBackground(Color.WHITE);
-        background.setBorder(new LineBorder(Color.CYAN, 30, false));
-        background.setBounds(300, 100, 1250, 800);
-        background.setOpaque(true);
+        background_panel = new JPanel();
+        add(background_panel);
+        background_panel.setLayout(null);
+        background_panel.setBackground(Color.WHITE);
 
-        lpane.add(panel1, 0, 0);
-        lpane.add(background, 1, 0);
-        pack();
+        background_panel = new JPanel();
+        background_panel.setBackground(Color.WHITE);
+        background_panel.setBorder(new LineBorder(Color.CYAN, 30, false));
+        background_panel.setBounds((int) (0.025 * display_width), (int) (0.025 * display_height),
+                (int) (0.95 * display_width), (int) (0.85 * display_height));
+        background_panel.setOpaque(true);
+
+        layered_pane.add(panel, 0, 0);
+        layered_pane.add(background_panel, 1, 0);
+        //pack();
     }
 
     /**
      * Metodo utile per settare alcune caratteristiche dei componenti JFrame
      *
-     * @param button          definisce l'ordine di inserimento dei componenti JFrame
+     * @param index           definisce l'indice del componente a cui si fa riferimento
      * @param rect            definisce la misura
      * @param size            definisce la dimensione della scritta
      * @param font            definisce il tipo di scritta (BOLD o PLAIN)
      * @param light_gray_text definisce il colore della scritta
      */
-    public void layeredPaneSettings(int button, Rectangle rect, int size, int font, boolean light_gray_text) {
-        lpane.getComponent(button).setBounds(rect);
-        lpane.getComponent(button).setFont(new Font("Arial", font, size));
+    public void layeredPaneSettings(int index, Rectangle rect, int size, int font, boolean light_gray_text) {
+        layered_pane.getComponent(index).setBounds(rect);
+        layered_pane.getComponent(index).setFont(new Font("Arial", font, size));
         if (light_gray_text)
-            lpane.getComponent(button).setForeground(Color.lightGray);
+            layered_pane.getComponent(index).setForeground(Color.LIGHT_GRAY);
     }
 
 }

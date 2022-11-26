@@ -8,6 +8,7 @@ package shared;
 import centrivaccinali.IndirizzoComposto;
 import centrivaccinali.StruttureVaccinali;
 
+import java.awt.*;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -21,15 +22,17 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Si tratta di una classe costituita da vari metodi
- * utili e ripetuti all' interno del programma come la lettura e scrittura da file.
+ * Si tratta di una classe costituita da vari metodi utili e ripetuti all'interno
+ * del programma come la lettura e scrittura da file.
  *
  * @author Daniele Caspani
  */
 public abstract class Utility {
 
+    private static Dimension screen_size = Toolkit.getDefaultToolkit().getScreenSize();
+
     /**
-     * metodo utile per calcolare lo spazio in memoria in un dato momento
+     * Metodo utile per calcolare lo spazio in memoria in un dato momento
      *
      * @author Daniele Caspani
      */
@@ -42,11 +45,19 @@ public abstract class Utility {
         System.out.println("Memory increased: " + (usedMemoryAfter - usedMemoryBefore));
     }
 
+    public static int getDisplayWidth() {
+        return (int) screen_size.getWidth();
+    }
+
+    public static int getDisplayHeight() {
+        return (int) screen_size.getHeight();
+    }
+
     /**
-     * metodo utile per definire il valore di un enum preso una stringa in ingresso.
+     * Metodo utile per definire il valore di un enum preso una stringa in ingresso.
      *
-     * @param tipo
-     * @return
+     * @param tipo La tipologia di centro vaccinale selezionata
+     * @return un enumerativo della classe Tipologia
      * @author Daniele Caspani
      */
     public static StruttureVaccinali.Tipologia decidiTipo(String tipo) {
@@ -63,13 +74,13 @@ public abstract class Utility {
     }
 
     /**
-     * metodo che ottiene un valore enum da una stringa in ingresso
+     * Metodo che ottiene un valore enum da una stringa in ingresso
      *
-     * @param tipo
-     * @return
+     * @param tipo Il tipo di qualificatore di un luogo fisico
+     * @return un enumerativo della classe Qualificatore
      * @author Daniele Caspani
      */
-    public static IndirizzoComposto.Qualificatore decidiQualifier(String tipo) {
+    public static IndirizzoComposto.Qualificatore decidiQualificatore(String tipo) {
         if (tipo.equals("PIAZZA")) {
             return IndirizzoComposto.Qualificatore.PIAZZA;
         }
@@ -106,132 +117,132 @@ public abstract class Utility {
     }
 
     /**
-     * <strong> CaricaFile </strong> è una funzione utilizzata per inserire gli oggetti memorizzati in un file in una struttura dati
+     * <strong>CaricaFile</strong> è una funzione utilizzata per inserire gli oggetti memorizzati in un file in una struttura dati
      *
-     * @param nfile percorso del file di testo selezionato
+     * @param file percorso del file di testo selezionato
      * @return
-     * @author daniele caspani
+     * @author Daniele Caspani
      */
-    public static HashSet caricaFile(String nfile) {
-        HashSet h = new HashSet();
-        try (final Stream<String> stream = Files.lines(Paths.get(nfile))) {
-            h = stream.collect(Collectors.toCollection(HashSet::new));
+    public static HashSet<String> caricaFileInHashSet(String file) {
+        HashSet<String> hash_set = new HashSet<>();
+        try (final Stream<String> stream = Files.lines(Paths.get(file))) {
+            hash_set = stream.collect(Collectors.toCollection(HashSet::new));
         } catch (IOException ex) {
             Logger.getLogger(Utility.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return h;
+        return hash_set;
     }
 
     /**
-     * <strong> CaricaFile1 </strong> è una funzione utilizzata per inserire gli oggetti memorizzati in un file in un ArrayList
+     * <strong>CaricaFile1</strong> è una funzione utilizzata per inserire gli oggetti memorizzati in un file in un ArrayList
      *
-     * @param nfile percorso del file di testo selezionato
+     * @param file percorso del file di testo selezionato
      * @return
-     * @author daniele caspani
+     * @author Daniele Caspani
      */
-    public static ArrayList caricaFile1(String nfile) {
-        ArrayList<String> h = new ArrayList();
-        try (final Stream<String> stream = Files.lines(Paths.get(nfile))) {
-            h = stream.collect(Collectors.toCollection(ArrayList::new));
+    public static ArrayList<String> caricaFileInArrayList(String file) {
+        ArrayList<String> array_list = new ArrayList<>();
+        try (final Stream<String> stream = Files.lines(Paths.get(file))) {
+            array_list = stream.collect(Collectors.toCollection(ArrayList::new));
         } catch (IOException ex) {
             System.err.println("Non esistono dati per questo Centro");
         }
 
-        return h;
+        return array_list;
     }
 
     /**
-     * funzione utilizzata per la lettura di un file attraverso alcune modifiche.
+     * Funzione utilizzata per la lettura di un file attraverso alcune modifiche.
      *
-     * @param sc    valore intero che si riferisce alla n-esima stringa ottenuta nella lettura da file tramite l'operazione split
-     * @param nfile percorso del file
+     * @param string_index  valore intero che si riferisce alla n-esima stringa ottenuta nella lettura da file tramite l'operazione split
+     * @param file          percorso del file
      * @return
      */
-    public static HashSet leggiFile(int sc, String nfile) {
-        HashSet<String> h = new HashSet();
-        String[] a;
-        try (final BufferedReader bR = new BufferedReader(
-                new InputStreamReader(new FileInputStream(nfile)));) {
+    public static HashSet<String> leggiFile(int string_index, String file) {
+        HashSet<String> hash_set = new HashSet<>();
+        String[] string_array;
+        try (final BufferedReader br = new BufferedReader(
+                new InputStreamReader(new FileInputStream(file)))) {
             String line;
-            while ((line = bR.readLine()) != null) {
+            while ((line = br.readLine()) != null) {
                 if (!line.equals("")) {
-                    a = line.split(",");
-                    if (!a[sc].equals(""))
-                        h.add(a[sc]);
+                    string_array = line.split(",");
+                    if (!string_array[string_index].equals(""))
+                        hash_set.add(string_array[string_index]);
                 }
             }
         } catch (final IOException e) {
         }
-        return h;
+        return hash_set;
     }
 
     /**
-     * metodo utilizzato per controllare se è già stato registrato nell' applicazione un dato centro
+     * Metodo utilizzato per controllare se un dato centro è già stato registrato nell'applicazione
      *
-     * @param sc
-     * @param centro centro vaccinale preso in considerazione
-     * @param nfile  percorso del file preso in considerazione
+     * @param string_index  valore intero che si riferisce alla n-esima stringa ottenuta nella lettura da file tramite l'operazione split
+     * @param centro        nome del centro vaccinale preso in considerazione
+     * @param file          percorso del file preso in considerazione
      * @return
      * @throws IOException
      */
-    public static boolean esisteCentro(int sc, String centro, String nfile) throws IOException {
-        HashSet<String> v = leggiFile(sc, nfile);
-        return v.contains(centro);
+    public static boolean esisteCentro(int string_index, String centro, String file) throws IOException {
+        HashSet<String> hash_set = leggiFile(string_index, file);
+        return hash_set.contains(centro);
     }
 
     /**
-     * metodo utilizzato per costruire l'id e verificare che quest'ultimo non esista già
+     * Metodo utilizzato per costruire l'id e verificare che quest'ultimo non esista già
      *
-     * @param sc
+     * @param string_index  valore intero che si riferisce alla n-esima stringa ottenuta nella lettura da file tramite l'operazione split
      * @param id
-     * @param nfile percorso file
+     * @param file          percorso del file preso in considerazione
      * @return
      * @throws IOException
      */
-    public static short idControl(int sc, String id, String nfile) throws IOException {
-        HashSet<String> v = leggiFile(sc, nfile);
-        if (v.size() < 65534) {
-            Short Id = Short.parseShort(id);
-            while (v.contains(String.valueOf(Id)) || Id == 0) {
-                Id++;
+    public static short idControl(int string_index, String id, String file) throws IOException {
+        HashSet<String> hash_set = leggiFile(string_index, file);
+        if (hash_set.size() < 65534) {
+            Short id_number = Short.parseShort(id);
+            while (hash_set.contains(String.valueOf(id_number)) || id_number == 0) {
+                id_number++;
             }
-            return Id;
+            return id_number;
         }
         return 0;
     }
 
     /**
-     * metodo utilizzato per cotrollare che il login sia effettivamente regolare
+     * Metodo utilizzato per controllare che il login sia effettivamente regolare
      *
-     * @param l
-     * @param nfile percorso del file selezionato
+     * @param login
+     * @param file percorso del file selezionato
      * @return
      * @author Daniele Caspani
      */
-    public static boolean controlloLogin(String l, String nfile) {
+    public static boolean controlloLogin(String login, String file) {
         // TODO: Gestire il caso in cui il file non esiste (altrimenti viene lanciata un'eccezione)
-        HashSet<String> hs = caricaFile(nfile);
-        return hs.contains(l);
+        HashSet<String> hash_set = caricaFileInHashSet(file);
+        return hash_set.contains(login);
     }
 
     /**
-     * metodo utilizzato per controllare la correttezza della coppia codice fiscale id
+     * Metodo utilizzato per controllare la correttezza della coppia codice fiscale id
      *
-     * @param l     codice fiscale
-     * @param id    identificativo
-     * @param nfile percorso file
+     * @param codice_fiscale  codice fiscale
+     * @param id              identificativo
+     * @param file            percorso file
      * @return
      */
-    public static boolean controlloCF(String l, short id, String nfile) {
-        HashSet h = caricaFile(nfile);
-        Iterator it = h.iterator();
-        String[] a;
-        while (it.hasNext()) {
-            String s = (String) it.next();
-            a = s.split(",");
-            if (a.length == 9) {
-                if (a[8].equals(l) && Short.parseShort(a[2]) == id)
+    public static boolean controlloCF(String codice_fiscale, short id, String file) {
+        HashSet<String> hash_set = caricaFileInHashSet(file);
+        Iterator<String> iterator = hash_set.iterator();
+        String[] string_array;
+        while (iterator.hasNext()) {
+            String s = iterator.next();
+            string_array = s.split(",");
+            if (string_array.length == 9) {
+                if (string_array[8].equals(codice_fiscale) && Short.parseShort(string_array[2]) == id)
                     return true;
             }
         }
@@ -239,22 +250,22 @@ public abstract class Utility {
     }
 
     /**
-     * metodo utilizzato per ottenere il comune di provenienza del centro selezionato
+     * Metodo utilizzato per ottenere il comune di provenienza del centro selezionato
      *
      * @param centro
-     * @param nfile
+     * @param file
      * @return
      * @author Daniele Caspani
      */
-    public static String controllaComune(String centro, String nfile) {
-        HashSet h = caricaFile(nfile);
-        Iterator it = h.iterator();
-        String[] a;
-        while (it.hasNext()) {
-            String s = (String) it.next();
+    public static String controllaComune(String centro, String file) {
+        HashSet<String> hash_set = caricaFileInHashSet(file);
+        Iterator<String> iterator = hash_set.iterator();
+        String[] string_array;
+        while (iterator.hasNext()) {
+            String s = iterator.next();
             if (s.contains(centro)) {
-                a = s.split(",");
-                return a[5];
+                string_array = s.split(",");
+                return string_array[5];
             }
         }
         return null;

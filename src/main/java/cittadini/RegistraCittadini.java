@@ -18,14 +18,25 @@ import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Classe che estende <code>JFrame</code> e implementa l'interfaccia <code>ActionListener</code>;
- * Contiene il codice per la funzionalità inserisciEventoAvverso e per
- * la registrazione dei cittadini.
- *
- * @author Daniele Caspani
- */
+
 public class RegistraCittadini extends Registrazioni {
+
+    private final JLabel nome_cognome_label = new JLabel("Nome e cognome:");
+    private final JLabel login_label = new JLabel("Login:");
+    private final JLabel cf_label = new JLabel("Codice Fiscale:");
+    private final JLabel centro_label = new JLabel("Nome Centro:");
+
+    private final JTextField cf_txt = new JTextField();
+    private final JTextField centro_txt = new JTextField();
+
+    private final PlaceholderTextField nome_txt = new PlaceholderTextField("nome");
+    private final PlaceholderTextField cognome_txt = new PlaceholderTextField("cognome");
+    private final PlaceholderTextField email_txt = new PlaceholderTextField("email");
+    private final PlaceholderTextField password_txt = new PlaceholderTextField("password");
+    private final PlaceholderTextField user_txt = new PlaceholderTextField("user id");
+    private final PlaceholderTextField id_txt = new PlaceholderTextField(" Identificativo ");
+    private final JButton conferma_registrazione_cittadino = new JButton("CONFERMA");
+    private final JButton annulla = new JButton("TORNA INDIETRO");
 
     public RegistraCittadini() {
         initWindow();
@@ -35,62 +46,57 @@ public class RegistraCittadini extends Registrazioni {
      * Metodo utile per inizializzare le componenti del JFrame riguardanti la registrazione di
      * un cittadino.
      *
-     * @author Daniele Caspani
+     * @author Daniele Caspani, Cristian Corti
      */
     private void initWindow() {
         settings("Inserisci Cittadino");
 
-        conferma_registrazione_cittadino = new JButton("CONFERMA");
-        annulla = new JButton("TORNA INDIETRO");
+        layered_pane.add(nome_cognome_label, 2, 0);
+        layeredPaneSettings(0, new Rectangle(410, 220, 520, 120), 16, 1, false);
 
-        nome_txt = new PTextField("nome");
-        cognome_txt = new PTextField("cognome");
-        codice_txt = new JTextField();
-        email_txt = new PTextField("email");
-        password_txt = new PTextField("password");
-        user_txt = new PTextField("user id");
-        id_txt = new PTextField(" Identificativo ");
-        centro_txt = new JTextField();
+        layered_pane.add(nome_txt, 2, 0);
+        layeredPaneSettings(0, new Rectangle(610, 260, 250, 40), 15, 0, true);
 
-        nome_label = new JLabel("Nome e cognome:");
-        login_label = new JLabel("Codice Fiscale:");
-        codice_label = new JLabel("Login:");
-        centro_label = new JLabel("Nome Centro:");
+        layered_pane.add(cognome_txt, 2, 0);
+        layeredPaneSettings(0, new Rectangle(870, 260, 250, 40), 15, 0, true);
 
-        lpane.add(conferma_registrazione_cittadino, 2, 0);
-        lpane.add(annulla, 2, 0);
-        lpane.add(nome_label, 2, 0);
-        lpane.add(codice_label, 2, 0);
-        lpane.add(login_label, 2, 0);
-        lpane.add(centro_label, 2, 0);
-        lpane.add(nome_txt, 2, 0);
-        lpane.add(cognome_txt, 2, 0);
-        lpane.add(codice_txt, 2, 0);
-        lpane.add(email_txt, 2, 0);
-        lpane.add(password_txt, 2, 0);
-        lpane.add(user_txt, 2, 0);
-        lpane.add(id_txt, 2, 0);
-        lpane.add(centro_txt, 2, 0);
+        layered_pane.add(conferma_registrazione_cittadino, 2, 0);
+        layeredPaneSettings(0, new Rectangle(1250, 230, 200, 100), 18, 1, false);
 
+        layered_pane.add(cf_label, 2, 0);
+        layeredPaneSettings(0, new Rectangle(410, 520, 520, 120), 16, 1, false);
+
+        layered_pane.add(cf_txt, 2, 0);
+        layeredPaneSettings(0, new Rectangle(610, 410, 310, 40), 15, 0, false);
+
+        layered_pane.add(login_label, 2, 0);
+        layeredPaneSettings(0, new Rectangle(410, 370, 520, 120), 16, 1, false);
+
+        layered_pane.add(user_txt, 2, 0);
+        layeredPaneSettings(0, new Rectangle(610, 560, 200, 40), 15, 0, true);
+
+        layered_pane.add(password_txt, 2, 0);
+        layeredPaneSettings(0, new Rectangle(820, 560, 200, 40), 15, 0, true);
+
+        layered_pane.add(email_txt, 2, 0);
+        layeredPaneSettings(0, new Rectangle(1040, 560, 240, 40), 15, 0, true);
+
+        layered_pane.add(centro_label, 2, 0);
+        layeredPaneSettings(0, new Rectangle(410, 670, 520, 120), 16, 1, false);
+
+        layered_pane.add(centro_txt, 2, 0);
         layeredPaneSettings(0, new Rectangle(610, 710, 310, 40), 15, 0, false);
-        layeredPaneSettings(1, new Rectangle(930, 710, 160, 40), 15, 0, true);
-        layeredPaneSettings(2, new Rectangle(610, 560, 200, 40), 15, 0, true);
-        layeredPaneSettings(3, new Rectangle(820, 560, 200, 40), 15, 0, true);
-        layeredPaneSettings(4, new Rectangle(1040, 560, 240, 40), 15, 0, true);
-        layeredPaneSettings(5, new Rectangle(610, 410, 310, 40), 15, 0, false);
-        layeredPaneSettings(6, new Rectangle(870, 260, 250, 40), 15, 0, true);
-        layeredPaneSettings(7, new Rectangle(610, 260, 250, 40), 15, 0, true);
-        layeredPaneSettings(8, new Rectangle(410, 670, 520, 120), 16, 1, false);
-        layeredPaneSettings(9, new Rectangle(410, 370, 520, 120), 16, 1, false);
-        layeredPaneSettings(10, new Rectangle(410, 520, 520, 120), 16, 1, false);
-        layeredPaneSettings(11, new Rectangle(410, 220, 520, 120), 16, 1, false);
-        layeredPaneSettings(12, new Rectangle(1250, 680, 200, 100), 18, 1, false);
-        layeredPaneSettings(13, new Rectangle(1250, 230, 200, 100), 18, 1, false);
 
-        border = nome_txt.getBorder();
+        layered_pane.add(id_txt, 2, 0);
+        layeredPaneSettings(0, new Rectangle(930, 710, 160, 40), 15, 0, true);
+
+        layered_pane.add(annulla, 2, 0);
+        layeredPaneSettings(0, new Rectangle(1250, 680, 200, 100), 18, 1, false);
+
 
         conferma_registrazione_cittadino.addActionListener(this);
         annulla.addActionListener(this);
+        border = nome_txt.getBorder();
 
         setVisible(true);
     }
@@ -102,7 +108,7 @@ public class RegistraCittadini extends Registrazioni {
                 Utility.run();
                 String Nome = nome_txt.getText();
                 String Cognome = cognome_txt.getText();
-                String Codice = codice_txt.getText().toUpperCase();
+                String Codice = cf_txt.getText().toUpperCase();
                 short id = (short) (Integer.parseInt(id_txt.getText()) - 32767);  // ?
                 String user = user_txt.getText();
                 String password = password_txt.getText();
@@ -115,7 +121,7 @@ public class RegistraCittadini extends Registrazioni {
                     nome_txt.setBorder(border);
                     cognome_txt.setBorder(border);
                     email_txt.setBorder(border);
-                    codice_txt.setBorder(border);
+                    cf_txt.setBorder(border);
                     password_txt.setBorder(border);
                     user_txt.setBorder(border);
 
@@ -129,17 +135,17 @@ public class RegistraCittadini extends Registrazioni {
                             }
                             email_txt.setBorder(border);
                             if (!c.controllaCodiceFiscale(Codice)) {
-                                codice_txt.setBorder(new LineBorder(Color.RED, 3, true));
+                                cf_txt.setBorder(new LineBorder(Color.RED, 3, true));
                                 message = "Sintassi del codice fiscale errata";
                                 throw new Eccezione();
                             }
-                            codice_txt.setBorder(border);
+                            cf_txt.setBorder(border);
 
                             if (Utility.controlloCF(Codice, id, "./data/Vaccinati_" + Centro + ".dati.txt")) {
                                 l = new Login(user, password);
                                 if (Utility.controlloLogin(l.toString(), "./data/log.txt") == false) {
                                     c = new Cittadini(email, l, Centro, id, Nome, Cognome, Codice);
-                                    codice_txt.setBorder(border);
+                                    cf_txt.setBorder(border);
                                     id_txt.setBorder(border);
                                     user_txt.setBorder(border);
                                     password_txt.setBorder(border);
@@ -158,11 +164,11 @@ public class RegistraCittadini extends Registrazioni {
                                 nome_txt.setBorder(border);
                                 cognome_txt.setBorder(border);
                                 password_txt.setBorder(border);
-                                codice_txt.setBorder(border);
+                                cf_txt.setBorder(border);
                                 user_txt.setBorder(border);
                                 email_txt.setBorder(border);
                                 id_txt.setBorder(new LineBorder(Color.RED, 3, true));
-                                codice_txt.setBorder(new LineBorder(Color.RED, 3, true));
+                                cf_txt.setBorder(new LineBorder(Color.RED, 3, true));
                                 JOptionPane.showMessageDialog(this, "Operazione fallita Identificativo o codice Fiscale errato!!");
                             }
                         } catch (Eccezione exc) {
@@ -175,12 +181,12 @@ public class RegistraCittadini extends Registrazioni {
                         JOptionPane.showMessageDialog(this, "Centro Insesistente o non registrato all'applicazione", "Errore", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
-                    swing_awt.Bordo(Nome, nome_txt, border);
-                    swing_awt.Bordo(Cognome, cognome_txt, border);
-                    swing_awt.Bordo(password, password_txt, border);
-                    swing_awt.Bordo(Codice, codice_txt, border);
-                    swing_awt.Bordo(user, user_txt, border);
-                    swing_awt.Bordo(email, email_txt, border);
+                    swing_awt.modificaBordo(Nome, nome_txt, border);
+                    swing_awt.modificaBordo(Cognome, cognome_txt, border);
+                    swing_awt.modificaBordo(password, password_txt, border);
+                    swing_awt.modificaBordo(Codice, cf_txt, border);
+                    swing_awt.modificaBordo(user, user_txt, border);
+                    swing_awt.modificaBordo(email, email_txt, border);
                     JOptionPane.showMessageDialog(this, "Riempire tutti i campi", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else if (e.getSource() == annulla) {
