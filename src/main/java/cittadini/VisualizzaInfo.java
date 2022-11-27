@@ -22,17 +22,18 @@ import java.util.ArrayList;
  */
 public class VisualizzaInfo extends JFrame implements ActionListener {
 
-
+    private int display_width = Utility.getDisplayWidth(),
+                display_height = Utility.getDisplayHeight();
     private JLabel nome_label, comune_label, sigla_label, cap_label, indirizzo_label, tipo_label, media_label, num_segnalazioni_label, inizio_label, evento_label;
     private JPanel background;
     private JButton menu;
-    private ArrayList<String> v = new ArrayList<>();
+    private ArrayList<String> vaccinati = new ArrayList<>();
 
     /**
      * @param strutture_vaccinali oggetto di tipo StruttureVaccinali da prendere in considerazione
      */
     public VisualizzaInfo(StruttureVaccinali strutture_vaccinali) {
-        init(strutture_vaccinali);
+        initWindow(strutture_vaccinali);
     }
 
     /**
@@ -42,101 +43,121 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
      */
     private void settings(String title) {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setSize(1920, 1080);
+        setSize(display_width, display_height);
         setTitle(title);
         this.setFocusable(true);
-        this.requestFocus();
+        this.requestFocusInWindow();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
         background = new JPanel();
-
         background.setLayout(null);
         add(background);
     }
 
     /**
-     * Utiizzato per l'inizializzazione dei componenti JFrame
+     * Utilizzato per l'inizializzazione dei componenti JFrame
      *
-     * @param sv
+     * @param strutture_vaccinali
      */
-    private void init(StruttureVaccinali sv) {
+    private void initWindow(StruttureVaccinali strutture_vaccinali) {
         settings("VISUALIZZA INFORMAZIONI");
-        nome_label = new JLabel("Nome_Centro: " + sv.getNome_centro());
-        indirizzo_label = new JLabel("Indirizzo: " + sv.getIndirizzo().getQualificatore() + " " + sv.getIndirizzo().getNomeVia() + " " + sv.getIndirizzo().getNumCivico());
-        comune_label = new JLabel("Comune: " + sv.getIndirizzo().getComune());
-        sigla_label = new JLabel("Sigla :" + sv.getIndirizzo().getSiglaProvincia());
-        cap_label = new JLabel("Cap :" + sv.getIndirizzo().getCap());
-        tipo_label = new JLabel("Tipologia: " + sv.getTipologia());
+
+        nome_label = new JLabel("Nome_Centro: " + strutture_vaccinali.getNomeCentro());
+        indirizzo_label = new JLabel("Indirizzo: " + strutture_vaccinali.getIndirizzo().getQualificatore() + " " + strutture_vaccinali.getIndirizzo().getNomeVia() + " " + strutture_vaccinali.getIndirizzo().getNumCivico());
+        comune_label = new JLabel("Comune: " + strutture_vaccinali.getIndirizzo().getComune());
+        sigla_label = new JLabel("Sigla :" + strutture_vaccinali.getIndirizzo().getSiglaProvincia());
+        cap_label = new JLabel("Cap :" + strutture_vaccinali.getIndirizzo().getCap());
+        tipo_label = new JLabel("Tipologia: " + strutture_vaccinali.getTipologia());
         num_segnalazioni_label = new JLabel();
         media_label = new JLabel();
-        inizio_label = new JLabel("Informazioni Centro " + sv.getNome_centro());
+        inizio_label = new JLabel("Informazioni Centro " + strutture_vaccinali.getNomeCentro());
         evento_label = new JLabel("Prospetto Riassuntivo Eventi Avversi");
 
-        v = Utility.caricaFile1("./data/Vaccinati_" + sv.getNome_centro() + ".dati.txt");
-        int j = 0;
+        vaccinati = Utility.caricaFileInArrayList("./data/Vaccinati_" + strutture_vaccinali.getNomeCentro() + ".dati.txt");
+        int numero_segnalazioni = 0;
         double media = 0.00d;
-        String s;
 
-        String[] a;
-        for (int i = 0; i < v.size(); i++) {
-            s = v.get(i);
-            a = s.split(",");
-            if (a.length == 4) {
-                media = media + Integer.parseInt(a[1]);
-                j++;
+        String[] vaccinato_splitted;
+        for (String vaccinato : vaccinati) {
+            vaccinato_splitted = vaccinato.split(",");
+            if (vaccinato_splitted.length == 4) {
+                media = media + Integer.parseInt(vaccinato_splitted[1]);
+                numero_segnalazioni++;
             }
         }
-        if (j != 0)
-            media = media / j;
+        if (numero_segnalazioni != 0)
+            media = media / numero_segnalazioni;
 
-        num_segnalazioni_label.setText("Numero di Segnalazioni: " + j);
+        num_segnalazioni_label.setText("Numero di Segnalazioni: " + numero_segnalazioni);
         media_label.setText("Severità media: " + media);
 
         menu = new JButton("Torna al menu");
 
-        background.add(inizio_label);
-        background.add(nome_label);
-        background.add(tipo_label);
-        background.add(indirizzo_label);
-        background.add(comune_label);
-        background.add(sigla_label);
-        background.add(cap_label);
-        background.add(evento_label);
-        background.add(num_segnalazioni_label);
-        background.add(media_label);
-        background.add(menu);
+        background.add(inizio_label, 0);
+        backgroundSettings(0, new Rectangle(380, 50,            //inizio_label
+                520, 120), 24, 1, true);
 
-        backgroundSettings(0, new Rectangle(380, 50, 520, 120), 24, 1, true);
-        backgroundSettings(1, new Rectangle(280, 150, 520, 120), 18, 1, false);
-        backgroundSettings(2, new Rectangle(280, 180, 520, 120), 18, 1, false);
-        backgroundSettings(3, new Rectangle(280, 210, 520, 120), 18, 1, false);
-        backgroundSettings(4, new Rectangle(280, 240, 520, 120), 18, 1, false);
-        backgroundSettings(5, new Rectangle(280, 270, 520, 120), 18, 1, false);
-        backgroundSettings(6, new Rectangle(280, 300, 520, 120), 18, 1, false);
-        backgroundSettings(7, new Rectangle(380, 440, 520, 120), 24, 1, true);
-        backgroundSettings(8, new Rectangle(280, 540, 520, 120), 18, 1, false);
-        backgroundSettings(9, new Rectangle(280, 570, 520, 120), 18, 1, false);
-        backgroundSettings(10, new Rectangle(200, 900, 150, 50), 14, 1, false);
+        background.add(nome_label, 0);
+        backgroundSettings(0, new Rectangle(280, 150,           //nome_label
+                520, 120), 18, 1, false);
+
+        background.add(tipo_label, 0);
+        backgroundSettings(0, new Rectangle(280, 180,           //tipo_label
+                520, 120), 18, 1, false);
+
+        background.add(indirizzo_label, 0);
+        backgroundSettings(0, new Rectangle(280, 210,           //indirizzo_label
+                520, 120), 18, 1, false);
+
+        background.add(comune_label, 0);
+        backgroundSettings(0, new Rectangle(280, 240,           //comune_label
+                520, 120), 18, 1, false);
+
+        background.add(sigla_label, 0);
+        backgroundSettings(0, new Rectangle(280, 270,           //sigla_label
+                520, 120), 18, 1, false);
+
+        background.add(cap_label, 0);
+        backgroundSettings(0, new Rectangle(280, 300,           //cap_label
+                520, 120), 18, 1, false);
+
+        background.add(evento_label, 0);
+        backgroundSettings(0, new Rectangle(380, 440,           //evento_label
+                520, 120), 24, 1, true);
+
+        background.add(num_segnalazioni_label, 0);
+        backgroundSettings(0, new Rectangle(280, 540,           //num_segnalazioni_label
+                520, 120), 18, 1, false);
+
+        background.add(media_label, 0);
+        backgroundSettings(0, new Rectangle(280, 570,           //media_label
+                520, 120), 18, 1, false);
+
+        background.add(menu, 0);
+        backgroundSettings(0, new Rectangle(200, 900,           //menu
+                150, 50), 14, 1, false);
+
 
         menu.addActionListener(this);
+
         setVisible(true);
     }
 
     /**
-     * utilizzato per la definizione di alcune caratteristiche dei componenti JFrame
+     * Utilizzato per la definizione di alcune caratteristiche dei componenti JFrame
      *
-     * @param button componente JFrame in ordine d' inserimento
-     * @param rect      Ogetto che definisce la misura
+     * @param index     componente JFrame in ordine d'inserimento
+     * @param rect      oggetto che definisce la misura
      * @param size      dimensioni della scritta
-     * @param font   definisce le caratteristiche della scritta(BOLD o PLAIN)
-     * @param b      definisce il colore della scritta
+     * @param font      definisce le caratteristiche della scritta(BOLD o PLAIN)
+     * @param red_text  definisce il colore della scritta
      */
-    public void backgroundSettings(int button, Rectangle rect, int size, int font, boolean b) {
-        background.getComponent(button).setBounds(rect);
-        background.getComponent(button).setFont(new Font("Arial", font, size));
-        if (b)
-            background.getComponent(button).setForeground(Color.red);
+    public void backgroundSettings(int index, Rectangle rect, int size, int font, boolean red_text) {
+        background.getComponent(index).setBounds(rect);
+        background.getComponent(index).setFont(new Font("Arial", font, size));
+        if (red_text)
+            background.getComponent(index).setForeground(Color.red);
     }
 
     @Override

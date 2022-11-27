@@ -7,18 +7,15 @@ package centrivaccinali;
 
 
 /**
- * La classe <strong>Indirizzo_Composto</strong> istanzia un oggetto contenente un dato indirizzo.
+ * La classe <strong>IndirizzoComposto</strong> istanzia un oggetto contenente un dato indirizzo.
  *
  * @author daniele Caspani
  */
 public class IndirizzoComposto {
 
     private Qualificatore qualificatore;
-    private String nome_via;
+    private String nome_via, comune, sigla_provincia, cap;
     private int num_civico;
-    private String comune;
-    private String sigla_provincia;
-    private String cap;
 
     public IndirizzoComposto(Qualificatore qualificatore, String nome_via, int num_civico, String comune, String sigla_provincia, String cap) {
         this.qualificatore = qualificatore;
@@ -30,10 +27,10 @@ public class IndirizzoComposto {
     }
 
     /**
-     * restituisce il valore di <code>Qualificatore</code>
+     * Restituisce il valore di <code>Qualificatore</code>
      *
-     * @return
-     * @author daniele Caspani
+     * @return un oggetto di tipo Qualificatore con all'interno il qualificatore di questo Indirizzo
+     * @author Daniele Caspani
      */
     public Qualificatore getQualificatore() {
         return qualificatore;
@@ -42,116 +39,116 @@ public class IndirizzoComposto {
     /**
      * assegna un valore a <code>Qualificatore</code>
      *
-     * @param qualificatore
-     * @author daniele Caspani
+     * @param qualificatore il qualificatore dell'indirizzo a cui si fa riferimento
+     * @author Daniele Caspani
      */
     public void setQualificatore(Qualificatore qualificatore) {
         this.qualificatore = qualificatore;
     }
 
     /**
-     * restituisce il valore di <code>nome_via</code>
+     * Restituisce il valore di <code>nome_via</code>
      *
-     * @author daniele Caspani
+     * @author Daniele Caspani
      */
     public String getNomeVia() {
         return nome_via;
     }
 
     /**
-     * assegna un valore a <code>nome_via</code>
+     * Assegna un valore a <code>nome_via</code>
      *
-     * @param nome_via
-     * @author daniele Caspani
+     * @param nome_via il nome della via a cui si fa riferimento
+     * @author Daniele Caspani
      */
     public void setNomeVia(String nome_via) {
         this.nome_via = nome_via;
     }
 
     /**
-     * restituisce il valore di <code>num_civico</code>
+     * Restituisce il valore di <code>num_civico</code>
      *
-     * @author daniele Caspani
+     * @author Daniele Caspani
      */
     public int getNumCivico() {
         return num_civico;
     }
 
     /**
-     * assegna un valore a <code>num_civico</code>
+     * Assegna un valore a <code>num_civico</code>
      *
-     * @param num_civico il numero civico della via
-     * @author daniele Caspani
+     * @param num_civico il numero civico della via a cui si fa riferimento
+     * @author Daniele Caspani
      */
     public void setNumCivico(int num_civico) {
         this.num_civico = num_civico;
     }
 
     /**
-     * restituisce il valore di <code>comune</code>
+     * Restituisce il valore di <code>comune</code>
      *
-     * @return
-     * @author daniele Caspani
+     * @return Una stringa contenente il valore del comune di questo Indirizzo
+     * @author Daniele Caspani
      */
     public String getComune() {
         return comune;
     }
 
     /**
-     * assegna un valore a <code>comune</code>
+     * Assegna un valore a <code>comune</code>
      *
-     * @param comune
-     * @author daniele Caspani il comune dell' indirizzo
+     * @param comune il comune della via a cui si fa riferimento
+     * @author Daniele Caspani
      */
     public void setComune(String comune) {
         this.comune = comune;
     }
 
     /**
-     * restituisce il valore di <code>sigla_provincia</code>
+     * Restituisce il valore di <code>sigla_provincia</code>
      *
-     * @return
-     * @author daniele Caspani
+     * @return Una stringa contenente il valore della sigla della provincia di questo Indirizzo
+     * @author Daniele Caspani
      */
     public String getSiglaProvincia() {
         return sigla_provincia;
     }
 
     /**
-     * assegna un valore a <code>sigla_provincia</code>
+     * Assegna un valore a <code>sigla_provincia</code>
      *
-     * @param sigla_provincia la sigla della provincia
-     * @author daniele Caspani
+     * @param sigla_provincia la sigla della provincia della via a cui si fa riferimento
+     * @author Daniele Caspani
      */
     public void setSiglaProvincia(String sigla_provincia) {
         this.sigla_provincia = sigla_provincia;
     }
 
     /**
-     * restituisce il valore di <code>cap</code>
+     * Restituisce il valore di <code>cap</code>
      *
-     * @return
-     * @author daniele Caspani
+     * @return Una stringa contenente il valore del CAP di questo Indirizzo
+     * @author Daniele Caspani
      */
     public String getCap() {
         return cap;
     }
 
     /**
-     * assegna un valore a <code>cap</code>
+     * Assegna un valore a <code>cap</code>
      *
-     * @param cap il cap del comune dell'indirizzo implementato
-     * @author daniele Caspani
+     * @param cap il CAP del comune della via a cui si fa riferimento
+     * @author Daniele Caspani
      */
     public void setCap(String cap) {
         this.cap = cap;
     }
 
     /**
-     * converte un oggetto in stringa
+     * Converte un oggetto in stringa
      *
      * @return
-     * @author daniele Caspani
+     * @author Daniele Caspani
      */
     @Override
     public String toString() {
@@ -159,7 +156,7 @@ public class IndirizzoComposto {
     }
 
     /**
-     * metodo utilizzato per verificare se <code>cap</code> è stato inserito nella maniera corretta (5 caretteri numerici)
+     * Metodo utilizzato per verificare se <code>cap</code> è stato inserito nella maniera corretta (5 caretteri numerici)
      *
      * @param cap contiene il valore effettivo del cap da inserire (tipo String)
      * @return valore booleano vero solo nel caso in cui la formattazione viene rispettata
@@ -177,12 +174,12 @@ public class IndirizzoComposto {
             return false;
     }
 
-    public boolean controllaNumeroCivico(int numcivico){
-        return numcivico > 0;
+    public boolean controllaNumeroCivico(int num_civico){
+        return num_civico > 0;
     }
 
     /**
-     * metodo utilizzato per verificare se <code>sigla</code> è stata inserita nella maniera corretta (2 caratteri letterali)
+     * Metodo utilizzato per verificare se <code>sigla</code> è stata inserita nella maniera corretta (2 caratteri letterali)
      *
      * @param sigla contiene il valore effettivo della sigla della provincia da inserire (tipo String)
      * @return valore booleano vero solo nel caso in cui la formattazione viene rispettata
@@ -200,7 +197,7 @@ public class IndirizzoComposto {
     }
 
     /**
-     * metodo utilizzato per verificare se <code>comune</code> è stato inserito nella maniera corretta (solo caratteri letterali)
+     * Metodo utilizzato per verificare se <code>comune</code> è stato inserito nella maniera corretta (solo caratteri letterali)
      *
      * @param comune contiene il valore effettivo del comune da inserire (tipo String)
      * @return valore booleano vero solo nel caso in cui la formattazione viene rispettata
@@ -217,7 +214,7 @@ public class IndirizzoComposto {
     /**
      * Utilizzata per dare tre opzioni di scelta nell'inserimento dell'attributo <code>Qualificatore</code> (VIA,VIALE,PIAZZA)
      *
-     * @author daniele Caspani
+     * @author Daniele Caspani
      */
     public enum Qualificatore {VIA, VIALE, PIAZZA}
 

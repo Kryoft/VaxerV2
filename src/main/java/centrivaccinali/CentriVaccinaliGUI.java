@@ -7,6 +7,7 @@ package centrivaccinali;
 
 
 import cittadini.CittadiniGUI;
+import shared.Utility;
 
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
@@ -15,15 +16,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * La classe <strong>CentriVaccinali</strong> estende la classe <code>JFrame</code> e implementa l'interfaccia <code>ActionListener</code>;
- * Si tratta della schermata del main e viene utilizzata per la scelta del tipo di utente (Cittadino o Centro Vaccinale) attraverso
- * il bottone <code>centro</code> e il bottone <code>cittadini</code>
+ * La classe <strong>CentriVaccinaliGUI</strong> estende la classe <code>JFrame</code> e implementa
+ * l'interfaccia <code>ActionListener</code>;
+ * Si tratta della schermata del main e viene utilizzata per la scelta del tipo di utente
+ * (Cittadino o Centro Vaccinale) attraverso il bottone <code>centro</code> e il bottone <code>cittadini</code>
  *
  * @author Daniele Caspani
  */
 public class CentriVaccinaliGUI extends JFrame implements ActionListener {
 
-    private JButton centro_button, cittadini_button;
+    private int display_width = Utility.getDisplayWidth(),
+                display_height = Utility.getDisplayHeight();
+    private JButton centro_button = new JButton(),
+                    cittadini_button = new JButton();
 
     public CentriVaccinaliGUI() {
         initWindow();
@@ -34,20 +39,17 @@ public class CentriVaccinaliGUI extends JFrame implements ActionListener {
     }
 
     /**
-     * metodo per settare la finestra che sviluppa l' interfaccia grafica
+     * Metodo per settare la finestra che sviluppa l'interfaccia grafica
      *
      * @author Daniele Caspani
      */
     private void initWindow() {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setBounds(100, 100, 1366, 768);  // istruzione necessaria nel caso l'utente voglia ridimensionare la finestra
+        setBounds(100, 100, (int) (display_width / 1.5), (int) (display_height / 1.5));  // istruzione necessaria nel caso l'utente voglia ridimensionare la finestra
         setTitle("Seleziona Tipo di Utente");
         this.setFocusable(true);
         this.requestFocusInWindow();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        centro_button = new JButton();
-        cittadini_button = new JButton();
 
         // assegnazione immagine al bottone centro
         ImageIcon icon_centro = new ImageIcon(ClassLoader.getSystemResource("Person.png"));
@@ -89,7 +91,7 @@ public class CentriVaccinaliGUI extends JFrame implements ActionListener {
     }
 
     /**
-     * metodo appartenente all'interfaccia ActionListener
+     * Metodo appartenente all'interfaccia ActionListener
      *
      * @param e evento che si è verificato
      * @author Daniele Caspani

@@ -13,92 +13,93 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 
 /**
- * classe utilizzata per effettuare alcune operazioni riguardanti la classe JFrame
+ * Classe utilizzata per effettuare alcune operazioni riguardanti la classe JFrame
  *
- * @author daniele Caspani
+ * @author Daniele Caspani
  */
-public class SwingAwt {
+public abstract class SwingAwt {
 
     /**
-     * metodo che permette di gestire la scelta del tipo di vaccino tramite un item combobox
+     * Metodo che permette di gestire la scelta del tipo di vaccino tramite un item ComboBox
      *
-     * @param jvaccino combobox contenente i valori che può assumere una variabile di tipo <code> Vaccino </code>
+     * @param vaccino_combo ComboBox contenente i valori che può assumere una variabile di tipo <code>Vaccino</code>
      * @return tipo di vaccino scelto
      * @author Daniele Caspani
      */
-    public Vaccinati.Vaccino DecidiVaccino(JComboBox<String> jvaccino) {
+    public static Vaccinati.Vaccino decidiVaccino(JComboBox<String> vaccino_combo) {
         Vaccinati.Vaccino vaccino = null;
 
-        if (jvaccino.getSelectedItem() == "JJ") {
+        if (vaccino_combo.getSelectedItem() == "Johnson & Johnson") {
             vaccino = Vaccinati.Vaccino.JJ;
         }
-        if (jvaccino.getSelectedItem() == "AstraZeneca") {
+        if (vaccino_combo.getSelectedItem() == "AstraZeneca") {
             vaccino = Vaccinati.Vaccino.AstraZeneca;
         }
-        if (jvaccino.getSelectedItem() == "Moderna") {
+        if (vaccino_combo.getSelectedItem() == "Moderna") {
             vaccino = Vaccinati.Vaccino.Moderna;
         }
-        if (jvaccino.getSelectedItem() == "Pfizer") {
+        if (vaccino_combo.getSelectedItem() == "Pfizer") {
             vaccino = Vaccinati.Vaccino.Pfizer;
         }
         return vaccino;
     }
 
     /**
-     * metodo che permette di gestire la scelta del tipo di centro vaccinale tramite un item combobox
+     * Metodo che permette di gestire la scelta del tipo di centro vaccinale tramite un item ComboBox
      *
-     * @param jtipologia combobox contenente tutti i valori che può assumere una variabile di tipo <code> Tipologia </code>
+     * @param tipologia_combo ComboBox contenente tutti i valori che può assumere una variabile di tipo <code>Tipologia</code>
      * @return Tipologia centro scelta
      * @author Daniele Caspani
      */
-    public StruttureVaccinali.Tipologia DecidiTipologia(JComboBox<String> jtipologia) {
+    public static StruttureVaccinali.Tipologia decidiTipologia(JComboBox<String> tipologia_combo) {
         StruttureVaccinali.Tipologia tipologia = null;
-        if (jtipologia.getSelectedItem() == "Ospedaliero") {
+        if (tipologia_combo.getSelectedItem() == "Ospedaliero") {
             tipologia = StruttureVaccinali.Tipologia.OSPEDALIERO;
         }
-        if (jtipologia.getSelectedItem() == "Aziendale") {
+        if (tipologia_combo.getSelectedItem() == "Aziendale") {
             tipologia = StruttureVaccinali.Tipologia.AZIENDALE;
         }
-        if (jtipologia.getSelectedItem() == "Hub") {
+        if (tipologia_combo.getSelectedItem() == "Hub") {
             tipologia = StruttureVaccinali.Tipologia.HUB;
         }
         return tipologia;
     }
 
     /**
-     * metodo che permette di gestire la scelta del tipo di qualificatore per l'indirizzo tramite un item combobox
+     * Metodo che permette di gestire la scelta del tipo di qualificatore per l'indirizzo tramite un item ComboBox
      *
-     * @param jqualifier combobox con tutti i valori di una variabile di tipo qualificatore
+     * @param qualifier_combo ComboBox con tutti i valori di una variabile di tipo qualificatore
      * @return qualificatore scelto
      * @author Daniele Caspani
      */
-    public IndirizzoComposto.Qualificatore DecidiQualificatore(JComboBox<String> jqualifier) {
+    public static IndirizzoComposto.Qualificatore decidiQualificatore(JComboBox<String> qualifier_combo) {
         IndirizzoComposto.Qualificatore qualifier = null;
 
-        if (jqualifier.getSelectedItem() == "Via") {
+        if (qualifier_combo.getSelectedItem() == "Via") {
             qualifier = IndirizzoComposto.Qualificatore.VIA;
         }
-        if (jqualifier.getSelectedItem() == "Viale") {
+        if (qualifier_combo.getSelectedItem() == "Viale") {
             qualifier = IndirizzoComposto.Qualificatore.VIALE;
         }
-        if (jqualifier.getSelectedItem() == "Piazza") {
+        if (qualifier_combo.getSelectedItem() == "Piazza") {
             qualifier = IndirizzoComposto.Qualificatore.PIAZZA;
         }
         return qualifier;
     }
 
     /**
-     * Metodo utile per selezionare il bordo di un jtextfield se il suo contenuto è vuoto
+     * Metodo utile per selezionare il bordo di un JTextField se il suo contenuto è vuoto
      *
-     * @param casuale stringa contenente il valore da analizzare
-     * @param testo   jTextfield selezionato
-     * @param border  bordo di default
+     * @param casuale  stringa contenente il valore da analizzare
+     * @param testo    JTextField selezionato
+     * @param border   bordo di default
      * @author Daniele Caspani
      */
-    public void Bordo(String casuale, JTextField testo, Border border) {
-        if (casuale.equals("") || testo.getForeground() == Color.lightGray)
+    public static void modificaBordo(String casuale, JTextField testo, Border border) {
+        if (casuale.equals("") || testo.getForeground() == Color.LIGHT_GRAY)
             testo.setBorder(new LineBorder(Color.RED, 3, true));
         else
             testo.setBorder(border);
     }
+
 }

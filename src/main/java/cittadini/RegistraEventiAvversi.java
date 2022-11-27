@@ -1,8 +1,14 @@
+/*
+ * Manuel Marceca, 746494, CO
+ * Cristian Corti, 744359, CO
+ * Daniele Caspani, 744628, CO
+ */
 package cittadini;
 
 import centrivaccinali.CentriVaccinaliGUI;
-import centrivaccinali.PTextField;
+import centrivaccinali.PlaceholderTextField;
 
+import centrivaccinali.SwingAwt;
 import shared.Utility;
 
 import javax.swing.*;
@@ -15,6 +21,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class RegistraEventiAvversi extends Registrazioni {
+
+    private final JTextField nome_centro_text = new JTextField(),
+                                evento_text = new JTextField();
+
+    private final PlaceholderTextField indice_severita_text = new PlaceholderTextField("Severità (da 1 a 5)");
+
+    private final JLabel nome_centro_label = new JLabel("Nome_Centro:"),
+                            evento_label = new JLabel("Evento:"),
+                            note_label = new JLabel("Note (opzionale):");
+
+    private final TextArea note_text = new TextArea();
 
     public RegistraEventiAvversi() {
         initWindow();
@@ -29,49 +46,54 @@ public class RegistraEventiAvversi extends Registrazioni {
     public void initWindow() {
         settings("Inserisci Evento Avverso");
 
-        conferma_registrazione_evento_avverso = new JButton("CONFERMA");
-        annulla = new JButton("TORNA INDIETRO");
-        nome_centro_text = new JTextField();
-        evento_text = new JTextField();
-        indice_severita_text = new PTextField("Indice(da 1 a 5)");
-        note_text = new TextArea();
+        layered_pane.add(nome_centro_label, 2, 0);
+        layeredPaneSettings(0, new Rectangle(600, 200,              //nome_centro_label
+                520, 120), 16, 1, false);
 
-        nome_centro_label = new JLabel("Nome_Centro:");
-        evento_label = new JLabel("Evento:");
-        note_label = new JLabel("Note(opzionale):");
+        layered_pane.add(nome_centro_text, 2, 0);
+        layeredPaneSettings(0, new Rectangle(750, 240,              //nome_centro_text
+                310, 40), 15, 0, false);
 
-        lpane.add(conferma_registrazione_evento_avverso, 2, 0);
-        lpane.add(annulla, 2, 0);
-        lpane.add(nome_centro_label, 2, 0);
-        lpane.add(evento_label, 2, 0);
-        lpane.add(note_label, 2, 0);
-        lpane.add(nome_centro_text, 2, 0);
-        lpane.add(evento_text, 2, 0);
-        lpane.add(indice_severita_text, 2, 0);
-        lpane.add(note_text, 2, 0);
+        layered_pane.add(evento_label, 2, 0);
+        layeredPaneSettings(0, new Rectangle(600, 350,              //evento_label
+                520, 120), 16, 1, false);
 
-        layeredPaneSettings(0, new Rectangle(750, 540, 500, 100), 15, 0, false);
-        layeredPaneSettings(1, new Rectangle(1080, 390, 150, 40), 15, 1, true);
-        layeredPaneSettings(2, new Rectangle(750, 390, 310, 40), 15, 0, false);
-        layeredPaneSettings(3, new Rectangle(750, 240, 310, 40), 15, 0, false);
-        layeredPaneSettings(4, new Rectangle(600, 500, 520, 120), 16, 1, false);
-        layeredPaneSettings(5, new Rectangle(600, 350, 520, 120), 16, 1, false);
-        layeredPaneSettings(6, new Rectangle(600, 200, 520, 120), 16, 1, false);
-        layeredPaneSettings(7, new Rectangle(1000, 720, 200, 100), 16, 1, false);
-        layeredPaneSettings(8, new Rectangle(580, 720, 200, 100), 16, 1, false);
+        layered_pane.add(evento_text, 2, 0);
+        layeredPaneSettings(0, new Rectangle(750, 390,              //evento_text
+                310, 40), 15, 0, false);
 
-        conferma_registrazione_evento_avverso.addActionListener(this);
+        layered_pane.add(indice_severita_text, 2, 0);
+        layeredPaneSettings(0, new Rectangle(1080, 390,             //indice_severita_text
+                150, 40), 15, 1, true);
+
+        layered_pane.add(note_label, 2, 0);
+        layeredPaneSettings(0, new Rectangle(600, 500,              //note_label
+                520, 120), 16, 1, false);
+
+        layered_pane.add(note_text, 2, 0);
+        layeredPaneSettings(0, new Rectangle(750, 540,              //note_text
+                500, 100), 15, 0, false);
+
+        layered_pane.add(conferma, 2, 0);  //conferma
+        layeredPaneSettings(0, new Rectangle(580, 720,
+                200, 100), 16, 1, false);
+
+        layered_pane.add(annulla, 2, 0);
+        layeredPaneSettings(0, new Rectangle(1000, 720,             //annulla
+                200, 100), 16, 1, false);
+
+
+        conferma.addActionListener(this);
         annulla.addActionListener(this);
+        border = nome_centro_text.getBorder();
 
         setVisible(true);
-
-        border = nome_centro_text.getBorder();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            if (e.getSource() == conferma_registrazione_evento_avverso) {
+            if (e.getSource() == conferma) {
                 String centro = nome_centro_text.getText();
                 String Note = note_text.getText();
                 String Evento = evento_text.getText();
@@ -100,8 +122,8 @@ public class RegistraEventiAvversi extends Registrazioni {
                         }
                     } else {
 
-                        swing_awt.Bordo(Evento, evento_text, border);
-                        swing_awt.Bordo(centro, nome_centro_text, border);
+                        SwingAwt.modificaBordo(Evento, evento_text, border);
+                        SwingAwt.modificaBordo(centro, nome_centro_text, border);
                         JOptionPane.showMessageDialog(this, "riempire tutti i campi", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {

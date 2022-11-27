@@ -16,9 +16,9 @@ import java.awt.event.FocusListener;
  *
  * @author Daniele Caspani
  */
-public class PTextField extends JTextField {
+public class PlaceholderTextField extends JTextField {
 
-    public PTextField(final String promptText) {
+    public PlaceholderTextField(final String promptText) {
         super(promptText);
         addFocusListener(new FocusListener() {
             @Override

@@ -5,6 +5,8 @@
  */
 package centrivaccinali;
 
+import shared.Utility;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -18,39 +20,36 @@ import java.awt.event.ActionListener;
  * @author Daniele Caspani, Manuel Marceca
  */
 public abstract class Registrazioni extends JFrame implements ActionListener {
+    protected int display_width = Utility.getDisplayWidth(),
+                    display_height = Utility.getDisplayHeight();
 
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    int displayWidth = (int)screenSize.getWidth();
-    int displayHeight = (int)screenSize.getHeight();
+    protected JButton conferma = new JButton("CONFERMA"),
+                        annulla = new JButton("TORNA INDIETRO");
+    protected final int base_height = 40,
+                        width_buttons = 200,
+                        height_buttons = 100;
 
-    SwingAwt swing_awt = new SwingAwt();
-    //protected JLabel nome_label;
-    //protected JButton conferma_registrazione_centro, conferma_registrazione_vaccinato, annulla;
-    //protected PTextField nome, via, numcivico, comune, sigla, cap;
-    protected final String[] array_tipologia = new String[]{"Ospedaliero", "Aziendale", "Hub"};
-    protected final String[] array_qualificatori = new String[]{"Via", "Piazza", "Viale"};
-    //protected JComboBox<String> jtipologia, jqualificatore, jvaccino;
-    //protected JTextField txtNomeC, txtnome, txtcognome, txtcodice, txtdata;
+    protected final String[] array_tipologia = new String[]{"Ospedaliero", "Aziendale", "Hub"},
+                                array_qualificatori = new String[]{"Via", "Piazza", "Viale"},
+                                array_vaccini = new String[]{"JJ", "Moderna", "Pfizer", "AstraZeneca"};
     protected Border border;
-    protected final String[] array_vaccini = new String[]{"JJ", "Moderna", "Pfizer", "AstraZeneca"};
     /**
-     * contenitore che utilizza più livelli di inserimento.
+     * Contenitore che utilizza più livelli d'inserimento.
      */
     protected JLayeredPane layered_pane;
+    protected JPanel panel, background_panel;
 
     /**
-     * permette la creazione di una finestra e di un LayeredPane, al quale vengono aggiunti
+     * Permette la creazione di una finestra e di un LayeredPane, al quale vengono aggiunti
      * tutti i componenti.
      *
-     * @param title
+     * @param title Titolo della finestra
      */
     protected void settings(String title) {
-
-
-        //TODO Da rimuovere se si vuole permettere il ridimensionamento!
+        //TODO: Da rimuovere se si vuole permettere il ridimensionamento!
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         //setResizable(false);
-        setBounds(0,0,displayWidth,displayHeight);
+        setBounds(0,0, display_width, display_height);
         ////////
 
         setTitle(title);
@@ -58,46 +57,43 @@ public abstract class Registrazioni extends JFrame implements ActionListener {
         this.requestFocusInWindow();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        this.setPreferredSize(new Dimension(displayWidth, displayHeight));
+        this.setPreferredSize(new Dimension(display_width, display_height));
 
         layered_pane = new JLayeredPane();
         add(layered_pane, BorderLayout.CENTER);
-        layered_pane.setBounds(0, 0, displayWidth, displayHeight);
+        layered_pane.setBounds(0, 0, display_width, display_height);
 
-        JPanel panel = new JPanel();
+        panel = new JPanel();
         panel.setBackground(Color.GRAY);
-        panel.setBounds(0, 0, displayWidth, displayHeight);
+        panel.setBounds(0, 0, display_width, display_height);
         panel.setOpaque(true);
 
-        JPanel bg_panel = new JPanel();
-        bg_panel.setBackground(Color.WHITE);
-        bg_panel.setBorder(new LineBorder(Color.CYAN, 30, false));
-        bg_panel.setBounds((int) (0.025 * displayWidth), (int) (0.025 * displayHeight),
-                (int) (0.95 * displayWidth), (int) (0.85 * displayHeight));
-
-        bg_panel.setOpaque(true);
+        background_panel = new JPanel();
+        background_panel.setBackground(Color.WHITE);
+        background_panel.setBorder(new LineBorder(Color.CYAN, 30, false));
+        background_panel.setBounds((int) (0.025 * display_width), (int) (0.025 * display_height),
+                (int) (0.95 * display_width), (int) (0.85 * display_height));
+        background_panel.setOpaque(true);
 
         layered_pane.add(panel, 0, 0);
-        layered_pane.add(bg_panel, 1, 0);
-
+        layered_pane.add(background_panel, 1, 0);
         //pack();
-
     }
 
     /**
-     * permette la definizione di alcune caratteristiche dei vari componenti situati nel LayeredPane
+     * Permette la definizione di alcune caratteristiche dei vari componenti situati nel LayeredPane
      *
-     * @param button definisce l'ordine di inserimento dei componenti JFrame
-     * @param r      definisce la misura
-     * @param d      definisce la dimensione della scritta
-     * @param font   definisce il tipo di scritta(BOLD o PLAIN)
-     * @param text   definisce il colore della scritta
+     * @param index           definisce l'indice del componente a cui si fa riferimento
+     * @param rect            definisce la misura
+     * @param size            definisce la dimensione della scritta
+     * @param font            definisce il tipo di scritta (BOLD o PLAIN)
+     * @param light_gray_text definisce il colore della scritta
      */
-    public void layeredPaneSettings(int button, Rectangle r, int d, int font, boolean text) {
-        layered_pane.getComponent(button).setBounds(r);
-        layered_pane.getComponent(button).setFont(new Font("Arial", font, d));
-        if (text)
-            layered_pane.getComponent(button).setForeground(Color.LIGHT_GRAY);
+    public void layeredPaneSettings(int index, Rectangle rect, int size, int font, boolean light_gray_text) {
+        layered_pane.getComponent(index).setBounds(rect);
+        layered_pane.getComponent(index).setFont(new Font("Arial", font, size));
+        if (light_gray_text)
+            layered_pane.getComponent(index).setForeground(Color.LIGHT_GRAY);
     }
 
 }

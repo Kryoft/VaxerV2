@@ -16,13 +16,9 @@ import java.util.regex.Pattern;
  */
 public class Cittadini {
 
-    private String email;
+    private String email, nome_centro, nome, cognome, codice_fiscale;
     private Login login;
-    private String nome_centro;
     private short id;
-    private String nome;
-    private String cognome;
-    private String codice_fiscale;
 
     public Cittadini() {
     }
@@ -82,7 +78,7 @@ public class Cittadini {
     }
 
     /**
-     * Restituisce il valore di id
+     * Restituisce il valore d'id
      *
      * @return
      */

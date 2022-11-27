@@ -6,9 +6,9 @@
 package centrivaccinali;
 
 /**
- * Si tratta di un eccezione per la verifica della corretta formattazione di codice fiscale, sigla e comune
+ * Si tratta di un'eccezione per la verifica della corretta formattazione di codice fiscale, sigla e comune
  *
- * @author danie
+ * @author Daniele Caspani
  */
 public class Eccezione extends Exception {
     public Eccezione() {

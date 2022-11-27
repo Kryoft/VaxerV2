@@ -12,8 +12,7 @@ package cittadini;
  */
 public class Login {
 
-    String user_id;
-    String password;
+    private String user_id, password;
 
     public Login() {
     }

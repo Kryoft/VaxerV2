@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
  * La classe CittadiniGUI estende <code>JFrame</code> e implementa <code>ActionListener</code>.
  * Offre 3 opzioni per i cittadini:
  * Registrazione all'applicazione attraverso il bottone <code>Registrati</code>;
- * Visualizzare informazioni relative ad un dato centro (con una ricerca per nome centro o per comune e tipologia)
+ * Visualizzare informazioni relative a un dato centro (con una ricerca per nome centro o per comune e tipologia)
  * attraverso il bottone <code>Visualizza informazioni</code>;
  * Inserire eventi avversi a seguito del login (con userid e password) selezionando il bottone <code>Evento Avverso</code>;
  * Il bottone <code>Menu</code> permette di tornare al menù
@@ -28,10 +28,13 @@ import java.awt.event.ActionListener;
  */
 public class CittadiniGUI extends JFrame implements ActionListener {
 
-    private JTextField username = new JTextField();
-    private JTextField password = new JPasswordField();
-    private JPanel bg_panel, button_panel;
-    private JLabel logo_label, error = new JLabel();
+    private int display_width = Utility.getDisplayWidth(),
+                display_height = Utility.getDisplayHeight();
+    private JTextField username = new JTextField(),
+                        password = new JPasswordField();
+    private JPanel background_panel, button_panel;
+    private JLabel logo_label,
+                    error = new JLabel();
     /**
      * Oggetto inserito in un <code>JOptionPane</code>. Utilizzato per il login
      */
@@ -40,15 +43,18 @@ public class CittadiniGUI extends JFrame implements ActionListener {
             "Password:", password,
             error
     };
+    /**
+     * Oggetto inserito in un <code>JOptionPane</code>. Utilizzato per la scelta del tipo di ricerca che si vuole effettuare
+     */
+    private Object[] ricerca = {
+            "Ricerca per Nome Centro",
+            "Ricerca per Comune e Tipologia"
+    };
 
     /**
      * Viene utilizzata per lanciare la classe registrazioni(i) dove i rappresenta l'opzione scelta
      */
     private JButton registrati_button, informazioni_button, evento_avverso_button, menu_button;
-    /**
-     * Oggetto inserito in un <code>JOptionPane</code>. Utilizzato per la scelta del tipo di ricerca che si vuole effettuare
-     */
-    private Object[] ricerca = {"Ricerca per Comune e Tipologia", "Ricerca per Nome Centro"};
 
     public CittadiniGUI() {
         initWindow();
@@ -64,7 +70,7 @@ public class CittadiniGUI extends JFrame implements ActionListener {
      * @param title
      */
     public void settings(String title) {
-        setSize(1366, 768);
+        setSize(display_width, display_height);
         setTitle(title);
         this.setFocusable(true);
         this.requestFocusInWindow();
@@ -90,15 +96,15 @@ public class CittadiniGUI extends JFrame implements ActionListener {
         menu_button.setBounds(28, 678, 95, 35);
         getContentPane().add(menu_button);
 
-        bg_panel = new JPanel();
-        bg_panel.setBackground(Color.GREEN);
-        bg_panel.setBounds(187, 76, 985, 587);
-        getContentPane().add(bg_panel);
-        bg_panel.setLayout(null);
+        background_panel = new JPanel();
+        background_panel.setBackground(Color.GREEN);
+        background_panel.setBounds(187, 76, 985, 587);
+        getContentPane().add(background_panel);
+        background_panel.setLayout(null);
 
         button_panel = new JPanel();
         button_panel.setBounds(12, 12, 961, 561);
-        bg_panel.add(button_panel);
+        background_panel.add(button_panel);
 
         registrati_button = new JButton("Registrati");
         registrati_button.addActionListener(this);
@@ -124,6 +130,7 @@ public class CittadiniGUI extends JFrame implements ActionListener {
         logo_label = new JLabel(new ImageIcon(ClassLoader.getSystemResource("logo.png")));
         logo_label.setBounds(12, 12, 163, 163);
         getContentPane().add(logo_label);
+
         setVisible(true);
     }
 
@@ -148,10 +155,10 @@ public class CittadiniGUI extends JFrame implements ActionListener {
 
             if (option == JOptionPane.OK_OPTION) {
                 if (comboBox.getSelectedIndex() == 0) {
-                    new Ricerca(1);
+                    new RicercaNomeCentro();
                     dispose();
                 } else if (comboBox.getSelectedIndex() == 1) {
-                    new Ricerca(2);
+                    new RicercaComuneTipologia();
                     dispose();
                 }
             }

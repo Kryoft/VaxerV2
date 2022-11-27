@@ -5,6 +5,8 @@
  */
 package centrivaccinali;
 
+import shared.Utility;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,27 +16,29 @@ import java.awt.event.ActionListener;
  * La classe OperazioniCentro estende la classe <code>JFrame</code> e implementa l'interfaccia <code>ActionListener</code>;
  * Presenta un menu nel quale vi è la possibilità di scegliere se registrare un nuovo vaccinato o un nuovo centro vaccinale;
  *
- * @author daniele Caspani
+ * @author Daniele Caspani
  */
 public class OperazioniCentroGUI extends JFrame implements ActionListener {
 
-    private JPanel bg_panel, button_panel;
+    private int display_width = Utility.getDisplayWidth(),
+                display_height = Utility.getDisplayHeight();
+    private JPanel background_panel, button_panel;
     private JButton menu_button, centro_button, vaccinato_button;
     private JLabel logo_label;
 
     public OperazioniCentroGUI() {
-        setMinimumSize(new Dimension(1366, 768));
+        setMinimumSize(new Dimension(display_width / 2, display_height / 2));
         initWindow();
         setLocationRelativeTo(null);
     }
 
     /**
-     * metodo per settare la finestra che sviluppa l'interfaccia grafica
+     * Metodo per settare la finestra che sviluppa l'interfaccia grafica
      *
      * @author Daniele Caspani
      */
     private void initWindow() {
-        setSize(1366, 768);
+        setSize(display_width, display_height);
         setTitle("Seleziona Tipo di Utente (Dopo aver selezionato un'opzione cliccare avanti)");
         this.setFocusable(true);
         this.requestFocusInWindow();
@@ -47,16 +51,16 @@ public class OperazioniCentroGUI extends JFrame implements ActionListener {
         getContentPane().setLayout(null);
         getContentPane().add(menu_button);
 
-        bg_panel = new JPanel();
-        bg_panel.setLayout(null);
-        bg_panel.setBackground(Color.GREEN);
-        bg_panel.setBounds(182, 71, 985, 587);
-        getContentPane().add(bg_panel);
+        background_panel = new JPanel();
+        background_panel.setLayout(null);
+        background_panel.setBackground(Color.GREEN);
+        background_panel.setBounds(182, 71, 985, 587);
+        getContentPane().add(background_panel);
 
         button_panel = new JPanel();
         button_panel.setLayout(null);
         button_panel.setBounds(12, 12, 961, 561);
-        bg_panel.add(button_panel);
+        background_panel.add(button_panel);
 
         centro_button = new JButton("Registra centro ");
         centro_button.setFont(new Font("Dialog", Font.PLAIN, 30));
@@ -78,7 +82,7 @@ public class OperazioniCentroGUI extends JFrame implements ActionListener {
     }
 
     /**
-     * metodo appartenente all'interfaccia ActionListener
+     * Metodo appartenente all'interfaccia <code>ActionListener</code>
      *
      * @param e evento che si è verificato
      * @author Daniele Caspani

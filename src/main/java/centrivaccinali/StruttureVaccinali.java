@@ -6,101 +6,103 @@
 package centrivaccinali;
 
 /**
- * Si tratta della classe che memorizza tutte le informazioni relative ad un centro vaccinale:
- * il nome del centro, la <code> tipologia(tipo enumerativo con come valori (ospedaliero, aziendale, hub) </code>, l'oggetto di tipo <code>Indirizzo_composto,</code>.
+ * Si tratta della classe che memorizza tutte le informazioni relative a un centro vaccinale:
+ * il nome del centro, la <code>tipologia</code> (tipo enumerativo con come valori (ospedaliero, aziendale, hub)
+ * e l'oggetto di tipo <code>IndirizzoComposto</code>.
  *
- * @author danie
+ * @author Daniele Caspani
  */
 public class StruttureVaccinali {
 
     private String nome_centro;
     private Tipologia tipologia;
-    private IndirizzoComposto Indirizzo;
-    public StruttureVaccinali() {
+    private IndirizzoComposto indirizzo;
 
+    public StruttureVaccinali() {
     }
-    public StruttureVaccinali(String nome_centro, Tipologia tipologia, IndirizzoComposto Indirizzo) {
+
+    public StruttureVaccinali(String nome_centro, Tipologia tipologia, IndirizzoComposto indirizzo) {
         this.nome_centro = nome_centro;
         this.tipologia = tipologia;
-        this.Indirizzo = Indirizzo;
+        this.indirizzo = indirizzo;
     }
 
     /**
-     * restituisce il valore di <code> nome_centro </code>
+     * Restituisce il valore di <code>nome_centro</code>
      *
-     * @return
-     * @author daniele Caspani
+     * @return il nome del centro vaccinale
+     * @author Daniele Caspani
      */
-    public String getNome_centro() {
+    public String getNomeCentro() {
         return nome_centro;
     }
 
     /**
-     * assegna un valore a <code> nome_centro </code>
+     * Assegna un valore a <code>nome_centro</code>
      *
      * @param nome_centro il nome del centro di tipo String
-     * @author daniele Caspani
+     * @author Daniele Caspani
      */
-    public void setNome_centro(String nome_centro) {
+    public void setNomeCentro(String nome_centro) {
         this.nome_centro = nome_centro;
     }
 
     /**
-     * restituisce il valore di <code> tipologia </code> di tipo <code> Tipologia </code>
+     * Restituisce il valore di <code>tipologia</code> di tipo <code>Tipologia</code>
      *
-     * @return
-     * @author daniele Caspani
+     * @return la tipologia del centro vaccinale (ospedaliero, aziendale, hub)
+     * @author Daniele Caspani
      */
     public Tipologia getTipologia() {
         return tipologia;
     }
 
     /**
-     * assegna un valore a <code> tipologia </code>
+     * Assegna un valore a <code>tipologia</code>
      *
      * @param tipologia la tipologia del centro vaccinale
-     * @author daniele Caspani
+     * @author Daniele Caspani
      */
     public void setTipologia(Tipologia tipologia) {
         this.tipologia = tipologia;
     }
 
     /**
-     * restituisce il valore di <code> Indirizzo </code> di tipo <code> Indirizzo_composto </code>
+     * Restituisce il valore di <code>Indirizzo</code> di tipo <code>IndirizzoComposto</code>
      *
-     * @return
-     * @author daniele Caspani
+     * @return l'indirizzo del centro vaccinale
+     * @author Daniele Caspani
      */
     public IndirizzoComposto getIndirizzo() {
-        return Indirizzo;
+        return indirizzo;
     }
 
     /**
-     * assegna un valore a <code> Indirizzo_composto </code>
+     * Assegna un valore a <code>indirizzo</code>
      *
-     * @param Indirizzo l' oggetto di tipo indirizzo della classe <code> Indirizzo </code>
-     * @author daniele Caspani
+     * @param indirizzo l'indirizzo del centro vaccinale
+     * @author Daniele Caspani
      */
-    public void setIndirizzo(IndirizzoComposto Indirizzo) {
-        this.Indirizzo = Indirizzo;
+    public void setIndirizzo(IndirizzoComposto indirizzo) {
+        this.indirizzo = indirizzo;
 
     }
 
     /**
-     * converte un oggetto in stringa
+     * Converte un oggetto in stringa
      *
      * @return
      * @author daniele Caspani
      */
     @Override
     public String toString() {
-        return nome_centro + "," + tipologia + "," + Indirizzo;
+        return nome_centro + "," + tipologia + "," + indirizzo;
     }
 
     /**
-     * Utilizzata per dare tre opzioni di scelta nell'inserimento dell' attributo <code> tipologia </code> (AZIENDALE,HUB,OSPEDALIERO)
+     * Utilizzata per dare tre opzioni di scelta nell'inserimento dell'attributo <code>tipologia</code> (AZIENDALE,HUB,OSPEDALIERO)
      *
-     * @author daniele Caspani
+     * @author Daniele Caspani
      */
     public enum Tipologia {OSPEDALIERO, AZIENDALE, HUB}
 }
