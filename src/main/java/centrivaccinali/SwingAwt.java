@@ -17,7 +17,7 @@ import java.awt.*;
  *
  * @author Daniele Caspani
  */
-public class SwingAwt {
+public abstract class SwingAwt {
 
     /**
      * Metodo che permette di gestire la scelta del tipo di vaccino tramite un item ComboBox
@@ -26,7 +26,7 @@ public class SwingAwt {
      * @return tipo di vaccino scelto
      * @author Daniele Caspani
      */
-    public Vaccinati.Vaccino decidiVaccino(JComboBox<String> vaccino_combo) {
+    public static Vaccinati.Vaccino decidiVaccino(JComboBox<String> vaccino_combo) {
         Vaccinati.Vaccino vaccino = null;
 
         if (vaccino_combo.getSelectedItem() == "Johnson & Johnson") {
@@ -51,7 +51,7 @@ public class SwingAwt {
      * @return Tipologia centro scelta
      * @author Daniele Caspani
      */
-    public StruttureVaccinali.Tipologia decidiTipologia(JComboBox<String> tipologia_combo) {
+    public static StruttureVaccinali.Tipologia decidiTipologia(JComboBox<String> tipologia_combo) {
         StruttureVaccinali.Tipologia tipologia = null;
         if (tipologia_combo.getSelectedItem() == "Ospedaliero") {
             tipologia = StruttureVaccinali.Tipologia.OSPEDALIERO;
@@ -72,7 +72,7 @@ public class SwingAwt {
      * @return qualificatore scelto
      * @author Daniele Caspani
      */
-    public IndirizzoComposto.Qualificatore decidiQualificatore(JComboBox<String> qualifier_combo) {
+    public static IndirizzoComposto.Qualificatore decidiQualificatore(JComboBox<String> qualifier_combo) {
         IndirizzoComposto.Qualificatore qualifier = null;
 
         if (qualifier_combo.getSelectedItem() == "Via") {
@@ -95,7 +95,7 @@ public class SwingAwt {
      * @param border   bordo di default
      * @author Daniele Caspani
      */
-    public void modificaBordo(String casuale, JTextField testo, Border border) {
+    public static void modificaBordo(String casuale, JTextField testo, Border border) {
         if (casuale.equals("") || testo.getForeground() == Color.LIGHT_GRAY)
             testo.setBorder(new LineBorder(Color.RED, 3, true));
         else

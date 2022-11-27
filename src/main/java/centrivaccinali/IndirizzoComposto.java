@@ -14,11 +14,8 @@ package centrivaccinali;
 public class IndirizzoComposto {
 
     private Qualificatore qualificatore;
-    private String nome_via;
+    private String nome_via, comune, sigla_provincia, cap;
     private int num_civico;
-    private String comune;
-    private String sigla_provincia;
-    private String cap;
 
     public IndirizzoComposto(Qualificatore qualificatore, String nome_via, int num_civico, String comune, String sigla_provincia, String cap) {
         this.qualificatore = qualificatore;

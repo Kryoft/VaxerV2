@@ -25,9 +25,10 @@ import java.awt.event.ActionListener;
  */
 public class CentriVaccinaliGUI extends JFrame implements ActionListener {
 
-    private int display_width = Utility.getDisplayWidth();
-    private int display_height = Utility.getDisplayHeight();
-    private JButton centro_button = new JButton(), cittadini_button = new JButton();
+    private int display_width = Utility.getDisplayWidth(),
+                display_height = Utility.getDisplayHeight();
+    private JButton centro_button = new JButton(),
+                    cittadini_button = new JButton();
 
     public CentriVaccinaliGUI() {
         initWindow();

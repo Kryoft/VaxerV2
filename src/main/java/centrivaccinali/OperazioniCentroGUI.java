@@ -20,8 +20,8 @@ import java.awt.event.ActionListener;
  */
 public class OperazioniCentroGUI extends JFrame implements ActionListener {
 
-    private int display_width = Utility.getDisplayWidth();
-    private int display_height = Utility.getDisplayHeight();
+    private int display_width = Utility.getDisplayWidth(),
+                display_height = Utility.getDisplayHeight();
     private JPanel background_panel, button_panel;
     private JButton menu_button, centro_button, vaccinato_button;
     private JLabel logo_label;

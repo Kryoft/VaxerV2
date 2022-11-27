@@ -1,6 +1,10 @@
+/*
+ * Manuel Marceca, 746494, CO
+ * Cristian Corti, 744359, CO
+ * Daniele Caspani, 744628, CO
+ */
 package cittadini;
 
-import centrivaccinali.SwingAwt;
 import shared.Utility;
 
 import javax.swing.*;
@@ -18,10 +22,11 @@ import java.awt.event.ActionListener;
  */
 public abstract class Registrazioni extends JFrame implements ActionListener {
 
-    protected int display_width = Utility.getDisplayWidth();
-    protected int display_height = Utility.getDisplayHeight();
+    protected int display_width = Utility.getDisplayWidth(),
+                    display_height = Utility.getDisplayHeight();
 
-    SwingAwt swing_awt = new SwingAwt();
+    protected JButton conferma = new JButton("CONFERMA"),
+                        annulla = new JButton("TORNA INDIETRO");
     protected Border border;
     protected JLayeredPane layered_pane;
     protected JPanel background_panel, panel;

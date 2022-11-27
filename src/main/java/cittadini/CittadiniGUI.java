@@ -28,11 +28,13 @@ import java.awt.event.ActionListener;
  */
 public class CittadiniGUI extends JFrame implements ActionListener {
 
-    private int display_width = Utility.getDisplayWidth();
-    private int display_height = Utility.getDisplayHeight();
-    private JTextField username = new JTextField(), password = new JPasswordField();
+    private int display_width = Utility.getDisplayWidth(),
+                display_height = Utility.getDisplayHeight();
+    private JTextField username = new JTextField(),
+                        password = new JPasswordField();
     private JPanel background_panel, button_panel;
-    private JLabel logo_label, error = new JLabel();
+    private JLabel logo_label,
+                    error = new JLabel();
     /**
      * Oggetto inserito in un <code>JOptionPane</code>. Utilizzato per il login
      */
@@ -41,15 +43,18 @@ public class CittadiniGUI extends JFrame implements ActionListener {
             "Password:", password,
             error
     };
+    /**
+     * Oggetto inserito in un <code>JOptionPane</code>. Utilizzato per la scelta del tipo di ricerca che si vuole effettuare
+     */
+    private Object[] ricerca = {
+            "Ricerca per Nome Centro",
+            "Ricerca per Comune e Tipologia"
+    };
 
     /**
      * Viene utilizzata per lanciare la classe registrazioni(i) dove i rappresenta l'opzione scelta
      */
     private JButton registrati_button, informazioni_button, evento_avverso_button, menu_button;
-    /**
-     * Oggetto inserito in un <code>JOptionPane</code>. Utilizzato per la scelta del tipo di ricerca che si vuole effettuare
-     */
-    private Object[] ricerca = {"Ricerca per Comune e Tipologia", "Ricerca per Nome Centro"};
 
     public CittadiniGUI() {
         initWindow();
@@ -150,10 +155,10 @@ public class CittadiniGUI extends JFrame implements ActionListener {
 
             if (option == JOptionPane.OK_OPTION) {
                 if (comboBox.getSelectedIndex() == 0) {
-                    new Ricerca(1);
+                    new RicercaNomeCentro();
                     dispose();
                 } else if (comboBox.getSelectedIndex() == 1) {
-                    new Ricerca(2);
+                    new RicercaComuneTipologia();
                     dispose();
                 }
             }

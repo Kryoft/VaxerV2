@@ -20,21 +20,21 @@ import java.awt.event.ActionListener;
  * @author Daniele Caspani, Manuel Marceca
  */
 public abstract class Registrazioni extends JFrame implements ActionListener {
-    protected int display_width = Utility.getDisplayWidth();
-    protected int display_height = Utility.getDisplayHeight();
+    protected int display_width = Utility.getDisplayWidth(),
+                    display_height = Utility.getDisplayHeight();
 
-    SwingAwt swing_awt = new SwingAwt();
-    //protected JLabel nome_label;
-    //protected JTextField txtNomeC, txtnome, txtcognome, txtcodice, txtdata;
-    //protected PTextField nome, via, numcivico, comune, sigla, cap;
-    //protected JButton conferma_registrazione_centro, conferma_registrazione_vaccinato, annulla;
-    protected final String[] array_tipologia = new String[]{"Ospedaliero", "Aziendale", "Hub"};
-    protected final String[] array_qualificatori = new String[]{"Via", "Piazza", "Viale"};
-    //protected JComboBox<String> jtipologia, jqualificatore, jvaccino;
-    protected final String[] array_vaccini = new String[]{"JJ", "Moderna", "Pfizer", "AstraZeneca"};
+    protected JButton conferma = new JButton("CONFERMA"),
+                        annulla = new JButton("TORNA INDIETRO");
+    protected final int base_height = 40,
+                        width_buttons = 200,
+                        height_buttons = 100;
+
+    protected final String[] array_tipologia = new String[]{"Ospedaliero", "Aziendale", "Hub"},
+                                array_qualificatori = new String[]{"Via", "Piazza", "Viale"},
+                                array_vaccini = new String[]{"JJ", "Moderna", "Pfizer", "AstraZeneca"};
     protected Border border;
     /**
-     * contenitore che utilizza più livelli d'inserimento.
+     * Contenitore che utilizza più livelli d'inserimento.
      */
     protected JLayeredPane layered_pane;
     protected JPanel panel, background_panel;

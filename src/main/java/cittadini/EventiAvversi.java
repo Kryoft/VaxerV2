@@ -12,10 +12,8 @@ package cittadini;
  * @author Daniele Caspani
  */
 public class EventiAvversi {
-    private String evento;
+    private String evento, nome_centro, note_opzionali;
     private int indice;
-    private String nome_centro;
-    private String note_opzionali;
 
     public EventiAvversi(String evento, int indice, String note_opzionali, String nome_centro) {
         this.evento = evento;
