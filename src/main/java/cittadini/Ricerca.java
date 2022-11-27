@@ -77,15 +77,16 @@ public abstract class Ricerca extends JFrame implements ActionListener {
     /**
      * Metodo utilizzato per settare alcune caratteristiche dei componenti JFrame
      *
-     * @param index  definisce l'ordine d'inserimento dei componenti JFrame
-     * @param rect   definisce la misura
-     * @param size   definisce la dimensione della scritta
-     * @param font   definisce il tipo di scritta(BOLD o PLAIN)
+     * @param index             definisce l'ordine d'inserimento dei componenti JFrame
+     * @param rect              definisce la misura
+     * @param size              definisce la dimensione della scritta
+     * @param font              definisce il tipo di scritta(BOLD o PLAIN)
+     * @param white_background  definisce il colore dello sfondo
      */
-    public void backgroundSettings(int index, Rectangle rect, int size, int font) {
+    public void backgroundSettings(int index, Rectangle rect, int size, int font, boolean white_background) {
         background.getComponent(index).setBounds(rect);
         background.getComponent(index).setFont(new Font("Arial", font, size));
-        if (index == 0)
+        if (white_background)
             background.getComponent(index).setBackground(Color.WHITE);
     }
 

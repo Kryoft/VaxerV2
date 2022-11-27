@@ -39,31 +39,31 @@ public class RicercaComuneTipologia extends Ricerca {
 
         background.add(tipologia_label, 0);
         backgroundSettings(0, new Rectangle(270, 90,            //tipologia_label
-                520, 120), 16, 1);
+                520, 120), 16, 1, false);
 
         background.add(centro_combo, 0);
         backgroundSettings(0, new Rectangle(410, 130,           //centro_combo
-                310, 40), 15, 0);
+                310, 40), 15, 0, false);
 
         background.add(comune_label, 0);
         backgroundSettings(0, new Rectangle(910, 90,            //comune_label
-                520, 120), 16, 1);
+                520, 120), 16, 1, false);
 
         background.add(comune_txt, 0);
         backgroundSettings(0, new Rectangle(1040, 130,          //comune_txt
-                310, 40), 15, 0);
+                310, 40), 15, 0, false);
 
         background.add(cerca, 0);
         backgroundSettings(0, new Rectangle(1350, 130,          //cerca
-                40, 40), 15, 0);
+                40, 40), 15, 0, true);
 
         background.add(annulla, 0);
         backgroundSettings(0, new Rectangle(24, 965,            //annulla
-                120, 35), 15, 1);
+                120, 35), 15, 1, false);
 
         background.add(conferma, 0).setEnabled(false);
         backgroundSettings(0, new Rectangle(1790, 965,          //conferma
-                120, 35), 15, 1);
+                120, 35), 15, 1, false);
 
 
         cerca.addActionListener(this);

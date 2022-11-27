@@ -38,23 +38,23 @@ public class RicercaNomeCentro extends Ricerca {
 
         background.add(centro_label, 0);
         backgroundSettings(0, new Rectangle(210, 30,            //centro_label
-                520, 120), 16, 1);
+                520, 120), 16, 1, false);
 
         background.add(centro_txt, 0);
         backgroundSettings(0, new Rectangle(350, 70,            //centro_txt
-                310, 40), 16, 0);
+                310, 40), 16, 0, false);
 
         background.add(cerca, 0);
         backgroundSettings(0, new Rectangle(660, 70,            //cerca
-                40, 40), 15, 0);
+                40, 40), 15, 0, true);
 
         background.add(annulla, 0);
         backgroundSettings(0, new Rectangle(24, 965,            //annulla
-                120, 35), 15, 1);
+                120, 35), 15, 1, false);
 
         background.add(conferma, 0).setEnabled(false);
         backgroundSettings(0, new Rectangle(1790, 965,          //conferma
-                120, 35), 15, 1);
+                120, 35), 15, 1, false);
 
 
         cerca.addActionListener(this);
