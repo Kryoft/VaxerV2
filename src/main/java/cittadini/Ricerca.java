@@ -47,10 +47,13 @@ public abstract class Ricerca extends JFrame implements ActionListener {
     protected void settings(String title) {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setSize(display_width, display_height);
+        setLocationRelativeTo(null);
         setTitle(title);
-        this.setFocusable(true);
-        this.requestFocusInWindow();
+        setFocusable(true);
+        requestFocusInWindow();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        Utility.setWindowLogo(this, "logo.png");
 
         add(background);
         background.setLayout(null);

@@ -8,6 +8,7 @@ package shared;
 import centrivaccinali.IndirizzoComposto;
 import centrivaccinali.StruttureVaccinali;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.net.URISyntaxException;
@@ -51,6 +52,11 @@ public abstract class Utility {
 
     public static int getDisplayHeight() {
         return (int) screen_size.getHeight();
+    }
+
+    public static void setWindowLogo(JFrame frame, String file_name) {
+        ImageIcon logo = new ImageIcon(ClassLoader.getSystemResource(file_name));
+        frame.setIconImage(logo.getImage());
     }
 
     /**

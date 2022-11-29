@@ -66,18 +66,19 @@ public class CittadiniGUI extends JFrame implements ActionListener {
 
     /**
      * Metodo utilizzato per l'inizializzazione della finestra JFrame.
-     *
-     * @param title
      */
-    public void settings(String title) {
-        setSize(display_width, display_height);
-        setTitle(title);
-        this.setFocusable(true);
-        this.requestFocusInWindow();
+    private void settings() {
+        setSize(1366, 768);
+        setLocationRelativeTo(null);
+        setTitle("Scegli Funzionalità");
+        setFocusable(true);
+        requestFocusInWindow();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         username.setSize(150, 80);
         password.setSize(150, 80);
         setResizable(false);
+
+        Utility.setWindowLogo(this, "logo.png");
     }
 
     /**
@@ -86,7 +87,7 @@ public class CittadiniGUI extends JFrame implements ActionListener {
      * @author Daniele Caspani
      */
     public void initWindow() {
-        settings("Scegli Funzionalità");
+        settings();
 
         getContentPane().setLayout(null);
 

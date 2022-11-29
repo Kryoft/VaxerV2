@@ -27,8 +27,8 @@ public class CentriVaccinaliGUI extends JFrame implements ActionListener {
 
     private int display_width = Utility.getDisplayWidth(),
                 display_height = Utility.getDisplayHeight();
-    private JButton centro_button = new JButton(),
-                    cittadini_button = new JButton();
+    private JButton cittadini_button = new JButton(),
+                    centro_button = new JButton();
 
     public CentriVaccinaliGUI() {
         initWindow();
@@ -38,27 +38,39 @@ public class CentriVaccinaliGUI extends JFrame implements ActionListener {
         new CentriVaccinaliGUI();
     }
 
+    private void settings() {
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        // istruzioni utili nel caso l'utente voglia ridimensionare la finestra
+        setMinimumSize(new Dimension(800, 450));  // non permette alla finestra di essere ridimensionata al di sotto dei valori specificati
+        setSize((int) (display_width / 1.5), (int) (display_height / 1.5));
+//        setBounds(100, 100, (int) (display_width / 1.5), (int) (display_height / 1.5));  // sostituita da setSize(...);
+        ////
+        setLocationRelativeTo(null);  // utilizzata per centrare la finestra quando non è maximized
+        setTitle("Seleziona Tipo di Utente");
+        setFocusable(true);
+        requestFocusInWindow();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // assegnazione immagine all'icona della finestra
+        Utility.setWindowLogo(this, "logo.png");
+    }
+
     /**
      * Metodo per settare la finestra che sviluppa l'interfaccia grafica
      *
      * @author Daniele Caspani
      */
     private void initWindow() {
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setBounds(100, 100, (int) (display_width / 1.5), (int) (display_height / 1.5));  // istruzione necessaria nel caso l'utente voglia ridimensionare la finestra
-        setTitle("Seleziona Tipo di Utente");
-        this.setFocusable(true);
-        this.requestFocusInWindow();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        settings();
 
         // assegnazione immagine al bottone centro
-        ImageIcon icon_centro = new ImageIcon(ClassLoader.getSystemResource("Person.png"));
+        ImageIcon icon_centro = new ImageIcon(ClassLoader.getSystemResource("Hospital.png"));
         Image img_centro = icon_centro.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
         icon_centro = new ImageIcon(img_centro);
         centro_button.setIcon(icon_centro);
 
-        // assegnazione immagine al bottone centro
-        ImageIcon icon_cittadini = new ImageIcon(ClassLoader.getSystemResource("Hospital.png"));
+        // assegnazione immagine al bottone cittadini
+        ImageIcon icon_cittadini = new ImageIcon(ClassLoader.getSystemResource("Person.png"));
         Image img_cittadini = icon_cittadini.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
         icon_cittadini = new ImageIcon(img_cittadini);
         cittadini_button.setIcon(icon_cittadini);
@@ -68,9 +80,9 @@ public class CentriVaccinaliGUI extends JFrame implements ActionListener {
                 groupLayout.createParallelGroup(Alignment.LEADING)
                         .addGroup(groupLayout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(centro_button, GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE)
-                                .addGap(22)
                                 .addComponent(cittadini_button, GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE)
+                                .addGap(22)
+                                .addComponent(centro_button, GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE)
                                 .addContainerGap())
         );
         groupLayout.setVerticalGroup(
@@ -78,14 +90,14 @@ public class CentriVaccinaliGUI extends JFrame implements ActionListener {
                         .addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-                                        .addComponent(cittadini_button, GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE)
-                                        .addComponent(centro_button, GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE))
+                                        .addComponent(centro_button, GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE)
+                                        .addComponent(cittadini_button, GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE))
                                 .addContainerGap())
         );
         getContentPane().setLayout(groupLayout);
 
-        centro_button.addActionListener(this);
         cittadini_button.addActionListener(this);
+        centro_button.addActionListener(this);
 
         setVisible(true);
     }
@@ -99,9 +111,9 @@ public class CentriVaccinaliGUI extends JFrame implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == cittadini_button) {
+        if (e.getSource() == centro_button) {
             new OperazioniCentroGUI();
-        } else if (e.getSource() == centro_button) {
+        } else if (e.getSource() == cittadini_button) {
             new CittadiniGUI();
         }
         this.dispose();
