@@ -1,10 +1,5 @@
 package shared;
 
-import centrivaccinali.IndirizzoComposto;
-import centrivaccinali.StruttureVaccinali;
-import cittadini.Vaccinati;
-import org.postgresql.util.PSQLException;
-
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -14,13 +9,17 @@ import java.sql.*;
 
 public class DBManager implements DBInterface{
     static int PORT = 54234;
-    public static void main(String[] args) throws SQLException, RemoteException {
+    public static void main(String[] args) throws RemoteException {
         DBInterface stub = null;
         //TODO:fare query per ricerca per comune e tipologia,nome centro  e visualizzainfo()
         //TODO:eventi avversi?
         //TODO:gestire controlloLogin() nel db
         //TODO: gestire esistecentro() (fare nome centro unique?)
         //TODO: gestire eccezioni Primary key, Foreign Key(per codice fiscale email), Check Costraint
+        //TODO:statistiche per visuaizza eventi
+        //TODO:sistemare utility e tutto il programma
+        //TODO: scrivere query mancanti
+        //TODO: fare uml
         DBManager obj = new DBManager();
         try {
             stub = (DBInterface) UnicastRemoteObject.exportObject(
