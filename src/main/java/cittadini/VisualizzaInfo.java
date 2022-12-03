@@ -41,14 +41,17 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
      *
      * @author Daniele Caspani
      */
-    private void settings(String title) {
+    private void settings() {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setSize(display_width, display_height);
-        setTitle(title);
+        setLocationRelativeTo(null);
+        setTitle("Visualizza Informazioni");
         this.setFocusable(true);
         this.requestFocusInWindow();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+
+        Utility.setWindowLogo(this, "logo.png");
 
         background = new JPanel();
         background.setLayout(null);
@@ -61,7 +64,7 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
      * @param strutture_vaccinali
      */
     private void initWindow(StruttureVaccinali strutture_vaccinali) {
-        settings("VISUALIZZA INFORMAZIONI");
+        settings();
 
         nome_label = new JLabel("Nome_Centro: " + strutture_vaccinali.getNomeCentro());
         indirizzo_label = new JLabel("Indirizzo: " + strutture_vaccinali.getIndirizzo().getQualificatore() + " " + strutture_vaccinali.getIndirizzo().getNomeVia() + " " + strutture_vaccinali.getIndirizzo().getNumCivico());
