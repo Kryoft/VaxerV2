@@ -39,12 +39,15 @@ public abstract class Registrazioni extends JFrame implements ActionListener {
      */
     protected void settings(String title) {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setSize(display_width, display_height);
+        setLocationRelativeTo(null);
         setTitle(title);
-        this.setFocusable(true);
-        this.requestFocusInWindow();
+        setFocusable(true);
+        requestFocusInWindow();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        this.setPreferredSize(new Dimension(display_width, display_height));
+
+        Utility.setWindowLogo(this, "logo.png");
 
         layered_pane = new JLayeredPane();
         add(layered_pane, BorderLayout.CENTER);

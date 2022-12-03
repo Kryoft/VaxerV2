@@ -46,18 +46,17 @@ public abstract class Registrazioni extends JFrame implements ActionListener {
      * @param title Titolo della finestra
      */
     protected void settings(String title) {
-        //TODO: Da rimuovere se si vuole permettere il ridimensionamento!
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //setResizable(false);
-        setBounds(0,0, display_width, display_height);
-        ////////
-
+        //setResizable(false);  // Da rimuovere se si vuole permettere il ridimensionamento!
+        setSize(display_width, display_height);
+        setLocationRelativeTo(null);
         setTitle(title);
-        this.setFocusable(true);
-        this.requestFocusInWindow();
+        setFocusable(true);
+        requestFocusInWindow();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-        this.setPreferredSize(new Dimension(display_width, display_height));
+
+        Utility.setWindowLogo(this, "logo.png");
 
         layered_pane = new JLayeredPane();
         add(layered_pane, BorderLayout.CENTER);

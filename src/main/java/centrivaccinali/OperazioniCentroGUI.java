@@ -27,9 +27,20 @@ public class OperazioniCentroGUI extends JFrame implements ActionListener {
     private JLabel logo_label;
 
     public OperazioniCentroGUI() {
-        setMinimumSize(new Dimension(display_width / 2, display_height / 2));
         initWindow();
+    }
+
+    private void settings() {
+        setMinimumSize(new Dimension(1366, 768));
+//        setSize((int) (display_width / 1.5), (int) (display_height / 1.5));
         setLocationRelativeTo(null);
+        setTitle("Seleziona Tipo di Utente (Dopo aver selezionato un'opzione cliccare avanti)");
+        setFocusable(true);
+        requestFocusInWindow();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+
+        Utility.setWindowLogo(this, "logo.png");
     }
 
     /**
@@ -38,12 +49,7 @@ public class OperazioniCentroGUI extends JFrame implements ActionListener {
      * @author Daniele Caspani
      */
     private void initWindow() {
-        setSize(display_width, display_height);
-        setTitle("Seleziona Tipo di Utente (Dopo aver selezionato un'opzione cliccare avanti)");
-        this.setFocusable(true);
-        this.requestFocusInWindow();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
+        settings();
 
         menu_button = new JButton("Menu");
         menu_button.setBounds(24, 669, 95, 35);
