@@ -15,13 +15,14 @@ public class DBManager implements DBInterface{
         DBInterface stub = null;
         //TODO:fare query per ricerca per comune e tipologia,nome centro  e visualizzainfo()
         //TODO:eventi avversi?
-        //TODO:gestire controlloLogin() nel db
+        //TODO:gestire controlloLogin() nel db (mettere unique username)
         //TODO: gestire esistecentro() (fare nome centro unique?)
         //TODO: gestire eccezioni Primary key, Foreign Key(per codice fiscale email), Check Costraint
-        //TODO:statistiche per visuaizza eventi
+        //TODO:statistiche per visualizza eventi moda mediana dev. standard
         //TODO:sistemare utility e tutto il programma
         //TODO: scrivere query mancanti
         //TODO: fare uml
+
         DBManager obj = new DBManager();
         try {
             stub = (DBInterface) UnicastRemoteObject.exportObject(

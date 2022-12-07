@@ -16,6 +16,10 @@ public class DBClient {
         String ControllaIdVax = "SELECT Identificativo,cod_centro  FROM Centro"; // per il controllo id in vaccinato
         String ControllaIdFisc = "SELECT V.Identificativo,V.Cod_Fiscale  FROM Vaccinato V";// per il controllo id in cittadino
         String ControllaIdIscritto="";
+        String stats= "SELECT evento, ROUND(AVG(indice),2) AS Media, \n" +
+                "ROUND(VARIANCE(indice)/COUNT(*),2) AS Varianza from evento group by evento ";
+        String stats2="SELECT evento, COUNT(*) FROM evento GROUP BY evento \n" +
+                "HAVING COUNT(*)>=ALL(Select COUNT(*) FROM evento group by evento);";
         //String InsVaccinato ="INSERT INTO Vaccinato\n" +
         // "VALUES('CSPDNL01M11I577Q','Daniele','Caspani','11/10/2001','31500','Moderna','3')";
         //String InsIscritto ="INSERT INTO Iscritto\n" +
