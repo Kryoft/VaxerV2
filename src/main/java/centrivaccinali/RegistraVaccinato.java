@@ -5,7 +5,7 @@
  */
 package centrivaccinali;
 
-import cittadini.Vaccinati;
+import cittadini.Vaccinato;
 import shared.Utility;
 
 import javax.swing.*;
@@ -151,7 +151,7 @@ public class RegistraVaccinato extends Registrazioni {
             Date Data = null;
             String Codice = txt_codice.getText().toUpperCase();
             short id = 0;
-            Vaccinati va = new Vaccinati();
+            Vaccinato va = new Vaccinato();
             try {
                 Data = fData.parse(SData);
                 if (!centro.equals("") && !Nome.equals("") && !Cognome.equals("") && !SData.equals("") && !Codice.equals("")) {
@@ -169,7 +169,7 @@ public class RegistraVaccinato extends Registrazioni {
                             id = Utility.idControl(2, String.valueOf(id), "./data/Vaccinati_" + centro + ".dati.txt");
 
                             if (id != 0) {
-                                va = new Vaccinati(Data, SwingAwt.decidiVaccino(vaccino_combo), centro, id, Nome, Cognome, Codice);
+                                va = new Vaccinato(Data, SwingAwt.decidiVaccino(vaccino_combo), centro, id, Nome, Cognome, Codice);
                                 Utility.scriviFile("./data/Vaccinati_" + va.getNomeCentro() + ".dati.txt", va.toString());
                             } else
                                 JOptionPane.showMessageDialog(this, "Non e' possibile inserire più vaccinati per questo centro", "Errore", JOptionPane.WARNING_MESSAGE);

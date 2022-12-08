@@ -12,16 +12,16 @@ package centrivaccinali;
  *
  * @author Daniele Caspani
  */
-public class StruttureVaccinali {
+public class CentroVaccinale {
 
     private String nome_centro;
     private Tipologia tipologia;
     private IndirizzoComposto indirizzo;
 
-    public StruttureVaccinali() {
+    public CentroVaccinale() {
     }
 
-    public StruttureVaccinali(String nome_centro, Tipologia tipologia, IndirizzoComposto indirizzo) {
+    public CentroVaccinale(String nome_centro, Tipologia tipologia, IndirizzoComposto indirizzo) {
         this.nome_centro = nome_centro;
         this.tipologia = tipologia;
         this.indirizzo = indirizzo;

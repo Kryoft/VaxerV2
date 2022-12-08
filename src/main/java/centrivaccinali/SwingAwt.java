@@ -5,7 +5,7 @@
  */
 package centrivaccinali;
 
-import cittadini.Vaccinati;
+import cittadini.Vaccinato;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -26,20 +26,20 @@ public abstract class SwingAwt {
      * @return tipo di vaccino scelto
      * @author Daniele Caspani
      */
-    public static Vaccinati.Vaccino decidiVaccino(JComboBox<String> vaccino_combo) {
-        Vaccinati.Vaccino vaccino = null;
+    public static Vaccinato.Vaccino decidiVaccino(JComboBox<String> vaccino_combo) {
+        Vaccinato.Vaccino vaccino = null;
 
         if (vaccino_combo.getSelectedItem() == "Johnson & Johnson") {
-            vaccino = Vaccinati.Vaccino.JJ;
+            vaccino = Vaccinato.Vaccino.JJ;
         }
         if (vaccino_combo.getSelectedItem() == "AstraZeneca") {
-            vaccino = Vaccinati.Vaccino.AstraZeneca;
+            vaccino = Vaccinato.Vaccino.AstraZeneca;
         }
         if (vaccino_combo.getSelectedItem() == "Moderna") {
-            vaccino = Vaccinati.Vaccino.Moderna;
+            vaccino = Vaccinato.Vaccino.Moderna;
         }
         if (vaccino_combo.getSelectedItem() == "Pfizer") {
-            vaccino = Vaccinati.Vaccino.Pfizer;
+            vaccino = Vaccinato.Vaccino.Pfizer;
         }
         return vaccino;
     }
@@ -51,16 +51,16 @@ public abstract class SwingAwt {
      * @return Tipologia centro scelta
      * @author Daniele Caspani
      */
-    public static StruttureVaccinali.Tipologia decidiTipologia(JComboBox<String> tipologia_combo) {
-        StruttureVaccinali.Tipologia tipologia = null;
+    public static CentroVaccinale.Tipologia decidiTipologia(JComboBox<String> tipologia_combo) {
+        CentroVaccinale.Tipologia tipologia = null;
         if (tipologia_combo.getSelectedItem() == "Ospedaliero") {
-            tipologia = StruttureVaccinali.Tipologia.OSPEDALIERO;
+            tipologia = CentroVaccinale.Tipologia.OSPEDALIERO;
         }
         if (tipologia_combo.getSelectedItem() == "Aziendale") {
-            tipologia = StruttureVaccinali.Tipologia.AZIENDALE;
+            tipologia = CentroVaccinale.Tipologia.AZIENDALE;
         }
         if (tipologia_combo.getSelectedItem() == "Hub") {
-            tipologia = StruttureVaccinali.Tipologia.HUB;
+            tipologia = CentroVaccinale.Tipologia.HUB;
         }
         return tipologia;
     }

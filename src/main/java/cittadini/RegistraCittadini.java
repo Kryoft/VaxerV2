@@ -127,7 +127,7 @@ public class RegistraCittadini extends Registrazioni {
                 String email = email_txt.getText();
                 String Centro = centro_txt.getText();
                 String message = null;
-                Cittadini c = new Cittadini();
+                Cittadino c = new Cittadino();
                 Login l;
                 if (!user.equals("user id") && !Nome.equals("nome") && !Cognome.equals("cognome") && !password.equals("password") && !Codice.equals("") && !email.equals("email") && !user.equals("") && !Nome.equals("") && !Cognome.equals("") && !password.equals("") && !email.equals("")) {
                     nome_txt.setBorder(border);
@@ -156,7 +156,7 @@ public class RegistraCittadini extends Registrazioni {
                             if (Utility.controlloCF(Codice, id, "./data/Vaccinati_" + Centro + ".dati.txt")) {
                                 l = new Login(user, password);
                                 if (Utility.controlloLogin(l.toString(), "./data/log.txt") == false) {
-                                    c = new Cittadini(email, l, Centro, id, Nome, Cognome, Codice);
+                                    c = new Cittadino(email, l, Centro, id, Nome, Cognome, Codice);
                                     cf_txt.setBorder(border);
                                     id_txt.setBorder(border);
                                     user_txt.setBorder(border);

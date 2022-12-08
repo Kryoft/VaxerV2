@@ -14,16 +14,16 @@ import java.util.regex.Pattern;
  *
  * @author Daniele Caspani
  */
-public class Cittadini {
+public class Cittadino {
 
     private String email, nome_centro, nome, cognome, codice_fiscale;
     private Login login;
-    private short id;
+    private int id;
 
-    public Cittadini() {
+    public Cittadino() {
     }
 
-    public Cittadini(String email, Login login, String nome_centro, short id, String nome, String cognome, String codice_fiscale) {
+    public Cittadino(String email, Login login, String nome_centro, int id, String nome, String cognome, String codice_fiscale) {
         this.email = email;
         this.nome_centro = nome_centro;
         this.id = id;
@@ -33,7 +33,7 @@ public class Cittadini {
         this.login = login;
     }
 
-    public Cittadini(String nome_centro, short id, String nome, String cognome, String codice_fiscale) {
+    public Cittadino(String nome_centro, int id, String nome, String cognome, String codice_fiscale) {
         this.nome_centro = nome_centro;
         this.id = id;
         this.nome = nome;
@@ -82,7 +82,7 @@ public class Cittadini {
      *
      * @return
      */
-    public short getId() {
+    public int getId() {
         return id;
     }
 

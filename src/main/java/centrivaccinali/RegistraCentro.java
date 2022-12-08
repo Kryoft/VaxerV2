@@ -191,7 +191,7 @@ public class RegistraCentro extends Registrazioni {
                         } else
                             SwingAwt.modificaBordo(Sigla, sigla, border);
 
-                        StruttureVaccinali sv = new StruttureVaccinali(centro, SwingAwt.decidiTipologia(tipologia_combo), Ic);
+                        CentroVaccinale sv = new CentroVaccinale(centro, SwingAwt.decidiTipologia(tipologia_combo), Ic);
                         if (Utility.esisteCentro(0, sv.getNomeCentro(), "./data/CentriVaccinali.dati.txt")) {
                             JOptionPane.showMessageDialog(this, "Centro gia' esistente nell'applicazione; Cambiare Nome", "error", JOptionPane.ERROR_MESSAGE);
                         } else {

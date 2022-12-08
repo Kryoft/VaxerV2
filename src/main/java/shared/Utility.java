@@ -6,7 +6,7 @@
 package shared;
 
 import centrivaccinali.IndirizzoComposto;
-import centrivaccinali.StruttureVaccinali;
+import centrivaccinali.CentroVaccinale;
 
 import javax.swing.*;
 import java.awt.*;
@@ -66,15 +66,15 @@ public abstract class Utility {
      * @return un enumerativo della classe Tipologia
      * @author Daniele Caspani
      */
-    public static StruttureVaccinali.Tipologia decidiTipo(String tipo) {
+    public static CentroVaccinale.Tipologia decidiTipo(String tipo) {
         if (tipo.equals("OSPEDALIERO")) {
-            return StruttureVaccinali.Tipologia.OSPEDALIERO;
+            return CentroVaccinale.Tipologia.OSPEDALIERO;
         }
         if (tipo.equals("AZIENDALE")) {
-            return StruttureVaccinali.Tipologia.AZIENDALE;
+            return CentroVaccinale.Tipologia.AZIENDALE;
         }
         if (tipo.equals("HUB")) {
-            return StruttureVaccinali.Tipologia.HUB;
+            return CentroVaccinale.Tipologia.HUB;
         }
         return null;
     }

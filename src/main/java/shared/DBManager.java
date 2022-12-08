@@ -76,7 +76,7 @@ public class DBManager implements DBInterface{
         }
         st.close();
     }
-    public void upData(String query) throws SQLException {
+    public void executeQuery(String query) throws SQLException {
         Statement st = connected().createStatement();
         st.executeUpdate(query);
         st.close();

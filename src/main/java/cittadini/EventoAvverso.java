@@ -11,11 +11,11 @@ package cittadini;
  *
  * @author Daniele Caspani
  */
-public class EventiAvversi {
+public class EventoAvverso {
     private String evento, nome_centro, note_opzionali;
     private int indice;
 
-    public EventiAvversi(String evento, int indice, String note_opzionali, String nome_centro) {
+    public EventoAvverso(String evento, int indice, String note_opzionali, String nome_centro) {
         this.evento = evento;
         this.indice = indice;
         this.note_opzionali = note_opzionali;

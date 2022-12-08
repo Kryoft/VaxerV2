@@ -98,7 +98,7 @@ public class RegistraEventiAvversi extends Registrazioni {
                 String Note = note_text.getText();
                 String Evento = evento_text.getText();
                 int Indice = Integer.parseInt(indice_severita_text.getText());
-                EventiAvversi ev = new EventiAvversi(Evento, Indice, Note, centro);
+                EventoAvverso ev = new EventoAvverso(Evento, Indice, Note, centro);
 
                 if (Utility.esisteCentro(0, centro, "./data/CentriVaccinali.dati.txt")) {
 

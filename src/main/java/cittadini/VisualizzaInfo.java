@@ -5,7 +5,7 @@
  */
 package cittadini;
 
-import centrivaccinali.StruttureVaccinali;
+import centrivaccinali.CentroVaccinale;
 import shared.Utility;
 
 import javax.swing.*;
@@ -32,7 +32,7 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
     /**
      * @param strutture_vaccinali oggetto di tipo StruttureVaccinali da prendere in considerazione
      */
-    public VisualizzaInfo(StruttureVaccinali strutture_vaccinali) {
+    public VisualizzaInfo(CentroVaccinale strutture_vaccinali) {
         initWindow(strutture_vaccinali);
     }
 
@@ -63,7 +63,7 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
      *
      * @param strutture_vaccinali
      */
-    private void initWindow(StruttureVaccinali strutture_vaccinali) {
+    private void initWindow(CentroVaccinale strutture_vaccinali) {
         settings();
 
         nome_label = new JLabel("Nome_Centro: " + strutture_vaccinali.getNomeCentro());

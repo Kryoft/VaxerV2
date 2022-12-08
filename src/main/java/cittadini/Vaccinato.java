@@ -13,15 +13,15 @@ import java.util.Date;
  *
  * @author daniele Caspani
  */
-public class Vaccinati extends Cittadini {
+public class Vaccinato extends Cittadino {
 
     private Date data = new Date();
     private Vaccino vaccino;
 
-    public Vaccinati() {
+    public Vaccinato() {
     }
 
-    public Vaccinati(Date data, Vaccino vaccino, String nome_centro, short id, String nome, String cognome, String codice_fiscale) {
+    public Vaccinato(Date data, Vaccino vaccino, String nome_centro, int id, String nome, String cognome, String codice_fiscale) {
         super(nome_centro, id, nome, cognome, codice_fiscale);
         this.data = data;
         this.vaccino = vaccino;
