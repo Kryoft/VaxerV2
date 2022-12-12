@@ -44,7 +44,7 @@ public class DBManager implements DBInterface{
         System.err.println("Server ready");
     }
 
-    @Override
+    /*@Override
     public Connection connected() throws SQLException {
         Connection conn = null;
         conn = DriverManager.getConnection(
@@ -57,6 +57,8 @@ public class DBManager implements DBInterface{
         }
         return conn;
     }
+
+
     public void selectData(String query) throws SQLException {
         // crea il java statement
         Statement st = connected().createStatement();
@@ -76,9 +78,14 @@ public class DBManager implements DBInterface{
         }
         st.close();
     }
+
+     */
+    /*
     public void executeQuery(String query) throws SQLException {
         Statement st = connected().createStatement();
         st.executeUpdate(query);
         st.close();
     }
+
+     */
 }

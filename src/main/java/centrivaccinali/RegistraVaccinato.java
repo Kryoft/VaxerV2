@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
@@ -160,10 +161,13 @@ public class RegistraVaccinato extends Registrazioni {
                     txt_nome.setBorder(border);
                     txt_cognome.setBorder(border);
 
-                    if (Utility.esisteCentro(0, centro, "./data/CentriVaccinali.dati.txt")) {
+                    //TODO Gestione SQLException
+                    try{
+                    if (Utility.esisteCentro(centro)) {
                         if (va.controllaCodiceFiscale(Codice)) {
                             txt_codice.setBorder(border);
 
+                            /*
                             Random random = new Random();
                             id = (short) ((short) random.nextInt(65534) - 32767);
                             id = Utility.idControl(2, String.valueOf(id), "./data/Vaccinati_" + centro + ".dati.txt");
@@ -173,6 +177,8 @@ public class RegistraVaccinato extends Registrazioni {
                                 Utility.scriviFile("./data/Vaccinati_" + va.getNomeCentro() + ".dati.txt", va.toString());
                             } else
                                 JOptionPane.showMessageDialog(this, "Non e' possibile inserire più vaccinati per questo centro", "Errore", JOptionPane.WARNING_MESSAGE);
+
+                            */
                             txt_data.setBorder(border);
                             txt_nome.setBorder(border);
                             txt_cognome.setBorder(border);
@@ -187,6 +193,10 @@ public class RegistraVaccinato extends Registrazioni {
                     } else {
                         txt_nome_centro.setBorder(new LineBorder(Color.RED, 3, true));
                         JOptionPane.showMessageDialog(this, "Il centro da lei indicato non esiste o non si e' registarto all'applicazione", "Errore", JOptionPane.ERROR_MESSAGE);
+                    }
+
+                }catch(SQLException se){
+                        Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, se);
                     }
                 } else {
                     SwingAwt.modificaBordo(centro, txt_nome_centro, border);

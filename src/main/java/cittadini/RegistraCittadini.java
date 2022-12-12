@@ -15,6 +15,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -118,18 +119,18 @@ public class RegistraCittadini extends Registrazioni {
         try {
             if (e.getSource() == conferma) {
                 Utility.run();
-                String Nome = nome_txt.getText();
-                String Cognome = cognome_txt.getText();
-                String Codice = cf_txt.getText().toUpperCase();
+                String nome = nome_txt.getText();
+                String cognome = cognome_txt.getText();
+                String cf = cf_txt.getText().toUpperCase();
                 short id = (short) (Integer.parseInt(id_txt.getText()) - 32767);  // ?
                 String user = user_txt.getText();
                 String password = password_txt.getText();
                 String email = email_txt.getText();
-                String Centro = centro_txt.getText();
+                String nome_centro = centro_txt.getText();
                 String message = null;
                 Cittadino c = new Cittadino();
-                Login l;
-                if (!user.equals("user id") && !Nome.equals("nome") && !Cognome.equals("cognome") && !password.equals("password") && !Codice.equals("") && !email.equals("email") && !user.equals("") && !Nome.equals("") && !Cognome.equals("") && !password.equals("") && !email.equals("")) {
+                Login login;
+                if (!user.equals("user id") && !nome.equals("nome") && !cognome.equals("cognome") && !password.equals("password") && !cf.equals("") && !email.equals("email") && !user.equals("") && !nome.equals("") && !cognome.equals("") && !password.equals("") && !email.equals("")) {
                     nome_txt.setBorder(border);
                     cognome_txt.setBorder(border);
                     email_txt.setBorder(border);
@@ -137,66 +138,72 @@ public class RegistraCittadini extends Registrazioni {
                     password_txt.setBorder(border);
                     user_txt.setBorder(border);
 
-                    if (Utility.esisteCentro(0, Centro, "./data/CentriVaccinali.dati.txt")) {
-                        centro_txt.setBorder(border);
-                        try {
-                            if (!c.mailSyntaxCheck(email)) {
-                                email_txt.setBorder(new LineBorder(Color.RED, 3, true));
-                                message = "Sintassi della mail errata";
-                                throw new Eccezione();
-                            }
-                            email_txt.setBorder(border);
-                            if (!c.controllaCodiceFiscale(Codice)) {
-                                cf_txt.setBorder(new LineBorder(Color.RED, 3, true));
-                                message = "Sintassi del codice fiscale errata";
-                                throw new Eccezione();
-                            }
-                            cf_txt.setBorder(border);
-
-                            if (Utility.controlloCF(Codice, id, "./data/Vaccinati_" + Centro + ".dati.txt")) {
-                                l = new Login(user, password);
-                                if (Utility.controlloLogin(l.toString(), "./data/log.txt") == false) {
-                                    c = new Cittadino(email, l, Centro, id, Nome, Cognome, Codice);
-                                    cf_txt.setBorder(border);
-                                    id_txt.setBorder(border);
-                                    user_txt.setBorder(border);
-                                    password_txt.setBorder(border);
-
-                                    Utility.scriviFile("./data/log.txt", l.toString());
-                                    Utility.scriviFile("./data/Cittadini_Registrati.dati.txt", c.toString());
-                                    JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
-                                    new CentriVaccinaliGUI();
-                                    this.dispose();
-                                } else {
-                                    user_txt.setBorder(new LineBorder(Color.RED, 3, true));
-                                    password_txt.setBorder(new LineBorder(Color.RED, 3, true));
-                                    JOptionPane.showMessageDialog(this, "Coppia user e password gia' inserita");
+                    //TODO Gestione SQLException
+                    try {
+                        if (Utility.esisteCentro(nome_centro)) {
+                            centro_txt.setBorder(border);
+                            try {
+                                if (!c.mailSyntaxCheck(email)) {
+                                    email_txt.setBorder(new LineBorder(Color.RED, 3, true));
+                                    message = "Sintassi della mail errata";
+                                    throw new Eccezione();
                                 }
-                            } else {
-                                nome_txt.setBorder(border);
-                                cognome_txt.setBorder(border);
-                                password_txt.setBorder(border);
-                                cf_txt.setBorder(border);
-                                user_txt.setBorder(border);
                                 email_txt.setBorder(border);
-                                id_txt.setBorder(new LineBorder(Color.RED, 3, true));
-                                cf_txt.setBorder(new LineBorder(Color.RED, 3, true));
-                                JOptionPane.showMessageDialog(this, "Operazione fallita Identificativo o codice Fiscale errato!!");
+                                if (!c.controllaCodiceFiscale(cf)) {
+                                    cf_txt.setBorder(new LineBorder(Color.RED, 3, true));
+                                    message = "Sintassi del codice fiscale errata";
+                                    throw new Eccezione();
+                                }
+                                cf_txt.setBorder(border);
+
+                                if (Utility.controlloCoppiaCFId(cf, id)) {
+                                    login = new Login(user, password);
+                                    //      Verifica se l'username è già in uso
+                                    if (!Utility.esisteUsername(login.getUserId())) {
+                                        c = new Cittadino(email, login, nome_centro, id, nome, cognome, cf);
+                                        cf_txt.setBorder(border);
+                                        id_txt.setBorder(border);
+                                        user_txt.setBorder(border);
+                                        password_txt.setBorder(border);
+
+                                        Utility.scriviFile("./data/log.txt", login.toString());
+                                        Utility.scriviFile("./data/Cittadini_Registrati.dati.txt", c.toString());
+                                        JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
+                                        new CentriVaccinaliGUI();
+                                        this.dispose();
+                                    } else {
+                                        user_txt.setBorder(new LineBorder(Color.RED, 3, true));
+                                        //password_txt.setBorder(new LineBorder(Color.RED, 3, true));
+                                        JOptionPane.showMessageDialog(this, "Username già in uso.");
+                                    }
+                                } else {
+                                    nome_txt.setBorder(border);
+                                    cognome_txt.setBorder(border);
+                                    password_txt.setBorder(border);
+                                    cf_txt.setBorder(border);
+                                    user_txt.setBorder(border);
+                                    email_txt.setBorder(border);
+                                    id_txt.setBorder(new LineBorder(Color.RED, 3, true));
+                                    cf_txt.setBorder(new LineBorder(Color.RED, 3, true));
+                                    JOptionPane.showMessageDialog(this, "Operazione fallita Identificativo o codice Fiscale errato!!");
+                                }
+                            } catch (Eccezione exc) {
+                                JOptionPane.showMessageDialog(this, message, "errore", JOptionPane.ERROR_MESSAGE);
+                            } catch (IOException | URISyntaxException ex) {
+                                Logger.getLogger(RegistraCittadini.class.getName()).log(Level.SEVERE, null, ex);
                             }
-                        } catch (Eccezione exc) {
-                            JOptionPane.showMessageDialog(this, message, "errore", JOptionPane.ERROR_MESSAGE);
-                        } catch (IOException | URISyntaxException ex) {
-                            Logger.getLogger(RegistraCittadini.class.getName()).log(Level.SEVERE, null, ex);
+                        } else {
+                            centro_txt.setBorder(new LineBorder(Color.RED, 3, true));
+                            JOptionPane.showMessageDialog(this, "Centro Insesistente o non registrato all'applicazione", "Errore", JOptionPane.ERROR_MESSAGE);
                         }
-                    } else {
-                        centro_txt.setBorder(new LineBorder(Color.RED, 3, true));
-                        JOptionPane.showMessageDialog(this, "Centro Insesistente o non registrato all'applicazione", "Errore", JOptionPane.ERROR_MESSAGE);
+                    }catch(SQLException se){
+                        Logger.getLogger(centrivaccinali.Registrazioni.class.getName()).log(Level.SEVERE, null, se);
                     }
                 } else {
-                    SwingAwt.modificaBordo(Nome, nome_txt, border);
-                    SwingAwt.modificaBordo(Cognome, cognome_txt, border);
+                    SwingAwt.modificaBordo(nome, nome_txt, border);
+                    SwingAwt.modificaBordo(cognome, cognome_txt, border);
                     SwingAwt.modificaBordo(password, password_txt, border);
-                    SwingAwt.modificaBordo(Codice, cf_txt, border);
+                    SwingAwt.modificaBordo(cf, cf_txt, border);
                     SwingAwt.modificaBordo(user, user_txt, border);
                     SwingAwt.modificaBordo(email, email_txt, border);
                     JOptionPane.showMessageDialog(this, "Riempire tutti i campi", "Error", JOptionPane.ERROR_MESSAGE);
@@ -208,8 +215,6 @@ public class RegistraCittadini extends Registrazioni {
 
         } catch (NumberFormatException ec) {
             JOptionPane.showMessageDialog(this, "Errore di formattazione dovuto a valore numerico non rispettato", "Error112", JOptionPane.WARNING_MESSAGE);
-        } catch (IOException ex) {
-            Logger.getLogger(RegistraCittadini.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

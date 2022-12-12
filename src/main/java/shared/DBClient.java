@@ -2,16 +2,24 @@ package shared;
 
 import centrivaccinali.IndirizzoComposto;
 import centrivaccinali.CentroVaccinale;
+import centrivaccinali.Registrazioni;
 import cittadini.Cittadino;
 import cittadini.EventoAvverso;
+import cittadini.Login;
 import cittadini.Vaccinato;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DBClient {
 
+    DBManager db = new DBManager();
     static int PORT = 54234;
 
     public static void main(String[] args) throws SQLException, RemoteException {
@@ -62,7 +70,7 @@ public class DBClient {
         dbobj.executeQuery(ins_centro);
 
     }
-    public static void insertVaccinato(DBInterface dbobj, Vaccinato vaccinato, String cod_centro) throws SQLException, RemoteException {
+    public static int insertVaccinato(DBInterface dbobj, Vaccinato vaccinato, String cod_centro) throws SQLException, RemoteException {
 
         String cod_fiscale = putApices(vaccinato.getCodiceFiscale());
         String nome = putApices(vaccinato.getNome());
@@ -72,9 +80,11 @@ public class DBClient {
         String vaccino = putApices(vaccinato.getVaccino().toString());
         cod_centro = putApices(cod_centro);
 
-        String ins_vaccinato = "INSERT INTO Vaccinato(cod_fiscale,nome,cognome,data,identificativo,vaccino,cod_centro)\n" +
+        String ins_vaccinato = "INSERT INTO Vaccinati(cod_fiscale,nome,cognome,data,identificativo,vaccino,cod_centro)\n" +
                 "VALUES(" + cod_fiscale +","+ nome +","+ cognome +","+ data +","+ identificativo +","+ vaccino +","+ cod_centro + ")";
         dbobj.executeQuery(ins_vaccinato);
+
+        //TODO recuperare l'id generato dal db e restituirlo!
     }
 
     public static void insertIscritto(DBInterface dbobj, Cittadino cittadino) throws SQLException, RemoteException {
@@ -84,7 +94,7 @@ public class DBClient {
         String password = putApices(cittadino.getLogin().getPassword());
         String cod_fiscale = putApices(cittadino.getCodiceFiscale());
 
-        String ins_iscritto = "INSERT INTO Iscritto VALUES(" + email +","+ username +","+ password +","+ cod_fiscale + ")";
+        String ins_iscritto = "INSERT INTO Iscritti VALUES(" + email +","+ username +","+ password +","+ cod_fiscale + ")";
         dbobj.executeQuery(ins_iscritto);
     }
 
@@ -98,8 +108,113 @@ public class DBClient {
 
 
 
-        String ins_evento = "INSERT INTO Evento VALUES(" + cod_centro +","+ evento +","+ indice +","+ note + ")";
+        String ins_evento = "INSERT INTO Eventi VALUES(" + cod_centro +","+ evento +","+ indice +","+ note + ")";
         dbobj.executeQuery(ins_evento);
+    }
+
+    public static CentroVaccinale getCentroVaccinaleByName(String nome_centro){
+        String select_centro = "SELECT * FROM CentroVaccini WHERE Nome = " + nome_centro + ";";
+        CentroVaccinale centro = null;
+        try {
+            ResultSet result_centri = DBInterface.executeQuery(select_centro);
+
+            //int num_colonne = result_centri.getMetaData().getColumnCount();
+            if (result_centri.next()){
+
+                long codice_centro = result_centri.getLong("Codice");
+                String rs_nome = result_centri.getString("Nome");
+                String rs_sigla = result_centri.getString("Sigla");
+                String rs_tipologia = result_centri.getString("Tipologia");
+
+                String rs_comune = result_centri.getString("Comune");
+
+                String rs_nome_via = result_centri.getString("Nome_via");
+                int rs_num_civico = result_centri.getInt("Num_civico");
+                String rs_cap = result_centri.getString("Cap");
+
+                CentroVaccinale.Tipologia tipologia_centro = Utility.decidiTipo(rs_tipologia);
+
+                IndirizzoComposto.Qualificatore qualificatore = Utility.decidiQualificatore(rs_tipologia);
+
+                IndirizzoComposto indirizzo_centro = new IndirizzoComposto(qualificatore, rs_nome_via,
+                        rs_num_civico, rs_comune, rs_sigla, rs_cap);
+
+                centro = new CentroVaccinale(rs_nome, tipologia_centro, indirizzo_centro);
+            }
+
+        }catch(SQLException se){
+            Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, se);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+
+        return centro;
+    }
+
+    public static Cittadino getCittadinoByUsername(String username){
+        String select_iscritto = "SELECT * FROM Iscritti, Vaccinati, Centrovaccini WHERE Username = " + username + ";";
+        Cittadino iscritto = null;
+        try {
+            ResultSet rs_iscritto = DBInterface.executeQuery(select_iscritto);
+
+            //int num_colonne = result_centri.getMetaData().getColumnCount();
+            if (rs_iscritto.next()){
+
+                String rs_email = rs_iscritto.getString("Email");
+                String rs_nome_centro = rs_iscritto.getString("Centrovaccini(Nome)");
+                String rs_nome = rs_iscritto.getString("Vaccinati(Nome)");
+                String rs_cognome = rs_iscritto.getString("Cognome");
+                String rs_cf = rs_iscritto.getString("Cod_Fiscale");
+
+                String rs_username = rs_iscritto.getString("Username");
+                String rs_password = rs_iscritto.getString("Password");
+
+                int rs_id = rs_iscritto.getInt("Identificativo");
+
+                Login login = new Login(rs_username, rs_password);
+
+                iscritto = new Cittadino(rs_email, login, rs_nome_centro, rs_id,
+                        rs_nome, rs_cognome, rs_cf);
+            }
+
+        }catch(SQLException se){
+            Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, se);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+
+        return iscritto;
+    }
+
+    public static Vaccinato getVaccinatoByCF(String cf){
+        String select_vaccinato = "SELECT * FROM Vaccinati, CentroVaccini WHERE Cod_Fiscale = " + cf + ";";
+        Vaccinato vaccinato = null;
+        try {
+            ResultSet rs_vaccinato = DBInterface.executeQuery(select_vaccinato);
+
+            //int num_colonne = result_centri.getMetaData().getColumnCount();
+            if (rs_vaccinato.next()){
+
+                Date rs_data = rs_vaccinato.getDate("Data");
+                Vaccinato.Vaccino rs_vaccino =
+                        Utility.decidiVaccino(rs_vaccinato.getString("Vaccino"));
+                String rs_nome_centro = rs_vaccinato.getString("CentroVaccini(Nome)");
+                int rs_id = rs_vaccinato.getInt("Identificativo");
+                String rs_nome = rs_vaccinato.getString("Vaccinati(Nome)");
+                String rs_cognome = rs_vaccinato.getString("Cognome");
+
+
+                vaccinato = new Vaccinato(rs_data, rs_vaccino, rs_nome_centro, id, rs_nome,
+                        rs_cognome, cf);
+            }
+
+        }catch(SQLException se){
+            Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, se);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+
+        return vaccinato;
     }
 
 
