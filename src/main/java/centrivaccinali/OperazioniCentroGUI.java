@@ -5,6 +5,9 @@
  */
 package centrivaccinali;
 
+import cittadini.CittadiniGUI;
+import cittadini.RicercaComuneTipologia;
+import cittadini.RicercaNomeCentro;
 import shared.Utility;
 
 import javax.swing.*;
@@ -23,7 +26,7 @@ public class OperazioniCentroGUI extends JFrame implements ActionListener {
     private int display_width = Utility.getDisplayWidth(),
                 display_height = Utility.getDisplayHeight();
     private JPanel background_panel, button_panel;
-    private JButton menu_button, centro_button, vaccinato_button;
+    private JButton menu_button, registra_centro_button, registra_vaccinato_button;
     private JLabel logo_label;
 
     public OperazioniCentroGUI() {
@@ -68,17 +71,17 @@ public class OperazioniCentroGUI extends JFrame implements ActionListener {
         button_panel.setBounds(12, 12, 961, 561);
         background_panel.add(button_panel);
 
-        centro_button = new JButton("Registra centro ");
-        centro_button.setFont(new Font("Dialog", Font.PLAIN, 30));
-        centro_button.setBounds(305, 207, 350, 50);
-        button_panel.add(centro_button);
-        centro_button.addActionListener(this);
+        registra_centro_button = new JButton("Registra centro ");
+        registra_centro_button.setFont(new Font("Dialog", Font.PLAIN, 30));
+        registra_centro_button.setBounds(305, 207, 350, 50);
+        button_panel.add(registra_centro_button);
+        registra_centro_button.addActionListener(this);
 
-        vaccinato_button = new JButton("Registra vaccinato");
-        vaccinato_button.setFont(new Font("Dialog", Font.PLAIN, 30));
-        vaccinato_button.setBounds(305, 269, 350, 50);
-        vaccinato_button.addActionListener(this);
-        button_panel.add(vaccinato_button);
+        registra_vaccinato_button = new JButton("Registra vaccinato");
+        registra_vaccinato_button.setFont(new Font("Dialog", Font.PLAIN, 30));
+        registra_vaccinato_button.setBounds(305, 269, 350, 50);
+        registra_vaccinato_button.addActionListener(this);
+        button_panel.add(registra_vaccinato_button);
 
         logo_label = new JLabel(new ImageIcon(ClassLoader.getSystemResource("logo.png")));
         logo_label.setBounds(12, 12, 163, 163);
@@ -96,12 +99,24 @@ public class OperazioniCentroGUI extends JFrame implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == centro_button) {
+        if (e.getSource() == registra_centro_button) {
             new RegistraCentro();  // new Registrazioni(1);
             this.dispose();
-        } else if (e.getSource() == vaccinato_button) {
-            new RegistraVaccinato();  // new Registrazioni(2);
-            this.dispose();
+        } else if (e.getSource() == registra_vaccinato_button) {
+//            new RegistraVaccinato();  // new Registrazioni(2);
+//            this.dispose();
+            JComboBox<Object> comboBox = new JComboBox<>(CittadiniGUI.ricerca);
+            int option = JOptionPane.showConfirmDialog(null, comboBox, "Ricerca del Centro di Vaccinazione", JOptionPane.OK_CANCEL_OPTION);
+
+            if (option == JOptionPane.OK_OPTION) {
+                if (comboBox.getSelectedIndex() == 0) {
+                    new RicercaNomeCentro(2);
+                    dispose();
+                } else if (comboBox.getSelectedIndex() == 1) {
+                    new RicercaComuneTipologia(2);
+                    dispose();
+                }
+            }
         } else if (e.getSource() == menu_button) {
             new CentriVaccinaliGUI();
             this.dispose();

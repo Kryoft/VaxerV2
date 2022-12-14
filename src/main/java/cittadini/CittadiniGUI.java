@@ -46,7 +46,7 @@ public class CittadiniGUI extends JFrame implements ActionListener {
     /**
      * Oggetto inserito in un <code>JOptionPane</code>. Utilizzato per la scelta del tipo di ricerca che si vuole effettuare
      */
-    private Object[] ricerca = {
+    public static Object[] ricerca = {
             "Ricerca per Nome Centro",
             "Ricerca per Comune e Tipologia"
     };
@@ -148,18 +148,30 @@ public class CittadiniGUI extends JFrame implements ActionListener {
             new CentriVaccinaliGUI();
             this.dispose();
         } else if (e.getSource() == registrati_button) {
-            new RegistraCittadini();
-            this.dispose();
-        } else if (e.getSource() == informazioni_button) {
+//            new RegistraCittadini();
+//            this.dispose();
             JComboBox<Object> comboBox = new JComboBox<>(ricerca);
-            int option = JOptionPane.showConfirmDialog(null, comboBox, "Scegli Tipo di Ricerca", JOptionPane.OK_CANCEL_OPTION);
+            int option = JOptionPane.showConfirmDialog(null, comboBox, "Ricerca del centro in cui hai effettuato la vaccinazione", JOptionPane.OK_CANCEL_OPTION);
 
             if (option == JOptionPane.OK_OPTION) {
                 if (comboBox.getSelectedIndex() == 0) {
-                    new RicercaNomeCentro();
+                    new RicercaNomeCentro(3);
                     dispose();
                 } else if (comboBox.getSelectedIndex() == 1) {
-                    new RicercaComuneTipologia();
+                    new RicercaComuneTipologia(3);
+                    dispose();
+                }
+            }
+        } else if (e.getSource() == informazioni_button) {
+            JComboBox<Object> comboBox = new JComboBox<>(ricerca);
+            int option = JOptionPane.showConfirmDialog(null, comboBox, "Ricerca del centro di cui visualizzare le informazioni", JOptionPane.OK_CANCEL_OPTION);
+
+            if (option == JOptionPane.OK_OPTION) {
+                if (comboBox.getSelectedIndex() == 0) {
+                    new RicercaNomeCentro(1);
+                    dispose();
+                } else if (comboBox.getSelectedIndex() == 1) {
+                    new RicercaComuneTipologia(1);
                     dispose();
                 }
             }
@@ -173,8 +185,21 @@ public class CittadiniGUI extends JFrame implements ActionListener {
                     Login login = new Login(username.getText(), password.getText());
                     if (Utility.controlloLogin(login.toString(), "./data/log.txt")) {
                         logged_in = true;
-                        new RegistraEventiAvversi();
-                        dispose();
+//                        new RegistraEventiAvversi();
+//                        dispose();
+
+                        JComboBox<Object> comboBox = new JComboBox<>(ricerca);
+                        int option = JOptionPane.showConfirmDialog(null, comboBox, "Ricerca del centro in cui hai effettuato la vaccinazione", JOptionPane.OK_CANCEL_OPTION);
+
+                        if (option == JOptionPane.OK_OPTION) {
+                            if (comboBox.getSelectedIndex() == 0) {
+                                new RicercaNomeCentro(4);
+                                dispose();
+                            } else if (comboBox.getSelectedIndex() == 1) {
+                                new RicercaComuneTipologia(4);
+                                dispose();
+                            }
+                        }
                     } else {
                         password.setBorder(new LineBorder(Color.RED, 3, true));
                         username.setBorder(new LineBorder(Color.RED, 3, true));

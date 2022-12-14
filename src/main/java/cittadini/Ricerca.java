@@ -5,6 +5,7 @@
  */
 package cittadini;
 
+
 import centrivaccinali.StruttureVaccinali;
 import shared.Utility;
 
@@ -24,6 +25,17 @@ public abstract class Ricerca extends JFrame implements ActionListener {
     protected int display_width = Utility.getDisplayWidth(),
                     display_height = Utility.getDisplayHeight();
     protected StruttureVaccinali strutture_vaccinali = null;
+    /**
+     * Campo utilizzato per permettere all'utente, dopo la ricerca e selezione di un centro vaccinale,
+     * di continuare l'operazione (che richiedeva l'immissione di un centro) da lui richiesta.
+     * I valori possibili sono:
+     * <p> 0 - valore d'inizializzazione (nessuna operazione) </p>
+     * <p> 1 - Visualizzazione delle informazioni riguardanti il centro selezionato </p>
+     * <p> 2 - Registrazione di un vaccinato </p>
+     * <p> 3 - Registrazione di un cittadino all'applicazione </p>
+     * <p> 4 - Inserimento eventi avversi post-vaccinazione </p>
+     */
+    protected int operazione_scelta = 0;
     protected DefaultListModel<String> list_model;
     /**
      * Utilizzata per contenere i nomi dei centri ricercati

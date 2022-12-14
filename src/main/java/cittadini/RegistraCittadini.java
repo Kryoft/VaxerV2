@@ -36,7 +36,8 @@ public class RegistraCittadini extends Registrazioni {
                                         user_txt = new PlaceholderTextField("user id"),
                                         id_txt = new PlaceholderTextField(" Identificativo ");
 
-    public RegistraCittadini() {
+    public RegistraCittadini(StruttureVaccinali struttura_vaccinale) {
+        this.struttura_vaccinale = struttura_vaccinale;
         initWindow();
     }
 
@@ -96,6 +97,8 @@ public class RegistraCittadini extends Registrazioni {
         layered_pane.add(centro_txt, 2, 0);
         layeredPaneSettings(0, new Rectangle(610, 710,                  //centro_txt
                 310, 40), 15, 0, false);
+        centro_txt.setEditable(false);
+        centro_txt.setText(struttura_vaccinale.getNomeCentro());
 
         layered_pane.add(id_txt, 2, 0);
         layeredPaneSettings(0, new Rectangle(930, 710,                  //id_txt
@@ -118,18 +121,18 @@ public class RegistraCittadini extends Registrazioni {
         try {
             if (e.getSource() == conferma) {
                 Utility.run();
-                String Nome = nome_txt.getText();
-                String Cognome = cognome_txt.getText();
-                String Codice = cf_txt.getText().toUpperCase();
+                String nome = nome_txt.getText();
+                String cognome = cognome_txt.getText();
+                String codice = cf_txt.getText().toUpperCase();
                 short id = (short) (Integer.parseInt(id_txt.getText()) - 32767);  // ?
                 String user = user_txt.getText();
                 String password = password_txt.getText();
                 String email = email_txt.getText();
-                String Centro = centro_txt.getText();
+                String centro = struttura_vaccinale.getNomeCentro();
                 String message = null;
                 Cittadini c = new Cittadini();
                 Login l;
-                if (!user.equals("user id") && !Nome.equals("nome") && !Cognome.equals("cognome") && !password.equals("password") && !Codice.equals("") && !email.equals("email") && !user.equals("") && !Nome.equals("") && !Cognome.equals("") && !password.equals("") && !email.equals("")) {
+                if (!user.equals("user id") && !nome.equals("nome") && !cognome.equals("cognome") && !password.equals("password") && !codice.equals("") && !email.equals("email") && !user.equals("") && !nome.equals("") && !cognome.equals("") && !password.equals("") && !email.equals("")) {
                     nome_txt.setBorder(border);
                     cognome_txt.setBorder(border);
                     email_txt.setBorder(border);
@@ -137,7 +140,7 @@ public class RegistraCittadini extends Registrazioni {
                     password_txt.setBorder(border);
                     user_txt.setBorder(border);
 
-                    if (Utility.esisteCentro(0, Centro, "./data/CentriVaccinali.dati.txt")) {
+//                    if (Utility.esisteCentro(0, centro, "./data/CentriVaccinali.dati.txt")) {
                         centro_txt.setBorder(border);
                         try {
                             if (!c.mailSyntaxCheck(email)) {
@@ -146,17 +149,17 @@ public class RegistraCittadini extends Registrazioni {
                                 throw new Eccezione();
                             }
                             email_txt.setBorder(border);
-                            if (!c.controllaCodiceFiscale(Codice)) {
+                            if (!c.controllaCodiceFiscale(codice)) {
                                 cf_txt.setBorder(new LineBorder(Color.RED, 3, true));
                                 message = "Sintassi del codice fiscale errata";
                                 throw new Eccezione();
                             }
                             cf_txt.setBorder(border);
 
-                            if (Utility.controlloCF(Codice, id, "./data/Vaccinati_" + Centro + ".dati.txt")) {
+                            if (Utility.controlloCF(codice, id, "./data/Vaccinati_" + centro + ".dati.txt")) {
                                 l = new Login(user, password);
-                                if (Utility.controlloLogin(l.toString(), "./data/log.txt") == false) {
-                                    c = new Cittadini(email, l, Centro, id, Nome, Cognome, Codice);
+                                if (!Utility.controlloLogin(l.toString(), "./data/log.txt")) {
+                                    c = new Cittadini(email, l, centro, id, nome, cognome, codice);
                                     cf_txt.setBorder(border);
                                     id_txt.setBorder(border);
                                     user_txt.setBorder(border);
@@ -188,15 +191,15 @@ public class RegistraCittadini extends Registrazioni {
                         } catch (IOException | URISyntaxException ex) {
                             Logger.getLogger(RegistraCittadini.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    } else {
-                        centro_txt.setBorder(new LineBorder(Color.RED, 3, true));
-                        JOptionPane.showMessageDialog(this, "Centro Insesistente o non registrato all'applicazione", "Errore", JOptionPane.ERROR_MESSAGE);
-                    }
+//                    } else {
+//                        centro_txt.setBorder(new LineBorder(Color.RED, 3, true));
+//                        JOptionPane.showMessageDialog(this, "Centro Insesistente o non registrato all'applicazione", "Errore", JOptionPane.ERROR_MESSAGE);
+//                    }
                 } else {
-                    SwingAwt.modificaBordo(Nome, nome_txt, border);
-                    SwingAwt.modificaBordo(Cognome, cognome_txt, border);
+                    SwingAwt.modificaBordo(nome, nome_txt, border);
+                    SwingAwt.modificaBordo(cognome, cognome_txt, border);
                     SwingAwt.modificaBordo(password, password_txt, border);
-                    SwingAwt.modificaBordo(Codice, cf_txt, border);
+                    SwingAwt.modificaBordo(codice, cf_txt, border);
                     SwingAwt.modificaBordo(user, user_txt, border);
                     SwingAwt.modificaBordo(email, email_txt, border);
                     JOptionPane.showMessageDialog(this, "Riempire tutti i campi", "Error", JOptionPane.ERROR_MESSAGE);
@@ -208,8 +211,8 @@ public class RegistraCittadini extends Registrazioni {
 
         } catch (NumberFormatException ec) {
             JOptionPane.showMessageDialog(this, "Errore di formattazione dovuto a valore numerico non rispettato", "Error112", JOptionPane.WARNING_MESSAGE);
-        } catch (IOException ex) {
-            Logger.getLogger(RegistraCittadini.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } // catch (IOException ex) {
+//            Logger.getLogger(RegistraCittadini.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 }

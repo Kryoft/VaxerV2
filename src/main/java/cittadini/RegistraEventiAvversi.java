@@ -8,6 +8,7 @@ package cittadini;
 import centrivaccinali.CentriVaccinaliGUI;
 import centrivaccinali.PlaceholderTextField;
 
+import centrivaccinali.StruttureVaccinali;
 import centrivaccinali.SwingAwt;
 import shared.Utility;
 
@@ -33,7 +34,8 @@ public class RegistraEventiAvversi extends Registrazioni {
 
     private final TextArea note_text = new TextArea();
 
-    public RegistraEventiAvversi() {
+    public RegistraEventiAvversi(StruttureVaccinali struttura_vaccinale) {
+        this.struttura_vaccinale = struttura_vaccinale;
         initWindow();
     }
 
@@ -53,6 +55,8 @@ public class RegistraEventiAvversi extends Registrazioni {
         layered_pane.add(nome_centro_text, 2, 0);
         layeredPaneSettings(0, new Rectangle(750, 240,              //nome_centro_text
                 310, 40), 15, 0, false);
+        nome_centro_text.setEditable(false);
+        nome_centro_text.setText(struttura_vaccinale.getNomeCentro());
 
         layered_pane.add(evento_label, 2, 0);
         layeredPaneSettings(0, new Rectangle(600, 350,              //evento_label
@@ -94,18 +98,18 @@ public class RegistraEventiAvversi extends Registrazioni {
     public void actionPerformed(ActionEvent e) {
         try {
             if (e.getSource() == conferma) {
-                String centro = nome_centro_text.getText();
-                String Note = note_text.getText();
-                String Evento = evento_text.getText();
+                String centro = struttura_vaccinale.getNomeCentro();
+                String note = note_text.getText();
+                String evento = evento_text.getText();
                 int Indice = Integer.parseInt(indice_severita_text.getText());
-                EventiAvversi ev = new EventiAvversi(Evento, Indice, Note, centro);
+                EventiAvversi ev = new EventiAvversi(evento, Indice, note, centro);
 
-                if (Utility.esisteCentro(0, centro, "./data/CentriVaccinali.dati.txt")) {
+//                if (Utility.esisteCentro(0, centro, "./data/CentriVaccinali.dati.txt")) {
 
-                    if (!centro.equals("") && !Evento.equals("")) {
+                    if (!evento.equals("")) {
                         evento_text.setBorder(border);
                         if (Indice >= 1 && Indice <= 5) {
-                            if (Note.length() < 256) {
+                            if (note.length() < 256) {
                                 Utility.scriviFile("./data/Vaccinati_" + centro + ".dati.txt", ev.toString());
                                 evento_text.setBorder(border);
                                 nome_centro_text.setBorder(border);
@@ -122,14 +126,14 @@ public class RegistraEventiAvversi extends Registrazioni {
                         }
                     } else {
 
-                        SwingAwt.modificaBordo(Evento, evento_text, border);
-                        SwingAwt.modificaBordo(centro, nome_centro_text, border);
-                        JOptionPane.showMessageDialog(this, "riempire tutti i campi", "Error", JOptionPane.ERROR_MESSAGE);
+                        SwingAwt.modificaBordo(evento, evento_text, border);
+//                        SwingAwt.modificaBordo(centro, nome_centro_text, border);
+                        JOptionPane.showMessageDialog(this, "Riempire tutti i campi", "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                } else {
-                    nome_centro_text.setBorder(new LineBorder(Color.RED, 3, true));
-                    JOptionPane.showMessageDialog(this, "Il centro da lei indicato non esiste o non si e' registrato all'applicazione", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+//                } else {
+//                    nome_centro_text.setBorder(new LineBorder(Color.RED, 3, true));
+//                    JOptionPane.showMessageDialog(this, "Il centro da lei indicato non esiste o non si e' registrato all'applicazione", "Error", JOptionPane.ERROR_MESSAGE);
+//                }
             } else if (e.getSource() == annulla) {
                 new CittadiniGUI();
                 this.dispose();
