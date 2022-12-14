@@ -290,7 +290,7 @@ public abstract class Utility {
         Cittadino cittadino = DBClient.getCittadinoByUsername(login.getUserId());
 
         if(cittadino != null){
-            return login.getPassword() == cittadino.getLogin().getPassword();
+            return login.getPassword().equals(cittadino.getLogin().getPassword());
         }
         return false;
     }
@@ -380,7 +380,9 @@ public abstract class Utility {
         }
     }
 
+
     public static void inserisciNuovoVaccinato(Vaccinato nuovo_vaccinato) throws  SQLException, RemoteException{
-        DBClient.insertVaccinato(new DBManager(), nuovo_vaccinato, "pizza");
+
+        DBClient.insertVaccinato(new DBManager(), nuovo_vaccinato);
     }
 }

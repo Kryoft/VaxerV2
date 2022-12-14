@@ -164,7 +164,7 @@ public class RegistraVaccinato extends Registrazioni {
                     //TODO Gestione SQLException
                     try{
                     if (Utility.esisteCentro(centro)) {
-                        if (va.controllaCodiceFiscale(Codice)) {
+                        if (va.controllaCodiceFiscale(Codice, Nome, Cognome)) {
                             txt_codice.setBorder(border);
 
                             /*
@@ -209,9 +209,9 @@ public class RegistraVaccinato extends Registrazioni {
             } catch (ParseException ex) {
                 txt_data.setBorder(new LineBorder(Color.RED, 3, true));
                 JOptionPane.showMessageDialog(this, "Formato della data errato", "Error112", JOptionPane.ERROR_MESSAGE);
-            } catch (IOException | URISyntaxException ex) {
-                Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } //catch (IOException | URISyntaxException ex) {
+              //  Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, ex);
+            //}
         }
 
         else if (e.getSource() == annulla) {

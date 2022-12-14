@@ -181,19 +181,69 @@ public class Cittadino {
     }
 
     /**
-     * Metodo che controlla la formattazione del codice fiscale servendosi di un <code>Pattern</code> preimpostato;
+     * Metodo che controlla la formattazione del codice fiscale servendosi di un <code>Pattern</code> preimpostato e
+     * controllando la validità della stringa generata da nome e cognome
      *
      * @param codice_fiscale codice fiscale
-     * @return vero se la formattazione è corretta
-     * @author Daniele Caspani
+     * @param nome
+     * @param cognome
+     * @return <code>true</code></ù> se la formattazione è corretta
+     * @author Daniele Caspani, Manuel Marceca
      * @see Pattern
      * @see Matcher
      */
-    public boolean controllaCodiceFiscale(String codice_fiscale) {
+    public boolean controllaCodiceFiscale(String codice_fiscale, String nome, String cognome) {
+
+        String s_cognome = "";
+        String s_nome = "";
+
+        nome = nome.toUpperCase();
+        cognome = cognome.toUpperCase();
+
+        String consonanti = "";
+        String vocali = "";
+
+        for(char c: cognome.toCharArray()){
+            String l = String.valueOf(c);
+            if(Pattern.compile("[A-Z&&[^AEIOU]]").matcher(l).matches()){
+                consonanti += l;
+            }else if(Pattern.compile("[AEIOU]").matcher(l).matches()){
+                vocali += l;
+            }
+        }
+        String lettere = consonanti + vocali;
+        if(lettere.length() >= 3){s_cognome = lettere.substring(0,3);}
+        else{s_cognome = lettere.substring(0,lettere.length());}
+        while(s_cognome.length() < 3){s_cognome += "X";}
+
+
+        consonanti = "";
+        vocali = "";
+        for(char c: nome.toCharArray()){
+            String l = String.valueOf(c);
+            if(Pattern.compile("[A-Z&&[^AEIOU]]").matcher(l).matches()){
+                consonanti += l;
+            }else if(Pattern.compile("[AEIOU]").matcher(l).matches()){
+                vocali += l;
+            }
+        }
+
+        if(consonanti.length() >= 4){s_nome += consonanti.charAt(0) + consonanti.charAt(2) + consonanti.charAt(3);}
+        if(consonanti.length() == 3){s_nome = consonanti.substring(0,3);}
+        else {
+            lettere = consonanti + vocali;
+            if (lettere.length() >= 3) {s_nome = lettere.substring(0, 3);}
+            else {s_nome = lettere.substring(0, lettere.length());}
+            while (s_nome.length() < 3) {
+                s_nome += "X";
+            }
+        }
+
+
         Pattern pattern = Pattern.compile("[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]");
         Matcher matcher = pattern.matcher(codice_fiscale);
-        boolean matchFound = matcher.matches();
-        return matchFound;
+        //boolean matchFound = matcher.matches();
+        return matcher.matches() && codice_fiscale.substring(0,6).equals(s_cognome+s_nome);
     }
 
     /**
@@ -216,4 +266,6 @@ public class Cittadino {
         boolean matchFound = matcher.matches();
         return matchFound;
     }
+
+
 }

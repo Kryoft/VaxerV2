@@ -51,6 +51,13 @@ public class DBClient {
         }
 
     }
+
+    /**
+     * Metodo utilizzato per inserire un oggetto di tipo <code>CentroVaccinale</code> nel database, tabella CENTROVACCINI
+     *
+     * @param centro l'oggetto <code>CentroVaccinale</code> da inserire
+     * @author Manuel Marceca
+     */
     public static void insertCentro(DBInterface dbobj, CentroVaccinale centro) throws SQLException, RemoteException {
 
         IndirizzoComposto indirizzo = centro.getIndirizzo();
@@ -70,23 +77,45 @@ public class DBClient {
         dbobj.executeQuery(ins_centro);
 
     }
-    public static int insertVaccinato(DBInterface dbobj, Vaccinato vaccinato, String cod_centro) throws SQLException, RemoteException {
+
+    /**
+     * Metodo utilizzato per inserire un oggetto di tipo Vaccinato nel database, tabella VACCINATI,
+     * e fornire l'identificativo unico rappresentante il vaccinato, il quale è generato dal database.
+     *
+     * @param vaccinato l'oggetto <code>Vaccinato</code> da inserire
+     * @return L'identificativo univoco del vaccinato
+     * @author Manuel Marceca
+     */
+
+    //TODO Gestione cod_centro restituito non valido (valore -1)
+    public static int insertVaccinato(DBInterface dbobj, Vaccinato vaccinato) throws SQLException, RemoteException {
+
+        String cod_centro = Integer.toString(getIdCentroByName(vaccinato.getNomeCentro()));
 
         String cod_fiscale = putApices(vaccinato.getCodiceFiscale());
         String nome = putApices(vaccinato.getNome());
         String cognome = putApices(vaccinato.getCognome());
         String data = putApices(vaccinato.getData().toString());
-        String identificativo = putApices(Integer.toString(vaccinato.getId()));
+        //String identificativo = putApices(Integer.toString(vaccinato.getId()));
         String vaccino = putApices(vaccinato.getVaccino().toString());
         cod_centro = putApices(cod_centro);
 
-        String ins_vaccinato = "INSERT INTO Vaccinati(cod_fiscale,nome,cognome,data,identificativo,vaccino,cod_centro)\n" +
-                "VALUES(" + cod_fiscale +","+ nome +","+ cognome +","+ data +","+ identificativo +","+ vaccino +","+ cod_centro + ")";
+        //String ins_vaccinato = "INSERT INTO Vaccinati(cod_fiscale,nome,cognome,data,identificativo,vaccino,cod_centro)\n" +
+        //        "VALUES(" + cod_fiscale +","+ nome +","+ cognome +","+ data +","+ identificativo +","+ vaccino +","+ cod_centro + ")";
+        String ins_vaccinato = "INSERT INTO Vaccinati(cod_fiscale,nome,cognome,data,vaccino,cod_centro)\n" +
+                "VALUES(" + cod_fiscale +","+ nome +","+ cognome +","+ data +","+ vaccino +","+ cod_centro + ")";
+
         dbobj.executeQuery(ins_vaccinato);
 
-        //TODO recuperare l'id generato dal db e restituirlo!
+        return getVaccinatoIdByCF(cod_fiscale);
     }
 
+    /**
+     * Metodo utilizzato per inserire un oggetto di tipo <code>Cittadino</code> nel database, tabella <code>Iscritti</code>
+     *
+     * @param cittadino l'oggetto <code>Cittadino</code> da inserire
+     * @author Manuel Marceca
+     */
     public static void insertIscritto(DBInterface dbobj, Cittadino cittadino) throws SQLException, RemoteException {
 
         String email = putApices(cittadino.getEmail());
@@ -98,7 +127,15 @@ public class DBClient {
         dbobj.executeQuery(ins_iscritto);
     }
 
-    public static void insertEvento(DBInterface dbobj, EventoAvverso eventoAvverso, String codice_centro) throws SQLException, RemoteException {
+    /**
+     * Metodo utilizzato per inserire un oggetto di tipo <code>EventoAvverso</code> nel database, tabella <code>EVENTI</code>
+     *
+     * @param eventoAvverso l'oggetto <code>EventoAvverso</code> da inserire
+     * @author Manuel Marceca
+     */
+    public static void insertEvento(DBInterface dbobj, EventoAvverso eventoAvverso) throws SQLException, RemoteException {
+
+        String codice_centro = Integer.toString(getIdCentroByName(eventoAvverso.getNomeCentro()));
 
         String cod_centro = putApices(codice_centro);
         String evento = putApices(eventoAvverso.getEvento());
@@ -112,6 +149,15 @@ public class DBClient {
         dbobj.executeQuery(ins_evento);
     }
 
+    /**
+     * Metodo utilizzato per ottenere dal database un oggetto di tipo <code>CentroVaccinale</code> dato
+     * il relativo campo <code>nome_centro</code>
+     *
+     * @param nome_centro il nome del centro vaccinale il cui oggetto si desidera ottenere
+     * @return l'oggetto <code>CentroVaccinale</code> relativo al nome del centro dato. Ritorna <code>null</code>
+     * se il centro non è stato trovato
+     * @author Manuel Marceca
+     */
     public static CentroVaccinale getCentroVaccinaleByName(String nome_centro){
         String select_centro = "SELECT * FROM CentroVaccini WHERE Nome = " + nome_centro + ";";
         CentroVaccinale centro = null;
@@ -121,7 +167,7 @@ public class DBClient {
             //int num_colonne = result_centri.getMetaData().getColumnCount();
             if (result_centri.next()){
 
-                long codice_centro = result_centri.getLong("Codice");
+                //long codice_centro = result_centri.getLong("Codice");
                 String rs_nome = result_centri.getString("Nome");
                 String rs_sigla = result_centri.getString("Sigla");
                 String rs_tipologia = result_centri.getString("Tipologia");
@@ -151,6 +197,43 @@ public class DBClient {
         return centro;
     }
 
+    /**
+     * Metodo utilizzato per ottenere dal database il codice univoco di un centro vaccinale dato
+     * il suo nome
+     *
+     * @param nome_centro il nome del centro vaccinale del quale si desidera ottenere il codice
+     * @return Il codice del relativo nome del centro dato. Ritorna <code>-1</code> se il codice non è stato trovato
+     * @author Manuel Marceca
+     */
+    public static int getIdCentroByName(String nome_centro){
+        String select_centro = "SELECT Codice FROM CentroVaccini WHERE Nome = " + nome_centro + ";";
+        long codice_centro = -1;
+        try {
+            ResultSet result_centro = DBInterface.executeQuery(select_centro);
+
+            //int num_colonne = result_centri.getMetaData().getColumnCount();
+            if (result_centro.next()){
+                codice_centro = result_centro.getLong("Codice");
+            }
+
+        }catch(SQLException se){
+            Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, se);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+
+        return (int)codice_centro;
+    }
+
+    /**
+     * Metodo utilizzato per ottenere dal database un oggetto di tipo <code>Cittadino</code> dato
+     * il suo username
+     *
+     * @param username l'username del cittadino che si desidera ottenere
+     * @return Un oggetto di tipo <code>Cittadino</code> relativo all'username dato. Ritorna <code>null</code>
+     *          se non è stata trovata alcuna corrispondenza
+     * @author Manuel Marceca
+     */
     public static Cittadino getCittadinoByUsername(String username){
         String select_iscritto = "SELECT * FROM Iscritti, Vaccinati, Centrovaccini WHERE Username = " + username + ";";
         Cittadino iscritto = null;
@@ -186,6 +269,15 @@ public class DBClient {
         return iscritto;
     }
 
+    /**
+     * Metodo utilizzato per ottenere dal database un oggetto di tipo <code>Vaccinato</code> dato
+     * il suo codice fiscale
+     *
+     * @param cf il codice fiscale corrispondente al vaccinato che si desidera ottenere
+     * @return Un oggetto di tipo <code>Vaccinato</code> relativo al codice fiscale dato. Ritorna <code>null</code>
+     *          se non è stata trovata alcuna corrispondenza
+     * @author Manuel Marceca
+     */
     public static Vaccinato getVaccinatoByCF(String cf){
         String select_vaccinato = "SELECT * FROM Vaccinati, CentroVaccini WHERE Cod_Fiscale = " + cf + ";";
         Vaccinato vaccinato = null;
@@ -217,9 +309,47 @@ public class DBClient {
         return vaccinato;
     }
 
+    /**
+     * Metodo utilizzato per ottenere dal database l'identificativo univoco di un vaccinato dato il
+     * suo codice fiscale
+     *
+     * @param cf il codice fiscale corrispondente al vaccinato che si desidera ottenere
+     * @return l'identificativo univoco del vaccinato relativo al codice fiscale dato. Ritorna <code>-1</code>
+     *          se l'identificativo non è stato trovato
+     * @author Manuel Marceca
+     */
+    public static int getVaccinatoIdByCF(String cf){
+        String select_vaccinato = "SELECT Identificativo FROM Vaccinati WHERE Cod_Fiscale = " + cf + ";";
+        int identificativo = -1;
+        try {
+            ResultSet rs_vaccinato = DBInterface.executeQuery(select_vaccinato);
+
+            //int num_colonne = result_centri.getMetaData().getColumnCount();
+            if (rs_vaccinato.next()){
+                long rs_id = rs_vaccinato.getLong("Identificativo");
+                identificativo = (int)rs_id;
+            }
+
+        }catch(SQLException se){
+            Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, se);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+
+        return identificativo;
+    }
+
 
     ///Utils
 
+    /**
+     * Metodo utile alla preparazione delle stringhe in modo che soddisfino la sintassi necessaria all'insert
+     * dei dati nel database.
+     *
+     * @param s una stringa
+     * @return la stringa data in input, con apici posti prima e dopo di essa
+     * @author Manuel Marceca
+     */
     private static String putApices(String s){ return "'" + s + "'";}
 
 

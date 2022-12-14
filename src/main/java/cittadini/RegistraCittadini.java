@@ -149,7 +149,7 @@ public class RegistraCittadini extends Registrazioni {
                                     throw new Eccezione();
                                 }
                                 email_txt.setBorder(border);
-                                if (!c.controllaCodiceFiscale(cf)) {
+                                if (!c.controllaCodiceFiscale(cf, nome, cognome)) {
                                     cf_txt.setBorder(new LineBorder(Color.RED, 3, true));
                                     message = "Sintassi del codice fiscale errata";
                                     throw new Eccezione();
