@@ -66,7 +66,7 @@ public class RegistraCittadini extends Registrazioni {
                 200, 100), 18, 1, false);
 
         layered_pane.add(cf_label, 2, 0);
-        layeredPaneSettings(0, new Rectangle(410, 520,                  //cf_label
+        layeredPaneSettings(0, new Rectangle(410, 370,                  //cf_label
                 520, 120), 16, 1, false);
 
         layered_pane.add(cf_txt, 2, 0);
@@ -74,7 +74,7 @@ public class RegistraCittadini extends Registrazioni {
                 310, 40), 15, 0, false);
 
         layered_pane.add(login_label, 2, 0);
-        layeredPaneSettings(0, new Rectangle(410, 370,                  //login_label
+        layeredPaneSettings(0, new Rectangle(410, 520,                  //login_label
                 520, 120), 16, 1, false);
 
         layered_pane.add(user_txt, 2, 0);
