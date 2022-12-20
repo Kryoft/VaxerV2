@@ -109,6 +109,14 @@ public abstract class Utility {
         }
     }
 
+    /**
+     * Metodo che ritorna un valore enum rappresentante la tipologia di vaccino
+     * data una stringa in ingresso
+     *
+     * @param tipo Il tipo di vaccino
+     * @return un enumerativo della classe <code>Vaccino</code>
+     * @author Manuel Marceca
+     */
     public static Vaccinato.Vaccino decidiVaccino(String tipo) {
         switch (tipo.toUpperCase()){
             case "JJ":
@@ -373,7 +381,7 @@ public abstract class Utility {
 
     public static String inserisciNuovoCentro(CentroVaccinale nuovo_centro){
         try{
-            DBClient.insertCentro(new DBManager(), nuovo_centro);
+            DBClient.insertCentro(nuovo_centro);
             return "";
         }catch(SQLException | RemoteException e){
             return "Errore nel database";
@@ -383,6 +391,6 @@ public abstract class Utility {
 
     public static void inserisciNuovoVaccinato(Vaccinato nuovo_vaccinato) throws  SQLException, RemoteException{
 
-        DBClient.insertVaccinato(new DBManager(), nuovo_vaccinato);
+        DBClient.insertVaccinato(nuovo_vaccinato);
     }
 }

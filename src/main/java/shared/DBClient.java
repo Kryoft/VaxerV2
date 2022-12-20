@@ -13,6 +13,7 @@ import java.rmi.registry.Registry;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,7 +59,7 @@ public class DBClient {
      * @param centro l'oggetto <code>CentroVaccinale</code> da inserire
      * @author Manuel Marceca
      */
-    public static void insertCentro(DBInterface dbobj, CentroVaccinale centro) throws SQLException, RemoteException {
+    public static void insertCentro(CentroVaccinale centro) throws SQLException, RemoteException {
 
         IndirizzoComposto indirizzo = centro.getIndirizzo();
 
@@ -74,7 +75,7 @@ public class DBClient {
         String ins_centro = "INSERT INTO centrovaccini(nome,comune,sigla,qualificatore,nome_via,num_civico,cap,Tipologia)\n"
                 + "VALUES(" + nome +","+ comune +","+ sigla +","+ qualificatore +","
                 + nome_via +","+ num_civico +","+ cap +","+ tipologia + ")";
-        dbobj.executeQuery(ins_centro);
+        DBInterface.executeQuery(ins_centro);
 
     }
 
@@ -88,7 +89,7 @@ public class DBClient {
      */
 
     //TODO Gestione cod_centro restituito non valido (valore -1)
-    public static int insertVaccinato(DBInterface dbobj, Vaccinato vaccinato) throws SQLException, RemoteException {
+    public static int insertVaccinato(Vaccinato vaccinato) throws SQLException, RemoteException {
 
         String cod_centro = Integer.toString(getIdCentroByName(vaccinato.getNomeCentro()));
 
@@ -105,7 +106,7 @@ public class DBClient {
         String ins_vaccinato = "INSERT INTO Vaccinati(cod_fiscale,nome,cognome,data,vaccino,cod_centro)\n" +
                 "VALUES(" + cod_fiscale +","+ nome +","+ cognome +","+ data +","+ vaccino +","+ cod_centro + ")";
 
-        dbobj.executeQuery(ins_vaccinato);
+        DBInterface.executeQuery(ins_vaccinato);
 
         return getVaccinatoIdByCF(cod_fiscale);
     }
@@ -116,7 +117,7 @@ public class DBClient {
      * @param cittadino l'oggetto <code>Cittadino</code> da inserire
      * @author Manuel Marceca
      */
-    public static void insertIscritto(DBInterface dbobj, Cittadino cittadino) throws SQLException, RemoteException {
+    public static void insertIscritto(Cittadino cittadino) throws SQLException, RemoteException {
 
         String email = putApices(cittadino.getEmail());
         String username = putApices(cittadino.getLogin().getUserId());
@@ -124,7 +125,7 @@ public class DBClient {
         String cod_fiscale = putApices(cittadino.getCodiceFiscale());
 
         String ins_iscritto = "INSERT INTO Iscritti VALUES(" + email +","+ username +","+ password +","+ cod_fiscale + ")";
-        dbobj.executeQuery(ins_iscritto);
+        DBInterface.executeQuery(ins_iscritto);
     }
 
     /**
@@ -133,7 +134,7 @@ public class DBClient {
      * @param eventoAvverso l'oggetto <code>EventoAvverso</code> da inserire
      * @author Manuel Marceca
      */
-    public static void insertEvento(DBInterface dbobj, EventoAvverso eventoAvverso) throws SQLException, RemoteException {
+    public static void insertEvento(EventoAvverso eventoAvverso) throws SQLException, RemoteException {
 
         String codice_centro = Integer.toString(getIdCentroByName(eventoAvverso.getNomeCentro()));
 
@@ -146,7 +147,8 @@ public class DBClient {
 
 
         String ins_evento = "INSERT INTO Eventi VALUES(" + cod_centro +","+ evento +","+ indice +","+ note + ")";
-        dbobj.executeQuery(ins_evento);
+        //dbobj.executeQuery(ins_evento);
+        DBInterface.executeQuery(ins_evento);
     }
 
     /**
@@ -296,7 +298,7 @@ public class DBClient {
                 String rs_cognome = rs_vaccinato.getString("Cognome");
 
 
-                vaccinato = new Vaccinato(rs_data, rs_vaccino, rs_nome_centro, id, rs_nome,
+                vaccinato = new Vaccinato(rs_data, rs_vaccino, rs_nome_centro, rs_id, rs_nome,
                         rs_cognome, cf);
             }
 
@@ -351,6 +353,26 @@ public class DBClient {
      * @author Manuel Marceca
      */
     private static String putApices(String s){ return "'" + s + "'";}
+
+    public static ArrayList<String> cercaCentri(String nome_centro){
+        final String select_centri = "SELECT Nome FROM CentroVaccini WHERE Nome LIKE '" + nome_centro + "%';";
+        ArrayList<String> nomi_trovati = new ArrayList<>();
+        try {
+            ResultSet rs_centri = DBInterface.executeQuery(select_centri);
+
+            //int num_colonne = result_centri.getMetaData().getColumnCount();
+            while (rs_centri.next()){
+                nomi_trovati.add(rs_centri.getString("Nome"));
+            }
+
+        }catch(SQLException se){
+            Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, se);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+
+        return nomi_trovati;
+    }
 
 
 }
