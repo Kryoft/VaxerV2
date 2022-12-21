@@ -6,6 +6,7 @@
 package cittadini;
 
 import centrivaccinali.IndirizzoComposto;
+import centrivaccinali.RegistraVaccinato;
 import centrivaccinali.StruttureVaccinali;
 import shared.Utility;
 
@@ -22,7 +23,19 @@ public class RicercaNomeCentro extends Ricerca {
     private final JLabel centro_label = new JLabel("Nome Centro:");
     private final JTextField centro_txt = new JTextField();
 
-    public RicercaNomeCentro() {
+    /**
+     * Questa classe implementa la ricerca di un centro vaccinale registrato all'applicazione tramite
+     * il suo nome.
+     *
+     * @param operazione Questo parametro viene utilizzato per "ricordare" l'operazione che va eseguita
+     *                   dopo la selezione di un centro vaccinale. I valori possibili sono:
+     *                   <p> 1 - Visualizzazione delle informazioni riguardanti il centro selezionato </p>
+     *                   <p> 2 - Registrazione di un vaccinato </p>
+     *                   <p> 3 - Registrazione di un cittadino all'applicazione </p>
+     *                   <p> 4 - Inserimento eventi avversi post-vaccinazione </p>
+     */
+    public RicercaNomeCentro(int operazione) {
+        operazione_scelta = operazione;
         initWindow();
     }
 
@@ -125,16 +138,24 @@ public class RicercaNomeCentro extends Ricerca {
                     JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo, Elementi trovati: " + i);
                     conferma.setEnabled(true);
                 }
-            } else {
+            } else
                 JOptionPane.showMessageDialog(this, "Errore: Campo nome centro vaccinale non valorizzato");
-            }
-        } else if (e.getSource() == conferma) {
+        }
+
+        else if (e.getSource() == conferma) {
             if (strutture_vaccinali == null)
                 JOptionPane.showMessageDialog(this, "Non e' stato selezionato alcun elemento", "Errore", JOptionPane.INFORMATION_MESSAGE);
             else {
-                new VisualizzaInfo(strutture_vaccinali);
+                switch (operazione_scelta) {
+                    case 1 -> new VisualizzaInfo(strutture_vaccinali);
+                    case 2 -> new RegistraVaccinato(strutture_vaccinali);
+                    case 3 -> new RegistraCittadini(strutture_vaccinali);
+                    case 4 -> new RegistraEventiAvversi(strutture_vaccinali);
+                    default -> { }
+                }
                 this.dispose();
             }
+
         } else if (e.getSource() == annulla) {
             new CittadiniGUI();
             this.dispose();

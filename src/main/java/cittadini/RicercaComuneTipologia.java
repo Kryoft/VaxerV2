@@ -6,6 +6,7 @@
 package cittadini;
 
 import centrivaccinali.IndirizzoComposto;
+import centrivaccinali.RegistraVaccinato;
 import centrivaccinali.StruttureVaccinali;
 import centrivaccinali.SwingAwt;
 import shared.Utility;
@@ -24,7 +25,19 @@ public class RicercaComuneTipologia extends Ricerca {
                             tipologia_label = new JLabel("Tipologia Centro");
     private final JTextField comune_txt = new JTextField();
 
-    public RicercaComuneTipologia() {
+    /**
+     * Questa classe implementa la ricerca di un centro vaccinale registrato all'applicazione tramite
+     * il suo Comune di residenza e la sua tipologia (Ospedaliero, Aziendale o Hub).
+     *
+     * @param operazione Questo parametro viene utilizzato per "ricordare" l'operazione che va eseguita
+     *                   dopo la selezione di un centro vaccinale. I valori possibili sono:
+     *                   <p> 1 - Visualizzazione delle informazioni riguardanti il centro selezionato </p>
+     *                   <p> 2 - Registrazione di un vaccinato </p>
+     *                   <p> 3 - Registrazione di un cittadino all'applicazione </p>
+     *                   <p> 4 - Inserimento eventi avversi post-vaccinazione </p>
+     */
+    public RicercaComuneTipologia(int operazione) {
+        operazione_scelta = operazione;
         initWindow();
     }
 
@@ -137,13 +150,22 @@ public class RicercaComuneTipologia extends Ricerca {
                     JOptionPane.showMessageDialog(this, " Nessun elemento trovato");
             } else
                 JOptionPane.showMessageDialog(this, "Tipologia centro e/o comune non selezionato");
-        } else if (e.getSource() == conferma) {
+        }
+
+        else if (e.getSource() == conferma) {
             if (strutture_vaccinali == null)
                 JOptionPane.showMessageDialog(this, "Non e' stato selezionato alcun elemento", "Errore", JOptionPane.INFORMATION_MESSAGE);
             else {
-                new VisualizzaInfo(strutture_vaccinali);
+                switch (operazione_scelta) {
+                    case 1 -> new VisualizzaInfo(strutture_vaccinali);
+                    case 2 -> new RegistraVaccinato(strutture_vaccinali);
+                    case 3 -> new RegistraCittadini(strutture_vaccinali);
+                    case 4 -> new RegistraEventiAvversi(strutture_vaccinali);
+                    default -> { }
+                }
                 this.dispose();
             }
+
         } else if (e.getSource() == annulla) {
             new CittadiniGUI();
             this.dispose();

@@ -5,6 +5,7 @@
  */
 package cittadini;
 
+import centrivaccinali.StruttureVaccinali;
 import shared.Utility;
 
 import javax.swing.*;
@@ -27,6 +28,7 @@ public abstract class Registrazioni extends JFrame implements ActionListener {
 
     protected JButton conferma = new JButton("CONFERMA"),
                         annulla = new JButton("TORNA INDIETRO");
+    protected StruttureVaccinali struttura_vaccinale;
     protected Border border;
     protected JLayeredPane layered_pane;
     protected JPanel background_panel, panel;
