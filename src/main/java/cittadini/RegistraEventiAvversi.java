@@ -6,9 +6,10 @@
 package cittadini;
 
 import centrivaccinali.CentriVaccinaliGUI;
+import centrivaccinali.CentroVaccinale;
 import centrivaccinali.PlaceholderTextField;
 
-import centrivaccinali.StruttureVaccinali;
+//import centrivaccinali.StruttureVaccinali;
 import centrivaccinali.SwingAwt;
 import shared.Utility;
 
@@ -18,7 +19,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,7 +35,7 @@ public class RegistraEventiAvversi extends Registrazioni {
 
     private final TextArea note_text = new TextArea();
 
-    public RegistraEventiAvversi(StruttureVaccinali struttura_vaccinale) {
+    public RegistraEventiAvversi(CentroVaccinale struttura_vaccinale) {
         this.struttura_vaccinale = struttura_vaccinale;
         initWindow();
     }

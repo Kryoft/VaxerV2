@@ -46,15 +46,17 @@ public class DBClient {
             Registry registry = LocateRegistry.getRegistry(ip, port);
 
             // Looking up the registry for the remote object
-            DBInterface dbobj = (DBInterface) registry.lookup("DBInterface");
+            //DBInterface dbobj = (DBInterface) registry.lookup("DBInterface");
             //insertCentro(dbobj,"Joe","Erba","ER", CentroVaccinale.Tipologia.OSPEDALIERO, IndirizzoComposto.Qualificatore.VIA,"Alserio",11,"22036");
             System.out.println("Remote method invoked ");
 
         } catch (NumberFormatException nfe) {
             nfe.printStackTrace();
-        } catch (Exception e) {  // non è il massimo catchare la classe generale Exception
-            System.err.println("Client exception: " + e.toString());
-            e.printStackTrace();
+            //} catch (Exception e) {  // non è il massimo catchare la classe generale Exception
+            //    System.err.println("Client exception: " + e.toString());
+            //     e.printStackTrace();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -85,6 +87,10 @@ public class DBClient {
         DBInterface.executeQuery(ins_centro);
         }  catch(PSQLException p){
             throw new DBException("Vaccinato",Integer.parseInt(p.getSQLState()),p.getMessage());
+        } catch(SQLException se){
+            Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, se);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
         }
     }
     /**
@@ -118,7 +124,11 @@ public class DBClient {
             DBInterface.executeQuery(ins_vaccinato);
         } catch(PSQLException p){
                 throw new DBException("Vaccinato",Integer.parseInt(p.getSQLState()),p.getMessage());
-            }
+        } catch(SQLException se){
+            Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, se);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
 
         return getVaccinatoIdByCF(cod_fiscale);
     }
@@ -142,6 +152,10 @@ public class DBClient {
             DBInterface.executeQuery(ins_iscritto);
         } catch(PSQLException p){
             throw new DBException("Iscritto",Integer.parseInt(p.getSQLState()),p.getMessage());
+        } catch(SQLException se){
+            Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, se);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -160,19 +174,21 @@ public class DBClient {
         String indice = putApices(Integer.toString(eventoAvverso.getIndice()));
         String note = putApices(eventoAvverso.getNoteOpzionali());
 
-
-
-
         String ins_evento = "INSERT INTO Eventi VALUES(" + cod_centro +","+ evento +","+ indice +","+ note + ")";
 
         try {
             DBInterface.executeQuery(ins_evento);
-        } catch(PSQLException p){
-            throw new DBException("Eventi",Integer.parseInt(p.getSQLState()),p.getMessage());
+        } catch(PSQLException p) {
+            throw new DBException("Eventi", Integer.parseInt(p.getSQLState()), p.getMessage());
+        }catch(SQLException se){
+            Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, se);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
         }
     }
 
     //TODO!
+    /*
     public static void insertLogEvento(DBInterface dbobj, int cod_evento,String email,int indice, String note) throws RemoteException, SQLException {
         String ins_evento = "INSERT INTO Evento(Cod_evento,Email,Indice,Note)" +
                 "VALUES(" + "'" + cod_evento + "'" +  "," + "'" + email + "'" + "," + "'\n"
@@ -183,6 +199,8 @@ public class DBClient {
             throw new DBException("Log_Evento",Integer.parseInt(p.getSQLState()),p.getMessage());
         }
     }
+
+     */
 
 
     /**
@@ -248,7 +266,8 @@ public class DBClient {
         String select_centro = "SELECT Codice FROM CentroVaccini WHERE Nome = " + nome_centro + ";";
         long codice_centro = -1;
         try {
-            ResultSet result_centro = DBInterface.executeQuery(select_centro);
+            Statement st = DBInterface.connected().createStatement();
+            ResultSet result_centro = st.executeQuery(select_centro);
 
             //int num_colonne = result_centri.getMetaData().getColumnCount();
             if (result_centro.next()){
@@ -278,7 +297,8 @@ public class DBClient {
         String select_iscritto = "SELECT * FROM Iscritti, Vaccinati, Centrovaccini WHERE Username = " + username + ";";
         Cittadino iscritto = null;
         try {
-            ResultSet rs_iscritto = DBInterface.executeQuery(select_iscritto);
+            Statement st = DBInterface.connected().createStatement();
+            ResultSet rs_iscritto = st.executeQuery(select_iscritto);
 
             //int num_colonne = result_centri.getMetaData().getColumnCount();
             if (rs_iscritto.next()){
@@ -322,7 +342,8 @@ public class DBClient {
         String select_vaccinato = "SELECT * FROM Vaccinati, CentroVaccini WHERE Cod_Fiscale = " + cf + ";";
         Vaccinato vaccinato = null;
         try {
-            ResultSet rs_vaccinato = DBInterface.executeQuery(select_vaccinato);
+            Statement st = DBInterface.connected().createStatement();
+            ResultSet rs_vaccinato = st.executeQuery(select_vaccinato);
 
             //int num_colonne = result_centri.getMetaData().getColumnCount();
             if (rs_vaccinato.next()){
@@ -362,7 +383,8 @@ public class DBClient {
         String select_vaccinato = "SELECT Identificativo FROM Vaccinati WHERE Cod_Fiscale = " + cf + ";";
         int identificativo = -1;
         try {
-            ResultSet rs_vaccinato = DBInterface.executeQuery(select_vaccinato);
+            Statement st = DBInterface.connected().createStatement();
+            ResultSet rs_vaccinato = st.executeQuery(select_vaccinato);
 
             //int num_colonne = result_centri.getMetaData().getColumnCount();
             if (rs_vaccinato.next()){
@@ -396,7 +418,8 @@ public class DBClient {
         final String select_centri = "SELECT Nome FROM CentroVaccini WHERE Nome LIKE '" + nome_centro + "%';";
         ArrayList<String> nomi_trovati = new ArrayList<>();
         try {
-            ResultSet rs_centri = DBInterface.executeQuery(select_centri);
+            Statement st = DBInterface.connected().createStatement();
+            ResultSet rs_centri = st.executeQuery(select_centri);
 
             //int num_colonne = result_centri.getMetaData().getColumnCount();
             while (rs_centri.next()){

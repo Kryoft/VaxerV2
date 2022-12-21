@@ -7,6 +7,8 @@ package cittadini;
 
 import centrivaccinali.*;
 
+import jdk.jshell.execution.Util;
+import shared.DBClient;
 import shared.Utility;
 
 import javax.swing.*;
@@ -15,6 +17,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,7 +40,7 @@ public class RegistraCittadini extends Registrazioni {
                                         user_txt = new PlaceholderTextField("user id"),
                                         id_txt = new PlaceholderTextField(" Identificativo ");
 
-    public RegistraCittadini(StruttureVaccinali struttura_vaccinale) {
+    public RegistraCittadini(CentroVaccinale struttura_vaccinale) {
         this.struttura_vaccinale = struttura_vaccinale;
         initWindow();
     }
@@ -125,13 +128,13 @@ public class RegistraCittadini extends Registrazioni {
                 String nome = nome_txt.getText();
                 String cognome = cognome_txt.getText();
                 String cf = cf_txt.getText().toUpperCase();
-                short id = (short) (Integer.parseInt(id_txt.getText()) - 32767);  // ?
+                short id = (short) (Integer.parseInt(id_txt.getText()) - 32767);  // ???
                 String user = user_txt.getText();
                 String password = password_txt.getText();
                 String email = email_txt.getText();
                 String centro = struttura_vaccinale.getNomeCentro();
                 String message = null;
-                Cittadini c = new Cittadini();
+                Cittadino c = new Cittadino();
                 Login l;
                 if (!user.equals("user id") && !nome.equals("nome") && !cognome.equals("cognome") && !password.equals("password") && !cf.equals("") && !email.equals("email") && !user.equals("") && !nome.equals("") && !cognome.equals("") && !password.equals("") && !email.equals("")) {
                     nome_txt.setBorder(border);
@@ -161,14 +164,16 @@ public class RegistraCittadini extends Registrazioni {
                             if (Utility.controlloCoppiaCFId(cf, id)) {
                                 l = new Login(user, password);
                                 if (!Utility.esisteUsername(l.getUserId())) {
-                                    c = new Cittadini(email, l, centro, id, nome, cognome, cf);
+                                    c = new Cittadino(email, l, centro, id, nome, cognome, cf);
                                     cf_txt.setBorder(border);
                                     id_txt.setBorder(border);
                                     user_txt.setBorder(border);
                                     password_txt.setBorder(border);
 
-                                        Utility.scriviFile("./data/log.txt", l.toString());
-                                        Utility.scriviFile("./data/Cittadini_Registrati.dati.txt", c.toString());
+                                        //Utility.scriviFile("./data/log.txt", l.toString());
+                                        //Utility.scriviFile("./data/Cittadini_Registrati.dati.txt", c.toString());
+                                    DBClient.insertIscritto(c);
+
                                         JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
                                         new CentriVaccinaliGUI();
                                         this.dispose();
@@ -190,16 +195,16 @@ public class RegistraCittadini extends Registrazioni {
                                 }
                             } catch (Eccezione exc) {
                                 JOptionPane.showMessageDialog(this, message, "errore", JOptionPane.ERROR_MESSAGE);
-                            } catch (IOException | URISyntaxException ex) {
-                                Logger.getLogger(RegistraCittadini.class.getName()).log(Level.SEVERE, null, ex);
-                            }
- //                       } else {
+                            } catch (SQLException | RemoteException ex) {
+                                throw new RuntimeException(ex);
+                        }
+                    //                       } else {
 //                            centro_txt.setBorder(new LineBorder(Color.RED, 3, true));
  //                           JOptionPane.showMessageDialog(this, "Centro Insesistente o non registrato all'applicazione", "Errore", JOptionPane.ERROR_MESSAGE);
   //                      }
                     //} catch(SQLException se){
                     //    Logger.getLogger(centrivaccinali.Registrazioni.class.getName()).log(Level.SEVERE, null, se);
-                    //}
+        //              }
 
                 } else {
                     SwingAwt.modificaBordo(nome, nome_txt, border);

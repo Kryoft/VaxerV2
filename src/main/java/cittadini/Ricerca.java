@@ -11,6 +11,7 @@ import shared.Utility;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -41,7 +42,7 @@ public abstract class Ricerca extends JFrame implements ActionListener {
      */
     protected JList<String> lista_centri;
 
-    protected HashSet<String> hash_set = new HashSet<>();
+    protected ArrayList<String> centri_trovati = new ArrayList<>();
     protected JPanel background = new JPanel();
     protected JButton cerca = new JButton(new ImageIcon(ClassLoader.getSystemResource("search.png"))),
                     conferma = new JButton("CONFERMA"),

@@ -6,21 +6,14 @@
 package centrivaccinali;
 
 import cittadini.Vaccinato;
-import shared.Utility;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class RegistraVaccinato extends Registrazioni {
 
@@ -34,7 +27,7 @@ public class RegistraVaccinato extends Registrazioni {
                             data_label = new JLabel("Data Vaccinazione(dd/mm/yy):", SwingConstants.CENTER);
     private final int width_label = 250;
 
-    private final StruttureVaccinali struttura_vaccinale;
+    private final CentroVaccinale struttura_vaccinale;
 
     private final JTextField txt_nome_centro = new JTextField(),
                                 txt_nome = new JTextField(),
@@ -57,7 +50,7 @@ public class RegistraVaccinato extends Registrazioni {
                         fourth_row_y = (int)(0.7 * display_height);
 
 
-    public RegistraVaccinato(StruttureVaccinali struttura_vaccinale) {
+    public RegistraVaccinato(CentroVaccinale struttura_vaccinale) {
         this.struttura_vaccinale = struttura_vaccinale;
         initWindow();
     }

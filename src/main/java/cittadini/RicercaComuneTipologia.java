@@ -8,7 +8,7 @@ package cittadini;
 import centrivaccinali.IndirizzoComposto;
 import centrivaccinali.CentroVaccinale;
 import centrivaccinali.RegistraVaccinato;
-import centrivaccinali.StruttureVaccinali;
+//import centrivaccinali.StruttureVaccinali;
 import centrivaccinali.SwingAwt;
 import shared.Utility;
 
@@ -93,7 +93,7 @@ public class RicercaComuneTipologia extends Ricerca {
         lista_centri.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                Iterator<String> it = hash_set.iterator();
+                Iterator<String> it = centri_trovati.iterator();
                 String[] a;
                 IndirizzoComposto ic;
                 while (it.hasNext()) {
@@ -121,15 +121,18 @@ public class RicercaComuneTipologia extends Ricerca {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == cerca) {
+            //TODO! Implementare un metodo ad hoc
+            /*
+
             conferma.setEnabled(false);
             lista_centri.setBackground(Color.LIGHT_GRAY);
-            hash_set.clear();
+            centri_trovati.clear();
             list_model.removeAllElements();
             String comune = comune_txt.getText().toUpperCase();
             boolean s1 = false;
             if (SwingAwt.decidiTipologia(centro_combo) != null && !comune.equals("")) {
 
-                hash_set = Utility.caricaFileInHashSet("./data/CentriVaccinali.dati.txt");
+                centri_trovati = Utility.caricaFileInHashSet("./data/CentriVaccinali.dati.txt");
                 Iterator<String> it = hash_set.iterator();
                 String[] a;
                 while (it.hasNext()) {
@@ -139,7 +142,6 @@ public class RicercaComuneTipologia extends Ricerca {
                         a = s.split(",");
                         if (comune.equals(a[5]) && SwingAwt.decidiTipologia(centro_combo) == Utility.decidiTipo(a[1])) {
                             list_model.addElement(a[0]);
-                            s1 = true;
                         }
                     }
                 }
@@ -151,6 +153,7 @@ public class RicercaComuneTipologia extends Ricerca {
                     JOptionPane.showMessageDialog(this, " Nessun elemento trovato");
             } else
                 JOptionPane.showMessageDialog(this, "Tipologia centro e/o comune non selezionato");
+        */
         }
 
         else if (e.getSource() == conferma) {

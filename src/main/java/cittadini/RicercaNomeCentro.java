@@ -8,7 +8,8 @@ package cittadini;
 import centrivaccinali.IndirizzoComposto;
 import centrivaccinali.CentroVaccinale;
 import centrivaccinali.RegistraVaccinato;
-import centrivaccinali.StruttureVaccinali;
+//import centrivaccinali.StruttureVaccinali;
+import shared.DBClient;
 import shared.Utility;
 
 import javax.swing.*;
@@ -82,9 +83,11 @@ public class RicercaNomeCentro extends Ricerca {
          * StruttureVaccinali strutture_vaccinali l'elemento selezionato
          */
         lista_centri.addListSelectionListener(new ListSelectionListener() {
+
+            //TODO! Rivedere indici, che ora non hanno più una logica, non utilizzando più gli array.
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                Iterator<String> it = hash_set.iterator();
+                Iterator<String> it = centri_trovati.iterator();
                 String[] a;
                 IndirizzoComposto ic;
                 while (it.hasNext()) {
@@ -114,22 +117,17 @@ public class RicercaNomeCentro extends Ricerca {
         if (e.getSource() == cerca) {
             conferma.setEnabled(false);
             list_model.removeAllElements();
-            hash_set.clear();
+            centri_trovati.clear();
             String copy;
-            String s = centro_txt.getText();
+            String nome_centro = centro_txt.getText();
             String[] a;
-            hash_set = Utility.caricaFileInHashSet("./data/CentriVaccinali.dati.txt");
-            Iterator<String> it = hash_set.iterator();
+            centri_trovati = DBClient.cercaCentri(nome_centro);
+            Iterator<String> it = centri_trovati.iterator();
 
             int i = 0;
-            if (!s.equals("")) {
-                while (it.hasNext()) {
-                    copy = it.next();
-                    a = copy.split(",");
-                    if (a[0].toLowerCase().contains(s.toLowerCase())) {
-                        list_model.addElement(a[0]);
-                        i++;
-                    }
+            if (!nome_centro.equals("")) {
+                for(String nome: centri_trovati) {
+                    list_model.addElement(nome);
                 }
 
                 if (i == 0) {
