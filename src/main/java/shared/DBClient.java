@@ -161,10 +161,13 @@ public class DBClient {
      * @author Manuel Marceca
      */
     public static CentroVaccinale getCentroVaccinaleByName(String nome_centro){
-        String select_centro = "SELECT * FROM CentroVaccini WHERE Nome = " + nome_centro + ";";
+        nome_centro = putApices(nome_centro);
+
+        String select_centro = "SELECT * FROM CentroVaccini WHERE Nome = " + nome_centro;
         CentroVaccinale centro = null;
         try {
-            ResultSet result_centri = DBInterface.executeQuery(select_centro);
+            Statement st = DBInterface.connected().createStatement();
+            ResultSet result_centri = st.executeQuery(select_centro);
 
             //int num_colonne = result_centri.getMetaData().getColumnCount();
             if (result_centri.next()){
