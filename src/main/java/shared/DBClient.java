@@ -37,7 +37,7 @@ public class DBClient {
         try {
             dbobj.upData(ins_centro);}
         catch(PSQLException p){
-            throw new DBException(1,Integer.parseInt(p.getSQLState()),p.getMessage());
+            throw new DBException("Centro",Integer.parseInt(p.getSQLState()),p.getMessage());
         }
     }
     public static void insertVaccinato(DBInterface dbobj,String cod_fiscale, String nome, String cognome, String data, int identificativo, Vaccinati.Vaccino vaccino, int cod_centro) throws RemoteException, SQLException {
@@ -48,7 +48,7 @@ public class DBClient {
             try {
             dbobj.upData(ins_vaccinato);}
             catch(PSQLException p){
-                throw new DBException(2,Integer.parseInt(p.getSQLState()),p.getMessage());
+                throw new DBException("Vaccinato",Integer.parseInt(p.getSQLState()),p.getMessage());
             }
     }
 
@@ -57,7 +57,7 @@ public class DBClient {
         try {
             dbobj.upData(ins_iscritto);}
         catch(PSQLException p){
-            throw new DBException(3,Integer.parseInt(p.getSQLState()),p.getMessage());
+            throw new DBException("Iscritto",Integer.parseInt(p.getSQLState()),p.getMessage());
         }
     }
 
@@ -68,7 +68,7 @@ public class DBClient {
         try {
             dbobj.upData(ins_evento);}
         catch(PSQLException p){
-            throw new DBException(4,Integer.parseInt(p.getSQLState()),p.getMessage());
+            throw new DBException("Log_Evento",Integer.parseInt(p.getSQLState()),p.getMessage());
         }
     }
     public static void insertEvento(DBInterface dbobj,String nome_evento) throws RemoteException, SQLException {
@@ -76,7 +76,7 @@ public class DBClient {
         try {
             dbobj.upData(ins_evento);}
         catch(PSQLException p){
-            throw new DBException(5,Integer.parseInt(p.getSQLState()),p.getMessage());
+            throw new DBException("Eventi",Integer.parseInt(p.getSQLState()),p.getMessage());
         }
     }
 }

@@ -7,19 +7,19 @@ public class DBException extends SQLException {
         super();
     }
 
-    public DBException(int tab,int state,String message) {
+    public DBException(String tab,int state,String message) {
         System.err.println(manageException(tab,state,message));
     }
 
-    public String manageException(int tab, int state,String message){
+    public String manageException(String tab, int state,String message){
         String s=null;
         switch(state) {
             case 23503:
-                if(tab==2)
+                if(tab.equals("Vaccinato"))
                    s= "Il centro indicato non esiste";
-                if(tab==3)
+                if(tab.equals("Iscritto"))
                     s="Non esiste alcun vaccinato per il codice fiscale selezionato";
-                if(tab==4)
+                if(tab.equals("Log_Evento"))
                     if (message.contains("ISCRITTI"))
                         s="Non è presente alcun utente per l'email inserita";
                     else
@@ -27,20 +27,20 @@ public class DBException extends SQLException {
                 break;
 
             case 23505:
-                if(tab==2){
+                if(tab.equals("Vaccinato")){
                     if(message.contains("Identifier"))
                         s="continuare ciclo di creazione numeri casuali";
                     else
                         s= "Il codice fiscale selezionato è già presente";}
 
-                if(tab==3) {
+                if(tab.equals("Iscritto")) {
                     if(message.contains("Username")){
                         s="Nome utente già inserito";}
                     else if (message.contains("Cod_Fiscale")){
                         s="Il codice fiscale selezionato appartiene già ad un utente";}
                     else
                         s= "Email già inserita";}
-                if(tab==4)
+                if(tab.equals("Log_Evento"))
                     s="Hai già inserito questo evento avverso";
 
                 break;
