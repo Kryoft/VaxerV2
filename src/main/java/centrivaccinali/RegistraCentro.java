@@ -14,6 +14,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -148,7 +150,7 @@ public class RegistraCentro extends Registrazioni {
         try {
             if (e.getSource() == conferma) {
                 String message = null;
-                IndirizzoComposto Ic;
+                IndirizzoComposto indirizzo;
                 int codice = Integer.parseInt(num_civico.getText());
                 String centro = nome_centro.getText();
                 String Via = via.getText();
@@ -162,40 +164,48 @@ public class RegistraCentro extends Registrazioni {
                     comune.setBorder(border);
                     sigla.setBorder(border);
                     try {
-                        Ic = new IndirizzoComposto(SwingAwt.decidiQualificatore(qualificatore_combo), Via, codice, Comune, Sigla, Cap);
+                        indirizzo = new IndirizzoComposto(SwingAwt.decidiQualificatore(qualificatore_combo), Via, codice, Comune, Sigla, Cap);
 
-                        if(!Ic.controllaNumeroCivico(codice)){
+                        if(!indirizzo.controllaNumeroCivico(codice)){
                             num_civico.setBorder(new LineBorder(Color.RED, 3, true));
                             message = "Il numero civico è invalido";
                             throw new Eccezione();
                         }
 
-                        if (!Ic.controllaCap(Cap)) {
+                        if (!indirizzo.controllaCap(Cap)) {
                             cap.setBorder(new LineBorder(Color.RED, 3, true));
                             message = "Il cap contiene 5 cifre decimali";
                             throw new Eccezione();
                         } else
                             SwingAwt.modificaBordo(Cap, cap, border);
 
-                        if (!Ic.controllaComune(Comune)) {
+                        if (!indirizzo.controllaComune(Comune)) {
                             comune.setBorder(new LineBorder(Color.RED, 3, true));
                             message = "Un comune puo' contenere solo caratteri letterali";
                             throw new Eccezione();
                         } else
                             SwingAwt.modificaBordo(Comune, comune, border);
 
-                        if (!Ic.controllaSigla(Sigla)) {
+                        if (!indirizzo.controllaSigla(Sigla)) {
                             sigla.setBorder(new LineBorder(Color.RED, 3, true));
                             message = "Una sigla di provincia contiene solo 2 caratteri letterali";
                             throw new Eccezione();
                         } else
                             SwingAwt.modificaBordo(Sigla, sigla, border);
 
-                        StruttureVaccinali sv = new StruttureVaccinali(centro, SwingAwt.decidiTipologia(tipologia_combo), Ic);
-                        if (Utility.esisteCentro(0, sv.getNomeCentro(), "./data/CentriVaccinali.dati.txt")) {
+                        CentroVaccinale nuovo_centro = new CentroVaccinale(centro, SwingAwt.decidiTipologia(tipologia_combo), indirizzo);
+
+                        if (Utility.esisteCentro(nuovo_centro.getNomeCentro())) {
                             JOptionPane.showMessageDialog(this, "Centro gia' esistente nell'applicazione; Cambiare Nome", "error", JOptionPane.ERROR_MESSAGE);
                         } else {
-                            Utility.scriviFile("./data/CentriVaccinali.dati.txt", sv.toString());
+
+                            // Dati validi! Insert nel database...
+
+
+
+                            //TODO gestione eccezioni lanciate dal metodo inserisciNuovoCentro()
+                            Utility.inserisciNuovoCentro(nuovo_centro);
+                            //Utility.scriviFile("./data/CentriVaccinali.dati.txt", nuovo_centro.toString());
 
                             nome_centro.setBorder(border);
                             via.setBorder(border);
@@ -205,8 +215,8 @@ public class RegistraCentro extends Registrazioni {
                         }
                     } catch (Eccezione ex) {
                         JOptionPane.showMessageDialog(this, message, "errore", JOptionPane.ERROR_MESSAGE);
-                    } catch (IOException | URISyntaxException ex) {
-                        Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (SQLException se) {
+                        Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, se);
                     }
                 } else {
                     SwingAwt.modificaBordo(centro, nome_centro, border);

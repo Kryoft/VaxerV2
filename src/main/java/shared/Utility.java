@@ -5,8 +5,12 @@
  */
 package shared;
 
+import centrivaccinali.Eccezione;
 import centrivaccinali.IndirizzoComposto;
-import centrivaccinali.StruttureVaccinali;
+import centrivaccinali.CentroVaccinale;
+import cittadini.Cittadino;
+import cittadini.Login;
+import cittadini.Vaccinato;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +18,8 @@ import java.io.*;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -60,44 +66,74 @@ public abstract class Utility {
     }
 
     /**
-     * Metodo utile per definire il valore di un enum preso una stringa in ingresso.
+     * Metodo che ritorna un valore enum rappresentante la tipologia di centro vaccinale
+     * data una stringa in ingresso
      *
      * @param tipo La tipologia di centro vaccinale selezionata
      * @return un enumerativo della classe Tipologia
-     * @author Daniele Caspani
+     * @author Manuel Marceca
      */
-    public static StruttureVaccinali.Tipologia decidiTipo(String tipo) {
-        if (tipo.equals("OSPEDALIERO")) {
-            return StruttureVaccinali.Tipologia.OSPEDALIERO;
+    public static CentroVaccinale.Tipologia decidiTipo(String tipo) {
+        switch (tipo.toUpperCase()){
+            case "HUB":
+                return CentroVaccinale.Tipologia.HUB;
+            case "OSPEDALIERO":
+                return CentroVaccinale.Tipologia.OSPEDALIERO;
+            case "AZIENDALE":
+                return CentroVaccinale.Tipologia.AZIENDALE;
+
+            default:
+                return CentroVaccinale.Tipologia.OSPEDALIERO;
         }
-        if (tipo.equals("AZIENDALE")) {
-            return StruttureVaccinali.Tipologia.AZIENDALE;
-        }
-        if (tipo.equals("HUB")) {
-            return StruttureVaccinali.Tipologia.HUB;
-        }
-        return null;
     }
 
     /**
-     * Metodo che ottiene un valore enum da una stringa in ingresso
+     * Metodo che ritorna un valore enum rappresentante il qualificatore dell'indirizzo
+     * data una stringa in ingresso
      *
      * @param tipo Il tipo di qualificatore di un luogo fisico
      * @return un enumerativo della classe Qualificatore
-     * @author Daniele Caspani
+     * @author Manuel Marceca
      */
     public static IndirizzoComposto.Qualificatore decidiQualificatore(String tipo) {
-        if (tipo.equals("PIAZZA")) {
-            return IndirizzoComposto.Qualificatore.PIAZZA;
+        switch (tipo.toUpperCase()){
+            case "VIA":
+                return IndirizzoComposto.Qualificatore.VIA;
+            case "PIAZZA":
+                return IndirizzoComposto.Qualificatore.PIAZZA;
+            case "VIALE":
+                return IndirizzoComposto.Qualificatore.VIALE;
+
+            default:
+                return IndirizzoComposto.Qualificatore.VIA;
         }
-        if (tipo.equals("VIA")) {
-            return IndirizzoComposto.Qualificatore.VIA;
-        }
-        if (tipo.equals("VIALE")) {
-            return IndirizzoComposto.Qualificatore.VIALE;
-        }
-        return null;
     }
+
+    /**
+     * Metodo che ritorna un valore enum rappresentante la tipologia di vaccino
+     * data una stringa in ingresso
+     *
+     * @param tipo Il tipo di vaccino
+     * @return un enumerativo della classe <code>Vaccino</code>
+     * @author Manuel Marceca
+     */
+    public static Vaccinato.Vaccino decidiVaccino(String tipo) {
+        switch (tipo.toUpperCase()){
+            case "JJ":
+                return Vaccinato.Vaccino.JJ;
+            case "MODERNA":
+                return Vaccinato.Vaccino.Moderna;
+            case "ASTRAZENECA":
+                return Vaccinato.Vaccino.AstraZeneca;
+            case "PFIZER":
+                return Vaccinato.Vaccino.Pfizer;
+
+            default:
+                return Vaccinato.Vaccino.Pfizer;
+        }
+    }
+
+
 
     /**
      * Metodo che permette di scrivere in un file tramite l'utilizzo di un buffer
@@ -192,9 +228,23 @@ public abstract class Utility {
      * @return
      * @throws IOException
      */
-    public static boolean esisteCentro(int string_index, String centro, String file) throws IOException {
+    /*
+    public static boolean esisteCentro(int string_index, String centro, String file) throws SQLException{
         HashSet<String> hash_set = leggiFile(string_index, file);
         return hash_set.contains(centro);
+    }
+    */
+
+    /**
+     * Metodo utilizzato per controllare se un dato nome di centro è già stato registrato nel database
+     *
+     * @param nome_centro  Il nome del centro vaccinale
+     * @return <code>true</code> se il dato nome è già presente nel database, altrimento <code>false</code>
+     * @throws SQLException
+     * @author Manuel Marceca
+     */
+    public static boolean esisteCentro(String nome_centro) throws SQLException{
+        return DBClient.getCentroVaccinaleByName(nome_centro) != null;
     }
 
     /**
@@ -206,6 +256,8 @@ public abstract class Utility {
      * @return
      * @throws IOException
      */
+
+    /* NON PIU' NECESSARIA!
     public static short idControl(int string_index, String id, String file) throws IOException {
         HashSet<String> hash_set = leggiFile(string_index, file);
         if (hash_set.size() < 65534) {
@@ -218,7 +270,9 @@ public abstract class Utility {
         return 0;
     }
 
-    /**
+     */
+
+    /*
      * Metodo utilizzato per controllare che il login sia effettivamente regolare
      *
      * @param login
@@ -226,13 +280,41 @@ public abstract class Utility {
      * @return
      * @author Daniele Caspani
      */
+    /*
     public static boolean controlloLogin(String login, String file) {
-        // TODO: Gestire il caso in cui il file non esiste (altrimenti viene lanciata un'eccezione)
         HashSet<String> hash_set = caricaFileInHashSet(file);
         return hash_set.contains(login);
     }
+     */
 
     /**
+     * Metodo utilizzato per controllare che il login sia effettivamente regolare
+     *
+     * @param login
+     * @return <code>true</code> se la coppia (username, password) è presente nel database.
+     * @author Manuel Marceca
+     */
+    public static boolean loginOk(Login login) {
+        Cittadino cittadino = DBClient.getCittadinoByUsername(login.getUserId());
+
+        if(cittadino != null){
+            return login.getPassword().equals(cittadino.getLogin().getPassword());
+        }
+        return false;
+    }
+
+    /**
+     * Metodo utilizzato per controllare se l'username è già in uso.
+     *
+     * @param username
+     * @return <code>true</code> se l'username è presente nel database.
+     * @author Manuel Marceca
+     */
+    public static boolean esisteUsername(String username){
+        return DBClient.getCittadinoByUsername(username) != null;
+    }
+
+    /*
      * Metodo utilizzato per controllare la correttezza della coppia codice fiscale id
      *
      * @param codice_fiscale  codice fiscale
@@ -240,6 +322,7 @@ public abstract class Utility {
      * @param file            percorso file
      * @return
      */
+    /*
     public static boolean controlloCF(String codice_fiscale, short id, String file) {
         HashSet<String> hash_set = caricaFileInHashSet(file);
         Iterator<String> iterator = hash_set.iterator();
@@ -254,6 +337,22 @@ public abstract class Utility {
         }
         return false;
     }
+     */
+
+    /**
+     * Metodo utilizzato per controllare la correttezza della coppia codice fiscale id nel database
+     *
+     * @param codice_fiscale  codice fiscale
+     * @param id              identificativo
+     * @return <code>true</code> se la coppia è presente nel database
+     * @author Manuel Marceca
+     */
+    public static boolean controlloCoppiaCFId(String codice_fiscale, int id) {
+        Vaccinato vaccinato = DBClient.getVaccinatoByCF(codice_fiscale);
+        return vaccinato != null && vaccinato.getId() == id;
+    }
+
+
 
     /**
      * Metodo utilizzato per ottenere il comune di provenienza del centro selezionato
@@ -263,6 +362,8 @@ public abstract class Utility {
      * @return
      * @author Daniele Caspani
      */
+
+    //TODO METODO MAI USATO! DEFINIRE SE UTILE
     public static String controllaComune(String centro, String file) {
         HashSet<String> hash_set = caricaFileInHashSet(file);
         Iterator<String> iterator = hash_set.iterator();
@@ -275,5 +376,21 @@ public abstract class Utility {
             }
         }
         return null;
+    }
+
+
+    public static String inserisciNuovoCentro(CentroVaccinale nuovo_centro){
+        try{
+            DBClient.insertCentro(nuovo_centro);
+            return "";
+        }catch(SQLException | RemoteException e){
+            return "Errore nel database";
+        }
+    }
+
+
+    public static void inserisciNuovoVaccinato(Vaccinato nuovo_vaccinato) throws  SQLException, RemoteException{
+
+        DBClient.insertVaccinato(nuovo_vaccinato);
     }
 }

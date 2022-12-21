@@ -5,7 +5,7 @@
  */
 package centrivaccinali;
 
-import cittadini.*;
+import cittadini.Vaccinato;
 import shared.Utility;
 
 import javax.swing.*;
@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
@@ -155,7 +156,7 @@ public class RegistraVaccinato extends Registrazioni {
             Date data = null;
             String Codice = txt_codice.getText().toUpperCase();
             short id = 0;
-            Vaccinati va = new Vaccinati();
+            Vaccinato va = new Vaccinato();
             try {
                 data = data_formatted.parse(data_string);
                 if (!nome.equals("") && !cognome.equals("") && !data_string.equals("") && !Codice.equals("")) {
@@ -165,18 +166,21 @@ public class RegistraVaccinato extends Registrazioni {
                     txt_cognome.setBorder(border);
 
 //                    if (Utility.esisteCentro(0, centro, "./data/CentriVaccinali.dati.txt")) {
-                        if (va.controllaCodiceFiscale(Codice)) {
+                        if (va.controllaCodiceFiscale(Codice, nome, cognome)) {
                             txt_codice.setBorder(border);
 
+                            /*
                             Random random = new Random();
                             id = (short) ((short) random.nextInt(65534) - 32767);
                             id = Utility.idControl(2, String.valueOf(id), "./data/Vaccinati_" + centro + ".dati.txt");
 
                             if (id != 0) {
-                                va = new Vaccinati(data, SwingAwt.decidiVaccino(vaccino_combo), centro, id, nome, cognome, Codice);
-                                Utility.scriviFile("./data/Vaccinati_" + centro + ".dati.txt", va.toString());
+                                va = new Vaccinato(Data, SwingAwt.decidiVaccino(vaccino_combo), centro, id, Nome, Cognome, Codice);
+                                Utility.scriviFile("./data/Vaccinati_" + va.getNomeCentro() + ".dati.txt", va.toString());
                             } else
                                 JOptionPane.showMessageDialog(this, "Non e' possibile inserire più vaccinati per questo centro", "Errore", JOptionPane.WARNING_MESSAGE);
+
+                            */
                             txt_data.setBorder(border);
                             txt_nome.setBorder(border);
                             txt_cognome.setBorder(border);
@@ -204,9 +208,9 @@ public class RegistraVaccinato extends Registrazioni {
             } catch (ParseException ex) {
                 txt_data.setBorder(new LineBorder(Color.RED, 3, true));
                 JOptionPane.showMessageDialog(this, "Formato della data errato", "Error112", JOptionPane.ERROR_MESSAGE);
-            } catch (IOException | URISyntaxException ex) {
-                Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } //catch (IOException | URISyntaxException ex) {
+              //  Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, ex);
+            //}
         }
 
         else if (e.getSource() == annulla) {

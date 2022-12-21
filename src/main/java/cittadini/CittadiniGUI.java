@@ -183,7 +183,7 @@ public class CittadiniGUI extends JFrame implements ActionListener {
                 chosen_option = JOptionPane.showConfirmDialog(null, message, "Esegui il Login per Segnalare un Evento Avverso", JOptionPane.OK_CANCEL_OPTION);
                 if (chosen_option == JOptionPane.OK_OPTION) {
                     Login login = new Login(username.getText(), password.getText());
-                    if (Utility.controlloLogin(login.toString(), "./data/log.txt")) {
+                    if (Utility.loginOk(login)) {
                         logged_in = true;
 //                        new RegistraEventiAvversi();
 //                        dispose();

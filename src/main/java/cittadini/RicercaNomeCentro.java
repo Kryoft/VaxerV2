@@ -6,6 +6,7 @@
 package cittadini;
 
 import centrivaccinali.IndirizzoComposto;
+import centrivaccinali.CentroVaccinale;
 import centrivaccinali.RegistraVaccinato;
 import centrivaccinali.StruttureVaccinali;
 import shared.Utility;
@@ -91,7 +92,7 @@ public class RicercaNomeCentro extends Ricerca {
                     a = s.split(",");
                     if (a[0].equals(lista_centri.getSelectedValue())) {
                         ic = new IndirizzoComposto(Utility.decidiQualificatore(a[2]), a[3], Integer.parseInt(a[4]), a[5], a[6], a[7]);
-                        strutture_vaccinali = new StruttureVaccinali(a[0], Utility.decidiTipo(a[1]), ic);
+                        strutture_vaccinali = new CentroVaccinale(a[0], Utility.decidiTipo(a[1]), ic);
                         break;
                     }
                 }

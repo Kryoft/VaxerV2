@@ -18,6 +18,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -102,29 +103,29 @@ public class RegistraEventiAvversi extends Registrazioni {
                 String note = note_text.getText();
                 String evento = evento_text.getText();
                 int Indice = Integer.parseInt(indice_severita_text.getText());
-                EventiAvversi ev = new EventiAvversi(evento, Indice, note, centro);
+                EventoAvverso ev = new EventoAvverso(evento, Indice, note, centro);
 
 //                if (Utility.esisteCentro(0, centro, "./data/CentriVaccinali.dati.txt")) {
 
-                    if (!evento.equals("")) {
-                        evento_text.setBorder(border);
-                        if (Indice >= 1 && Indice <= 5) {
-                            if (note.length() < 256) {
-                                Utility.scriviFile("./data/Vaccinati_" + centro + ".dati.txt", ev.toString());
-                                evento_text.setBorder(border);
-                                nome_centro_text.setBorder(border);
-                                indice_severita_text.setBorder(border);
-                                JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
-                                new CentriVaccinaliGUI();
-                                this.dispose();
+                        if (!evento.equals("")) {
+                            evento_text.setBorder(border);
+                            if (Indice >= 1 && Indice <= 5) {
+                                if (note.length() < 256) {
+                                    Utility.scriviFile("./data/Vaccinati_" + centro + ".dati.txt", ev.toString());
+                                    evento_text.setBorder(border);
+                                    nome_centro_text.setBorder(border);
+                                    indice_severita_text.setBorder(border);
+                                    JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
+                                    new CentriVaccinaliGUI();
+                                    this.dispose();
+                                } else {
+                                    JOptionPane.showMessageDialog(this, "I caratteri delle note opzionali non possono essere più di 256", "Errore Formato", JOptionPane.ERROR_MESSAGE);
+                                }
                             } else {
-                                JOptionPane.showMessageDialog(this, "I caratteri delle note opzionali non possono essere più di 256", "Errore Formato", JOptionPane.ERROR_MESSAGE);
+                                indice_severita_text.setBorder(new LineBorder(Color.RED, 3, true));
+                                JOptionPane.showMessageDialog(this, "Inserire un indice che va da 1 a 5", "Errore Formato", JOptionPane.ERROR_MESSAGE);
                             }
                         } else {
-                            indice_severita_text.setBorder(new LineBorder(Color.RED, 3, true));
-                            JOptionPane.showMessageDialog(this, "Inserire un indice che va da 1 a 5", "Errore Formato", JOptionPane.ERROR_MESSAGE);
-                        }
-                    } else {
 
                         SwingAwt.modificaBordo(evento, evento_text, border);
 //                        SwingAwt.modificaBordo(centro, nome_centro_text, border);

@@ -39,7 +39,7 @@ public class DBManager implements DBInterface{
         System.err.println("Server ready");
     }
 
-    @Override
+    /*@Override
     public Connection connected() throws SQLException {
         Connection conn = null;
             conn = DriverManager.getConnection(
@@ -51,9 +51,15 @@ public class DBManager implements DBInterface{
         }
         return conn;
     }
+
+
     public void selectData(String query) throws SQLException {
+        // crea il java statement
         Statement st = connected().createStatement();
+
+        // esegue la query e mette i risultati in rs
         ResultSet rs = st.executeQuery(query);
+        // iterate through the java resultset
         while (rs.next()) {
             String nome = rs.getString("nome");
             String comune = rs.getString("comune");
@@ -61,11 +67,18 @@ public class DBManager implements DBInterface{
             String nome_via= rs.getString("nome_via");
             String id = rs.getString("codice");
             String qualificatore=rs.getString("qualificatore");
-
+            // print the results
             System.out.format("%s, %s, %s, %s, %s, %s\n", id,nome,comune,sigla,qualificatore,nome_via);
         }
         st.close();
     }
+
+     */
+    /*
+    public void executeQuery(String query) throws SQLException {
+        Statement st = connected().createStatement();
+        st.executeUpdate(query);
+        st.close();
     public void upData(String query) throws SQLException {
         Statement st = null;
             st = connected().createStatement();
@@ -73,4 +86,6 @@ public class DBManager implements DBInterface{
             st.close();
             connected().close();
     }
+
+     */
 }
