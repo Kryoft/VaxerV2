@@ -6,11 +6,14 @@
 package centrivaccinali;
 
 import cittadini.Vaccinato;
+import shared.Utility;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
@@ -147,19 +150,19 @@ public class RegistraVaccinato extends Registrazioni {
             String data_string = txt_data.getText();
             DateFormat data_formatted = DateFormat.getDateInstance(DateFormat.SHORT);
             Date data = null;
-            String Codice = txt_codice.getText().toUpperCase();
-            short id = 0;
-            Vaccinato va = new Vaccinato();
+            String cf = txt_codice.getText().toUpperCase();
+            //short id = 0;
+            Vaccinato nuovo_vaccinato = new Vaccinato();
             try {
                 data = data_formatted.parse(data_string);
-                if (!nome.equals("") && !cognome.equals("") && !data_string.equals("") && !Codice.equals("")) {
+                if (!nome.equals("") && !cognome.equals("") && !data_string.equals("") && !cf.equals("")) {
                     txt_nome_centro.setBorder(border);
                     txt_data.setBorder(border);
                     txt_nome.setBorder(border);
                     txt_cognome.setBorder(border);
 
 //                    if (Utility.esisteCentro(0, centro, "./data/CentriVaccinali.dati.txt")) {
-                        if (va.controllaCodiceFiscale(Codice, nome, cognome)) {
+                        if (nuovo_vaccinato.controllaCodiceFiscale(cf, nome, cognome)) {
                             txt_codice.setBorder(border);
 
                             /*
@@ -174,11 +177,14 @@ public class RegistraVaccinato extends Registrazioni {
                                 JOptionPane.showMessageDialog(this, "Non e' possibile inserire più vaccinati per questo centro", "Errore", JOptionPane.WARNING_MESSAGE);
 
                             */
+                            nuovo_vaccinato = new Vaccinato(data, SwingAwt.decidiVaccino(vaccino_combo), centro, nome, cognome, cf);
+                            int id = Utility.inserisciNuovoVaccinato(nuovo_vaccinato);
+
                             txt_data.setBorder(border);
                             txt_nome.setBorder(border);
                             txt_cognome.setBorder(border);
                             JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
-                            JOptionPane.showMessageDialog(this, "L' Identificativo Associato e' " + (id + 32767));
+                            JOptionPane.showMessageDialog(this, "L' Identificativo Associato e' " + (id));
 
                             new CentriVaccinaliGUI();
                             this.dispose();
@@ -194,7 +200,7 @@ public class RegistraVaccinato extends Registrazioni {
 //                    SwingAwt.modificaBordo(centro, txt_nome_centro, border);
                     SwingAwt.modificaBordo(nome, txt_nome, border);
                     SwingAwt.modificaBordo(cognome, txt_cognome, border);
-                    SwingAwt.modificaBordo(Codice, txt_codice, border);
+                    SwingAwt.modificaBordo(cf, txt_codice, border);
                     SwingAwt.modificaBordo(data_string, txt_data, border);
                     JOptionPane.showMessageDialog(this, "Riempire Tutti i Campi", "Errore", JOptionPane.ERROR_MESSAGE);
                 }
@@ -202,7 +208,12 @@ public class RegistraVaccinato extends Registrazioni {
                 txt_data.setBorder(new LineBorder(Color.RED, 3, true));
                 JOptionPane.showMessageDialog(this, "Formato della data errato", "Error112", JOptionPane.ERROR_MESSAGE);
             } //catch (IOException | URISyntaxException ex) {
-              //  Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, ex);
+            catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
+            }
+            //  Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, ex);
             //}
         }
 

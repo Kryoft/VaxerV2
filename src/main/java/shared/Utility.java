@@ -389,8 +389,8 @@ public abstract class Utility {
     }
 
 
-    public static void inserisciNuovoVaccinato(Vaccinato nuovo_vaccinato) throws  SQLException, RemoteException{
+    public static int inserisciNuovoVaccinato(Vaccinato nuovo_vaccinato) throws  SQLException, RemoteException{
 
-        DBClient.insertVaccinato(nuovo_vaccinato);
+       return DBClient.insertVaccinato(nuovo_vaccinato);
     }
 }

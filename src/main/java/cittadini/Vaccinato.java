@@ -27,6 +27,12 @@ public class Vaccinato extends Cittadino {
         this.vaccino = vaccino;
     }
 
+    public Vaccinato(Date data, Vaccino vaccino, String nome_centro, String nome, String cognome, String codice_fiscale){
+        super(nome_centro, nome, cognome, codice_fiscale);
+        this.data = data;
+        this.vaccino = vaccino;
+    }
+
     /**
      * Restituisce il valore della data di vaccinazione
      *

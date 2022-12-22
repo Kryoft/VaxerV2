@@ -13,6 +13,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -121,14 +122,17 @@ public class DBClient {
                 "VALUES(" + cod_fiscale +","+ nome +","+ cognome +","+ data +","+ vaccino +","+ cod_centro + ")";
 
         try {
-            DBInterface.executeQuery(ins_vaccinato);
+            Statement st = DBInterface.connected().createStatement();
+            st.executeUpdate(ins_vaccinato);
         } catch(PSQLException p){
-                throw new DBException("Vaccinato",Integer.parseInt(p.getSQLState()),p.getMessage());
+            throw new DBException("Vaccinato",Integer.parseInt(p.getSQLState()),p.getMessage());
         } catch(SQLException se){
             Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, se);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
+
+
 
         return getVaccinatoIdByCF(cod_fiscale);
     }
@@ -263,6 +267,7 @@ public class DBClient {
      * @author Manuel Marceca
      */
     public static int getIdCentroByName(String nome_centro){
+        nome_centro = putApices(nome_centro);
         String select_centro = "SELECT Codice FROM CentroVaccini WHERE Nome = " + nome_centro + ";";
         long codice_centro = -1;
         try {
@@ -294,6 +299,7 @@ public class DBClient {
      * @author Manuel Marceca
      */
     public static Cittadino getCittadinoByUsername(String username){
+        username = putApices(username);
         String select_iscritto = "SELECT * FROM Iscritti, Vaccinati, Centrovaccini WHERE Username = " + username + ";";
         Cittadino iscritto = null;
         try {
@@ -339,6 +345,7 @@ public class DBClient {
      * @author Manuel Marceca
      */
     public static Vaccinato getVaccinatoByCF(String cf){
+        cf = putApices(cf);
         String select_vaccinato = "SELECT * FROM Vaccinati, CentroVaccini WHERE Cod_Fiscale = " + cf + ";";
         Vaccinato vaccinato = null;
         try {
@@ -380,7 +387,10 @@ public class DBClient {
      * @author Manuel Marceca
      */
     public static int getVaccinatoIdByCF(String cf){
-        String select_vaccinato = "SELECT Identificativo FROM Vaccinati WHERE Cod_Fiscale = " + cf + ";";
+        cf = putApices(cf);
+        String select_vaccinato = "SELECT Identificativo FROM Vaccinati WHERE Cod_Fiscale = " + cf ;
+
+
         int identificativo = -1;
         try {
             Statement st = DBInterface.connected().createStatement();
@@ -397,6 +407,7 @@ public class DBClient {
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
+        System.out.println(identificativo);
 
         return identificativo;
     }

@@ -41,6 +41,13 @@ public class Cittadino {
         this.codice_fiscale = codice_fiscale;
     }
 
+    public Cittadino(String nome_centro, String nome, String cognome, String codice_fiscale) {
+        this.nome_centro = nome_centro;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.codice_fiscale = codice_fiscale;
+    }
+
     /**
      * Restituisce la mail
      *

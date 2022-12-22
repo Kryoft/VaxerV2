@@ -18,6 +18,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class RicercaNomeCentro extends Ricerca {
@@ -68,8 +69,11 @@ public class RicercaNomeCentro extends Ricerca {
                 120, 35), 15, 1, false);
 
         background.add(conferma, 0).setEnabled(false);
-        backgroundSettings(0, new Rectangle(1790, 965,          //conferma
-                120, 35), 15, 1, false);
+        //backgroundSettings(0, new Rectangle(1790, 965,          //conferma
+        //        120, 35), 15, 1, false);
+
+        backgroundSettings(0, new Rectangle(900, 500,          //conferma
+                        120, 35), 15, 1, false);
 
 
         cerca.addActionListener(this);
@@ -80,16 +84,22 @@ public class RicercaNomeCentro extends Ricerca {
 
         /*
          * A lista_centri viene aggiunto SelectionListener per assegnare all'oggetto di tipo
-         * StruttureVaccinali strutture_vaccinali l'elemento selezionato
+         * CentroVaccinale strutture_vaccinali l'elemento selezionato
          */
         lista_centri.addListSelectionListener(new ListSelectionListener() {
 
             //TODO! Rivedere indici, che ora non hanno più una logica, non utilizzando più gli array.
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                Iterator<String> it = centri_trovati.iterator();
-                String[] a;
-                IndirizzoComposto ic;
+                System.out.println("HO CHIAMATO valueChanged");
+                //Iterator<String> it = centri_trovati.iterator();
+                String centro_selezionato = lista_centri.getSelectedValue();
+                strutture_vaccinali = DBClient.getCentroVaccinaleByName(centro_selezionato);
+                //String[] a;
+                //IndirizzoComposto ic;
+
+
+                /*
                 while (it.hasNext()) {
                     String s = it.next();
                     a = s.split(",");
@@ -99,6 +109,7 @@ public class RicercaNomeCentro extends Ricerca {
                         break;
                     }
                 }
+                */
             }
         });
 
@@ -118,23 +129,23 @@ public class RicercaNomeCentro extends Ricerca {
             conferma.setEnabled(false);
             list_model.removeAllElements();
             centri_trovati.clear();
-            String copy;
+            //String copy;
             String nome_centro = centro_txt.getText();
-            String[] a;
+            //String[] a;
             centri_trovati = DBClient.cercaCentri(nome_centro);
-            Iterator<String> it = centri_trovati.iterator();
+            //Iterator<String> it = centri_trovati.iterator();
 
-            int i = 0;
-            if (!nome_centro.equals("")) {
+            int num_risultati = centri_trovati.size();
+            if (!nome_centro.isBlank()) {
                 for(String nome: centri_trovati) {
                     list_model.addElement(nome);
                 }
 
-                if (i == 0) {
+                if (num_risultati == 0) {
                     JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo, Nessun elemento trovato");
-                } else if (i > 0) {
+                } else if (num_risultati > 0) {
                     lista_centri.setBackground(Color.LIGHT_GRAY);
-                    JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo, Elementi trovati: " + i);
+                    JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo, Elementi trovati: " + num_risultati);
                     conferma.setEnabled(true);
                 }
             } else
