@@ -29,7 +29,7 @@ public abstract class SwingAwt {
     public static Vaccinato.Vaccino decidiVaccino(JComboBox<String> vaccino_combo) {
         Vaccinato.Vaccino vaccino = null;
 
-        if (vaccino_combo.getSelectedItem() == "Johnson & Johnson") {
+        if (vaccino_combo.getSelectedItem() == "JJ") {
             vaccino = Vaccinato.Vaccino.JJ;
         }
         if (vaccino_combo.getSelectedItem() == "AstraZeneca") {

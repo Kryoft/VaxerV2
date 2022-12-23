@@ -85,7 +85,8 @@ public class DBClient {
                 + nome_via +","+ num_civico +","+ cap +","+ tipologia + ")";
 
         try {
-        DBInterface.executeQuery(ins_centro);
+            Statement st = DBInterface.connected().createStatement();
+            st.executeUpdate(ins_centro);
         }  catch(PSQLException p){
             throw new DBException("Vaccinato",Integer.parseInt(p.getSQLState()),p.getMessage());
         } catch(SQLException se){
