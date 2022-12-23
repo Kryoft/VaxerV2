@@ -220,7 +220,7 @@ public class Cittadino {
         }
         String lettere = consonanti + vocali;
         if(lettere.length() >= 3){s_cognome = lettere.substring(0,3);}
-        else{s_cognome = lettere.substring(0,lettere.length());}
+        else{s_cognome = lettere;}
         while(s_cognome.length() < 3){s_cognome += "X";}
 
 
@@ -235,12 +235,12 @@ public class Cittadino {
             }
         }
 
-        if(consonanti.length() >= 4){s_nome += consonanti.charAt(0) + consonanti.charAt(2) + consonanti.charAt(3);}
-        if(consonanti.length() == 3){s_nome = consonanti.substring(0,3);}
+        if(consonanti.length() >= 4){s_nome = "" +  consonanti.charAt(0) + consonanti.charAt(2) + consonanti.charAt(3);}
+        else if(consonanti.length() == 3){s_nome = consonanti;}
         else {
             lettere = consonanti + vocali;
             if (lettere.length() >= 3) {s_nome = lettere.substring(0, 3);}
-            else {s_nome = lettere.substring(0, lettere.length());}
+            else {s_nome = lettere;}
             while (s_nome.length() < 3) {
                 s_nome += "X";
             }

@@ -132,9 +132,7 @@ public class DBClient {
             throw new RuntimeException(e);
         }
 
-
-
-        return getVaccinatoIdByCF(cod_fiscale);
+        return getVaccinatoIdByCF(vaccinato.getCodiceFiscale());
     }
 
     /**
@@ -153,7 +151,8 @@ public class DBClient {
         String ins_iscritto = "INSERT INTO Iscritti VALUES(" + email +","+ username +","+ password +","+ cod_fiscale + ")";
 
         try {
-            DBInterface.executeQuery(ins_iscritto);
+            Statement st = DBInterface.connected().createStatement();
+            st.executeUpdate(ins_iscritto);
         } catch(PSQLException p){
             throw new DBException("Iscritto",Integer.parseInt(p.getSQLState()),p.getMessage());
         } catch(SQLException se){
@@ -181,7 +180,8 @@ public class DBClient {
         String ins_evento = "INSERT INTO Eventi VALUES(" + cod_centro +","+ evento +","+ indice +","+ note + ")";
 
         try {
-            DBInterface.executeQuery(ins_evento);
+            Statement st = DBInterface.connected().createStatement();
+            st.executeUpdate(ins_evento);
         } catch(PSQLException p) {
             throw new DBException("Eventi", Integer.parseInt(p.getSQLState()), p.getMessage());
         }catch(SQLException se){
@@ -300,7 +300,9 @@ public class DBClient {
      */
     public static Cittadino getCittadinoByUsername(String username){
         username = putApices(username);
-        String select_iscritto = "SELECT * FROM Iscritti, Vaccinati, Centrovaccini WHERE Username = " + username + ";";
+        String select_iscritto = "SELECT Email, Centrovaccini.nome AS Nome_Centro, Vaccinati.Nome AS Nome_Vaccinato, " +
+                "Cognome, Vaccinati.Cod_Fiscale AS Cf_Vaccinato, Username, Password, Identificativo FROM Iscritti, Vaccinati, Centrovaccini " +
+                "WHERE Username = " + username + ";";
         Cittadino iscritto = null;
         try {
             Statement st = DBInterface.connected().createStatement();
@@ -310,10 +312,10 @@ public class DBClient {
             if (rs_iscritto.next()){
 
                 String rs_email = rs_iscritto.getString("Email");
-                String rs_nome_centro = rs_iscritto.getString("Centrovaccini(Nome)");
-                String rs_nome = rs_iscritto.getString("Vaccinati(Nome)");
+                String rs_nome_centro = rs_iscritto.getString("Nome_Centro");
+                String rs_nome = rs_iscritto.getString("Nome_Vaccinato");
                 String rs_cognome = rs_iscritto.getString("Cognome");
-                String rs_cf = rs_iscritto.getString("Cod_Fiscale");
+                String rs_cf = rs_iscritto.getString("Cf_Vaccinato");
 
                 String rs_username = rs_iscritto.getString("Username");
                 String rs_password = rs_iscritto.getString("Password");
@@ -345,8 +347,10 @@ public class DBClient {
      * @author Manuel Marceca
      */
     public static Vaccinato getVaccinatoByCF(String cf){
-        cf = putApices(cf);
-        String select_vaccinato = "SELECT * FROM Vaccinati, CentroVaccini WHERE Cod_Fiscale = " + cf + ";";
+        String cf_apices = putApices(cf);
+        String select_vaccinato = "SELECT Data, Vaccino, CentroVaccini.Nome AS Nome_Centro, Identificativo, " +
+                "Vaccinati.Nome AS Nome_Vaccinato, Cognome FROM Vaccinati JOIN CentroVaccini ON Cod_Centro = codice " +
+                "WHERE Cod_Fiscale = " + cf_apices + ";";
         Vaccinato vaccinato = null;
         try {
             Statement st = DBInterface.connected().createStatement();
@@ -358,9 +362,9 @@ public class DBClient {
                 Date rs_data = rs_vaccinato.getDate("Data");
                 Vaccinato.Vaccino rs_vaccino =
                         Utility.decidiVaccino(rs_vaccinato.getString("Vaccino"));
-                String rs_nome_centro = rs_vaccinato.getString("CentroVaccini(Nome)");
+                String rs_nome_centro = rs_vaccinato.getString("Nome_Centro");
                 int rs_id = rs_vaccinato.getInt("Identificativo");
-                String rs_nome = rs_vaccinato.getString("Vaccinati(Nome)");
+                String rs_nome = rs_vaccinato.getString("Nome_Vaccinato");
                 String rs_cognome = rs_vaccinato.getString("Cognome");
 
 
@@ -388,7 +392,8 @@ public class DBClient {
      */
     public static int getVaccinatoIdByCF(String cf){
         cf = putApices(cf);
-        String select_vaccinato = "SELECT Identificativo FROM Vaccinati WHERE Cod_Fiscale = " + cf ;
+        String select_vaccinato = "SELECT Identificativo FROM Vaccinati WHERE Cod_Fiscale = " + cf + ";" ;
+        System.out.println(select_vaccinato);
 
 
         int identificativo = -1;

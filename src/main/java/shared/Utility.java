@@ -349,6 +349,7 @@ public abstract class Utility {
      */
     public static boolean controlloCoppiaCFId(String codice_fiscale, int id) {
         Vaccinato vaccinato = DBClient.getVaccinatoByCF(codice_fiscale);
+        System.out.println("(" + codice_fiscale + ", " + id + ") (" + vaccinato.getCodiceFiscale() + ", " + vaccinato.getId() + ")");
         return vaccinato != null && vaccinato.getId() == id;
     }
 

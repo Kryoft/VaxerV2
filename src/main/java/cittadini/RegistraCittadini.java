@@ -128,7 +128,7 @@ public class RegistraCittadini extends Registrazioni {
                 String nome = nome_txt.getText();
                 String cognome = cognome_txt.getText();
                 String cf = cf_txt.getText().toUpperCase();
-                short id = (short) (Integer.parseInt(id_txt.getText()) - 32767);  // ???
+                int id = Integer.parseInt(id_txt.getText());
                 String user = user_txt.getText();
                 String password = password_txt.getText();
                 String email = email_txt.getText();
