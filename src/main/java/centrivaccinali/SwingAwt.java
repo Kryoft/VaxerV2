@@ -5,6 +5,7 @@
  */
 package centrivaccinali;
 
+import cittadini.EventoAvverso;
 import cittadini.Vaccinato;
 
 import javax.swing.*;
@@ -42,6 +43,18 @@ public abstract class SwingAwt {
             vaccino = Vaccinato.Vaccino.Pfizer;
         }
         return vaccino;
+    }
+
+    public static EventoAvverso.Eventi decidiEvento(JComboBox<String> evento_combo){
+        EventoAvverso.Eventi evento = null;
+
+        for(EventoAvverso.Eventi e: EventoAvverso.Eventi.values()){
+            if(e.toString().equals(evento_combo.getSelectedItem())){
+                evento = e;
+            }
+        }
+
+        return evento;
     }
 
     /**

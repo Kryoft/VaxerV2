@@ -42,6 +42,12 @@ public class RicercaComuneTipologia extends Ricerca {
         initWindow();
     }
 
+    public RicercaComuneTipologia(int operazione, String cod_fiscale) {
+        operazione_scelta = operazione;
+        this.cod_fiscale = cod_fiscale;
+        initWindow();
+    }
+
     /**
      * Metodo utilizzato per l'inizializzazione dei componenti JFrame per quanto riguarda la ricerca
      * per comune e tipologia
@@ -164,7 +170,7 @@ public class RicercaComuneTipologia extends Ricerca {
                     case 1 -> new VisualizzaInfo(strutture_vaccinali);
                     case 2 -> new RegistraVaccinato(strutture_vaccinali);
                     case 3 -> new RegistraCittadini(strutture_vaccinali);
-                    case 4 -> new RegistraEventiAvversi(strutture_vaccinali);
+                    case 4 -> new RegistraEventiAvversi(strutture_vaccinali, cod_fiscale);
                     default -> { }
                 }
                 this.dispose();

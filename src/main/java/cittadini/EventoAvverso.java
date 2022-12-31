@@ -12,14 +12,19 @@ package cittadini;
  * @author Daniele Caspani
  */
 public class EventoAvverso {
-    private String evento, nome_centro, note_opzionali;
+
+    private EventoAvverso.Eventi evento;
+
+
+    private String nome_centro, cod_fiscale, note_opzionali;
     private int indice;
 
-    public EventoAvverso(String evento, int indice, String note_opzionali, String nome_centro) {
+    public EventoAvverso(Eventi evento, int indice, String note_opzionali, String nome_centro, String cod_fiscale) {
         this.evento = evento;
         this.indice = indice;
         this.note_opzionali = note_opzionali;
         this.nome_centro = nome_centro;
+        this.cod_fiscale = cod_fiscale;
     }
 
     /**
@@ -27,7 +32,7 @@ public class EventoAvverso {
      *
      * @return Stringa con il nome dell'evento avverso
      */
-    public String getEvento() {
+    public EventoAvverso.Eventi getEvento() {
         return evento;
     }
 
@@ -36,7 +41,7 @@ public class EventoAvverso {
      *
      * @param evento nome dell'evento avverso
      */
-    public void setEvento(String evento) {
+    public void setEvento(Eventi evento) {
         this.evento = evento;
     }
 
@@ -45,6 +50,14 @@ public class EventoAvverso {
      *
      * @return Numero da 1 a 5 che rappresenta la severità dell'evento avverso
      */
+
+    public String getCod_fiscale(){
+        return cod_fiscale;
+    }
+
+    public void setCod_fiscale(String cod_fiscale){
+        this.cod_fiscale = cod_fiscale;
+    }
     public int getIndice() {
         return indice;
     }
@@ -103,4 +116,46 @@ public class EventoAvverso {
     public String toString() {
         return evento + "," + indice + "," + note_opzionali + "," + nome_centro;
     }
+
+    public enum Eventi {
+        Emicrania,
+        Dolori_Addominali,
+        Febbre,
+        Brividi,
+        Spossatezza,
+        Tosse_e_o_catarro,
+        Disturbi_respiratori,
+        Disturbi_gastrointestinali,
+        Dolori_muscolari_e_articolari,
+        Tachicardia,
+        Brachicardia,
+        Crisi_ipertensiva,
+        Linfoadenopatia,
+        Lombalgia,
+        Altro;
+
+        @Override
+        public String toString() {
+            return switch (this) {
+                case Dolori_Addominali -> "Dolori addominali";
+                case Tosse_e_o_catarro -> "Tosse e/o catarro";
+                case Disturbi_respiratori -> "Disturbi respiratori";
+                case Disturbi_gastrointestinali -> "Disturbi gastrointestinali";
+                case Dolori_muscolari_e_articolari -> "Dolori muscolari e articolari";
+                case Crisi_ipertensiva -> "Crisi ipertensiva";
+                default -> super.toString();
+            };
+        }
+
+        public static String[] getEventiToStringArray(){
+            String[] out = new String[Eventi.values().length];
+            int i = 0;
+            for(Eventi evento: Eventi.values()){
+                out[i] = evento.toString();
+                i++;
+            }
+            return out;
+        }
+    }
+
 }

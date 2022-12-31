@@ -11,6 +11,7 @@ import centrivaccinali.PlaceholderTextField;
 
 //import centrivaccinali.StruttureVaccinali;
 import centrivaccinali.SwingAwt;
+import jdk.jfr.Event;
 import shared.Utility;
 
 import javax.swing.*;
@@ -19,10 +20,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class RegistraEventiAvversi extends Registrazioni {
+
+    private final JComboBox<String> evento_combo = new JComboBox<>(array_eventi);
 
     private final JTextField nome_centro_text = new JTextField(),
                                 evento_text = new JTextField();
@@ -37,6 +42,12 @@ public class RegistraEventiAvversi extends Registrazioni {
 
     public RegistraEventiAvversi(CentroVaccinale struttura_vaccinale) {
         this.struttura_vaccinale = struttura_vaccinale;
+        initWindow();
+    }
+
+    public RegistraEventiAvversi(CentroVaccinale struttura_vaccinale, String cod_fiscale) {
+        this.struttura_vaccinale = struttura_vaccinale;
+        this.cod_fiscale = cod_fiscale;
         initWindow();
     }
 
@@ -63,8 +74,14 @@ public class RegistraEventiAvversi extends Registrazioni {
         layeredPaneSettings(0, new Rectangle(600, 350,              //evento_label
                 520, 120), 16, 1, false);
 
+        /*
         layered_pane.add(evento_text, 2, 0);
         layeredPaneSettings(0, new Rectangle(750, 390,              //evento_text
+                310, 40), 15, 0, false);
+        */
+
+        layered_pane.add(evento_combo, 2, 0);
+        layeredPaneSettings(0, new Rectangle(750, 390,              //evento_combo
                 310, 40), 15, 0, false);
 
         layered_pane.add(indice_severita_text, 2, 0);
@@ -101,36 +118,40 @@ public class RegistraEventiAvversi extends Registrazioni {
             if (e.getSource() == conferma) {
                 String centro = struttura_vaccinale.getNomeCentro();
                 String note = note_text.getText();
-                String evento = evento_text.getText();
+                //String evento = evento_text.getText();
+                EventoAvverso.Eventi evento = SwingAwt.decidiEvento(evento_combo);
+
                 int Indice = Integer.parseInt(indice_severita_text.getText());
-                EventoAvverso ev = new EventoAvverso(evento, Indice, note, centro);
+                EventoAvverso ev = new EventoAvverso(evento, Indice, note, centro, cod_fiscale);
 
 //                if (Utility.esisteCentro(0, centro, "./data/CentriVaccinali.dati.txt")) {
 
-                        if (!evento.equals("")) {
-                            evento_text.setBorder(border);
-                            if (Indice >= 1 && Indice <= 5) {
-                                if (note.length() < 256) {
-                                    Utility.scriviFile("./data/Vaccinati_" + centro + ".dati.txt", ev.toString());
-                                    evento_text.setBorder(border);
-                                    nome_centro_text.setBorder(border);
-                                    indice_severita_text.setBorder(border);
-                                    JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
-                                    new CentriVaccinaliGUI();
-                                    this.dispose();
-                                } else {
-                                    JOptionPane.showMessageDialog(this, "I caratteri delle note opzionali non possono essere più di 256", "Errore Formato", JOptionPane.ERROR_MESSAGE);
-                                }
-                            } else {
-                                indice_severita_text.setBorder(new LineBorder(Color.RED, 3, true));
-                                JOptionPane.showMessageDialog(this, "Inserire un indice che va da 1 a 5", "Errore Formato", JOptionPane.ERROR_MESSAGE);
-                            }
-                        } else {
+                if (!evento.equals("")) {
+                    evento_text.setBorder(border);
+                    if (Indice >= 1 && Indice <= 5) {
+                        if (note.length() < 256) {
+                            //Utility.scriviFile("./data/Vaccinati_" + centro + ".dati.txt", ev.toString());
 
-                        SwingAwt.modificaBordo(evento, evento_text, border);
-//                        SwingAwt.modificaBordo(centro, nome_centro_text, border);
-                        JOptionPane.showMessageDialog(this, "Riempire tutti i campi", "Error", JOptionPane.ERROR_MESSAGE);
+                            Utility.inserisciNuovoEvento(ev);
+                            //evento_combo.setBorder(border);
+                            nome_centro_text.setBorder(border);
+                            indice_severita_text.setBorder(border);
+                            JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
+                            new CentriVaccinaliGUI();
+                            this.dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(this, "I caratteri delle note opzionali non possono essere più di 256", "Errore Formato", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } else {
+                        indice_severita_text.setBorder(new LineBorder(Color.RED, 3, true));
+                        JOptionPane.showMessageDialog(this, "Inserire un indice che va da 1 a 5", "Errore Formato", JOptionPane.ERROR_MESSAGE);
                     }
+                } else {
+
+                    SwingAwt.modificaBordo(evento.toString(), evento_text, border);
+//                        SwingAwt.modificaBordo(centro, nome_centro_text, border);
+                    JOptionPane.showMessageDialog(this, "Riempire tutti i campi", "Error", JOptionPane.ERROR_MESSAGE);
+                }
 //                } else {
 //                    nome_centro_text.setBorder(new LineBorder(Color.RED, 3, true));
 //                    JOptionPane.showMessageDialog(this, "Il centro da lei indicato non esiste o non si e' registrato all'applicazione", "Error", JOptionPane.ERROR_MESSAGE);
@@ -139,9 +160,13 @@ public class RegistraEventiAvversi extends Registrazioni {
                 new CittadiniGUI();
                 this.dispose();
             }
-        } catch (IOException | URISyntaxException ex) {
-            Logger.getLogger(RegistraCittadini.class.getName()).log(Level.SEVERE, null, ex);
+            //} //catch (IOException | URISyntaxException ex) {
+            // Logger.getLogger(RegistraCittadini.class.getName()).log(Level.SEVERE, null, ex);
+            //}
+        }catch (SQLException | RemoteException ex){
+            System.err.println("DATABASE ERROR");
         }
+
     }
 
 }

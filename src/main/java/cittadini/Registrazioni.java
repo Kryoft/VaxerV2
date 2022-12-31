@@ -30,9 +30,13 @@ public abstract class Registrazioni extends JFrame implements ActionListener {
     protected JButton conferma = new JButton("CONFERMA"),
                         annulla = new JButton("TORNA INDIETRO");
     protected CentroVaccinale struttura_vaccinale;
+
+    protected String cod_fiscale;
     protected Border border;
     protected JLayeredPane layered_pane;
     protected JPanel background_panel, panel;
+
+    protected final String[] array_eventi = EventoAvverso.Eventi.getEventiToStringArray();
 
     /**
      * Metodo utile per inizializzare la finestra JFrame e il <strong>LayeredPane</strong>,

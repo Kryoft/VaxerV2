@@ -36,6 +36,8 @@ public abstract class Ricerca extends JFrame implements ActionListener {
      * <p> 4 - Inserimento eventi avversi post-vaccinazione </p>
      */
     protected int operazione_scelta = 0;
+
+    protected String cod_fiscale = null;
     protected DefaultListModel<String> list_model;
     /**
      * Utilizzata per contenere i nomi dei centri ricercati

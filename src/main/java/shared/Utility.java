@@ -9,6 +9,7 @@ import centrivaccinali.Eccezione;
 import centrivaccinali.IndirizzoComposto;
 import centrivaccinali.CentroVaccinale;
 import cittadini.Cittadino;
+import cittadini.EventoAvverso;
 import cittadini.Login;
 import cittadini.Vaccinato;
 
@@ -393,5 +394,14 @@ public abstract class Utility {
     public static int inserisciNuovoVaccinato(Vaccinato nuovo_vaccinato) throws  SQLException, RemoteException{
 
        return DBClient.insertVaccinato(nuovo_vaccinato);
+    }
+
+    public static String inserisciNuovoEvento(EventoAvverso evento) throws SQLException, RemoteException{
+        try{
+            DBClient.insertEvento(evento);
+            return "";
+        }catch(SQLException | RemoteException e){
+            return "Errore nel database";
+        }
     }
 }

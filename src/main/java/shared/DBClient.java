@@ -173,18 +173,24 @@ public class DBClient {
 
         String codice_centro = Integer.toString(getIdCentroByName(eventoAvverso.getNomeCentro()));
 
+        String cod_fiscale = putApices(eventoAvverso.getCod_fiscale());
+
+
         String cod_centro = putApices(codice_centro);
-        String evento = putApices(eventoAvverso.getEvento());
+        String evento = putApices(eventoAvverso.getEvento().toString());
+        System.out.println(eventoAvverso.getEvento().toString());
         String indice = putApices(Integer.toString(eventoAvverso.getIndice()));
         String note = putApices(eventoAvverso.getNoteOpzionali());
 
-        String ins_evento = "INSERT INTO Eventi VALUES(" + cod_centro +","+ evento +","+ indice +","+ note + ")";
+        String ins_evento = "INSERT INTO Log_Eventi VALUES(" + cod_centro +","+ cod_fiscale +","+ evento +","+ indice +","+ note + ")";
 
         try {
             Statement st = DBInterface.connected().createStatement();
             st.executeUpdate(ins_evento);
         } catch(PSQLException p) {
+            //TODO ricevuta stringa "22P02" da p.getSQLState() -> Eccezione chiamata da parseInt
             throw new DBException("Eventi", Integer.parseInt(p.getSQLState()), p.getMessage());
+            //System.err.println("PSQLEXCEPTION");
         }catch(SQLException se){
             Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, se);
         } catch (RemoteException e) {
@@ -287,6 +293,25 @@ public class DBClient {
         }
 
         return (int)codice_centro;
+    }
+
+    public static String getCfFromUsername(String username){
+        username = putApices(username);
+        String select_iscritto = "SELECT cod_fiscale FROM Iscritti WHERE username = " + username + ";";
+        String cod_fiscale = "";
+        try {
+            Statement st = DBInterface.connected().createStatement();
+            ResultSet rs_iscritto = st.executeQuery(select_iscritto);
+
+            if(rs_iscritto.next()){
+                cod_fiscale = rs_iscritto.getString("cod_fiscale");
+            }
+
+        }catch (SQLException | RemoteException exc){
+            Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, exc);
+        }
+
+        return cod_fiscale;
     }
 
 
