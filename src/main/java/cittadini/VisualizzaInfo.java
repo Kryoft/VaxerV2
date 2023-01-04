@@ -6,9 +6,14 @@
 package cittadini;
 
 import centrivaccinali.CentroVaccinale;
+import shared.DBClient;
+import shared.Tripla;
 import shared.Utility;
 
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,7 +32,7 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
     private JLabel nome_label, comune_label, sigla_label, cap_label, indirizzo_label, tipo_label, media_label, num_segnalazioni_label, inizio_label, evento_label;
     private JPanel background;
     private JButton menu;
-    private ArrayList<String> vaccinati = new ArrayList<>();
+    private ArrayList<EventoAvverso> segnalazioni = new ArrayList<>();
 
     /**
      * @param strutture_vaccinali oggetto di tipo StruttureVaccinali da prendere in considerazione
@@ -66,31 +71,54 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
     private void initWindow(CentroVaccinale strutture_vaccinali) {
         settings();
 
-        nome_label = new JLabel("Nome_Centro: " + strutture_vaccinali.getNomeCentro());
+        nome_label = new JLabel("Nome Centro: " + strutture_vaccinali.getNomeCentro());
         indirizzo_label = new JLabel("Indirizzo: " + strutture_vaccinali.getIndirizzo().getQualificatore() + " " + strutture_vaccinali.getIndirizzo().getNomeVia() + " " + strutture_vaccinali.getIndirizzo().getNumCivico());
         comune_label = new JLabel("Comune: " + strutture_vaccinali.getIndirizzo().getComune());
-        sigla_label = new JLabel("Sigla :" + strutture_vaccinali.getIndirizzo().getSiglaProvincia());
-        cap_label = new JLabel("Cap :" + strutture_vaccinali.getIndirizzo().getCap());
+        sigla_label = new JLabel("Sigla: " + strutture_vaccinali.getIndirizzo().getSiglaProvincia());
+        cap_label = new JLabel("Cap: " + strutture_vaccinali.getIndirizzo().getCap());
         tipo_label = new JLabel("Tipologia: " + strutture_vaccinali.getTipologia());
         num_segnalazioni_label = new JLabel();
         media_label = new JLabel();
         inizio_label = new JLabel("Informazioni Centro " + strutture_vaccinali.getNomeCentro());
         evento_label = new JLabel("Prospetto Riassuntivo Eventi Avversi");
 
-        vaccinati = Utility.caricaFileInArrayList("./data/Vaccinati_" + strutture_vaccinali.getNomeCentro() + ".dati.txt");
-        int numero_segnalazioni = 0;
-        double media = 0.00d;
+        //vaccinati = Utility.caricaFileInArrayList("./data/Vaccinati_" + strutture_vaccinali.getNomeCentro() + ".dati.txt");
 
+        //vaccinati = DBClient.getVaccinatiListByCentro(strutture_vaccinali.getNomeCentro());
+
+        segnalazioni = DBClient.getSegnalazioniByCentro(strutture_vaccinali.getNomeCentro());
+
+        double somma_indici = 0.00d;
+        for(EventoAvverso s: segnalazioni){
+            somma_indici += s.getIndice();
+        }
+
+        int numero_segnalazioni = segnalazioni.size();
+        double media = numero_segnalazioni == 0 ? 0.00d : somma_indici / numero_segnalazioni;
+
+        //TODO IMPLEMENTARE ROBA
+
+        ArrayList<Tripla<String, Float, Integer>> dati_centro =
+                DBClient.getValoriPerEventoAvverso(strutture_vaccinali.getNomeCentro());
+
+
+
+        /*
         String[] vaccinato_splitted;
-        for (String vaccinato : vaccinati) {
+        for (EventoAvverso evento: segnalazioni ) {
             vaccinato_splitted = vaccinato.split(",");
             if (vaccinato_splitted.length == 4) {
                 media = media + Integer.parseInt(vaccinato_splitted[1]);
                 numero_segnalazioni++;
             }
         }
+         */
+/*
         if (numero_segnalazioni != 0)
             media = media / numero_segnalazioni;
+
+
+ */
 
         num_segnalazioni_label.setText("Numero di Segnalazioni: " + numero_segnalazioni);
         media_label.setText("Severità media: " + media);
@@ -142,6 +170,36 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
                 150, 50), 14, 1, false);
 
 
+
+        String[] colonne = {"Evento avverso", "Media", "Segnalazioni"};
+        JTable table = new JTable(0, 3);
+        table.setEnabled(false);
+        table.setBounds(850,150,500,500);
+        JScrollPane scrollpane = new JScrollPane(table);
+        scrollpane.setBounds(850, 150, 500, 500);
+        scrollpane.setViewportView(table);
+        background.add(scrollpane);
+
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setColumnIdentifiers(colonne);
+        for(Tripla<String, Float, Integer> info_evento: dati_centro){
+            Object[] riga = {info_evento.getPrimo(), info_evento.getSecondo(), info_evento.getTerzo()};
+            model.addRow(riga);
+        }
+
+
+
+        /*
+        JList lista_centri = new JList<>(list_model);
+        lista_centri.setBounds(850, 150, 500, 500);
+        lista_centri.setFont(new Font("Arial", Font.BOLD, 18));
+        background.add(lista_centri);
+        JScrollPane scroll = new JScrollPane();
+        scroll.setBounds(850, 150, 500, 500);
+        scroll.setViewportView(lista_centri);
+        background.add(scroll);
+*/
+
         menu.addActionListener(this);
 
         setVisible(true);
@@ -162,6 +220,7 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
         if (red_text)
             background.getComponent(index).setForeground(Color.red);
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {

@@ -404,4 +404,16 @@ public abstract class Utility {
             return "Errore nel database";
         }
     }
+
+    /*
+    public static ArrayList<String> getVaccinatiNomiList(String nome_centro){
+        ArrayList<Vaccinato> vaccinati = DBClient.getVaccinatiListByCentro(nome_centro);
+
+        ArrayList<String> nomi_vaccinati = new ArrayList<>();
+        for(Vaccinato vaccinato: vaccinati){
+            nomi_vaccinati.add(vaccinato.getNome());
+        }
+    }
+
+     */
 }

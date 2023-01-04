@@ -12,6 +12,7 @@ import centrivaccinali.PlaceholderTextField;
 //import centrivaccinali.StruttureVaccinali;
 import centrivaccinali.SwingAwt;
 import jdk.jfr.Event;
+import shared.DBClient;
 import shared.Utility;
 
 import javax.swing.*;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -119,7 +121,7 @@ public class RegistraEventiAvversi extends Registrazioni {
                 String centro = struttura_vaccinale.getNomeCentro();
                 String note = note_text.getText();
                 //String evento = evento_text.getText();
-                EventoAvverso.Eventi evento = SwingAwt.decidiEvento(evento_combo);
+                EventoAvverso.Eventi evento = SwingAwt.decidiEvento((String)evento_combo.getSelectedItem());
 
                 int Indice = Integer.parseInt(indice_severita_text.getText());
                 EventoAvverso ev = new EventoAvverso(evento, Indice, note, centro, cod_fiscale);
@@ -130,15 +132,26 @@ public class RegistraEventiAvversi extends Registrazioni {
                     evento_text.setBorder(border);
                     if (Indice >= 1 && Indice <= 5) {
                         if (note.length() < 256) {
-                            //Utility.scriviFile("./data/Vaccinati_" + centro + ".dati.txt", ev.toString());
+                            ArrayList<EventoAvverso> segnalazioni = DBClient.getSegnalazioniByCentro(centro);
+                            boolean nuovo = true;
+                            for(EventoAvverso segnalazione: segnalazioni){
+                                if(DBClient.checkEventoGiaSegnalato(ev)){
+                                    nuovo = false;
+                                }
+                            }
+                            if(nuovo) {
+                                //Utility.scriviFile("./data/Vaccinati_" + centro + ".dati.txt", ev.toString());
 
-                            Utility.inserisciNuovoEvento(ev);
-                            //evento_combo.setBorder(border);
-                            nome_centro_text.setBorder(border);
-                            indice_severita_text.setBorder(border);
-                            JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
-                            new CentriVaccinaliGUI();
-                            this.dispose();
+                                Utility.inserisciNuovoEvento(ev);
+                                //evento_combo.setBorder(border);
+                                nome_centro_text.setBorder(border);
+                                indice_severita_text.setBorder(border);
+                                JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
+                                new CentriVaccinaliGUI();
+                                this.dispose();
+                            } else{
+                                JOptionPane.showMessageDialog(this, "Questo evento avverso è già stato segnalato", "Errore", JOptionPane.ERROR_MESSAGE);
+                            }
                         } else {
                             JOptionPane.showMessageDialog(this, "I caratteri delle note opzionali non possono essere più di 256", "Errore Formato", JOptionPane.ERROR_MESSAGE);
                         }

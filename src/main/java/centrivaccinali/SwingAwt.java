@@ -45,11 +45,11 @@ public abstract class SwingAwt {
         return vaccino;
     }
 
-    public static EventoAvverso.Eventi decidiEvento(JComboBox<String> evento_combo){
+    public static EventoAvverso.Eventi decidiEvento(String nome_evento){
         EventoAvverso.Eventi evento = null;
 
         for(EventoAvverso.Eventi e: EventoAvverso.Eventi.values()){
-            if(e.toString().equals(evento_combo.getSelectedItem())){
+            if(e.toString().equals(nome_evento)){
                 evento = e;
             }
         }
