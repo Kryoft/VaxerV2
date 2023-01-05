@@ -18,7 +18,7 @@ public interface DBInterface extends Remote {
     static Connection connected() throws RemoteException,SQLException{
         Connection conn = null;
         conn = DriverManager.getConnection(
-                "jdbc:postgresql://127.0.0.1:5432/ProgettoB", "postgres", "pastyyna");
+                "jdbc:postgresql://127.0.0.1:5432/ProgettoB", "postgres", "admin");
 
         if (conn != null) {
             System.out.println("Connected to the database!");

@@ -12,9 +12,6 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -140,6 +137,91 @@ public class RegistraCentro extends Registrazioni {
         setVisible(true);
     }
 
+    private void registraCentroVaccinale() {
+        try {
+            String message = null;
+            IndirizzoComposto indirizzo;
+            int codice = Integer.parseInt(num_civico.getText());
+            String centro = nome_centro.getText();
+            String Via = via.getText();
+            String Comune = comune.getText().toUpperCase();
+            String Sigla = sigla.getText().toUpperCase();
+            String Cap = cap.getText();
+            num_civico.setBorder(border);
+            if (!centro.equals("") && !Via.equals("") && !Comune.equals("") && !Sigla.equals("") && !Cap.equals("") && !centro.equals("Nome centro") && !Via.equals("Nome Via") && !Comune.equals("comune") && !Sigla.equals("sigla") && !Cap.equals("cap")) {
+                SwingAwt.modificaBordo(centro, nome_centro, border);
+                SwingAwt.modificaBordo(Via, via, border);
+                comune.setBorder(border);
+                sigla.setBorder(border);
+                try {
+                    indirizzo = new IndirizzoComposto(SwingAwt.decidiQualificatore(qualificatore_combo), Via, codice, Comune, Sigla, Cap);
+
+                    if(!indirizzo.controllaNumeroCivico(codice)){
+                        num_civico.setBorder(new LineBorder(Color.RED, 3, true));
+                        message = "Il numero civico è invalido";
+                        throw new Eccezione();
+                    }
+
+                    if (!indirizzo.controllaCap(Cap)) {
+                        cap.setBorder(new LineBorder(Color.RED, 3, true));
+                        message = "Il cap contiene 5 cifre decimali";
+                        throw new Eccezione();
+                    } else
+                        SwingAwt.modificaBordo(Cap, cap, border);
+
+                    if (!indirizzo.controllaComune(Comune)) {
+                        comune.setBorder(new LineBorder(Color.RED, 3, true));
+                        message = "Un comune puo' contenere solo caratteri letterali";
+                        throw new Eccezione();
+                    } else
+                        SwingAwt.modificaBordo(Comune, comune, border);
+
+                    if (!indirizzo.controllaSigla(Sigla)) {
+                        sigla.setBorder(new LineBorder(Color.RED, 3, true));
+                        message = "Una sigla di provincia contiene solo 2 caratteri letterali";
+                        throw new Eccezione();
+                    } else
+                        SwingAwt.modificaBordo(Sigla, sigla, border);
+
+                    CentroVaccinale nuovo_centro = new CentroVaccinale(centro, SwingAwt.decidiTipologia(tipologia_combo), indirizzo);
+
+                    if (Utility.esisteCentro(nuovo_centro.getNomeCentro())) {
+                        JOptionPane.showMessageDialog(this, "Centro gia' esistente nell'applicazione; Cambiare Nome", "error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+
+                        // Dati validi! Insert nel database...
+
+
+
+                        //TODO gestione eccezioni lanciate dal metodo inserisciNuovoCentro()
+                        Utility.inserisciNuovoCentro(nuovo_centro);
+                        //Utility.scriviFile("./data/CentriVaccinali.dati.txt", nuovo_centro.toString());
+
+                        nome_centro.setBorder(border);
+                        via.setBorder(border);
+                        JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
+                        new CentriVaccinaliGUI();
+                        this.dispose();
+                    }
+                } catch (Eccezione ex) {
+                    JOptionPane.showMessageDialog(this, message, "errore", JOptionPane.ERROR_MESSAGE);
+                } catch (SQLException se) {
+                    Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, se);
+                }
+            } else {
+                SwingAwt.modificaBordo(centro, nome_centro, border);
+                SwingAwt.modificaBordo(Via, via, border);
+                SwingAwt.modificaBordo(Sigla, sigla, border);
+                SwingAwt.modificaBordo(Comune, comune, border);
+                SwingAwt.modificaBordo(Cap, cap, border);
+                JOptionPane.showMessageDialog(this, " Riempire Tutti i Campi", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException ec) {
+            num_civico.setBorder(new LineBorder(Color.RED, 3, true));
+            JOptionPane.showMessageDialog(this, "Errore di formattazione numerico nel numero civico", "Eror112", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
     /**
      * Metodo ereditato dall'interfaccia <code>ActionListener</code>
      *
@@ -147,90 +229,9 @@ public class RegistraCentro extends Registrazioni {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        try {
             if (e.getSource() == conferma) {
-                String message = null;
-                IndirizzoComposto indirizzo;
-                int codice = Integer.parseInt(num_civico.getText());
-                String centro = nome_centro.getText();
-                String Via = via.getText();
-                String Comune = comune.getText().toUpperCase();
-                String Sigla = sigla.getText().toUpperCase();
-                String Cap = cap.getText();
-                num_civico.setBorder(border);
-                if (!centro.equals("") && !Via.equals("") && !Comune.equals("") && !Sigla.equals("") && !Cap.equals("") && !centro.equals("Nome centro") && !Via.equals("Nome Via") && !Comune.equals("comune") && !Sigla.equals("sigla") && !Cap.equals("cap")) {
-                    SwingAwt.modificaBordo(centro, nome_centro, border);
-                    SwingAwt.modificaBordo(Via, via, border);
-                    comune.setBorder(border);
-                    sigla.setBorder(border);
-                    try {
-                        indirizzo = new IndirizzoComposto(SwingAwt.decidiQualificatore(qualificatore_combo), Via, codice, Comune, Sigla, Cap);
-
-                        if(!indirizzo.controllaNumeroCivico(codice)){
-                            num_civico.setBorder(new LineBorder(Color.RED, 3, true));
-                            message = "Il numero civico è invalido";
-                            throw new Eccezione();
-                        }
-
-                        if (!indirizzo.controllaCap(Cap)) {
-                            cap.setBorder(new LineBorder(Color.RED, 3, true));
-                            message = "Il cap contiene 5 cifre decimali";
-                            throw new Eccezione();
-                        } else
-                            SwingAwt.modificaBordo(Cap, cap, border);
-
-                        if (!indirizzo.controllaComune(Comune)) {
-                            comune.setBorder(new LineBorder(Color.RED, 3, true));
-                            message = "Un comune puo' contenere solo caratteri letterali";
-                            throw new Eccezione();
-                        } else
-                            SwingAwt.modificaBordo(Comune, comune, border);
-
-                        if (!indirizzo.controllaSigla(Sigla)) {
-                            sigla.setBorder(new LineBorder(Color.RED, 3, true));
-                            message = "Una sigla di provincia contiene solo 2 caratteri letterali";
-                            throw new Eccezione();
-                        } else
-                            SwingAwt.modificaBordo(Sigla, sigla, border);
-
-                        CentroVaccinale nuovo_centro = new CentroVaccinale(centro, SwingAwt.decidiTipologia(tipologia_combo), indirizzo);
-
-                        if (Utility.esisteCentro(nuovo_centro.getNomeCentro())) {
-                            JOptionPane.showMessageDialog(this, "Centro gia' esistente nell'applicazione; Cambiare Nome", "error", JOptionPane.ERROR_MESSAGE);
-                        } else {
-
-                            // Dati validi! Insert nel database...
-
-
-
-                            //TODO gestione eccezioni lanciate dal metodo inserisciNuovoCentro()
-                            Utility.inserisciNuovoCentro(nuovo_centro);
-                            //Utility.scriviFile("./data/CentriVaccinali.dati.txt", nuovo_centro.toString());
-
-                            nome_centro.setBorder(border);
-                            via.setBorder(border);
-                            JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
-                            CentriVaccinaliGUI Cv = new CentriVaccinaliGUI();
-                            this.dispose();
-                        }
-                    } catch (Eccezione ex) {
-                        JOptionPane.showMessageDialog(this, message, "errore", JOptionPane.ERROR_MESSAGE);
-                    } catch (SQLException se) {
-                        Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, se);
-                    }
-                } else {
-                    SwingAwt.modificaBordo(centro, nome_centro, border);
-                    SwingAwt.modificaBordo(Via, via, border);
-                    SwingAwt.modificaBordo(Sigla, sigla, border);
-                    SwingAwt.modificaBordo(Comune, comune, border);
-                    SwingAwt.modificaBordo(Cap, cap, border);
-                    JOptionPane.showMessageDialog(this, " Riempire Tutti i Campi", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                registraCentroVaccinale();
             }
-        } catch (NumberFormatException ec) {
-            num_civico.setBorder(new LineBorder(Color.RED, 3, true));
-            JOptionPane.showMessageDialog(this, "Errore di formattazione numerico nel numero civico", "Eror112", JOptionPane.WARNING_MESSAGE);
-        }
 
         if (e.getSource() == annulla) {
             new OperazioniCentroGUI();
