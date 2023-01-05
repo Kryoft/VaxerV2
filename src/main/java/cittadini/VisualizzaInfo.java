@@ -96,29 +96,9 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
         int numero_segnalazioni = segnalazioni.size();
         double media = numero_segnalazioni == 0 ? 0.00d : somma_indici / numero_segnalazioni;
 
-        //TODO IMPLEMENTARE ROBA
-
         ArrayList<Tripla<String, Float, Integer>> dati_centro =
                 DBClient.getValoriPerEventoAvverso(strutture_vaccinali.getNomeCentro());
 
-
-
-        /*
-        String[] vaccinato_splitted;
-        for (EventoAvverso evento: segnalazioni ) {
-            vaccinato_splitted = vaccinato.split(",");
-            if (vaccinato_splitted.length == 4) {
-                media = media + Integer.parseInt(vaccinato_splitted[1]);
-                numero_segnalazioni++;
-            }
-        }
-         */
-/*
-        if (numero_segnalazioni != 0)
-            media = media / numero_segnalazioni;
-
-
- */
 
         num_segnalazioni_label.setText("Numero di Segnalazioni: " + numero_segnalazioni);
         media_label.setText("Severità media: " + media);
@@ -169,8 +149,6 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
         backgroundSettings(0, new Rectangle(200, 900,           //menu
                 150, 50), 14, 1, false);
 
-
-
         String[] colonne = {"Evento avverso", "Media", "Segnalazioni"};
         JTable table = new JTable(0, 3);
         table.setEnabled(false);
@@ -186,19 +164,6 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
             Object[] riga = {info_evento.getPrimo(), info_evento.getSecondo(), info_evento.getTerzo()};
             model.addRow(riga);
         }
-
-
-
-        /*
-        JList lista_centri = new JList<>(list_model);
-        lista_centri.setBounds(850, 150, 500, 500);
-        lista_centri.setFont(new Font("Arial", Font.BOLD, 18));
-        background.add(lista_centri);
-        JScrollPane scroll = new JScrollPane();
-        scroll.setBounds(850, 150, 500, 500);
-        scroll.setViewportView(lista_centri);
-        background.add(scroll);
-*/
 
         menu.addActionListener(this);
 

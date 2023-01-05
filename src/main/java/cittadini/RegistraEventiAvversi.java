@@ -120,13 +120,10 @@ public class RegistraEventiAvversi extends Registrazioni {
             if (e.getSource() == conferma) {
                 String centro = struttura_vaccinale.getNomeCentro();
                 String note = note_text.getText();
-                //String evento = evento_text.getText();
                 EventoAvverso.Eventi evento = SwingAwt.decidiEvento((String)evento_combo.getSelectedItem());
 
                 int Indice = Integer.parseInt(indice_severita_text.getText());
                 EventoAvverso ev = new EventoAvverso(evento, Indice, note, centro, cod_fiscale);
-
-//                if (Utility.esisteCentro(0, centro, "./data/CentriVaccinali.dati.txt")) {
 
                 if (!evento.equals("")) {
                     evento_text.setBorder(border);
@@ -140,7 +137,6 @@ public class RegistraEventiAvversi extends Registrazioni {
                                 }
                             }
                             if(nuovo) {
-                                //Utility.scriviFile("./data/Vaccinati_" + centro + ".dati.txt", ev.toString());
 
                                 Utility.inserisciNuovoEvento(ev);
                                 //evento_combo.setBorder(border);
@@ -162,20 +158,12 @@ public class RegistraEventiAvversi extends Registrazioni {
                 } else {
 
                     SwingAwt.modificaBordo(evento.toString(), evento_text, border);
-//                        SwingAwt.modificaBordo(centro, nome_centro_text, border);
                     JOptionPane.showMessageDialog(this, "Riempire tutti i campi", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-//                } else {
-//                    nome_centro_text.setBorder(new LineBorder(Color.RED, 3, true));
-//                    JOptionPane.showMessageDialog(this, "Il centro da lei indicato non esiste o non si e' registrato all'applicazione", "Error", JOptionPane.ERROR_MESSAGE);
-//                }
             } else if (e.getSource() == annulla) {
                 new CittadiniGUI();
                 this.dispose();
             }
-            //} //catch (IOException | URISyntaxException ex) {
-            // Logger.getLogger(RegistraCittadini.class.getName()).log(Level.SEVERE, null, ex);
-            //}
         }catch (SQLException | RemoteException ex){
             System.err.println("DATABASE ERROR");
         }
