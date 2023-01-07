@@ -5,12 +5,9 @@
  */
 package cittadini;
 
-import centrivaccinali.IndirizzoComposto;
-import centrivaccinali.CentroVaccinale;
 import centrivaccinali.RegistraVaccinato;
 //import centrivaccinali.StruttureVaccinali;
-import shared.DBClient;
-import shared.Utility;
+import shared.DBManager;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -18,8 +15,6 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 public class RicercaNomeCentro extends Ricerca {
 
@@ -100,7 +95,7 @@ public class RicercaNomeCentro extends Ricerca {
                 System.out.println("HO CHIAMATO valueChanged");
                 //Iterator<String> it = centri_trovati.iterator();
                 String centro_selezionato = lista_centri.getSelectedValue();
-                strutture_vaccinali = DBClient.getCentroVaccinaleByName(centro_selezionato);
+                strutture_vaccinali = DBManager.getCentroVaccinaleByName(centro_selezionato);
                 //String[] a;
                 //IndirizzoComposto ic;
 
@@ -138,7 +133,7 @@ public class RicercaNomeCentro extends Ricerca {
             //String copy;
             String nome_centro = centro_txt.getText();
             //String[] a;
-            centri_trovati = DBClient.cercaCentri(nome_centro);
+            centri_trovati = DBManager.cercaCentri(nome_centro);
             //Iterator<String> it = centri_trovati.iterator();
 
             int num_risultati = centri_trovati.size();

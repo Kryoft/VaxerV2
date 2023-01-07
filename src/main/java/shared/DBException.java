@@ -7,14 +7,14 @@ public class    DBException extends SQLException {
         super();
     }
 
-    public DBException(String tab,int state,String message) {
+    public DBException(String tab,String state,String message) {
         System.err.println(manageException(tab,state,message));
     }
 
-    public String manageException(String tab, int state,String message){
+    public String manageException(String tab, String state,String message){
         String s=null;
         switch(state) {
-            case 23503:
+            case "23503":
                 if(tab.equals("Vaccinato"))
                    s= "Il centro indicato non esiste";
                 if(tab.equals("Iscritto"))
@@ -26,7 +26,7 @@ public class    DBException extends SQLException {
                         System.err.println("Non esiste l'evento indicato");
                 break;
 
-            case 23505:
+            case "23505":
                 if(tab.equals("Vaccinato")){
                     if(message.contains("Identifier"))
                         s="continuare ciclo di creazione numeri casuali";

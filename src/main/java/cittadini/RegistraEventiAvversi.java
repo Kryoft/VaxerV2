@@ -11,21 +11,16 @@ import centrivaccinali.PlaceholderTextField;
 
 //import centrivaccinali.StruttureVaccinali;
 import centrivaccinali.SwingAwt;
-import jdk.jfr.Event;
-import shared.DBClient;
+import shared.DBManager;
 import shared.Utility;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class RegistraEventiAvversi extends Registrazioni {
 
@@ -129,10 +124,10 @@ public class RegistraEventiAvversi extends Registrazioni {
                     evento_text.setBorder(border);
                     if (Indice >= 1 && Indice <= 5) {
                         if (note.length() < 256) {
-                            ArrayList<EventoAvverso> segnalazioni = DBClient.getSegnalazioniByCentro(centro);
+                            ArrayList<EventoAvverso> segnalazioni = DBManager.getSegnalazioniByCentro(centro);
                             boolean nuovo = true;
                             for(EventoAvverso segnalazione: segnalazioni){
-                                if(DBClient.checkEventoGiaSegnalato(ev)){
+                                if(DBManager.checkEventoGiaSegnalato(ev)){
                                     nuovo = false;
                                 }
                             }

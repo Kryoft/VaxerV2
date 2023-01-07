@@ -7,20 +7,15 @@ package cittadini;
 
 import centrivaccinali.*;
 
-import jdk.jshell.execution.Util;
-import shared.DBClient;
+import shared.DBManager;
 import shared.Utility;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class RegistraCittadini extends Registrazioni {
@@ -172,7 +167,7 @@ public class RegistraCittadini extends Registrazioni {
 
                                         //Utility.scriviFile("./data/log.txt", l.toString());
                                         //Utility.scriviFile("./data/Cittadini_Registrati.dati.txt", c.toString());
-                                    DBClient.insertIscritto(c);
+                                    DBManager.insertIscritto(c);
 
                                         JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
                                         new CentriVaccinaliGUI();
