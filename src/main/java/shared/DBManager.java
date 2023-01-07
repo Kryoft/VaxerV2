@@ -26,8 +26,7 @@ public class DBManager implements DBInterface{
         DBManager obj = new DBManager();
         Registry registry = null;
         try {
-            stub = (DBInterface) UnicastRemoteObject.exportObject(
-                    obj, PORT);
+            stub = (DBInterface) UnicastRemoteObject.exportObject(obj, PORT);
             registry = LocateRegistry.createRegistry(PORT);
             registry.bind("DBInterface", stub);
         } catch (RemoteException e) {
