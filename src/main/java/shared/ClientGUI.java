@@ -4,6 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 /**
  * La classe <strong>ClientGUI</strong> estende la classe <code>JFrame</code> e implementa
@@ -138,6 +142,18 @@ public class ClientGUI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == connetti) {
+            String ip ="192.168.178.76";
+            int PORT=54232;
+            Registry registry = null;
+            try {
+                registry = LocateRegistry.getRegistry(ip, PORT);
+                // Looking up the registry for the remote object
+                DBInterface dbobj = (DBInterface) registry.lookup("DBInterface");
+            } catch (RemoteException ex) {
+                throw new RuntimeException(ex);
+            } catch (NotBoundException ex) {
+                throw new RuntimeException(ex);
+            }
 
         }
     }

@@ -38,27 +38,6 @@ public class DBClient {
         // "VALUES('danielec1108@gmail.com','Dani','1234','CSPDNL01M11I577W')";
         // insertEvento(2,"CIAO",3,"");
         // InsertCentro("Ospedale","Erba", "er", StruttureVaccinali.Tipologia.OSPEDALIERO, IndirizzoComposto.Qualificatore.VIA,"Dei caduti",3,"22036");
-
-        try {
-            String ip = (args.length >= 1) ? args[0] : DEFAULT_IP;
-            int port = (args.length >= 2) ? Integer.parseInt(args[1]) : DEFAULT_PORT;
-
-            // Getting the registry
-            Registry registry = LocateRegistry.getRegistry(ip, port);
-
-            // Looking up the registry for the remote object
-            //DBInterface dbobj = (DBInterface) registry.lookup("DBInterface");
-            //insertCentro(dbobj,"Joe","Erba","ER", CentroVaccinale.Tipologia.OSPEDALIERO, IndirizzoComposto.Qualificatore.VIA,"Alserio",11,"22036");
-            System.out.println("Remote method invoked ");
-
-        } catch (NumberFormatException nfe) {
-            nfe.printStackTrace();
-            //} catch (Exception e) {  // non è il massimo catchare la classe generale Exception
-            //    System.err.println("Client exception: " + e.toString());
-            //     e.printStackTrace();
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /**
