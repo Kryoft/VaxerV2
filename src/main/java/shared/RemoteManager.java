@@ -111,7 +111,7 @@ public class RemoteManager extends Registrazioni implements Remote {
 
         conferma.addActionListener(this);
         annulla.addActionListener(this);
-        stub = DBManager.create();
+        stub = AcceptServer.create();
         background_panel.setBorder(new LineBorder(c, 60, false));
         setVisible(true);
         try {
@@ -132,7 +132,7 @@ public class RemoteManager extends Registrazioni implements Remote {
             annulla.setEnabled(true);
             conferma.setEnabled(false);
             try {
-                DBManager.attiva(stub);
+                AcceptServer.attiva(stub);
             } catch (AlreadyBoundException ex) {
                 JOptionPane.showMessageDialog(this,already_bound_exception,"Errore",JOptionPane.ERROR_MESSAGE);
             } catch (RemoteException ex) {
@@ -148,7 +148,7 @@ public class RemoteManager extends Registrazioni implements Remote {
             annulla.setEnabled(false);
             try {
 
-                DBManager.disattiva(stub);
+                AcceptServer.disattiva(stub);
             } catch (RemoteException ex) {
                 JOptionPane.showMessageDialog(this,ex.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
             } catch (NotBoundException ex) {
