@@ -7,7 +7,7 @@ package cittadini;
 
 import centrivaccinali.RegistraVaccinato;
 //import centrivaccinali.StruttureVaccinali;
-import shared.DBManager;
+import shared.DBClient;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -95,7 +95,7 @@ public class RicercaNomeCentro extends Ricerca {
                 System.out.println("HO CHIAMATO valueChanged");
                 //Iterator<String> it = centri_trovati.iterator();
                 String centro_selezionato = lista_centri.getSelectedValue();
-                strutture_vaccinali = DBManager.getCentroVaccinaleByName(centro_selezionato);
+                strutture_vaccinali = DBClient.getCentroVaccinaleByName(centro_selezionato);
                 //String[] a;
                 //IndirizzoComposto ic;
 
@@ -133,7 +133,7 @@ public class RicercaNomeCentro extends Ricerca {
             //String copy;
             String nome_centro = centro_txt.getText();
             //String[] a;
-            centri_trovati = DBManager.cercaCentri(nome_centro);
+            centri_trovati = DBClient.cercaCentri(nome_centro);
             //Iterator<String> it = centri_trovati.iterator();
 
             int num_risultati = centri_trovati.size();

@@ -244,7 +244,7 @@ public abstract class Utility {
      * @author Manuel Marceca
      */
     public static boolean esisteCentro(String nome_centro) throws SQLException{
-        return DBManager.getCentroVaccinaleByName(nome_centro) != null;
+        return DBClient.getCentroVaccinaleByName(nome_centro) != null;
     }
 
     /**
@@ -295,7 +295,7 @@ public abstract class Utility {
      * @author Manuel Marceca
      */
     public static boolean loginOk(Login login) {
-        Cittadino cittadino = DBManager.getCittadinoByUsername(login.getUserId());
+        Cittadino cittadino = DBClient.getCittadinoByUsername(login.getUserId());
 
         if(cittadino != null){
             return login.getPassword().equals(cittadino.getLogin().getPassword());
@@ -311,7 +311,7 @@ public abstract class Utility {
      * @author Manuel Marceca
      */
     public static boolean esisteUsername(String username){
-        return DBManager.getCittadinoByUsername(username) != null;
+        return DBClient.getCittadinoByUsername(username) != null;
     }
 
     /*
@@ -348,7 +348,7 @@ public abstract class Utility {
      * @author Manuel Marceca
      */
     public static boolean controlloCoppiaCFId(String codice_fiscale, int id) {
-        Vaccinato vaccinato = DBManager.getVaccinatoByCF(codice_fiscale);
+        Vaccinato vaccinato = DBClient.getVaccinatoByCF(codice_fiscale);
         System.out.println("(" + codice_fiscale + ", " + id + ") (" + vaccinato.getCodiceFiscale() + ", " + vaccinato.getId() + ")");
         return vaccinato != null && vaccinato.getId() == id;
     }
@@ -382,7 +382,7 @@ public abstract class Utility {
 
     public static String inserisciNuovoCentro(CentroVaccinale nuovo_centro){
         try{
-            DBManager.insertCentro(nuovo_centro);
+            DBClient.insertCentro(nuovo_centro);
             return "";
         }catch(RemoteException e){
             return "Errore nel database";
@@ -392,12 +392,12 @@ public abstract class Utility {
 
     public static int inserisciNuovoVaccinato(Vaccinato nuovo_vaccinato) throws  SQLException, RemoteException{
 
-       return DBManager.insertVaccinato(nuovo_vaccinato);
+       return DBClient.insertVaccinato(nuovo_vaccinato);
     }
 
     public static String inserisciNuovoEvento(EventoAvverso evento) throws SQLException, RemoteException{
         try{
-            DBManager.insertEvento(evento);
+            DBClient.insertEvento(evento);
             return "";
         }catch(SQLException | RemoteException e){
             return "Errore nel database";

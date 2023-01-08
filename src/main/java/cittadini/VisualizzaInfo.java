@@ -6,7 +6,7 @@
 package cittadini;
 
 import centrivaccinali.CentroVaccinale;
-import shared.DBManager;
+import shared.DBClient;
 import shared.Tripla;
 import shared.Utility;
 
@@ -84,7 +84,7 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
 
         //vaccinati = DBClient.getVaccinatiListByCentro(strutture_vaccinali.getNomeCentro());
 
-        segnalazioni = DBManager.getSegnalazioniByCentro(strutture_vaccinali.getNomeCentro());
+        segnalazioni = DBClient.getSegnalazioniByCentro(strutture_vaccinali.getNomeCentro());
 
         double somma_indici = 0.00d;
         for(EventoAvverso s: segnalazioni){
@@ -95,7 +95,7 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
         double media = numero_segnalazioni == 0 ? 0.00d : somma_indici / numero_segnalazioni;
 
         ArrayList<Tripla<String, Float, Integer>> dati_centro =
-                DBManager.getValoriPerEventoAvverso(strutture_vaccinali.getNomeCentro());
+                DBClient.getValoriPerEventoAvverso(strutture_vaccinali.getNomeCentro());
 
 
         num_segnalazioni_label.setText("Numero di Segnalazioni: " + numero_segnalazioni);

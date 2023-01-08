@@ -29,7 +29,7 @@ public class SelectQuery {
     }
 
     public static String insertVaccinato(Vaccinato vaccinato){
-        String cod_centro = Integer.toString(DBManager.getIdCentroByName(vaccinato.getNomeCentro()));
+        String cod_centro = Integer.toString(DBClient.getIdCentroByName(vaccinato.getNomeCentro()));
 
         String cod_fiscale = putApices(vaccinato.getCodiceFiscale());
         String nome = putApices(vaccinato.getNome());
@@ -54,7 +54,7 @@ public class SelectQuery {
     }
 
     public static String insertEvento(EventoAvverso evento_avverso){
-        String codice_centro = Integer.toString(DBManager.getIdCentroByName(evento_avverso.getNomeCentro()));
+        String codice_centro = Integer.toString(DBClient.getIdCentroByName(evento_avverso.getNomeCentro()));
 
         String cod_fiscale = putApices(evento_avverso.getCod_fiscale());
         String cod_centro = putApices(codice_centro);
@@ -111,7 +111,7 @@ public class SelectQuery {
 
     public static String checkEventoGiaSegnalato(EventoAvverso evento){
         String cf = putApices(evento.getCod_fiscale());
-        String id_centro = putApices(String.valueOf(DBManager.getIdCentroByName(evento.getNomeCentro())));
+        String id_centro = putApices(String.valueOf(DBClient.getIdCentroByName(evento.getNomeCentro())));
         String nome_evento = putApices(evento.getEvento().toString());
 
         String select = "SELECT * FROM Log_Eventi " +
@@ -120,7 +120,7 @@ public class SelectQuery {
     }
 
     public static String getValoriPerEventoAvverso(String nome_centro){
-        String cod_centro = putApices(String.valueOf(DBManager.getIdCentroByName(nome_centro)));
+        String cod_centro = putApices(String.valueOf(DBClient.getIdCentroByName(nome_centro)));
         String select = "SELECT Nome_Evento, AVG(indice) AS Media_Indici, COUNT(Indice) AS Numero_Segnalazioni " +
                 "FROM Log_Eventi WHERE Cod_Centro = "+ cod_centro +" GROUP BY Nome_Evento";
         return select;
@@ -128,7 +128,7 @@ public class SelectQuery {
 
     public static String getVaccinatiListByCentro(String nome_centro){
 
-        String id_centro = String.valueOf(DBManager.getIdCentroByName(nome_centro));
+        String id_centro = String.valueOf(DBClient.getIdCentroByName(nome_centro));
         String select_vaccinato = "SELECT Data, Vaccino, CentroVaccini.Nome AS Nome_Centro, Identificativo, " +
                 "Vaccinati.Nome AS Nome_Vaccinato, Cognome FROM Vaccinati JOIN CentroVaccini ON Cod_Centro = codice " +
                 "WHERE cod_centro = " + id_centro + ";";
