@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class DBConnection extends Registrazioni implements DBInterface {
+public class DBConnection extends Registrazioni {
     //Border bordo = new Border() ;
     private final JLabel user_label = new JLabel("USERNAME:");
     private final int width_user_label = 250;

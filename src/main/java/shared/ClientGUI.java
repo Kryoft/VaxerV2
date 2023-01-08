@@ -8,6 +8,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * La classe <strong>ClientGUI</strong> estende la classe <code>JFrame</code> e implementa
@@ -147,8 +149,14 @@ public class ClientGUI extends JFrame implements ActionListener {
             Registry registry = null;
             try {
                 registry = LocateRegistry.getRegistry(ip, PORT);
-                // Looking up the registry for the remote object
                 DBInterface dbobj = (DBInterface) registry.lookup("DBInterface");
+                System.out.println("Binding:" + registry.list());
+                try {
+                    String ins_centro = "Select * from CentroVaccini";
+                     System.out.println(dbobj.executeQuery(ins_centro));
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
 
                 JOptionPane.showMessageDialog(this,"il client si è connesso");
             } catch (RemoteException ex) {
