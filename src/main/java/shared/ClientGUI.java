@@ -143,12 +143,14 @@ public class ClientGUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == connetti) {
             String ip ="192.168.178.76";
-            int PORT=54232;
+            int PORT=54323;
             Registry registry = null;
             try {
                 registry = LocateRegistry.getRegistry(ip, PORT);
                 // Looking up the registry for the remote object
                 DBInterface dbobj = (DBInterface) registry.lookup("DBInterface");
+
+                JOptionPane.showMessageDialog(this,"il client si è connesso");
             } catch (RemoteException ex) {
                 throw new RuntimeException(ex);
             } catch (NotBoundException ex) {

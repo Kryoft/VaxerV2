@@ -17,7 +17,8 @@ public class AcceptServer implements DBInterface, Remote {
 
 
     protected static DBInterface create() throws RemoteException{
-            stub = (DBInterface) UnicastRemoteObject.exportObject(new DBManager() , 54323);
+            stub = (DBInterface) UnicastRemoteObject.exportObject(new DBManager() {
+            }, 54323);
             registry = LocateRegistry.createRegistry(54323);
             return stub;
     }
