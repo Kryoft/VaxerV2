@@ -3,10 +3,11 @@ package shared;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.sql.*;
+import java.util.ArrayList;
 
 public interface DBInterface extends Remote {
 
-     boolean executeQuery(String query) throws RemoteException, SQLException;
+    ArrayList<String[]> executeQuery(String query) throws RemoteException, SQLException;
 
     //void selectData(String query) throws RemoteException, SQLException;
     static Connection connected() throws RemoteException,SQLException{
