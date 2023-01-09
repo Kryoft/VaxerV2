@@ -10,6 +10,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * La classe <strong>ClientGUI</strong> estende la classe <code>JFrame</code> e implementa
@@ -20,6 +22,8 @@ import java.sql.SQLException;
  * @author Cristian Corti
  */
 public class ClientGUI extends JFrame implements ActionListener {
+
+    public static DBInterface dbobj=null;
 
     private int display_width = Utility.getDisplayWidth(),
                 display_height = Utility.getDisplayHeight(),
@@ -148,12 +152,14 @@ public class ClientGUI extends JFrame implements ActionListener {
             int PORT=54323;
             Registry registry = null;
             try {
-                registry = LocateRegistry.getRegistry(ip, PORT);
-                DBInterface dbobj = (DBInterface) registry.lookup("DBInterface");
-                System.out.println("Binding:" + registry.list());
+                registry = LocateRegistry.getRegistry(ip,PORT);
+                //registry = LocateRegistry.getRegistry(txt_ip.getText(),Integer.parseInt(txt_port.getText()));
+                dbobj = (DBInterface) registry.lookup("DBInterface");
                 try {
-                    String ins_centro = "Select * from CentroVaccini";
-                     System.out.println(dbobj.executeQuery(ins_centro));
+                    String ins_centro = "Select * from iscritti";
+                    ArrayList<String[]> a = dbobj.executeQuery(ins_centro);
+                    System.out.println(Arrays.toString(a.get(1)));
+                     //System.out.println(a.get(1));
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
