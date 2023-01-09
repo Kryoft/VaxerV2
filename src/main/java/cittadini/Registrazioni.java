@@ -47,6 +47,10 @@ public abstract class Registrazioni extends JFrame implements ActionListener {
     protected void settings(String title) {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setSize(display_width, display_height);
+
+        //display_height = getHeight();
+        //display_width = getWidth();
+
         setLocationRelativeTo(null);
         setTitle(title);
         setFocusable(true);

@@ -115,4 +115,9 @@ public abstract class SwingAwt {
             testo.setBorder(border);
     }
 
+    public static int centerItemOnXorY(int display_width_or_height, int item_width_or_height) {
+        int value = (display_width_or_height / 2) - (item_width_or_height / 2);
+
+        return value;
+    }
 }

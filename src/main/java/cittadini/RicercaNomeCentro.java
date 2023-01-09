@@ -5,12 +5,10 @@
  */
 package cittadini;
 
-import centrivaccinali.IndirizzoComposto;
-import centrivaccinali.CentroVaccinale;
 import centrivaccinali.RegistraVaccinato;
 //import centrivaccinali.StruttureVaccinali;
+import centrivaccinali.SwingAwt;
 import shared.DBClient;
-import shared.Utility;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -18,8 +16,6 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 public class RicercaNomeCentro extends Ricerca {
 
@@ -56,30 +52,53 @@ public class RicercaNomeCentro extends Ricerca {
     public void initWindow() {
         settings("Ricerca per Nome del Centro Vaccinale");
 
+        int centro_txt_width = 310;
+
+        int first_row_height = 41;
+
+        int centro_label_width = 300;
+        int button_height = 50;
+        int button_width = 160;
+        int margin = 20;
+        int cerca_size = 40;
+
+        int centro_txt_x = SwingAwt.centerItemOnXorY(display_width, centro_txt_width);
+        int centro_label_x = centro_txt_x - centro_label_width;
+        int cerca_x = centro_txt_x + centro_txt_width + 2;
+
+
+        int first_row_y = SwingAwt.centerItemOnXorY(display_height,
+                cerca_size + HEIGHT_LISTA + button_height + margin * 2);
+        int button_row_y = first_row_y + cerca_size + margin * 2 + HEIGHT_LISTA;
+
+        int button_annulla_x = SwingAwt.centerItemOnXorY(display_width,
+                button_width * 2 + (int)((1.0 / 3.0) * display_width));
+        int button_conferma_x = button_annulla_x + button_width + (int)((1.0 / 3.0) * display_width);
+
 //        centro_combo.setSelectedIndex(0);   // istruzione inutile?
 
         background.add(centro_label, 0);
-        backgroundSettings(0, new Rectangle(210, 30,            //centro_label
-                520, 120), 16, 1, false);
+        backgroundSettings(0, new Rectangle(centro_label_x, first_row_y,            //centro_label
+                centro_label_width, first_row_height), 16, 1, false);
 
         background.add(centro_txt, 0);
-        backgroundSettings(0, new Rectangle(350, 70,            //centro_txt
-                310, 40), 16, 0, false);
+        backgroundSettings(0, new Rectangle(centro_txt_x, first_row_y,            //centro_txt
+                centro_txt_width, first_row_height), 16, 0, false);
 
         background.add(cerca, 0);
-        backgroundSettings(0, new Rectangle(660, 70,            //cerca
-                40, 40), 15, 0, true);
+        backgroundSettings(0, new Rectangle(cerca_x, first_row_y,            //cerca
+                cerca_size, cerca_size), 15, 0, true);
 
         background.add(annulla, 0);
-        backgroundSettings(0, new Rectangle(24, 965,            //annulla
-                120, 35), 15, 1, false);
+        backgroundSettings(0, new Rectangle(button_annulla_x, button_row_y,            //annulla
+                button_width, button_height), 15, 1, false);
 
         background.add(conferma, 0).setEnabled(false);
         //backgroundSettings(0, new Rectangle(1790, 965,          //conferma
         //        120, 35), 15, 1, false);
 
-        backgroundSettings(0, new Rectangle(900, 500,          //conferma
-                        120, 35), 15, 1, false);
+        backgroundSettings(0, new Rectangle(button_conferma_x, button_row_y,          //conferma
+                        button_width, button_height), 15, 1, false);
 
 
         cerca.addActionListener(this);
@@ -97,25 +116,8 @@ public class RicercaNomeCentro extends Ricerca {
             //TODO! Rivedere indici, che ora non hanno più una logica, non utilizzando più gli array.
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                System.out.println("HO CHIAMATO valueChanged");
-                //Iterator<String> it = centri_trovati.iterator();
                 String centro_selezionato = lista_centri.getSelectedValue();
                 strutture_vaccinali = DBClient.getCentroVaccinaleByName(centro_selezionato);
-                //String[] a;
-                //IndirizzoComposto ic;
-
-
-                /*
-                while (it.hasNext()) {
-                    String s = it.next();
-                    a = s.split(",");
-                    if (a[0].equals(lista_centri.getSelectedValue())) {
-                        ic = new IndirizzoComposto(Utility.decidiQualificatore(a[2]), a[3], Integer.parseInt(a[4]), a[5], a[6], a[7]);
-                        strutture_vaccinali = new CentroVaccinale(a[0], Utility.decidiTipo(a[1]), ic);
-                        break;
-                    }
-                }
-                */
             }
         });
 
@@ -138,11 +140,11 @@ public class RicercaNomeCentro extends Ricerca {
             //String copy;
             String nome_centro = centro_txt.getText();
             //String[] a;
-            centri_trovati = DBClient.cercaCentri(nome_centro);
+            centri_trovati = DBClient.cercaCentriByNome(nome_centro);
             //Iterator<String> it = centri_trovati.iterator();
 
             int num_risultati = centri_trovati.size();
-            if (!nome_centro.isBlank()) {
+            //if (!nome_centro.isBlank()) {
                 for(String nome: centri_trovati) {
                     list_model.addElement(nome);
                 }
@@ -154,8 +156,8 @@ public class RicercaNomeCentro extends Ricerca {
                     JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo, Elementi trovati: " + num_risultati);
                     conferma.setEnabled(true);
                 }
-            } else
-                JOptionPane.showMessageDialog(this, "Errore: Campo nome centro vaccinale non valorizzato");
+            //} else
+            //    JOptionPane.showMessageDialog(this, "Errore: Campo nome centro vaccinale non valorizzato");
         }
 
         else if (e.getSource() == conferma) {
