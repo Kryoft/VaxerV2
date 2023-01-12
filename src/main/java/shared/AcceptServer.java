@@ -16,8 +16,8 @@ public class AcceptServer {
     static DBManager obj = null;
     protected static DBInterface create() throws RemoteException {
          obj = new DBManager();
-        stub = (DBInterface) UnicastRemoteObject.exportObject(obj, 54323);
-        registry = LocateRegistry.createRegistry(54323);
+        stub = (DBInterface) UnicastRemoteObject.exportObject(obj, Integer.parseInt(RemoteInformation.getPORT()));
+        registry = LocateRegistry.createRegistry( Integer.parseInt(RemoteInformation.getPORT()));
         return stub;
     }
 

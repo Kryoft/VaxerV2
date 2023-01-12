@@ -148,12 +148,10 @@ public class ClientGUI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == connetti) {
-            String ip ="192.148.178.76";
-            int PORT=54323;
             Registry registry = null;
             try {
-                registry = LocateRegistry.getRegistry(ip,PORT);
-                //registry = LocateRegistry.getRegistry(txt_ip.getText(),Integer.parseInt(txt_port.getText()));
+                //registry = LocateRegistry.getRegistry(ip,PORT);
+                registry = LocateRegistry.getRegistry(txt_ip.getText(),Integer.parseInt(txt_port.getText()));
                 dbobj = (DBInterface) registry.lookup("DBInterface");
                 try {
                     String ins_centro = "Select * from iscritti";
