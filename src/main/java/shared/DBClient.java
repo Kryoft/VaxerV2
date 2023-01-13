@@ -172,10 +172,12 @@ public class DBClient {
         String[] s ={"cod_fiscale"};
         try {
             l = DBInterface.selectData(SelectQuery.getCfFromUsername(username),s);
+            cod_fiscale = l.get(0)[0];
+
         }catch ( RemoteException exc){
             Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, exc);
         }
-
+        System.out.println(cod_fiscale);
         return cod_fiscale;
     }
 
