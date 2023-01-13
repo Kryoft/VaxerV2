@@ -144,7 +144,7 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
                 520, 120), 18, 1, false);
 
         background.add(menu, 0);
-        backgroundSettings(0, new Rectangle(200, 900,           //menu
+        backgroundSettings(0, new Rectangle(200, 700,           //menu
                 150, 50), 14, 1, false);
 
         String[] colonne = {"Evento avverso", "Media", "Segnalazioni"};

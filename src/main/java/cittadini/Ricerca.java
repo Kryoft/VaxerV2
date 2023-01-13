@@ -6,6 +6,7 @@
 package cittadini;
 
 import centrivaccinali.CentroVaccinale;
+import centrivaccinali.SwingAwt;
 import shared.Utility;
 
 import javax.swing.*;
@@ -22,8 +23,10 @@ import java.util.HashSet;
  */
 public abstract class Ricerca extends JFrame implements ActionListener {
 
+    //protected int display_width = Utility.getDisplayWidth(),
+         //           display_height = Utility.getDisplayHeight();
     protected int display_width = Utility.getDisplayWidth(),
-                    display_height = Utility.getDisplayHeight();
+            display_height = Utility.getDisplayHeight();
     protected CentroVaccinale strutture_vaccinali = null;
     /**
      * Campo utilizzato per permettere all'utente, dopo la ricerca e selezione di un centro vaccinale,
@@ -60,7 +63,12 @@ public abstract class Ricerca extends JFrame implements ActionListener {
      */
     protected void settings(String title) {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //setSize(display_width, display_height);
         setSize(display_width, display_height);
+        //get actual window size
+        display_height = getHeight();
+        display_width = getWidth();
+
         setLocationRelativeTo(null);
         setTitle(title);
         setFocusable(true);
@@ -79,14 +87,22 @@ public abstract class Ricerca extends JFrame implements ActionListener {
      *
      * @author Daniele Caspani
      */
+    public final int WIDTH_LISTA = (int)((3.0 / 5.0) * display_width);
+    public final int HEIGHT_LISTA = (int)((3.0 / 5.0) * display_height);
     protected void creaLista() {
+
+
+
+        int x_list = SwingAwt.centerItemOnXorY(display_width, WIDTH_LISTA);
+        int y_list = SwingAwt.centerItemOnXorY(display_height, HEIGHT_LISTA);
+
         list_model = new DefaultListModel<>();
         lista_centri = new JList<>(list_model);
         lista_centri.setBounds(0, 400, 1800, 1000);
         lista_centri.setFont(new Font("Arial", Font.BOLD, 18));
         background.add(lista_centri);
         scroll = new JScrollPane();
-        scroll.setBounds(400, 250, 1000, 680);
+        scroll.setBounds(x_list, y_list, WIDTH_LISTA, HEIGHT_LISTA);
         scroll.setViewportView(lista_centri);
         background.add(scroll);
     }

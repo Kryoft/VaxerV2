@@ -31,9 +31,9 @@ public class RegistraEventiAvversi extends Registrazioni {
 
     private final PlaceholderTextField indice_severita_text = new PlaceholderTextField("Severità (da 1 a 5)");
 
-    private final JLabel nome_centro_label = new JLabel("Nome_Centro:"),
-                            evento_label = new JLabel("Evento:"),
-                            note_label = new JLabel("Note (opzionale):");
+    private final JLabel nome_centro_label = new JLabel("Nome_Centro:", SwingConstants.CENTER),
+                            evento_label = new JLabel("Evento:", SwingConstants.CENTER),
+                            note_label = new JLabel("Note (opzionale):", SwingConstants.CENTER);
 
     private final TextArea note_text = new TextArea();
 
@@ -57,19 +57,51 @@ public class RegistraEventiAvversi extends Registrazioni {
     public void initWindow() {
         settings("Inserisci Evento Avverso");
 
+        //display_width = layered_pane.getWidth();
+        //display_height = layered_pane.getHeight();
+
+        int labels_width = 180;
+        int text_width = 310;
+        int severita_width = 150;
+        int note_width = 500;
+        int button_width = 160;
+
+        int base_height = 40;
+        int note_height = 100;
+        int button_height = 50;
+
+        int labels_x = SwingAwt.centerItemOnXorY(display_width, labels_width + note_width);
+        int y_margin = 60;
+        int button_margin = 50;
+
+        int txt_x = labels_x + labels_width;
+        int severita_x = txt_x + text_width + 10;
+
+        int first_row_y = SwingAwt.centerItemOnXorY(display_height,
+                base_height * 2 + note_height + y_margin * 2 + button_margin + button_height);
+
+        int second_row_y = first_row_y + base_height + y_margin;
+        int third_row_y = second_row_y + base_height + y_margin;
+        int fourth_row_y = third_row_y + note_height + button_margin;
+
+        int annulla_x = SwingAwt.centerItemOnXorY(display_width, button_width * 2 + button_margin);
+        int conferma_x = annulla_x + button_width + (display_width/2 - (annulla_x + button_width));
+
+
+
         layered_pane.add(nome_centro_label, 2, 0);
-        layeredPaneSettings(0, new Rectangle(600, 200,              //nome_centro_label
-                520, 120), 16, 1, false);
+        layeredPaneSettings(0, new Rectangle(labels_x, first_row_y,              //nome_centro_label
+                labels_width, base_height), 16, 1, false);
 
         layered_pane.add(nome_centro_text, 2, 0);
-        layeredPaneSettings(0, new Rectangle(750, 240,              //nome_centro_text
-                310, 40), 15, 0, false);
+        layeredPaneSettings(0, new Rectangle(txt_x, first_row_y,              //nome_centro_text
+                text_width, base_height), 15, 0, false);
         nome_centro_text.setEditable(false);
         nome_centro_text.setText(struttura_vaccinale.getNomeCentro());
 
         layered_pane.add(evento_label, 2, 0);
-        layeredPaneSettings(0, new Rectangle(600, 350,              //evento_label
-                520, 120), 16, 1, false);
+        layeredPaneSettings(0, new Rectangle(labels_x, second_row_y,              //evento_label
+                labels_width, base_height), 16, 1, false);
 
         /*
         layered_pane.add(evento_text, 2, 0);
@@ -78,28 +110,28 @@ public class RegistraEventiAvversi extends Registrazioni {
         */
 
         layered_pane.add(evento_combo, 2, 0);
-        layeredPaneSettings(0, new Rectangle(750, 390,              //evento_combo
-                310, 40), 15, 0, false);
+        layeredPaneSettings(0, new Rectangle(txt_x, second_row_y,              //evento_combo
+                text_width, base_height), 15, 0, false);
 
         layered_pane.add(indice_severita_text, 2, 0);
-        layeredPaneSettings(0, new Rectangle(1080, 390,             //indice_severita_text
-                150, 40), 15, 1, true);
+        layeredPaneSettings(0, new Rectangle(severita_x, second_row_y,             //indice_severita_text
+                severita_width, base_height), 15, 1, true);
 
         layered_pane.add(note_label, 2, 0);
-        layeredPaneSettings(0, new Rectangle(600, 500,              //note_label
-                520, 120), 16, 1, false);
+        layeredPaneSettings(0, new Rectangle(labels_x, third_row_y,              //note_label
+                labels_width, base_height), 16, 1, false);
 
         layered_pane.add(note_text, 2, 0);
-        layeredPaneSettings(0, new Rectangle(750, 540,              //note_text
-                500, 100), 15, 0, false);
+        layeredPaneSettings(0, new Rectangle(txt_x, third_row_y,              //note_text
+                note_width, note_height), 15, 0, false);
 
         layered_pane.add(conferma, 2, 0);  //conferma
-        layeredPaneSettings(0, new Rectangle(580, 720,
-                200, 100), 16, 1, false);
+        layeredPaneSettings(0, new Rectangle(annulla_x, fourth_row_y,
+                button_width, button_height), 16, 1, false);
 
         layered_pane.add(annulla, 2, 0);
-        layeredPaneSettings(0, new Rectangle(1000, 720,             //annulla
-                200, 100), 16, 1, false);
+        layeredPaneSettings(0, new Rectangle(conferma_x, fourth_row_y,             //annulla
+                button_width, button_height), 16, 1, false);
 
 
         conferma.addActionListener(this);
