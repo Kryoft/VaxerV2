@@ -59,11 +59,11 @@ public class SelectQuery {
         String cod_fiscale = putApices(evento_avverso.getCod_fiscale());
         String cod_centro = putApices(codice_centro);
         String evento = putApices(evento_avverso.getEvento().toString());
-        System.out.println(evento_avverso.getEvento().toString());
         String indice = putApices(Integer.toString(evento_avverso.getIndice()));
         String note = putApices(evento_avverso.getNoteOpzionali());
 
         String ins_evento = "INSERT INTO Log_Eventi VALUES(" + cod_centro +","+ cod_fiscale +","+ evento +","+ indice +","+ note + ")";
+        System.out.println(ins_evento);
         return ins_evento;
     }
 

@@ -71,6 +71,7 @@ public class DBClient {
 
     //TODO Gestione cod_centro restituito non valido (valore -1)
     public static int insertVaccinato(Vaccinato vaccinato) throws RemoteException {
+        System.out.println("sono passato di qua");
         DBInterface.upData(SelectQuery.insertVaccinato(vaccinato),"Vaccinato");
         return getVaccinatoIdByCF(vaccinato.getCodiceFiscale());
     }
@@ -113,12 +114,12 @@ public class DBClient {
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-
+        if(l.size()>1){
        int num_civico =Integer.parseInt(l.get(1)[3]);
         CentroVaccinale.Tipologia tipologia_centro = Utility.decidiTipo(l.get(1)[1]);
         IndirizzoComposto.Qualificatore qualificatore = Utility.decidiQualificatore(l.get(1)[1]);
         IndirizzoComposto indirizzo_centro = new IndirizzoComposto(qualificatore,l.get(1)[2], num_civico, l.get(1)[4],l.get(1)[5],l.get(1)[6]);
-        centro = new CentroVaccinale(l.get(1)[0], tipologia_centro, indirizzo_centro);
+        centro = new CentroVaccinale(l.get(1)[0], tipologia_centro, indirizzo_centro);}
         return centro;
     }
 
@@ -194,15 +195,17 @@ public class DBClient {
         String[] s ={"Email","Username","Password","Nome_Centro","Identificativo","Nome_Vaccinato","Cognome","Cf_Vaccinato"};
         LinkedList<String[]> l =null;
         try {
-            l=DBInterface.selectData(SelectQuery.getCittadinoByUsername(username),s);
-            int identificativo = Integer.parseInt(l.get(1)[4]);
-                Login login = new Login(l.get(1)[1],l.get(1)[2]);
+            l = DBInterface.selectData(SelectQuery.getCittadinoByUsername(username), s);
+            if (l.size() > 1) {
+                int identificativo = Integer.parseInt(l.get(1)[4]);
+                Login login = new Login(l.get(1)[1], l.get(1)[2]);
 
-                iscritto = new Cittadino(l.get(1)[0], login, l.get(1)[3],identificativo,
-                        l.get(1)[5],l.get(1)[6],l.get(1)[7]);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
+                iscritto = new Cittadino(l.get(1)[0], login, l.get(1)[3], identificativo,
+                        l.get(1)[5], l.get(1)[6], l.get(1)[7]);
+            }
+            } catch(RemoteException e){
+                throw new RuntimeException(e);
+            }
         return iscritto;
     }
 
@@ -235,10 +238,13 @@ public class DBClient {
         }catch( RemoteException se){
             Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, se);
         }
-        for(int i=1;i<=l.size();i++){
-            indice =Integer.parseInt(l.get(1)[1]);
-            EventoAvverso evento = new EventoAvverso(SwingAwt.decidiEvento(l.get(i)[0]),indice,l.get(i)[2], nome_centro, l.get(i)[3]);
-            eventi.add(evento);}
+        if(l.size()>1) {
+            for (int i = 1; i <= l.size(); i++) {
+                indice = Integer.parseInt(l.get(1)[1]);
+                EventoAvverso evento = new EventoAvverso(SwingAwt.decidiEvento(l.get(i)[0]), indice, l.get(i)[2], nome_centro, l.get(i)[3]);
+                eventi.add(evento);
+            }
+        }
         return eventi;
     }
 
@@ -325,7 +331,7 @@ public class DBClient {
         String[] s ={"Data","Vaccino","Nome_Centro","Identificativo","Nome_Vaccinato","cognome"};
         LinkedList<String[]> l = null;
         try {
-            DBInterface.selectData(SelectQuery.getVaccinatoByCF(cf),s);
+           l= DBInterface.selectData(SelectQuery.getVaccinatoByCF(cf),s);
             int id= Integer.parseInt(l.get(1)[3]);
 
                 Vaccinato.Vaccino rs_vaccino = Utility.decidiVaccino(l.get(1)[1]);
@@ -352,12 +358,11 @@ public class DBClient {
         String[] s ={"Identificativo"};
         LinkedList<String[]> l = null;
         try {
-            DBInterface.selectData(SelectQuery.getVaccinatoIdByCF(cf),s);
+            l=DBInterface.selectData(SelectQuery.getVaccinatoIdByCF(cf),s);
             identificativo= Integer.parseInt(l.get(1)[0]);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(identificativo);
         return identificativo;
     }
 
@@ -379,7 +384,7 @@ public class DBClient {
         String[] s ={"Nome"};
         LinkedList<String[]> l = null;
         try {
-            DBInterface.selectData(SelectQuery.cercaCentri(nome_centro),s);
+            l=DBInterface.selectData(SelectQuery.cercaCentri(nome_centro),s);
             for(int i=0;i<l.size();i++)
                 nomi_trovati.add(l.get(i)[0]);
         } catch (RemoteException e) {

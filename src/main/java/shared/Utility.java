@@ -399,7 +399,7 @@ public abstract class Utility {
         try{
             DBClient.insertEvento(evento);
             return "";
-        }catch(SQLException | RemoteException e){
+        }catch(RemoteException e){
             return "Errore nel database";
         }
     }

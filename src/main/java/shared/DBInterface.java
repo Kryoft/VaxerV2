@@ -3,6 +3,7 @@ package shared;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.sql.*;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public interface DBInterface extends Remote {
@@ -24,10 +25,11 @@ public interface DBInterface extends Remote {
 
     }
     static LinkedList<String[]> selectData(String query,String[] s) throws RemoteException{
-        Connection conn = null;
-        ResultSet rs=null;
+        Connection conn ;
+        ResultSet rs;
         LinkedList<String[]> l= new LinkedList<String[]>();
         l.add(s);
+        System.out.println(query);
         try {
             conn = connected("");
             Statement st = conn.createStatement();
@@ -35,7 +37,9 @@ public interface DBInterface extends Remote {
             while(rs.next()){
                 for(int i=0;i<s.length;i++){
                     s[i]= rs.getString(l.get(0)[i]);
+                    //System.out.println("Stringa:" + Arrays.toString(s));
                 }
+                l.add(s);
             }
             st.close();
             conn.close();
@@ -61,7 +65,7 @@ public interface DBInterface extends Remote {
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(
-                    "jdbc:postgresql://127.0.0.1:5432/ProgettoB", "postgres", "pastyyna");
+                    "jdbc:postgresql://127.0.0.1:5432/ProgettoB", "postgres", "Antananarivo01");
         if (conn != null) {
             System.out.println("Connected to the database!");
         } else {
