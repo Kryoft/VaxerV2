@@ -71,7 +71,6 @@ public class DBClient {
 
     //TODO Gestione cod_centro restituito non valido (valore -1)
     public static int insertVaccinato(Vaccinato vaccinato) throws RemoteException {
-        System.out.println("sono passato di qua");
         DBInterface.upData(SelectQuery.insertVaccinato(vaccinato),"Vaccinato");
         return getVaccinatoIdByCF(vaccinato.getCodiceFiscale());
     }
@@ -93,6 +92,7 @@ public class DBClient {
      * @author Manuel Marceca
      */
     public static void insertEvento(EventoAvverso eventoAvverso) throws RemoteException {
+        System.out.println(SelectQuery.insertEvento(eventoAvverso));
         DBInterface.upData(SelectQuery.insertEvento(eventoAvverso),"Evento");
     }
     /**
@@ -114,12 +114,12 @@ public class DBClient {
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-        if(l.size()>1){
-       int num_civico =Integer.parseInt(l.get(1)[3]);
-        CentroVaccinale.Tipologia tipologia_centro = Utility.decidiTipo(l.get(1)[1]);
-        IndirizzoComposto.Qualificatore qualificatore = Utility.decidiQualificatore(l.get(1)[1]);
-        IndirizzoComposto indirizzo_centro = new IndirizzoComposto(qualificatore,l.get(1)[2], num_civico, l.get(1)[4],l.get(1)[5],l.get(1)[6]);
-        centro = new CentroVaccinale(l.get(1)[0], tipologia_centro, indirizzo_centro);}
+        if(l.size()>0){
+       int num_civico =Integer.parseInt(l.get(0)[3]);
+        CentroVaccinale.Tipologia tipologia_centro = Utility.decidiTipo(l.get(0)[1]);
+        IndirizzoComposto.Qualificatore qualificatore = Utility.decidiQualificatore(l.get(0)[1]);
+        IndirizzoComposto indirizzo_centro = new IndirizzoComposto(qualificatore,l.get(0)[2], num_civico, l.get(0)[4],l.get(0)[5],l.get(0)[6]);
+        centro = new CentroVaccinale(l.get(0)[0], tipologia_centro, indirizzo_centro);}
         return centro;
     }
 
@@ -138,7 +138,7 @@ public class DBClient {
         String[] s={"Codice"};
         try {
             l=DBInterface.selectData(SelectQuery.getIdCentroByName(nome_centro),s);
-           codice_centro= Long.parseLong(l.get(1)[0]);
+           codice_centro= Long.parseLong(l.get(0)[0]);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -196,12 +196,12 @@ public class DBClient {
         LinkedList<String[]> l =null;
         try {
             l = DBInterface.selectData(SelectQuery.getCittadinoByUsername(username), s);
-            if (l.size() > 1) {
-                int identificativo = Integer.parseInt(l.get(1)[4]);
-                Login login = new Login(l.get(1)[1], l.get(1)[2]);
+            if (l.size() > 0) {
+                int identificativo = Integer.parseInt(l.get(0)[4]);
+                Login login = new Login(l.get(0)[1], l.get(0)[2]);
 
-                iscritto = new Cittadino(l.get(1)[0], login, l.get(1)[3], identificativo,
-                        l.get(1)[5], l.get(1)[6], l.get(1)[7]);
+                iscritto = new Cittadino(l.get(1)[0], login, l.get(0)[3], identificativo,
+                        l.get(0)[5], l.get(0)[6], l.get(0)[7]);
             }
             } catch(RemoteException e){
                 throw new RuntimeException(e);
@@ -238,9 +238,9 @@ public class DBClient {
         }catch( RemoteException se){
             Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, se);
         }
-        if(l.size()>1) {
-            for (int i = 1; i <= l.size(); i++) {
-                indice = Integer.parseInt(l.get(1)[1]);
+        if(l.size()>0) {
+            for (int i = 0; i < l.size(); i++) {
+                indice = Integer.parseInt(l.get(0)[1]);
                 EventoAvverso evento = new EventoAvverso(SwingAwt.decidiEvento(l.get(i)[0]), indice, l.get(i)[2], nome_centro, l.get(i)[3]);
                 eventi.add(evento);
             }
@@ -332,11 +332,11 @@ public class DBClient {
         LinkedList<String[]> l = null;
         try {
            l= DBInterface.selectData(SelectQuery.getVaccinatoByCF(cf),s);
-            int id= Integer.parseInt(l.get(1)[3]);
+            int id= Integer.parseInt(l.get(0)[3]);
 
-                Vaccinato.Vaccino rs_vaccino = Utility.decidiVaccino(l.get(1)[1]);
-                vaccinato = new Vaccinato(null, rs_vaccino,l.get(1)[2],id,l.get(1)[4],
-                        l.get(1)[5], cf);
+                Vaccinato.Vaccino rs_vaccino = Utility.decidiVaccino(l.get(0)[1]);
+                vaccinato = new Vaccinato(null, rs_vaccino,l.get(0)[2],id,l.get(0)[4],
+                        l.get(0)[5], cf);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -359,7 +359,7 @@ public class DBClient {
         LinkedList<String[]> l = null;
         try {
             l=DBInterface.selectData(SelectQuery.getVaccinatoIdByCF(cf),s);
-            identificativo= Integer.parseInt(l.get(1)[0]);
+            identificativo= Integer.parseInt(l.get(0)[0]);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -385,12 +385,12 @@ public class DBClient {
         LinkedList<String[]> l = null;
         try {
             l=DBInterface.selectData(SelectQuery.cercaCentri(nome_centro),s);
-            for(int i=0;i<l.size();i++)
+            for(int i=0;i<l.size();i++) {
                 nomi_trovati.add(l.get(i)[0]);
+            }
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-
         return nomi_trovati;
     }
 }

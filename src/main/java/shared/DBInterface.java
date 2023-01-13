@@ -11,13 +11,15 @@ public interface DBInterface extends Remote {
     static boolean resultIsNull(String query) throws RemoteException{
         Connection conn = null;
         ResultSet rs=null;
+        boolean b;
         try {
             conn = connected("");
             Statement st = conn.createStatement();
            rs= st.executeQuery(query);
+           b= rs.next();
             st.close();
             conn.close();
-            return rs.next();
+            return b;
         } catch (SQLException e) {
             new DBException("",e.getSQLState(),e.getMessage());
             return false;
@@ -28,7 +30,7 @@ public interface DBInterface extends Remote {
         Connection conn ;
         ResultSet rs;
         LinkedList<String[]> l= new LinkedList<String[]>();
-        l.add(s);
+        String[] appoggio = s.clone();
         System.out.println(query);
         try {
             conn = connected("");
@@ -36,10 +38,9 @@ public interface DBInterface extends Remote {
             rs = st.executeQuery(query);
             while(rs.next()){
                 for(int i=0;i<s.length;i++){
-                    s[i]= rs.getString(l.get(0)[i]);
-                    //System.out.println("Stringa:" + Arrays.toString(s));
+                    appoggio[i]= rs.getString(s[i]);
                 }
-                l.add(s);
+                l.add(appoggio);
             }
             st.close();
             conn.close();

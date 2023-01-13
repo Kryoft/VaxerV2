@@ -119,7 +119,7 @@ public class RegistraEventiAvversi extends Registrazioni {
 
                 int Indice = Integer.parseInt(indice_severita_text.getText());
                 EventoAvverso ev = new EventoAvverso(evento, Indice, note, centro, cod_fiscale);
-
+                System.out.println("cod_fiscale:" + cod_fiscale);
                 if (!evento.equals("")) {
                     evento_text.setBorder(border);
                     if (Indice >= 1 && Indice <= 5) {
@@ -127,6 +127,7 @@ public class RegistraEventiAvversi extends Registrazioni {
                             ArrayList<EventoAvverso> segnalazioni = DBClient.getSegnalazioniByCentro(centro);
                             boolean nuovo = true;
                             for(EventoAvverso segnalazione: segnalazioni){
+                                System.out.println("Evento già segnalato:"+DBClient.checkEventoGiaSegnalato(ev));
                                 if(DBClient.checkEventoGiaSegnalato(ev)){
                                     nuovo = false;
                                 }
