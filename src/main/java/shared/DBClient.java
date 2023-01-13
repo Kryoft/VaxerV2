@@ -373,9 +373,9 @@ public class DBClient {
 
 
 
-    public static ArrayList<String> cercaCentri(String nome_centro){
+    public static ArrayList<String> cercaCentriByNome(String nome_centro){
 
-         ArrayList<String> nomi_trovati = new ArrayList<>();
+        ArrayList<String> nomi_trovati = new ArrayList<>();
         String[] s ={"Nome"};
         LinkedList<String[]> l = null;
         try {
@@ -389,27 +389,18 @@ public class DBClient {
         return nomi_trovati;
     }
 
-    public static ArrayList<String> cercaCentriByComuneETipologia(String nome_centro, String tipologia){
-        nome_centro = nome_centro.isBlank() ? "'" : "'" + nome_centro;
-        tipologia = putApices(tipologia);
-        final String select_centri = "SELECT Nome FROM CentroVaccini WHERE Tipologia = " + tipologia +
-                " AND Comune LIKE " + nome_centro + "%';";
+    public static ArrayList<String> cercaCentriByComuneETipologia(String comune, String tipologia){
         ArrayList<String> nomi_trovati = new ArrayList<>();
+        String[] s ={"Nome"};
+        LinkedList<String[]> l = null;
         try {
-            Statement st = DBInterface.connected().createStatement();
-            ResultSet rs_centri = st.executeQuery(select_centri);
-
-            //int num_colonne = result_centri.getMetaData().getColumnCount();
-            while (rs_centri.next()){
-                nomi_trovati.add(rs_centri.getString("Nome"));
+            l=DBInterface.selectData(SelectQuery.cercaCentriByComuneETipologia(comune, tipologia),s);
+            for(int i=0;i<l.size();i++) {
+                nomi_trovati.add(l.get(i)[0]);
             }
-
-        }catch(SQLException se){
-            Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, se);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-
         return nomi_trovati;
     }
 }

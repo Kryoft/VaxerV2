@@ -151,4 +151,11 @@ public class SelectQuery {
         final String select_centri = "SELECT Nome FROM CentroVaccini WHERE Nome LIKE '" + nome_centro + "%';";
         return select_centri;
     }
+
+    public static String cercaCentriByComuneETipologia(String comune, String tipologia){
+        tipologia = putApices(tipologia);
+        final String select_centri = "SELECT Nome FROM CentroVaccini WHERE Tipologia = " + tipologia +
+                " AND Comune LIKE '" + comune + "%';";
+        return select_centri;
+    }
 }

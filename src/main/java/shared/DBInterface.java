@@ -37,6 +37,7 @@ public interface DBInterface extends Remote {
             Statement st = conn.createStatement();
             rs = st.executeQuery(query);
             while(rs.next()){
+                appoggio = s.clone();
                 for(int i=0;i<s.length;i++){
                     appoggio[i]= rs.getString(s[i]);
                 }
@@ -66,7 +67,7 @@ public interface DBInterface extends Remote {
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(
-                    "jdbc:postgresql://127.0.0.1:5432/ProgettoB", "postgres", "Antananarivo01");
+                    "jdbc:postgresql://127.0.0.1:5432/ProgettoB", "postgres", "pastyyna");
         if (conn != null) {
             System.out.println("Connected to the database!");
         } else {
