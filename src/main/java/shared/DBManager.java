@@ -1,16 +1,67 @@
 package shared;
 
-import org.postgresql.util.PSQLException;
-
-import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import java.sql.*;
+import java.util.LinkedList;
 
 public class DBManager implements DBInterface{
 
+     public void upData(String query, String type) throws RemoteException{
+        Connection conn = null;
+        try {
+            conn = DBInterface.connected(type);
+            Statement st = conn.createStatement();
+            st.executeUpdate(query);
+            st.close();
+            conn.close();
+        } catch (SQLException e) {
+            new DBException(type,e.getSQLState(),e.getMessage());
+        }
+    }
+
+    public LinkedList<String[]> selectData(String query, String[] s) throws RemoteException{
+        Connection conn ;
+        ResultSet rs;
+        LinkedList<String[]> l= new LinkedList<String[]>();
+        String[] appoggio;
+        System.out.println(query);
+        try {
+            conn = DBInterface.connected("");
+            Statement st = conn.createStatement();
+            rs = st.executeQuery(query);
+            while(rs.next()){
+                appoggio = s.clone();
+                for(int i=0;i<s.length;i++){
+                    appoggio[i]= rs.getString(s[i]);
+                }
+                l.add(appoggio);
+            }
+            st.close();
+            conn.close();
+        } catch (SQLException e) {
+            new DBException("",e.getSQLState(),e.getMessage());
+        }
+        return l;
+    }
+
+     public boolean resultIsNull(String query) throws RemoteException{
+        Connection conn = null;
+        ResultSet rs=null;
+        boolean b;
+        try {
+            conn = DBInterface.connected("");
+            Statement st = conn.createStatement();
+            rs= st.executeQuery(query);
+            b= rs.next();
+            st.close();
+            conn.close();
+            return b;
+        } catch (SQLException e) {
+            new DBException("",e.getSQLState(),e.getMessage());
+            return false;
+        }
+
+    }
 
     /* DBCOMPLETE:
 
@@ -18,15 +69,6 @@ public class DBManager implements DBInterface{
     static int PORT = 54234;
     public static void main(String[] args) {
         DBInterface stub = null;
-        //TODO:fare query per ricerca per comune e tipologia,nome centro  e visualizzainfo()
-        //TODO:eventi avversi?
-        //TODO:gestire controlloLogin() nel db (mettere unique username)
-        //TODO: gestire esistecentro() (fare nome centro unique?)
-        //TODO: gestire eccezioni Primary key, Foreign Key(per codice fiscale email), Check Costraint
-        //TODO:statistiche per visualizza eventi moda mediana dev. standard
-        //TODO:sistemare utility e tutto il programma
-        //TODO: scrivere query mancanti
-        //TODO: fare uml
 
         DBManager obj = new DBManager();
         Registry registry = null;
