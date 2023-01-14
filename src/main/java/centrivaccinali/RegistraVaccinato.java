@@ -136,34 +136,27 @@ public class RegistraVaccinato extends Registrazioni {
         setVisible(true);
     }
 
-    /**
-     * metodo ereditato dall'interfaccia <code>ActionListener</code>
-     *
-     * @param e
-     */
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == conferma) {
-            String centro = struttura_vaccinale.getNomeCentro();
-            String nome = txt_nome.getText();
-            String cognome = txt_cognome.getText();
-            String data_string = txt_data.getText();
-            DateFormat data_formatted = DateFormat.getDateInstance(DateFormat.SHORT);
-            Date data = null;
-            String cf = txt_codice.getText().toUpperCase();
-            //short id = 0;
-            Vaccinato nuovo_vaccinato = new Vaccinato();
-            try {
-                data = data_formatted.parse(data_string);
-                if (!nome.equals("") && !cognome.equals("") && !data_string.equals("") && !cf.equals("")) {
-                    txt_nome_centro.setBorder(border);
-                    txt_data.setBorder(border);
-                    txt_nome.setBorder(border);
-                    txt_cognome.setBorder(border);
+    private void registraVaccinato() {
+        String centro = struttura_vaccinale.getNomeCentro();
+        String nome = txt_nome.getText();
+        String cognome = txt_cognome.getText();
+        String data_string = txt_data.getText();
+        DateFormat data_formatted = DateFormat.getDateInstance(DateFormat.SHORT);
+        Date data = null;
+        String cf = txt_codice.getText().toUpperCase();
+        //short id = 0;
+        Vaccinato nuovo_vaccinato = new Vaccinato();
+        try {
+            data = data_formatted.parse(data_string);
+            if (!nome.equals("") && !cognome.equals("") && !data_string.equals("") && !cf.equals("")) {
+                txt_nome_centro.setBorder(border);
+                txt_data.setBorder(border);
+                txt_nome.setBorder(border);
+                txt_cognome.setBorder(border);
 
 //                    if (Utility.esisteCentro(0, centro, "./data/CentriVaccinali.dati.txt")) {
-                        if (nuovo_vaccinato.controllaCodiceFiscale(cf, nome, cognome)) {
-                            txt_codice.setBorder(border);
+                if (nuovo_vaccinato.controllaCodiceFiscale(cf, nome, cognome)) {
+                    txt_codice.setBorder(border);
 
                             /*
                             Random random = new Random();
@@ -177,44 +170,55 @@ public class RegistraVaccinato extends Registrazioni {
                                 JOptionPane.showMessageDialog(this, "Non e' possibile inserire più vaccinati per questo centro", "Errore", JOptionPane.WARNING_MESSAGE);
 
                             */
-                            nuovo_vaccinato = new Vaccinato(data, SwingAwt.decidiVaccino(vaccino_combo), centro, nome, cognome, cf);
-                            int id = Utility.inserisciNuovoVaccinato(nuovo_vaccinato);
+                    nuovo_vaccinato = new Vaccinato(data, SwingAwt.decidiVaccino(vaccino_combo), centro, nome, cognome, cf);
+                    int id = Utility.inserisciNuovoVaccinato(nuovo_vaccinato);
 
-                            txt_data.setBorder(border);
-                            txt_nome.setBorder(border);
-                            txt_cognome.setBorder(border);
-                            JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
-                            JOptionPane.showMessageDialog(this, "L' Identificativo Associato e' " + (id));
+                    txt_data.setBorder(border);
+                    txt_nome.setBorder(border);
+                    txt_cognome.setBorder(border);
+                    JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
+                    JOptionPane.showMessageDialog(this, "L' Identificativo Associato e' " + (id));
 
-                            new CentriVaccinaliGUI();
-                            this.dispose();
-                        } else {
-                            txt_codice.setBorder(new LineBorder(Color.RED, 3, true));
-                            JOptionPane.showMessageDialog(this, "Errore nel formato del codice fiscale", "Errore", JOptionPane.ERROR_MESSAGE);
-                        }
+                    new CentriVaccinaliGUI();
+                    this.dispose();
+                } else {
+                    txt_codice.setBorder(new LineBorder(Color.RED, 3, true));
+                    JOptionPane.showMessageDialog(this, "Errore nel formato del codice fiscale", "Errore", JOptionPane.ERROR_MESSAGE);
+                }
 //                    } else {
 //                        txt_nome_centro.setBorder(new LineBorder(Color.RED, 3, true));
 //                        JOptionPane.showMessageDialog(this, "Il centro da lei indicato non esiste o non si è registrato all'applicazione", "Errore", JOptionPane.ERROR_MESSAGE);
 //                    }
-                } else {
+            } else {
 //                    SwingAwt.modificaBordo(centro, txt_nome_centro, border);
-                    SwingAwt.modificaBordo(nome, txt_nome, border);
-                    SwingAwt.modificaBordo(cognome, txt_cognome, border);
-                    SwingAwt.modificaBordo(cf, txt_codice, border);
-                    SwingAwt.modificaBordo(data_string, txt_data, border);
-                    JOptionPane.showMessageDialog(this, "Riempire Tutti i Campi", "Errore", JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (ParseException ex) {
-                txt_data.setBorder(new LineBorder(Color.RED, 3, true));
-                JOptionPane.showMessageDialog(this, "Formato della data errato", "Error112", JOptionPane.ERROR_MESSAGE);
-            } //catch (IOException | URISyntaxException ex) {
-            catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            } catch (RemoteException ex) {
-                throw new RuntimeException(ex);
+                SwingAwt.modificaBordo(nome, txt_nome, border);
+                SwingAwt.modificaBordo(cognome, txt_cognome, border);
+                SwingAwt.modificaBordo(cf, txt_codice, border);
+                SwingAwt.modificaBordo(data_string, txt_data, border);
+                JOptionPane.showMessageDialog(this, "Riempire Tutti i Campi", "Errore", JOptionPane.ERROR_MESSAGE);
             }
-            //  Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, ex);
-            //}
+        } catch (ParseException ex) {
+            txt_data.setBorder(new LineBorder(Color.RED, 3, true));
+            JOptionPane.showMessageDialog(this, "Formato della data errato", "Error112", JOptionPane.ERROR_MESSAGE);
+        } //catch (IOException | URISyntaxException ex) {
+        catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        } catch (RemoteException ex) {
+            throw new RuntimeException(ex);
+        }
+        //  Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, ex);
+        //}
+    }
+
+    /**
+     * metodo ereditato dall'interfaccia <code>ActionListener</code>
+     *
+     * @param e
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == conferma) {
+            registraVaccinato();
         }
 
         else if (e.getSource() == annulla) {

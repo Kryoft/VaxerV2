@@ -177,7 +177,6 @@ public class DBClient {
         }catch ( RemoteException exc){
             Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, exc);
         }
-        System.out.println(cod_fiscale);
         return cod_fiscale;
     }
 
