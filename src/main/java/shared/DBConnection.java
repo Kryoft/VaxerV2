@@ -113,10 +113,8 @@ public class DBConnection extends Registrazioni {
             Connection conn = null;
 
             try {
-                conn = DBInterface.connected();
+                conn = DBInterface.connected("");
             } catch (RemoteException ex) {
-                throw new RuntimeException(ex);
-            } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
 
@@ -130,7 +128,7 @@ public class DBConnection extends Registrazioni {
                     try {
                         conn.close();
                     } catch (SQLException ex) {
-                        new DBException("",Integer.parseInt(ex.getSQLState()),ex.getMessage());
+                        new DBException("",ex.getSQLState(),ex.getMessage());
                     }
 
                     JOptionPane.showMessageDialog(this, "Connessione verificata");

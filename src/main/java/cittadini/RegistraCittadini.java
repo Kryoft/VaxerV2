@@ -188,7 +188,7 @@ public class RegistraCittadini extends Registrazioni {
                     }
                 } catch (Eccezione exc) {
                     JOptionPane.showMessageDialog(this, message, "errore", JOptionPane.ERROR_MESSAGE);
-                } catch (SQLException | RemoteException ex) {
+                } catch (RemoteException ex) {
                     throw new RuntimeException(ex);
                 }
                 //                       } else {

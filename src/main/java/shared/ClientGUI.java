@@ -153,14 +153,6 @@ public class ClientGUI extends JFrame implements ActionListener {
                 //registry = LocateRegistry.getRegistry(ip,PORT);
                 registry = LocateRegistry.getRegistry(txt_ip.getText(),Integer.parseInt(txt_port.getText()));
                 dbobj = (DBInterface) registry.lookup("DBInterface");
-                try {
-                    String ins_centro = "Select * from iscritti";
-                    ArrayList<String[]> a = dbobj.executeQuery(ins_centro);
-                    System.out.println(Arrays.toString(a.get(1)));
-                     //System.out.println(a.get(1));
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
 
                 JOptionPane.showMessageDialog(this,"il client si è connesso");
             } catch (RemoteException ex) {
