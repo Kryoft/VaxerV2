@@ -12,6 +12,7 @@ import cittadini.Vaccinato;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -58,7 +59,7 @@ public class DBClient {
      */
     public static void insertCentro(CentroVaccinale centro) throws RemoteException {
 
-        DBInterface.upData(SelectQuery.insertCentro(centro),"CentroVaccianle");
+        ClientGUI.dbobj.upData(SelectQuery.insertCentro(centro),"CentroVaccianle");
     }
     /**
      * Metodo utilizzato per inserire un oggetto di tipo Vaccinato nel database, tabella VACCINATI,
@@ -71,7 +72,7 @@ public class DBClient {
 
     //TODO Gestione cod_centro restituito non valido (valore -1)
     public static int insertVaccinato(Vaccinato vaccinato) throws RemoteException {
-        DBInterface.upData(SelectQuery.insertVaccinato(vaccinato),"Vaccinato");
+        ClientGUI.dbobj.upData(SelectQuery.insertVaccinato(vaccinato),"Vaccinato");
         return getVaccinatoIdByCF(vaccinato.getCodiceFiscale());
     }
 
@@ -82,7 +83,7 @@ public class DBClient {
      * @author Manuel Marceca
      */
     public static void insertIscritto(Cittadino cittadino) throws RemoteException {
-            DBInterface.upData(SelectQuery.insertIscritto(cittadino),"Iscritto");
+            ClientGUI.dbobj.upData(SelectQuery.insertIscritto(cittadino),"Iscritto");
     }
 
     /**
@@ -93,7 +94,7 @@ public class DBClient {
      */
     public static void insertEvento(EventoAvverso eventoAvverso) throws RemoteException {
         System.out.println(SelectQuery.insertEvento(eventoAvverso));
-        DBInterface.upData(SelectQuery.insertEvento(eventoAvverso),"Evento");
+        ClientGUI.dbobj.upData(SelectQuery.insertEvento(eventoAvverso),"Evento");
     }
     /**
      * Metodo utilizzato per ottenere dal database un oggetto di tipo <code>CentroVaccinale</code> dato
@@ -110,7 +111,7 @@ public class DBClient {
         LinkedList<String[]> l=null;
         String[] s= {"Nome","Tipologia","Nome_via","Num_civico","Comune","Sigla","Cap"};
         try {
-            l = DBInterface.selectData(SelectQuery.getCentroVaccinaleByName(nome_centro),s);
+            l = ClientGUI.dbobj.selectData(SelectQuery.getCentroVaccinaleByName(nome_centro),s);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -137,7 +138,7 @@ public class DBClient {
         LinkedList<String[]> l=null;
         String[] s={"Codice"};
         try {
-            l=DBInterface.selectData(SelectQuery.getIdCentroByName(nome_centro),s);
+            l=ClientGUI.dbobj.selectData(SelectQuery.getIdCentroByName(nome_centro),s);
            codice_centro= Long.parseLong(l.get(0)[0]);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
@@ -171,7 +172,7 @@ public class DBClient {
         LinkedList<String[]> l=null;
         String[] s ={"cod_fiscale"};
         try {
-            l = DBInterface.selectData(SelectQuery.getCfFromUsername(username),s);
+            l = ClientGUI.dbobj.selectData(SelectQuery.getCfFromUsername(username),s);
             cod_fiscale = l.get(0)[0];
 
         }catch ( RemoteException exc){
@@ -196,7 +197,7 @@ public class DBClient {
         String[] s ={"Email","Username","Password","Nome_Centro","Identificativo","Nome_Vaccinato","Cognome","Cf_Vaccinato"};
         LinkedList<String[]> l =null;
         try {
-            l = DBInterface.selectData(SelectQuery.getCittadinoByUsername(username), s);
+            l = ClientGUI.dbobj.selectData(SelectQuery.getCittadinoByUsername(username), s);
             if (l.size() > 0) {
                 int identificativo = Integer.parseInt(l.get(0)[4]);
                 Login login = new Login(l.get(0)[1], l.get(0)[2]);
@@ -234,7 +235,7 @@ public class DBClient {
         int indice = 0;
         ArrayList<EventoAvverso> eventi = new ArrayList();
         try{
-           l= DBInterface.selectData(SelectQuery.getSegnalazioniByCentro(id_centro_string),s);
+           l= ClientGUI.dbobj.selectData(SelectQuery.getSegnalazioniByCentro(id_centro_string),s);
 
         }catch( RemoteException se){
             Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, se);
@@ -251,7 +252,7 @@ public class DBClient {
 
     public static boolean checkEventoGiaSegnalato(EventoAvverso evento){
         try {
-            return DBInterface.resultIsNull(SelectQuery.checkEventoGiaSegnalato(evento));
+            return ClientGUI.dbobj.resultIsNull(SelectQuery.checkEventoGiaSegnalato(evento));
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -332,7 +333,7 @@ public class DBClient {
         String[] s ={"Data","Vaccino","Nome_Centro","Identificativo","Nome_Vaccinato","cognome"};
         LinkedList<String[]> l = null;
         try {
-           l= DBInterface.selectData(SelectQuery.getVaccinatoByCF(cf),s);
+           l= ClientGUI.dbobj.selectData(SelectQuery.getVaccinatoByCF(cf),s);
             int id= Integer.parseInt(l.get(0)[3]);
 
                 Vaccinato.Vaccino rs_vaccino = Utility.decidiVaccino(l.get(0)[1]);
@@ -359,7 +360,7 @@ public class DBClient {
         String[] s ={"Identificativo"};
         LinkedList<String[]> l = null;
         try {
-            l=DBInterface.selectData(SelectQuery.getVaccinatoIdByCF(cf),s);
+            l=ClientGUI.dbobj.selectData(SelectQuery.getVaccinatoIdByCF(cf),s);
             identificativo= Integer.parseInt(l.get(0)[0]);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
@@ -378,7 +379,7 @@ public class DBClient {
         String[] s ={"Nome"};
         LinkedList<String[]> l = null;
         try {
-            l=DBInterface.selectData(SelectQuery.cercaCentri(nome_centro),s);
+            l=ClientGUI.dbobj.selectData(SelectQuery.cercaCentri(nome_centro),s);
             for(int i=0;i<l.size();i++) {
                 nomi_trovati.add(l.get(i)[0]);
             }
@@ -393,7 +394,7 @@ public class DBClient {
         String[] s ={"Nome"};
         LinkedList<String[]> l = null;
         try {
-            l=DBInterface.selectData(SelectQuery.cercaCentriByComuneETipologia(comune, tipologia),s);
+            l=ClientGUI.dbobj.selectData(SelectQuery.cercaCentriByComuneETipologia(comune, tipologia),s);
             for(int i=0;i<l.size();i++) {
                 nomi_trovati.add(l.get(i)[0]);
             }

@@ -1,7 +1,8 @@
-package shared;
+package server;
 
 import centrivaccinali.Registrazioni;
 import centrivaccinali.SwingAwt;
+import shared.DBException;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

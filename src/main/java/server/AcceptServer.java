@@ -1,4 +1,4 @@
-package shared;
+package server;
 
 import java.net.UnknownHostException;
 import java.rmi.AlreadyBoundException;

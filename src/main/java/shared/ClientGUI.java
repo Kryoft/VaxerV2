@@ -1,5 +1,7 @@
 package shared;
 
+import centrivaccinali.CentriVaccinaliGUI;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -155,6 +157,8 @@ public class ClientGUI extends JFrame implements ActionListener {
                 dbobj = (DBInterface) registry.lookup("DBInterface");
 
                 JOptionPane.showMessageDialog(this,"il client si è connesso");
+                CentriVaccinaliGUI cg = new CentriVaccinaliGUI();
+                this.dispose();
             } catch (RemoteException ex) {
                 throw new RuntimeException(ex);
             } catch (NotBoundException ex) {

@@ -1,4 +1,4 @@
-package shared;
+package server;
 
 public class CredenzialiDB {
     private static String user = "postgres";
