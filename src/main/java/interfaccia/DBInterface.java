@@ -1,10 +1,12 @@
-package server;
+package interfaccia;
 
 import shared.DBException;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.LinkedList;
 
 public interface DBInterface extends Remote {

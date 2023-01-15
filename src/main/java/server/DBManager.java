@@ -1,5 +1,6 @@
 package server;
 
+import interfaccia.DBInterface;
 import shared.DBException;
 
 import java.rmi.Remote;

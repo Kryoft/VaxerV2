@@ -2,6 +2,7 @@ package server;
 
 import centrivaccinali.PlaceholderTextField;
 import centrivaccinali.Registrazioni;
+import interfaccia.DBInterface;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

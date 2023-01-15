@@ -146,7 +146,7 @@ public class DBClient {
         return (int)codice_centro;
     }
 
-    public static String getNomeCentroById(int id_centro){
+    /*public static String getNomeCentroById(int id_centro){
 
         String nome_centro = "";
         try {
@@ -165,7 +165,7 @@ public class DBClient {
         }
 
         return nome_centro;
-    }
+    }*/
 
     public static String getCfFromUsername(String username){
         String cod_fiscale = "";
@@ -211,7 +211,7 @@ public class DBClient {
         return iscritto;
     }
 
-    public static int getCountVaccinatiByCentro(String nome_centro){
+    /*public static int getCountVaccinatiByCentro(String nome_centro){
         int count = -1;
         try{
             Statement st = DBInterface.connected("").createStatement();
@@ -224,14 +224,14 @@ public class DBClient {
         }
 
         return count;
-    }
+    }*/
 
     public static ArrayList<EventoAvverso> getSegnalazioniByCentro(String nome_centro){
 
         String[] s = {"nome_evento","indice","note","cod_fiscale"};
+        LinkedList<String[]> l= null;
         int id_centro = getIdCentroByName(nome_centro);
         String id_centro_string = String.valueOf(id_centro);
-        LinkedList<String[]> l= null;
         int indice = 0;
         ArrayList<EventoAvverso> eventi = new ArrayList();
         try{
@@ -259,29 +259,30 @@ public class DBClient {
     }
 
     public static ArrayList<Tripla<String, Float, Integer>> getValoriPerEventoAvverso(String nome_centro){
+
         ArrayList<Tripla<String, Float, Integer>> risultati = new ArrayList<>();
-
-
+        String[] s = {"Nome_Evento","Media_Indici","Numero_segnalazioni"};
+        LinkedList<String[]> l= null;
+        Float media ;
+        int n_segnalazioni;
         try {
-            Statement st = DBInterface.connected("").createStatement();
-            ResultSet rs = st.executeQuery(SelectQuery.getValoriPerEventoAvverso(nome_centro));
-
-            while(rs.next()){
-                String nome_evento = rs.getString("Nome_Evento");
-                Float media = rs.getFloat("Media_Indici");
-                Integer n_segnalazioni = rs.getInt("Numero_Segnalazioni");
-
-                Tripla info_evento = new Tripla(nome_evento, media, n_segnalazioni);
-                risultati.add(info_evento);
-            }
-        } catch (SQLException | RemoteException e) {
+            l=ClientGUI.dbobj.selectData(SelectQuery.getValoriPerEventoAvverso(nome_centro),s);
+        } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
+
+
+            for(int i=0;i<l.size();i++) {
+                media= Float.parseFloat(l.get(i)[1]);
+                n_segnalazioni= Integer.parseInt(l.get(i)[2]);
+                Tripla info_evento = new Tripla(l.get(i)[0], media, n_segnalazioni);
+                risultati.add(info_evento);
+            }
 
         return risultati;
     }
 
-    public static ArrayList<Vaccinato> getVaccinatiListByCentro(String nome_centro){
+    /*public static ArrayList<Vaccinato> getVaccinatiListByCentro(String nome_centro){
 
 
         ArrayList<Vaccinato> vaccinati = new ArrayList();
@@ -316,7 +317,7 @@ public class DBClient {
         }
 
         return vaccinati;
-    }
+    }*/
 
     /**
      * Metodo utilizzato per ottenere dal database un oggetto di tipo <code>Vaccinato</code> dato

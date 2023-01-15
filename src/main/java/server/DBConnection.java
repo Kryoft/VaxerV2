@@ -2,6 +2,7 @@ package server;
 
 import centrivaccinali.Registrazioni;
 import centrivaccinali.SwingAwt;
+import interfaccia.DBInterface;
 import shared.DBException;
 
 import javax.swing.*;

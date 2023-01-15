@@ -1,6 +1,7 @@
 package shared;
 
 import centrivaccinali.CentriVaccinaliGUI;
+import interfaccia.DBInterface;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,5 +1,7 @@
 package server;
 
+import interfaccia.DBInterface;
+
 import java.net.UnknownHostException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
