@@ -14,10 +14,10 @@ public class AcceptServer {
 
     private static Registry registry;
     static DBInterface stub;
-
     static DBManager obj = null;
+
     protected static DBInterface create() throws RemoteException {
-         obj = new DBManager();
+        obj = new DBManager();
         stub = (DBInterface) UnicastRemoteObject.exportObject(obj, Integer.parseInt(RemoteInformation.getPORT()));
         registry = LocateRegistry.createRegistry( Integer.parseInt(RemoteInformation.getPORT()));
         return stub;

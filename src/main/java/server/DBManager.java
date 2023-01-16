@@ -12,7 +12,7 @@ public class DBManager implements DBInterface, Remote {
 
     @Override
     public void upData(String query, String type) throws RemoteException{
-        Connection conn = null;
+        Connection conn;
         try {
             conn = connected(type, CredenzialiDB.getUser(), CredenzialiDB.getPassword());
             Statement st = conn.createStatement();
@@ -26,7 +26,7 @@ public class DBManager implements DBInterface, Remote {
 
     @Override
     public LinkedList<String[]> selectData(String query, String[] s) throws RemoteException{
-        Connection conn ;
+        Connection conn;
         ResultSet rs;
         LinkedList<String[]> l= new LinkedList<String[]>();
         String[] appoggio;
@@ -51,8 +51,8 @@ public class DBManager implements DBInterface, Remote {
     }
     @Override
      public boolean resultIsNull(String query) throws RemoteException{
-        Connection conn = null;
-        ResultSet rs=null;
+        Connection conn;
+        ResultSet rs;
         boolean b;
         try {
             conn = connected("", CredenzialiDB.getUser(), CredenzialiDB.getPassword());

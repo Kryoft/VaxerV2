@@ -59,7 +59,7 @@ public class DBClient {
      */
     public static void insertCentro(CentroVaccinale centro) throws RemoteException {
 
-        ClientGUI.dbobj.upData(SelectQuery.insertCentro(centro),"CentroVaccianle");
+        ClientGUI.dbobj.upData(SelectQuery.insertCentro(centro),"CentroVaccinale");
     }
     /**
      * Metodo utilizzato per inserire un oggetto di tipo Vaccinato nel database, tabella VACCINATI,

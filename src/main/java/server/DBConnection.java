@@ -112,7 +112,7 @@ public class DBConnection extends Registrazioni {
     public void actionPerformed(ActionEvent e){
         if (e.getSource() == conferma) {
 
-            Connection conn = null;
+            Connection conn;
             CredenzialiDB.setUser(user.getText());
             CredenzialiDB.setPassword(String.valueOf(password.getPassword()));
 

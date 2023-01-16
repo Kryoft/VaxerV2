@@ -79,7 +79,7 @@ public class RemoteManager extends Registrazioni implements Remote {
         layeredPaneSettings(0, new Rectangle(second_column, first_row_y,                   //nome_centro
                 width_porta, base_height), 15, 1, false);
 
-        ip.setEnabled(false);
+//        ip.setEnabled(false);
 
         layered_pane.add(porta_label, 2, 0);
         layeredPaneSettings(0, new Rectangle(second_row_x, second_row_y,            //indirizzo_label
@@ -98,7 +98,7 @@ public class RemoteManager extends Registrazioni implements Remote {
                 width_button, 60), 18, 1, false);
 
         Color c = new Color(51, 153, 255);
-        conferma.setText("Active");
+        conferma.setText("Activate");
         conferma.setBackground(c);
         conferma.setForeground(Color.white);
         conferma.setFont(new Font("Courier", Font.BOLD, 20));
@@ -148,7 +148,6 @@ public class RemoteManager extends Registrazioni implements Remote {
             conferma.setEnabled(true);
             annulla.setEnabled(false);
             try {
-
                 AcceptServer.disattiva(stub);
             } catch (RemoteException ex) {
                 JOptionPane.showMessageDialog(this,ex.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
