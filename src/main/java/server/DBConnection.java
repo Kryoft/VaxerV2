@@ -66,31 +66,31 @@ public class DBConnection extends Registrazioni {
         settings("Accesso al database");
 
         layered_pane.add(user_label, 2, 0);
-        layeredPaneSettings(0, new Rectangle(first_row_x, first_row_y,              //nome_label
+        layeredPaneSettings(0, new Rectangle(first_row_x, first_row_y,              //user_label
                 width_user_label, base_height), 16, 1, false);
 
         layered_pane.add(user, 2, 0);
-        layeredPaneSettings(0, new Rectangle(second_column, first_row_y,                   //nome_centro
+        layeredPaneSettings(0, new Rectangle(second_column, first_row_y,                   //user
                 width_nome_centro, base_height), 15, 1, false);
 
         layered_pane.add(password_label, 2, 0);
-        layeredPaneSettings(0, new Rectangle(second_row_x, second_row_y,            //indirizzo_label
+        layeredPaneSettings(0, new Rectangle(second_row_x, second_row_y,            //pass_label
                 width_password_label, base_height), 16, 1, false);
 
         layered_pane.add(password, 2, 0);
-        layeredPaneSettings(0, new Rectangle(second_column, second_row_y,                   //via
+        layeredPaneSettings(0, new Rectangle(second_column, second_row_y,                   //password
                 width_via, base_height), 20, 1, false);
 
         layered_pane.add(conferma_password_label, 2, 0);
-        layeredPaneSettings(0, new Rectangle(third_row_x, third_row_y,            //indirizzo_label
+        layeredPaneSettings(0, new Rectangle(third_row_x, third_row_y,            //conf_pass_label
                 width_conferma_password_label, base_height), 16, 1, false);
 
         layered_pane.add(conferma_password, 2, 0);
-        layeredPaneSettings(0, new Rectangle(second_column, third_row_y,            //indirizzo_label
+        layeredPaneSettings(0, new Rectangle(second_column, third_row_y,            //conf_pass
                 width_conferma_password, base_height), 20, 1, false);
 
         layered_pane.add(conferma, 2, 0);
-        layeredPaneSettings(0, new Rectangle(fourth_row_x + width_buttons, fourth_row_y,      //conferma
+        layeredPaneSettings(0, new Rectangle(fourth_row_x + width_buttons, fourth_row_y,      //connetti
                 250, 60), 18, 1, false);
         Color c = new Color(51, 153, 255);
         conferma.setText("Connetti");
@@ -113,19 +113,20 @@ public class DBConnection extends Registrazioni {
         if (e.getSource() == conferma) {
 
             Connection conn = null;
+            CredenzialiDB.setUser(user.getText());
+            CredenzialiDB.setPassword(String.valueOf(password.getPassword()));
+
+            //boolean password_check = password.getPassword().equals(conferma_password.getPassword());
 
             try {
-                conn = DBInterface.connected("");
+                conn = DBManager.connected("", CredenzialiDB.getUser(), CredenzialiDB.getPassword());
             } catch (RemoteException ex) {
                 throw new RuntimeException(ex);
             }
 
-            char[] controlla = password.getPassword();
-            char[] controlla2 = conferma_password.getPassword();
-
-
-            if(CredenzialiDB.isValid(user.getText(),new String(controlla),new String(controlla2))) {
-                JOptionPane.showMessageDialog(this, "Credenziali corrette");
+            if(CredenzialiDB.isValid(user.getText(), CredenzialiDB.getPassword(), String.valueOf(conferma_password.getPassword()))) {
+            //if(password_check) {
+                //JOptionPane.showMessageDialog(this, "Credenziali corrette");
                 if (conn != null) {
                     try {
                         conn.close();
@@ -136,6 +137,8 @@ public class DBConnection extends Registrazioni {
                     JOptionPane.showMessageDialog(this, "Connessione verificata");
                     new RemoteManager();
                     this.dispose();
+                }else{
+                    JOptionPane.showMessageDialog(this, "Connessione non riuscita: Credenziali non corrette");
                 }
             }
             else{

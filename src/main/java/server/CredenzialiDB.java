@@ -1,8 +1,8 @@
 package server;
 
 public class CredenzialiDB {
-    private static String user = "postgres";
-    private static String password ="Antananarivo01";
+    private static String user = "";
+    private static String password ="";
 
     private static String[] message= new String[3];
     public static String getPassword() {
