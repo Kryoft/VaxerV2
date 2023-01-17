@@ -116,18 +116,25 @@ public class DBConnection extends Registrazioni {
             CredenzialiDB.setUser(user.getText());
             CredenzialiDB.setPassword(String.valueOf(password.getPassword()));
 
-            //boolean password_check = password.getPassword().equals(conferma_password.getPassword());
+            boolean pass_are_equal = String.valueOf(password.getPassword()).
+                    equals(String.valueOf(conferma_password.getPassword()));
 
-            try {
-                conn = DBManager.connected("", CredenzialiDB.getUser(), CredenzialiDB.getPassword());
-            } catch (RemoteException ex) {
-                throw new RuntimeException(ex);
+            if(CredenzialiDB.getPassword().isBlank()){
+                SwingAwt.modificaBordo("", password, null);
+                SwingAwt.modificaBordo("", conferma_password, null);
+                JOptionPane.showMessageDialog(this, "Errore: Password non iserita");
             }
+            else if(pass_are_equal){
 
-            if(CredenzialiDB.isValid(user.getText(), CredenzialiDB.getPassword(), String.valueOf(conferma_password.getPassword()))) {
-            //if(password_check) {
-                //JOptionPane.showMessageDialog(this, "Credenziali corrette");
+                try {
+                    conn = DBManager.connected("", CredenzialiDB.getUser(), CredenzialiDB.getPassword());
+                } catch (RemoteException ex) {
+                    throw new RuntimeException(ex);
+                }
+
                 if (conn != null) {
+                    //CONNESSIONE RIUSCITA
+
                     try {
                         conn.close();
                     } catch (SQLException ex) {
@@ -138,33 +145,19 @@ public class DBConnection extends Registrazioni {
                     new RemoteManager();
                     this.dispose();
                 }else{
+                    //CONNESSIONE NON RIUSCITA
+
                     JOptionPane.showMessageDialog(this, "Connessione non riuscita: Credenziali non corrette");
                 }
             }
             else{
-                SwingAwt.modificaBordo("", password, border);
-                if(CredenzialiDB.getIndiceMessage(0).contains("User")){
-                    SwingAwt.modificaBordo("",user,border);
-                    }
-                else
-                    user.setBorder(border);
 
-                if(CredenzialiDB.getIndiceMessage(1).contains("password")) {
-                    SwingAwt.modificaBordo("", password, null);
-                }
-                else
-                    password.setBorder(border);
-
-                if(CredenzialiDB.getIndiceMessage(2).contains("coincidono")) {
-                    SwingAwt.modificaBordo("", conferma_password, border);
-                    SwingAwt.modificaBordo("", password, border);
-                }
-                else{
-                        conferma_password.setBorder(border);
-                    }
-                JOptionPane.showMessageDialog(this, CredenzialiDB.getMessage());
+                SwingAwt.modificaBordo("", password, null);
+                SwingAwt.modificaBordo("", conferma_password, null);
+                JOptionPane.showMessageDialog(this, "Errore: Le password non coincidono");
 
             }
+
         }
     }
 }
