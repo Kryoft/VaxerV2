@@ -163,6 +163,7 @@ public class ClientGUI extends JFrame implements ActionListener {
             } catch (RemoteException ex) {
                 throw new RuntimeException(ex);
             } catch (NotBoundException ex) {
+                JOptionPane.showMessageDialog(this,"ERRORE: Connessione al server non riuscita");
                 throw new RuntimeException(ex);
             }
 

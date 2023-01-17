@@ -122,7 +122,7 @@ public class DBConnection extends Registrazioni {
             if(CredenzialiDB.getPassword().isBlank()){
                 SwingAwt.modificaBordo("", password, null);
                 SwingAwt.modificaBordo("", conferma_password, null);
-                JOptionPane.showMessageDialog(this, "Errore: Password non iserita");
+                JOptionPane.showMessageDialog(this, "Errore: Password non inserita");
             }
             else if(pass_are_equal){
 
