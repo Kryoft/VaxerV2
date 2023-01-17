@@ -7,6 +7,7 @@ package shared;
 
 import centrivaccinali.IndirizzoComposto;
 import centrivaccinali.CentroVaccinale;
+import centrivaccinali.SwingAwt;
 import cittadini.Cittadino;
 import cittadini.EventoAvverso;
 import cittadini.Login;
@@ -37,7 +38,6 @@ import java.util.stream.Stream;
 public abstract class Utility {
 
     private static Dimension screen_size = Toolkit.getDefaultToolkit().getScreenSize();
-
     /**
      * Metodo utile per calcolare lo spazio in memoria in un dato momento
      *
@@ -56,9 +56,7 @@ public abstract class Utility {
         return (int) screen_size.getWidth();
     }
 
-    public static int getDisplayHeight() {
-        return (int) screen_size.getHeight();
-    }
+    public static int getDisplayHeight() { return (int) screen_size.getHeight(); }
 
     public static void setWindowLogo(JFrame frame, String file_name) {
         ImageIcon logo = new ImageIcon(ClassLoader.getSystemResource(file_name));

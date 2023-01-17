@@ -20,10 +20,10 @@ import java.sql.SQLException;
 
 public class RegistraCittadini extends Registrazioni {
 
-    private final JLabel nome_cognome_label = new JLabel("Nome e cognome:"),
-                            login_label = new JLabel("Login:"),
-                            cf_label = new JLabel("Codice Fiscale:"),
-                            centro_label = new JLabel("Nome Centro:");
+    private final JLabel nome_cognome_label = new JLabel("Nome e cognome:", SwingConstants.CENTER),
+                            login_label = new JLabel("Login:", SwingConstants.CENTER),
+                            cf_label = new JLabel("Codice Fiscale:", SwingConstants.CENTER),
+                            centro_label = new JLabel("Nome Centro:", SwingConstants.CENTER);
 
     private final JTextField cf_txt = new JTextField(),
                                 centro_txt = new JTextField();
@@ -34,6 +34,36 @@ public class RegistraCittadini extends Registrazioni {
                                         password_txt = new PlaceholderTextField("password"),
                                         user_txt = new PlaceholderTextField("user id"),
                                         id_txt = new PlaceholderTextField(" Identificativo ");
+
+    private final int labels_width = 180,
+            base_txt_width = 220,
+            button_width = 200,
+            cf_and_nomecentro_txt_width = 200;
+
+    private final int  base_height = 40,
+            button_height = 100;
+
+    private final int margin_x = 20,
+            margin_x_buttons = 200,
+            margin_y = 40,
+            margin_y_buttons = 50;
+
+    private final int labels_x = SwingAwt.centerItemOnXorY(display_width,
+            labels_width + base_txt_width * 3 + margin_x * 2),
+            first_txt_x = labels_x + labels_width,
+            cognome_txt_x = first_txt_x + base_txt_width + margin_x,
+            first_row_y = SwingAwt.centerItemOnXorY(display_height,
+                            base_height * 4 + margin_y * 3 + margin_y_buttons + button_height),
+            second_row_y = first_row_y + base_height + margin_y,
+            psw_txt_x = first_txt_x + base_txt_width + margin_x,
+            email_txt_x = psw_txt_x + base_txt_width + margin_x,
+            third_row_y = second_row_y + base_height + margin_y,
+            id_txt_x = first_txt_x + cf_and_nomecentro_txt_width + margin_x,
+            fourth_row_y = third_row_y + base_height + margin_y,
+            annulla_x = SwingAwt.centerItemOnXorY(display_width,
+                    button_width * 2 + margin_x_buttons),
+            conferma_x = annulla_x + button_width + margin_x_buttons,
+            buttons_y = fourth_row_y + base_height + margin_y_buttons;
 
     public RegistraCittadini(CentroVaccinale struttura_vaccinale) {
         this.struttura_vaccinale = struttura_vaccinale;
@@ -50,62 +80,62 @@ public class RegistraCittadini extends Registrazioni {
         settings("Inserisci Cittadino");
 
         layered_pane.add(nome_cognome_label, 2, 0);
-        layeredPaneSettings(0, new Rectangle(410, 220,                  //nome_cognome_label
-                520, 120), 16, 1, false);
+        layeredPaneSettings(0, new Rectangle(labels_x, first_row_y,                  //nome_cognome_label
+                labels_width, base_height), 16, 1, false);
 
         layered_pane.add(nome_txt, 2, 0);
-        layeredPaneSettings(0, new Rectangle(610, 260,                  //nome_txt
-                250, 40), 15, 0, true);
+        layeredPaneSettings(0, new Rectangle(first_txt_x, first_row_y,                  //nome_txt
+                base_txt_width, base_height), 15, 0, true);
 
         layered_pane.add(cognome_txt, 2, 0);
-        layeredPaneSettings(0, new Rectangle(870, 260,                  //cognome_txt
-                250, 40), 15, 0, true);
+        layeredPaneSettings(0, new Rectangle(cognome_txt_x, first_row_y,                  //cognome_txt
+                base_txt_width, base_height), 15, 0, true);
 
         layered_pane.add(conferma, 2, 0);
-        layeredPaneSettings(0, new Rectangle(1250, 230,                 //conferma_registrazione_cittadino
-                200, 100), 18, 1, false);
+        layeredPaneSettings(0, new Rectangle(conferma_x, buttons_y,                 //conferma_registrazione_cittadino
+                button_width, button_height), 18, 1, false);
 
         layered_pane.add(cf_label, 2, 0);
-        layeredPaneSettings(0, new Rectangle(410, 370,                  //cf_label
-                520, 120), 16, 1, false);
+        layeredPaneSettings(0, new Rectangle(labels_x, second_row_y,                  //cf_label
+                labels_width, base_height), 16, 1, false);
 
         layered_pane.add(cf_txt, 2, 0);
-        layeredPaneSettings(0, new Rectangle(610, 410,                  //cf_txt
-                310, 40), 15, 0, false);
+        layeredPaneSettings(0, new Rectangle(first_txt_x, second_row_y,                  //cf_txt
+                cf_and_nomecentro_txt_width, base_height), 15, 0, false);
 
         layered_pane.add(login_label, 2, 0);
-        layeredPaneSettings(0, new Rectangle(410, 520,                  //login_label
-                520, 120), 16, 1, false);
+        layeredPaneSettings(0, new Rectangle(labels_x, third_row_y,                  //login_label
+                labels_width, base_height), 16, 1, false);
 
         layered_pane.add(user_txt, 2, 0);
-        layeredPaneSettings(0, new Rectangle(610, 560,                  //user_txt
-                200, 40), 15, 0, true);
+        layeredPaneSettings(0, new Rectangle(first_txt_x, third_row_y,                  //user_txt
+                base_txt_width, base_height), 15, 0, true);
 
         layered_pane.add(password_txt, 2, 0);
-        layeredPaneSettings(0, new Rectangle(820, 560,                  //password_txt
-                200, 40), 15, 0, true);
+        layeredPaneSettings(0, new Rectangle(psw_txt_x, third_row_y,                  //password_txt
+                base_txt_width, base_height), 15, 0, true);
 
         layered_pane.add(email_txt, 2, 0);
-        layeredPaneSettings(0, new Rectangle(1040, 560,                 //email_txt
-                240, 40), 15, 0, true);
+        layeredPaneSettings(0, new Rectangle(email_txt_x, third_row_y,                 //email_txt
+                base_txt_width, base_height), 15, 0, true);
 
         layered_pane.add(centro_label, 2, 0);
-        layeredPaneSettings(0, new Rectangle(410, 670,                  //centro_label
-                520, 120), 16, 1, false);
+        layeredPaneSettings(0, new Rectangle(labels_x, fourth_row_y,                  //centro_label
+                labels_width, base_height), 16, 1, false);
 
         layered_pane.add(centro_txt, 2, 0);
-        layeredPaneSettings(0, new Rectangle(610, 710,                  //centro_txt
-                310, 40), 15, 0, false);
+        layeredPaneSettings(0, new Rectangle(first_txt_x, fourth_row_y,                  //centro_txt
+                cf_and_nomecentro_txt_width, base_height), 15, 0, false);
         centro_txt.setEditable(false);
         centro_txt.setText(struttura_vaccinale.getNomeCentro());
 
         layered_pane.add(id_txt, 2, 0);
-        layeredPaneSettings(0, new Rectangle(930, 710,                  //id_txt
-                160, 40), 15, 0, true);
+        layeredPaneSettings(0, new Rectangle(id_txt_x, fourth_row_y,                  //id_txt
+                base_txt_width, base_height), 15, 0, true);
 
         layered_pane.add(annulla, 2, 0);
-        layeredPaneSettings(0, new Rectangle(1250, 680,                 //annulla
-                200, 100), 18, 1, false);
+        layeredPaneSettings(0, new Rectangle(annulla_x, buttons_y,                 //annulla
+                button_width, button_height), 18, 1, false);
 
 
         conferma.addActionListener(this);

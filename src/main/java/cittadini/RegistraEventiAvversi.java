@@ -64,28 +64,30 @@ public class RegistraEventiAvversi extends Registrazioni {
         int text_width = 310;
         int severita_width = 150;
         int note_width = 500;
-        int button_width = 160;
+        int button_width = 200;
 
         int base_height = 40;
         int note_height = 100;
-        int button_height = 50;
+        int button_height = 100;
 
         int labels_x = SwingAwt.centerItemOnXorY(display_width, labels_width + note_width);
         int y_margin = 60;
-        int button_margin = 50;
+        int button_margin_x = 200;
+        int button_margin_y = 50;
 
         int txt_x = labels_x + labels_width;
         int severita_x = txt_x + text_width + 10;
 
         int first_row_y = SwingAwt.centerItemOnXorY(display_height,
-                base_height * 2 + note_height + y_margin * 2 + button_margin + button_height);
+                base_height * 2 + note_height + y_margin * 2 + button_margin_y + button_height);
 
         int second_row_y = first_row_y + base_height + y_margin;
         int third_row_y = second_row_y + base_height + y_margin;
-        int fourth_row_y = third_row_y + note_height + button_margin;
+        int fourth_row_y = third_row_y + note_height + button_margin_y;
 
-        int annulla_x = SwingAwt.centerItemOnXorY(display_width, button_width * 2 + button_margin);
-        int conferma_x = annulla_x + button_width + (display_width/2 - (annulla_x + button_width));
+        int annulla_x = SwingAwt.centerItemOnXorY(display_width, button_width * 2 + button_margin_x);
+        //int conferma_x = annulla_x + button_width + (display_width/2 - (annulla_x + button_width));
+        int conferma_x = annulla_x + button_width + button_margin_x;
 
 
 
@@ -126,11 +128,11 @@ public class RegistraEventiAvversi extends Registrazioni {
                 note_width, note_height), 15, 0, false);
 
         layered_pane.add(conferma, 2, 0);  //conferma
-        layeredPaneSettings(0, new Rectangle(annulla_x, fourth_row_y,
+        layeredPaneSettings(0, new Rectangle(conferma_x, fourth_row_y,
                 button_width, button_height), 16, 1, false);
 
         layered_pane.add(annulla, 2, 0);
-        layeredPaneSettings(0, new Rectangle(conferma_x, fourth_row_y,             //annulla
+        layeredPaneSettings(0, new Rectangle(annulla_x, fourth_row_y,             //annulla
                 button_width, button_height), 16, 1, false);
 
 

@@ -28,7 +28,7 @@ public abstract class Registrazioni extends JFrame implements ActionListener {
                     display_height = Utility.getDisplayHeight();
 
     protected JButton conferma = new JButton("CONFERMA"),
-                        annulla = new JButton("TORNA INDIETRO");
+                        annulla = new JButton("ANNULLA");
     protected CentroVaccinale struttura_vaccinale;
 
     protected String cod_fiscale;

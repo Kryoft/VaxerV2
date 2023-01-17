@@ -24,7 +24,7 @@ public abstract class Registrazioni extends JFrame implements ActionListener {
                     display_height = Utility.getDisplayHeight();
 
     protected JButton conferma = new JButton("CONFERMA"),
-                        annulla = new JButton("TORNA INDIETRO");
+                        annulla = new JButton("ANNULLA");
     protected final int base_height = 40,
                         width_buttons = 200,
                         height_buttons = 100;
