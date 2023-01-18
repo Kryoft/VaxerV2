@@ -3,6 +3,11 @@ package server;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+/**
+ * classe che contiene i parametri (porta e indirizzo ip)
+ * utili per accedere al database
+ */
+
 public class RemoteInformation {
     private static InetAddress address ;
     private static String ip_host;
