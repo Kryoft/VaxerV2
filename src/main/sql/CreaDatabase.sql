@@ -1,4 +1,4 @@
-create table CENTROVACCINI(
+create table CENTRI_VACCINALI(
 	Codice SERIAL,
      Nome varchar(80) NOT NULL,
 	Comune varchar(100),
@@ -19,13 +19,13 @@ create table VACCINATI(
 	Identificativo SERIAL PRIMARY KEY,
 	Vaccino varchar(15),
 	Cod_Centro int,
-	foreign key (Cod_Centro) references CENTROVACCINI(Codice)
+	foreign key (Cod_Centro) references CENTRI_VACCINALI(Codice)
 		on delete cascade
 		on update cascade
 );
 
 
-create table ISCRITTI(
+create table CITTADINI_REGISTRATI(
 	Email varchar(30),
 	Username varchar(20) UNIQUE,
 	Password varchar(30),
@@ -41,11 +41,11 @@ create table LOG_EVENTI(
 	Indice smallint CHECK(indice between 0 AND 5),
 	Note varchar(256),
 
-	foreign key (Cod_Fiscale) references ISCRITTI(Cod_Fiscale)
+	foreign key (Cod_Fiscale) references CITTADINI_REGISTRATI(Cod_Fiscale)
 		on update cascade
 		on delete set null,
 
-	foreign key(Cod_Centro) references CentroVaccini(codice)
+	foreign key(Cod_Centro) references CENTRI_VACCINALI(codice)
 		on update cascade
 		on delete no action,
 	
@@ -53,13 +53,13 @@ create table LOG_EVENTI(
 );
 
 
-INSERT into centrovaccini(nome,comune,tipologia,sigla,qualificatore,nome_via,num_civico,cap) 
+INSERT into CENTRI_VACCINALI(nome,comune,tipologia,sigla,qualificatore,nome_via,num_civico,cap)
 VALUES ('Mangioni','Lecco','OSPEDALIERO','LC','PIAZZA','Vecchia','12','22022');
-INSERT into centrovaccini(nome,comune,tipologia,sigla,qualificatore,nome_via,num_civico,cap) 
+INSERT into CENTRI_VACCINALI(nome,comune,tipologia,sigla,qualificatore,nome_via,num_civico,cap)
 VALUES ('Valduce','Como','HUB','CO','VIA','Napoli','13','22012');
-INSERT into centrovaccini(nome,comune,tipologia,sigla,qualificatore,nome_via,num_civico,cap) 
+INSERT into CENTRI_VACCINALI(nome,comune,tipologia,sigla,qualificatore,nome_via,num_civico,cap)
 VALUES ('H hospital','Erba','AZIENDALE','ER','VIA','Alserio','12','22036');
-INSERT into centrovaccini(nome,comune,tipologia,sigla,qualificatore,nome_via,num_civico,cap) 
+INSERT into CENTRI_VACCINALI(nome,comune,tipologia,sigla,qualificatore,nome_via,num_civico,cap)
 VALUES ('Manzoni','Lecco','OSPEDALIERO','LC','VIA','Cesarea','10','22022');
-INSERT into centrovaccini(nome,comune,tipologia,sigla,qualificatore,nome_via,num_civico,cap) 
+INSERT into CENTRI_VACCINALI(nome,comune,tipologia,sigla,qualificatore,nome_via,num_civico,cap)
 VALUES ('Pizzeria Pinello','Napoli','AZIENDALE','NA','VIA','spaccaNapoli','10','23422');

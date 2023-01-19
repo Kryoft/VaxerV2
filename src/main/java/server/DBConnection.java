@@ -10,6 +10,9 @@ import java.awt.event.ActionEvent;
 import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Arrays;
+
+import static server.CredenzialiDB.message;
 
 /**
  * classe che estende <code> ServerGraphics</code> e viene utilizzata dal server per verificare il corretto accesso al database.
@@ -121,56 +124,42 @@ public class DBConnection extends ServerGraphics{
             Connection conn = null;
             CredenzialiDB.setUser(user.getText());
             CredenzialiDB.setPassword(String.valueOf(password.getPassword()));
-            boolean password_equal = String.valueOf(password.getPassword()).
-                    equals(String.valueOf(conferma_password.getPassword())),
-                    user_vuoto=CredenzialiDB.getUser().isBlank(),
-                    password_vuota = CredenzialiDB.getPassword().isBlank();
-
-            if(user_vuoto) {
-                SwingAwt.modificaBordo("", user, null);
-                JOptionPane.showMessageDialog(this, "Errore:Campo username vuoto");
-            }
-            else
-                SwingAwt.modificaBordo("border",user,border);
-            if(password_vuota){
-                SwingAwt.modificaBordo("", password, null);
-                SwingAwt.modificaBordo("", conferma_password, null);
-                JOptionPane.showMessageDialog(this, "Errore: Password non inserita");
-            }
-            else{
-                SwingAwt.modificaBordo("",password,border);
-                SwingAwt.modificaBordo("",conferma_password,border);
-            }
-            if(password_equal && !user_vuoto && !password_vuota) {
+            if (CredenzialiDB.isValid(String.valueOf(password.getPassword()), String.valueOf(conferma_password.getPassword()))) {
                 try {
                     conn = DBManager.connected("", CredenzialiDB.getUser(), CredenzialiDB.getPassword());
-                    if(conn!=null)
+
+                    if (conn != null) {
+                        SwingAwt.modificaBordo("border", user, border);
+                        SwingAwt.modificaBordo("border", password, border);
+                        SwingAwt.modificaBordo("border", conferma_password, border);
                         JOptionPane.showMessageDialog(this, "Connessione verificata");
-                    else
+                        new RemoteManager();
+                        this.dispose();
+                    } else
                         JOptionPane.showMessageDialog(this, "Connessione non riuscita: Credenziali non corrette");
                     conn.close();
-                    new RemoteManager();
-                    this.dispose();
                 } catch (SQLException ex) {
-                    new DBException("", ex.getSQLState(), ex.getMessage());
+                    JOptionPane.showMessageDialog(this, "Errore nella connessione con il database", "Error", JOptionPane.ERROR_MESSAGE);
                 } catch (RemoteException ex) {
-                    JOptionPane.showMessageDialog(this, "Errore di connessione remota","Error",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Errore di connessione remota", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            }
-            if(!password_equal){
-
-                SwingAwt.modificaBordo("", password, null);
-                SwingAwt.modificaBordo("", conferma_password, null);
-                JOptionPane.showMessageDialog(this, "Errore: Le password non coincidono");
-
-            }
-            else if(!password_vuota){
-                SwingAwt.modificaBordo("border", password, border);
-                SwingAwt.modificaBordo("border", conferma_password, border);
+            } else {
+                if (!message[0].equals("")) {
+                    SwingAwt.modificaBordo("", user, null);
+                } else
+                    SwingAwt.modificaBordo("border", user, border);
+                if (!message[1].equals("")) {
+                    SwingAwt.modificaBordo("", password, null);
+                    SwingAwt.modificaBordo("", conferma_password, null);
+                } else {
+                    SwingAwt.modificaBordo("border", password, border);
+                    SwingAwt.modificaBordo("border", conferma_password, border);
+                }
+                JOptionPane.showMessageDialog(this, "Errore:" + Arrays.toString(message), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
-        }
+}
 
 

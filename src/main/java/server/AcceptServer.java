@@ -13,6 +13,7 @@ import java.rmi.server.UnicastRemoteObject;
 /**
  * classe costituita da metodi statici che usa la tecnologia <code>rmi</code> per esporre l'oggetto sul server nell'apposito oggetto <code>Registry</code>
  * opportunamente creato.
+ * @author  Daniele Caspani
  */
 
 public class AcceptServer {
@@ -35,7 +36,7 @@ public class AcceptServer {
     /**
      * espone l'oggetto sul server attraverso un apposito oggetto di tipo <code>Registry</code>
      * @return oggetto di tipo DBInterface
-     * @throws RemoteException
+     * @throws RemoteException per l'utilizzo di Rmi
      */
     protected static DBInterface create() throws RemoteException {
         obj = new DBManager();
@@ -47,9 +48,9 @@ public class AcceptServer {
     /**
      * permette di collegare all'oggetto precedentemente esposto un nome riconoscibile dal client
      * @param stub
-     * @throws AlreadyBoundException
-     * @throws RemoteException
-     * @throws UnknownHostException
+     * @throws AlreadyBoundException per evitare che il bind sia già esistente
+     * @throws RemoteException per l'utilizzo di RMI
+     * @throws UnknownHostException richiamato quando l'host è irraggiungibile
      */
     protected static void attiva(DBInterface stub) throws AlreadyBoundException,RemoteException, UnknownHostException {
         registry.bind("DBInterface", stub);
@@ -63,7 +64,6 @@ public class AcceptServer {
      */
 
     protected static void disattiva(DBInterface stub) throws RemoteException, NotBoundException {
-
         registry.unbind("DBInterface");
     }
 }

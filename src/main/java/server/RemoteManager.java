@@ -140,6 +140,7 @@ public class RemoteManager extends ServerGraphics implements Remote {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == conferma) {
+            RemoteInformation.setPORT(porta.getText());
             annulla.setEnabled(true);
             conferma.setEnabled(false);
             try {
