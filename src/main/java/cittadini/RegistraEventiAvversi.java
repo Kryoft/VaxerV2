@@ -187,7 +187,7 @@ public class RegistraEventiAvversi extends Registrazioni {
                     }
                 } else {
 
-                    SwingAwt.modificaBordo(evento.toString(), evento_text, border);
+                    SwingAwt.modificaBordo(evento_text);
                     JOptionPane.showMessageDialog(this, "Riempire tutti i campi", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else if (e.getSource() == annulla) {

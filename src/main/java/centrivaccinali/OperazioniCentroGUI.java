@@ -16,7 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * La classe OperazioniCentro estende la classe <code>JFrame</code> e implementa l'interfaccia <code>ActionListener</code>;
+ * La classe <code>OperazioniCentroGUI</code> estende la classe <code>JFrame</code> e implementa l'interfaccia <code>ActionListener</code>;
  * Presenta un menu nel quale vi è la possibilità di scegliere se registrare un nuovo vaccinato o un nuovo centro vaccinale;
  *
  * @author Daniele Caspani
@@ -29,6 +29,13 @@ public class OperazioniCentroGUI extends JFrame implements ActionListener {
     private JButton menu_button, registra_centro_button, registra_vaccinato_button;
     private JLabel logo_label;
 
+    /**
+     * Questo metodo viene utilizzato per impostare vari parametri
+     * dell'interfaccia grafica (es. dimensioni, titolo e logo della finestra)
+     *
+     * @author Daniele Caspani
+     * @author Cristian Corti
+     */
     public OperazioniCentroGUI() {
         initWindow();
     }
@@ -47,7 +54,7 @@ public class OperazioniCentroGUI extends JFrame implements ActionListener {
     }
 
     /**
-     * Metodo per settare la finestra che sviluppa l'interfaccia grafica
+     * Inserisce i componenti necessari nella finestra e la rende visibile.
      *
      * @author Daniele Caspani
      */
@@ -100,11 +107,11 @@ public class OperazioniCentroGUI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == registra_centro_button) {
-            new RegistraCentro();  // new Registrazioni(1);
+            new RegistraCentro();
             this.dispose();
-        } else if (e.getSource() == registra_vaccinato_button) {
-//            new RegistraVaccinato();  // new Registrazioni(2);
-//            this.dispose();
+        }
+
+        else if (e.getSource() == registra_vaccinato_button) {
             JComboBox<Object> comboBox = new JComboBox<>(CittadiniGUI.ricerca);
             int option = JOptionPane.showConfirmDialog(null, comboBox, "Ricerca del Centro di Vaccinazione", JOptionPane.OK_CANCEL_OPTION);
 
@@ -117,7 +124,9 @@ public class OperazioniCentroGUI extends JFrame implements ActionListener {
                     dispose();
                 }
             }
-        } else if (e.getSource() == menu_button) {
+        }
+
+        else if (e.getSource() == menu_button) {
             new CentriVaccinaliGUI();
             this.dispose();
         }

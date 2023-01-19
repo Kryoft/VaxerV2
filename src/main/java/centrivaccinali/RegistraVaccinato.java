@@ -12,6 +12,7 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -30,22 +31,22 @@ public class RegistraVaccinato extends Registrazioni {
                             data_label = new JLabel("Data Vaccinazione(dd/mm/yy):", SwingConstants.CENTER);
     private final int width_label = 250;
 
-    private final CentroVaccinale struttura_vaccinale;
+    private final CentroVaccinale centro_vaccinale;
 
-    private final JTextField txt_nome_centro = new JTextField(),
-                                txt_nome = new JTextField(),
-                                txt_cognome = new JTextField(),
-                                txt_codice = new JTextField(),
-                                txt_data = new JTextField();
-    private final int width_txt = 310;
+    private final JTextField nome_centro_text = new JTextField(),
+                                nome_text = new JTextField(),
+                                cognome_text = new JTextField(),
+                                cf_text = new JTextField(),
+                                data_text = new JTextField();
+    private final int width_text = 310;
 
 
     // Margine standardizzato e proporzionato a partire dal mio schermo, che ha display width pari a 1536 @Marceca
     private final int secondColumnMargin = display_width * 100 / 1536,
-                        first_row_x = (display_width /2) - ((width_txt * 2 + width_label * 2 + secondColumnMargin)/2),
+                        first_row_x = (display_width /2) - ((width_text * 2 + width_label * 2 + secondColumnMargin)/2),
                         first_row_y = (int)(0.15 * display_height),
                         x_txt1 = first_row_x + width_label,
-                        x_label2 = secondColumnMargin + x_txt1 + width_txt,
+                        x_label2 = secondColumnMargin + x_txt1 + width_text,
                         x_txt2 = x_label2 + width_label,
                         second_row_y = (int)(0.3 * display_height),
                         third_row_y = (int)(0.45  * display_height),
@@ -53,15 +54,17 @@ public class RegistraVaccinato extends Registrazioni {
                         fourth_row_y = (int)(0.7 * display_height);
 
 
-    public RegistraVaccinato(CentroVaccinale struttura_vaccinale) {
-        this.struttura_vaccinale = struttura_vaccinale;
+    public RegistraVaccinato(CentroVaccinale centro_vaccinale) {
+        this.centro_vaccinale = centro_vaccinale;
         initWindow();
     }
 
     /**
-     * permette l'inizializzazione dei componenti JFrame per quanto riguarda la registrazione di un vaccinato
+     * Inizializza i componenti JFrame per quanto riguarda la registrazione di un vaccinato
      *
-     * @author Daniele Caspani, Manuel Marceca
+     * @author Daniele Caspani
+     * @author Manuel Marceca
+     * @author Cristian Corti
      */
     private void initWindow() {
         settings("Registra Vaccinato");
@@ -70,18 +73,18 @@ public class RegistraVaccinato extends Registrazioni {
         layeredPaneSettings(0, new Rectangle(first_row_x, first_row_y, width_label, base_height),
                 16, 0, false);              // nome_centro_label
 
-        layered_pane.add(txt_nome_centro, 2, 0);
-        layeredPaneSettings(0, new Rectangle(x_txt1, first_row_y, width_txt, base_height),
-                15, 1, false);              // txt_nome_centro
-        txt_nome_centro.setEditable(false);
-        txt_nome_centro.setText(struttura_vaccinale.getNomeCentro());
+        layered_pane.add(nome_centro_text, 2, 0);
+        layeredPaneSettings(0, new Rectangle(x_txt1, first_row_y, width_text, base_height),
+                15, 1, false);              // nome_centro_text
+        nome_centro_text.setEditable(false);
+        nome_centro_text.setText(centro_vaccinale.getNomeCentro());
 
         layered_pane.add(tipologia_label, 2, 0);
         layeredPaneSettings(0, new Rectangle(x_label2, first_row_y, width_label, base_height),
                 16, 0, false);              // tipologia_label
 
         layered_pane.add(vaccino_combo, 2, 0);
-        layeredPaneSettings(0, new Rectangle(x_txt2, first_row_y, width_txt, base_height),
+        layeredPaneSettings(0, new Rectangle(x_txt2, first_row_y, width_text, base_height),
                 12, 1, false);              // vaccino_combo
 
 
@@ -89,34 +92,34 @@ public class RegistraVaccinato extends Registrazioni {
         layeredPaneSettings(0, new Rectangle(first_row_x, second_row_y, width_label, base_height),
                 16, 0, false);              // nome_label
 
-        layered_pane.add(txt_nome, 2, 0);
-        layeredPaneSettings(0, new Rectangle(x_txt1, second_row_y, width_txt, base_height),
-                15, 1, false);              // txt_nome
+        layered_pane.add(nome_text, 2, 0);
+        layeredPaneSettings(0, new Rectangle(x_txt1, second_row_y, width_text, base_height),
+                15, 1, false);              // nome_text
 
         layered_pane.add(cognome_label, 2, 0);
         layeredPaneSettings(0, new Rectangle(x_label2, second_row_y, width_label, base_height),
                 16, 0, false);              // cognome_label
 
-        layered_pane.add(txt_cognome, 2, 0);
-        layeredPaneSettings(0, new Rectangle(x_txt2, second_row_y, width_txt, base_height),
-                15, 1, false);              // txt_cognome
+        layered_pane.add(cognome_text, 2, 0);
+        layeredPaneSettings(0, new Rectangle(x_txt2, second_row_y, width_text, base_height),
+                15, 1, false);              // cognome_text
 
 
         layered_pane.add(cf_label, 2, 0);
         layeredPaneSettings(0, new Rectangle(first_row_x, third_row_y, width_label, base_height),
                 16, 0, false);              // cf_label
 
-        layered_pane.add(txt_codice, 2, 0);
-        layeredPaneSettings(0, new Rectangle(x_txt1, third_row_y, width_txt, base_height),
-                15, 1, false);              // txt_codice
+        layered_pane.add(cf_text, 2, 0);
+        layeredPaneSettings(0, new Rectangle(x_txt1, third_row_y, width_text, base_height),
+                15, 1, false);              // cf_text
 
         layered_pane.add(data_label, 2, 0);
         layeredPaneSettings(0, new Rectangle(x_label2, third_row_y, width_label, base_height),
                 16, 0, false);              // data_label
 
-        layered_pane.add(txt_data, 2, 0);
-        layeredPaneSettings(0, new Rectangle(x_txt2, third_row_y, width_txt, base_height),
-                15, 1, false);              // txt_data
+        layered_pane.add(data_text, 2, 0);
+        layeredPaneSettings(0, new Rectangle(x_txt2, third_row_y, width_text, base_height),
+                15, 1, false);              // data_text
 
 
         layered_pane.add(annulla, 2, 0);
@@ -131,89 +134,89 @@ public class RegistraVaccinato extends Registrazioni {
 
         conferma.addActionListener(this);
         annulla.addActionListener(this);
-        border = txt_nome_centro.getBorder();
+        border = nome_centro_text.getBorder();
 
         setVisible(true);
     }
 
+    /**
+     * Metodo che si occupa di controllare che i dati inseriti in ogni campo testuale siano validi.
+     * In caso favorevole, permette la registrazione del cittadino vaccinato.
+     * In caso contrario, rende rosso il bordo di tali campi e fornisce una spiegazione dell'errore.
+     *
+     * @author Daniele Caspani
+     * @author Cristian Corti
+     * @author Manuel Marceca
+     */
     private void registraVaccinato() {
-        String centro = struttura_vaccinale.getNomeCentro();
-        String nome = txt_nome.getText();
-        String cognome = txt_cognome.getText();
-        String data_string = txt_data.getText();
+        String centro = centro_vaccinale.getNomeCentro();
+        String nome = nome_text.getText();
+        String cognome = cognome_text.getText();
+        String data_string = data_text.getText();
         DateFormat data_formatted = DateFormat.getDateInstance(DateFormat.SHORT);
-        Date data = null;
-        String cf = txt_codice.getText().toUpperCase();
+        Date data;
+        String codice_fiscale = cf_text.getText().toUpperCase();
         //short id = 0;
         Vaccinato nuovo_vaccinato = new Vaccinato();
         try {
             data = data_formatted.parse(data_string);
-            if (!nome.equals("") && !cognome.equals("") && !data_string.equals("") && !cf.equals("")) {
-                txt_nome_centro.setBorder(border);
-                txt_data.setBorder(border);
-                txt_nome.setBorder(border);
-                txt_cognome.setBorder(border);
+            if (!nome.equals("") && !cognome.equals("") && !data_string.equals("") && !codice_fiscale.equals("")) {
+                nome_centro_text.setBorder(border);
+                data_text.setBorder(border);
+                nome_text.setBorder(border);
+                cognome_text.setBorder(border);
 
-//                    if (Utility.esisteCentro(0, centro, "./data/CentriVaccinali.dati.txt")) {
-                if (nuovo_vaccinato.controllaCodiceFiscale(cf, nome, cognome)) {
-                    txt_codice.setBorder(border);
+                if (nuovo_vaccinato.controllaCodiceFiscale(codice_fiscale, nome, cognome)) {
+                    cf_text.setBorder(border);
 
-                            /*
-                            Random random = new Random();
-                            id = (short) ((short) random.nextInt(65534) - 32767);
-                            id = Utility.idControl(2, String.valueOf(id), "./data/Vaccinati_" + centro + ".dati.txt");
+                    /*
+                    Random random = new Random();
+                    id = (short) ((short) random.nextInt(65534) - 32767);
+                    id = Utility.idControl(2, String.valueOf(id), "./data/Vaccinati_" + centro + ".dati.txt");
 
-                            if (id != 0) {
-                                va = new Vaccinato(Data, SwingAwt.decidiVaccino(vaccino_combo), centro, id, Nome, Cognome, Codice);
-                                Utility.scriviFile("./data/Vaccinati_" + va.getNomeCentro() + ".dati.txt", va.toString());
-                            } else
-                                JOptionPane.showMessageDialog(this, "Non e' possibile inserire più vaccinati per questo centro", "Errore", JOptionPane.WARNING_MESSAGE);
+                    if (id != 0) {
+                        va = new Vaccinato(Data, SwingAwt.decidiVaccino(vaccino_combo), centro, id, Nome, Cognome, Codice);
+                        Utility.scriviFile("./data/Vaccinati_" + va.getNomeCentro() + ".dati.txt", va.toString());
+                    } else
+                        JOptionPane.showMessageDialog(this, "Non e' possibile inserire più vaccinati per questo centro", "Errore", JOptionPane.WARNING_MESSAGE);
 
-                            */
-                    nuovo_vaccinato = new Vaccinato(data, SwingAwt.decidiVaccino(vaccino_combo), centro, nome, cognome, cf);
+                    */
+                    nuovo_vaccinato = new Vaccinato(data, SwingAwt.decidiVaccino(vaccino_combo), centro, nome, cognome, codice_fiscale);
                     int id = Utility.inserisciNuovoVaccinato(nuovo_vaccinato);
 
-                    txt_data.setBorder(border);
-                    txt_nome.setBorder(border);
-                    txt_cognome.setBorder(border);
                     JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
-                    JOptionPane.showMessageDialog(this, "L' Identificativo Associato e' " + (id));
+                    JOptionPane.showMessageDialog(this, "L'Identificativo associato e' " + (id));
 
                     new CentriVaccinaliGUI();
                     this.dispose();
                 } else {
-                    txt_codice.setBorder(new LineBorder(Color.RED, 3, true));
+                    cf_text.setBorder(new LineBorder(Color.RED, 3, true));
                     JOptionPane.showMessageDialog(this, "Errore nel formato del codice fiscale", "Errore", JOptionPane.ERROR_MESSAGE);
                 }
-//                    } else {
-//                        txt_nome_centro.setBorder(new LineBorder(Color.RED, 3, true));
-//                        JOptionPane.showMessageDialog(this, "Il centro da lei indicato non esiste o non si è registrato all'applicazione", "Errore", JOptionPane.ERROR_MESSAGE);
-//                    }
             } else {
-//                    SwingAwt.modificaBordo(centro, txt_nome_centro, border);
-                SwingAwt.modificaBordo(nome, txt_nome, border);
-                SwingAwt.modificaBordo(cognome, txt_cognome, border);
-                SwingAwt.modificaBordo(cf, txt_codice, border);
-                SwingAwt.modificaBordo(data_string, txt_data, border);
+                SwingAwt.modificaBordo(nome_text);
+                SwingAwt.modificaBordo(cognome_text);
+                SwingAwt.modificaBordo(cf_text);
+                SwingAwt.modificaBordo(data_text);
                 JOptionPane.showMessageDialog(this, "Riempire Tutti i Campi", "Errore", JOptionPane.ERROR_MESSAGE);
             }
         } catch (ParseException ex) {
-            txt_data.setBorder(new LineBorder(Color.RED, 3, true));
-            JOptionPane.showMessageDialog(this, "Formato della data errato", "Error112", JOptionPane.ERROR_MESSAGE);
+            data_text.setBorder(new LineBorder(Color.RED, 3, true));
+            JOptionPane.showMessageDialog(this, "Formato della data errato", "Errore", JOptionPane.ERROR_MESSAGE);
         } //catch (IOException | URISyntaxException ex) {
-        catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        } catch (RemoteException ex) {
+        catch (SQLException | RemoteException ex) {
             throw new RuntimeException(ex);
         }
         //  Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, ex);
-        //}
     }
 
     /**
-     * metodo ereditato dall'interfaccia <code>ActionListener</code>
+     * Metodo ereditato dall'interfaccia <code>ActionListener</code>
      *
-     * @param e
+     * @param e evento che si è verificato
+     * @author Daniele Caspani
+     * @author Cristian Corti
+     * @see ActionListener
      */
     @Override
     public void actionPerformed(ActionEvent e) {

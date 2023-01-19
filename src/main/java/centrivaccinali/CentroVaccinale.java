@@ -7,8 +7,8 @@ package centrivaccinali;
 
 /**
  * Si tratta della classe che memorizza tutte le informazioni relative a un centro vaccinale:
- * il nome del centro, la <code>tipologia</code> (tipo enumerativo con come valori (ospedaliero, aziendale, hub)
- * e l'oggetto di tipo <code>IndirizzoComposto</code>.
+ * il nome del centro, la tipologia (tipo enumerativo con valori quali: ospedaliero, aziendale, hub)
+ * e il suo indirizzo (in un oggetto di tipo <code>IndirizzoComposto</code>).
  *
  * @author Daniele Caspani
  */
@@ -21,6 +21,14 @@ public class CentroVaccinale {
     public CentroVaccinale() {
     }
 
+    /**
+     * Crea un oggetto di tipo <code>CentroVaccinale</code> utilizzando i parametri specificati
+     *
+     * @param nome_centro Il nome del centro sotto forma di stringa
+     * @param tipologia Un tipo enumerativo che rappresenta la tipologia del centro: ospedaliero, aziendale o hub
+     * @param indirizzo L'indirizzo geografico del centro vaccinale
+     * @author Daniele Caspani
+     */
     public CentroVaccinale(String nome_centro, Tipologia tipologia, IndirizzoComposto indirizzo) {
         this.nome_centro = nome_centro;
         this.tipologia = tipologia;
@@ -28,7 +36,7 @@ public class CentroVaccinale {
     }
 
     /**
-     * Restituisce il valore di <code>nome_centro</code>
+     * Restituisce il nome di questo centro vaccinale
      *
      * @return il nome del centro vaccinale
      * @author Daniele Caspani
@@ -38,7 +46,7 @@ public class CentroVaccinale {
     }
 
     /**
-     * Assegna un valore a <code>nome_centro</code>
+     * Assegna un valore al nome di questo centro vaccinale
      *
      * @param nome_centro il nome del centro di tipo String
      * @author Daniele Caspani
@@ -48,7 +56,7 @@ public class CentroVaccinale {
     }
 
     /**
-     * Restituisce il valore di <code>tipologia</code> di tipo <code>Tipologia</code>
+     * Restituisce la tipologia di questo centro (ospedaliero, aziendale o hub), di tipo <code>Tipologia</code>
      *
      * @return la tipologia del centro vaccinale (ospedaliero, aziendale, hub)
      * @author Daniele Caspani
@@ -58,7 +66,7 @@ public class CentroVaccinale {
     }
 
     /**
-     * Assegna un valore a <code>tipologia</code>
+     * Assegna un valore alla tipologia di questo centro vaccinale
      *
      * @param tipologia la tipologia del centro vaccinale
      * @author Daniele Caspani
@@ -68,7 +76,7 @@ public class CentroVaccinale {
     }
 
     /**
-     * Restituisce il valore di <code>Indirizzo</code> di tipo <code>IndirizzoComposto</code>
+     * Restituisce l'indirizzo geografico di questo centro vaccinale
      *
      * @return l'indirizzo del centro vaccinale
      * @author Daniele Caspani
@@ -78,7 +86,7 @@ public class CentroVaccinale {
     }
 
     /**
-     * Assegna un valore a <code>indirizzo</code>
+     * Assegna un valore all'indirizzo geografico di questo centro vaccinale
      *
      * @param indirizzo l'indirizzo del centro vaccinale
      * @author Daniele Caspani
@@ -89,10 +97,10 @@ public class CentroVaccinale {
     }
 
     /**
-     * Converte un oggetto in stringa
+     * Produce e restituisce una stringa contenente i dati di questo centro vaccinale
      *
-     * @return
-     * @author daniele Caspani
+     * @return una stringa contenente i dati di questo centro vaccinale nella forma: "nome_del_centro,tipologia,indirizzo"
+     * @author Daniele Caspani
      */
     @Override
     public String toString() {
@@ -100,7 +108,8 @@ public class CentroVaccinale {
     }
 
     /**
-     * Utilizzata per dare tre opzioni di scelta nell'inserimento dell'attributo <code>tipologia</code> (AZIENDALE,HUB,OSPEDALIERO)
+     * Utilizzata per dare tre opzioni di scelta nell'inserimento dell'attributo
+     * <code>tipologia</code> (AZIENDALE,HUB,OSPEDALIERO)
      *
      * @author Daniele Caspani
      */

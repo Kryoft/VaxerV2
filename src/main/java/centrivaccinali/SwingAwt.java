@@ -21,9 +21,9 @@ import java.awt.*;
 public abstract class SwingAwt {
 
     /**
-     * Metodo che permette di gestire la scelta del tipo di vaccino tramite un item ComboBox
+     * Metodo che permette di gestire la scelta del tipo di vaccino tramite un item JComboBox
      *
-     * @param vaccino_combo ComboBox contenente i valori che può assumere una variabile di tipo <code>Vaccino</code>
+     * @param vaccino_combo JComboBox contenente i valori che può assumere una variabile di tipo <code>Vaccino</code>
      * @return tipo di vaccino scelto
      * @author Daniele Caspani
      */
@@ -45,11 +45,19 @@ public abstract class SwingAwt {
         return vaccino;
     }
 
-    public static EventoAvverso.Eventi decidiEvento(String nome_evento){
+    /**
+     * Metodo che controlla la stringa fornita come parametro e la confronta con un enumerativo di eventi avversi
+     * per determinare quale è stato scelto e restituirlo.
+     *
+     * @param nome_evento stringa rappresentante l'evento avverso selezionato
+     * @return tipo enumerativo corrispondente all'evento avverso scelto
+     * @author Manuel Marceca
+     */
+    public static EventoAvverso.Eventi decidiEvento(String nome_evento) {
         EventoAvverso.Eventi evento = null;
 
-        for(EventoAvverso.Eventi e: EventoAvverso.Eventi.values()){
-            if(e.toString().equals(nome_evento)){
+        for (EventoAvverso.Eventi e: EventoAvverso.Eventi.values()) {
+            if (e.toString().equals(nome_evento)) {
                 evento = e;
             }
         }
@@ -58,9 +66,9 @@ public abstract class SwingAwt {
     }
 
     /**
-     * Metodo che permette di gestire la scelta del tipo di centro vaccinale tramite un item ComboBox
+     * Metodo che permette di gestire la scelta del tipo di centro vaccinale tramite un item JComboBox
      *
-     * @param tipologia_combo ComboBox contenente tutti i valori che può assumere una variabile di tipo <code>Tipologia</code>
+     * @param tipologia_combo JComboBox contenente tutti i valori che può assumere una variabile di tipo <code>Tipologia</code>
      * @return Tipologia centro scelta
      * @author Daniele Caspani
      */
@@ -79,10 +87,10 @@ public abstract class SwingAwt {
     }
 
     /**
-     * Metodo che permette di gestire la scelta del tipo di qualificatore per l'indirizzo tramite un item ComboBox
+     * Metodo che permette di gestire la scelta del tipo di qualificatore per l'indirizzo tramite un item JComboBox
      *
-     * @param qualifier_combo ComboBox con tutti i valori di una variabile di tipo qualificatore
-     * @return qualificatore scelto
+     * @param qualifier_combo JComboBox con tutti i valori di una variabile di tipo <code>Qualificatore</code>
+     * @return Qualificatore scelto
      * @author Daniele Caspani
      */
     public static IndirizzoComposto.Qualificatore decidiQualificatore(JComboBox<String> qualifier_combo) {
@@ -101,23 +109,31 @@ public abstract class SwingAwt {
     }
 
     /**
-     * Metodo utile per selezionare il bordo di un JTextField se il suo contenuto è vuoto
+     * Metodo utile per rendere il bordo di un JTextField rosso se il suo
+     * contenuto è vuoto o se il colore del testo è grigio chiaro
      *
-     * @param casuale  stringa contenente il valore da analizzare
-     * @param testo    JTextField selezionato
-     * @param border   bordo di default
+     * @param testo JTextField selezionato
      * @author Daniele Caspani
+     * @author Cristian Corti
      */
-    public static void modificaBordo(String casuale, JTextField testo, Border border) {
-        if (casuale.equals("") || testo.getForeground() == Color.LIGHT_GRAY)
+    public static void modificaBordo(JTextField testo) {
+        if (testo.getText().isBlank() || testo.getForeground() == Color.LIGHT_GRAY)
             testo.setBorder(new LineBorder(Color.RED, 3, true));
         else
-            testo.setBorder(border);
+            testo.setBorder(new JTextField().getBorder());
     }
 
+    /**
+     * Metodo di utilità per ottenere la posizione <code>x</code> o <code>y</code> dove
+     * inserire un item per far sì che sia al centro dello schermo
+     *
+     * @param display_width_or_height la larghezza o lunghezza dello schermo
+     * @param item_width_or_height la larghezza o lunghezza dell'item
+     * @return un intero rappresentante la posizione <code>x</code> o <code>y</code> dove
+     * inserire un item per far sì che sia al centro dello schermo
+     * @author Manuel Marceca
+     */
     public static int centerItemOnXorY(int display_width_or_height, int item_width_or_height) {
-        int value = (display_width_or_height / 2) - (item_width_or_height / 2);
-
-        return value;
+        return (display_width_or_height / 2) - (item_width_or_height / 2);
     }
 }

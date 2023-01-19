@@ -16,12 +16,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * La classe <strong>CentriVaccinaliGUI</strong> estende la classe <code>JFrame</code> e implementa
- * l'interfaccia <code>ActionListener</code>;
- * Si tratta della schermata del main e viene utilizzata per la scelta del tipo di utente
- * (Cittadino o Centro Vaccinale) attraverso il bottone <code>centro</code> e il bottone <code>cittadini</code>
+ * <p>La classe <strong>CentriVaccinaliGUI</strong> estende la classe <code>JFrame</code> e implementa
+ * l'interfaccia <code>ActionListener</code>;</p>
+ * Si tratta della schermata principale a cui l'utente arriva dopo essersi connesso a un server tramite l'inserimento
+ * dell'IP e della porta e viene utilizzata per la scelta del tipo di utente (Cittadino o Centro Vaccinale)
+ * attraverso il bottone <code>centro</code> e il bottone <code>cittadini</code>
  *
  * @author Daniele Caspani
+ * @author Cristian Corti
  */
 public class CentriVaccinaliGUI extends JFrame implements ActionListener {
 
@@ -38,6 +40,13 @@ public class CentriVaccinaliGUI extends JFrame implements ActionListener {
         new CentriVaccinaliGUI();
     }
 
+    /**
+     * Questo metodo viene utilizzato per impostare vari parametri
+     * dell'interfaccia grafica (es. dimensioni, titolo e logo della finestra)
+     *
+     * @author Daniele Caspani
+     * @author Cristian Corti
+     */
     private void settings() {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         // istruzioni utili nel caso l'utente voglia ridimensionare la finestra
@@ -56,7 +65,7 @@ public class CentriVaccinaliGUI extends JFrame implements ActionListener {
     }
 
     /**
-     * Metodo per settare la finestra che sviluppa l'interfaccia grafica
+     * Inserisce i componenti necessari nella finestra e la rende visibile.
      *
      * @author Daniele Caspani
      */

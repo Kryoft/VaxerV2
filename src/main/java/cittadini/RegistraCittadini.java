@@ -217,7 +217,7 @@ public class RegistraCittadini extends Registrazioni {
                         JOptionPane.showMessageDialog(this, "Operazione fallita Identificativo o codice Fiscale errato!!");
                     }
                 } catch (Eccezione exc) {
-                    JOptionPane.showMessageDialog(this, message, "errore", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, message, "Errore", JOptionPane.ERROR_MESSAGE);
                 } catch (RemoteException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -230,12 +230,12 @@ public class RegistraCittadini extends Registrazioni {
                 //              }
 
             } else {
-                SwingAwt.modificaBordo(nome, nome_txt, border);
-                SwingAwt.modificaBordo(cognome, cognome_txt, border);
-                SwingAwt.modificaBordo(password, password_txt, border);
-                SwingAwt.modificaBordo(cf, cf_txt, border);
-                SwingAwt.modificaBordo(user, user_txt, border);
-                SwingAwt.modificaBordo(email, email_txt, border);
+                SwingAwt.modificaBordo(nome_txt);
+                SwingAwt.modificaBordo(cognome_txt);
+                SwingAwt.modificaBordo(password_txt);
+                SwingAwt.modificaBordo(cf_txt);
+                SwingAwt.modificaBordo(user_txt);
+                SwingAwt.modificaBordo(email_txt);
                 JOptionPane.showMessageDialog(this, "Riempire tutti i campi", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (NumberFormatException ec) {

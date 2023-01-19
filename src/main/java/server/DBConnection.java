@@ -120,8 +120,8 @@ public class DBConnection extends Registrazioni {
                     equals(String.valueOf(conferma_password.getPassword()));
 
             if(CredenzialiDB.getPassword().isBlank()){
-                SwingAwt.modificaBordo("", password, null);
-                SwingAwt.modificaBordo("", conferma_password, null);
+                SwingAwt.modificaBordo(password);
+                SwingAwt.modificaBordo(conferma_password);
                 JOptionPane.showMessageDialog(this, "Errore: Password non inserita");
             }
             else if(pass_are_equal){
@@ -151,9 +151,8 @@ public class DBConnection extends Registrazioni {
                 }
             }
             else{
-
-                SwingAwt.modificaBordo("", password, null);
-                SwingAwt.modificaBordo("", conferma_password, null);
+                password.setBorder(new LineBorder(Color.RED, 3, true));
+                conferma_password.setBorder(new LineBorder(Color.RED, 3, true));
                 JOptionPane.showMessageDialog(this, "Errore: Le password non coincidono");
 
             }

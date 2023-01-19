@@ -14,8 +14,12 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 /**
- * la classe Registrazioni estende la classe <code>JFrame</code> e implementa l'interfaccia <code>ActionListener</code>;
- * Permette la registrazione al programma di un centro vaccinale oppure di un vaccinato in base alla scelta effettuata in <code>OperazioniCentro</code>
+ * <p>La classe <code>Registrazioni</code> estende la classe <code>JFrame</code> e
+ * implementa l'interfaccia <code>ActionListener</code>;</p>
+ * E' una classe astratta, usata come base per le sottoclassi
+ * <code>RegistraCentro</code> e <code>RegistraVaccinato</code>.
+ * Permette la registrazione al programma di un centro vaccinale oppure di un vaccinato
+ * in base alla scelta effettuata in <code>OperazioniCentroGUI</code>.
  *
  * @author Daniele Caspani, Manuel Marceca
  */
@@ -87,6 +91,9 @@ public abstract class Registrazioni extends JFrame implements ActionListener {
      * @param size            definisce la dimensione della scritta
      * @param font            definisce il tipo di scritta (BOLD o PLAIN)
      * @param light_gray_text definisce il colore della scritta
+     *
+     * @author Daniele Caspani
+     * @author Cristian Corti
      */
     public void layeredPaneSettings(int index, Rectangle rect, int size, int font, boolean light_gray_text) {
         layered_pane.getComponent(index).setBounds(rect);
