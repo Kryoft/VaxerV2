@@ -133,9 +133,9 @@ public class DBConnection extends ServerGraphics{
                     conn = DBManager.connected("", CredenzialiDB.getUser(), CredenzialiDB.getPassword());
 
                     if (conn != null) {
-                        SwingAwt.modificaBordo("border", user, border);
-                        SwingAwt.modificaBordo("border", password, border);
-                        SwingAwt.modificaBordo("border", conferma_password, border);
+                        SwingAwt.modificaBordo(user);
+                        SwingAwt.modificaBordo(password);
+                        SwingAwt.modificaBordo(conferma_password);
                         JOptionPane.showMessageDialog(this, "Connessione verificata");
                         new RemoteManager();
                         this.dispose();
@@ -149,15 +149,15 @@ public class DBConnection extends ServerGraphics{
                 }
             } else {
                 if (!message[0].equals("")) {
-                    SwingAwt.modificaBordo("", user, null);
+                    user.setBorder(new LineBorder(Color.RED, 3, true));
                 } else
-                    SwingAwt.modificaBordo("border", user, border);
+                    SwingAwt.modificaBordo(user);
                 if (!message[1].equals("")) {
-                    SwingAwt.modificaBordo("", password, null);
-                    SwingAwt.modificaBordo("", conferma_password, null);
+                    password.setBorder(new LineBorder(Color.RED, 3, true));
+                    conferma_password.setBorder(new LineBorder(Color.RED, 3, true));
                 } else {
-                    SwingAwt.modificaBordo("border", password, border);
-                    SwingAwt.modificaBordo("border", conferma_password, border);
+                    SwingAwt.modificaBordo(password);
+                    SwingAwt.modificaBordo(conferma_password);
                 }
                 JOptionPane.showMessageDialog(this, "Errore:" + Arrays.toString(message), "Error", JOptionPane.ERROR_MESSAGE);
             }
