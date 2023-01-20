@@ -187,23 +187,31 @@ public class RegistraCittadini extends Registrazioni {
                     if (Utility.controlloCoppiaCFId(cf, id)) {
                         l = new Login(user, password);
                         if (!Utility.esisteUsername(l.getUserId())) {
-                            c = new Cittadino(email, l, centro, id, nome, cognome, cf);
-                            cf_txt.setBorder(border);
-                            id_txt.setBorder(border);
-                            user_txt.setBorder(border);
-                            password_txt.setBorder(border);
 
-                            //Utility.scriviFile("./data/log.txt", l.toString());
-                            //Utility.scriviFile("./data/Cittadini_Registrati.dati.txt", c.toString());
-                            DBClient.insertIscritto(c);
+                            if(!DBClient.checkCFinRegistrati(cf)) {
+                                c = new Cittadino(email, l, centro, id, nome, cognome, cf);
+                                cf_txt.setBorder(border);
+                                id_txt.setBorder(border);
+                                user_txt.setBorder(border);
+                                password_txt.setBorder(border);
 
-                            JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
-                            new CentriVaccinaliGUI();
-                            this.dispose();
+                                //Utility.scriviFile("./data/log.txt", l.toString());
+                                //Utility.scriviFile("./data/Cittadini_Registrati.dati.txt", c.toString());
+                                DBClient.insertIscritto(c);
+
+                                JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
+                                new CentriVaccinaliGUI();
+                                this.dispose();
+                            }
+                            else{
+                                cf_txt.setBorder(new LineBorder(Color.RED, 3, true));
+                                //password_txt.setBorder(new LineBorder(Color.RED, 3, true));
+                                JOptionPane.showMessageDialog(this, "Codice fiscale già associato ad un account");
+                            }
                         } else {
                             user_txt.setBorder(new LineBorder(Color.RED, 3, true));
                             //password_txt.setBorder(new LineBorder(Color.RED, 3, true));
-                            JOptionPane.showMessageDialog(this, "Username già in uso.");
+                            JOptionPane.showMessageDialog(this, "Username già in uso");
                         }
                     } else {
                         nome_txt.setBorder(border);
@@ -214,7 +222,7 @@ public class RegistraCittadini extends Registrazioni {
                         email_txt.setBorder(border);
                         id_txt.setBorder(new LineBorder(Color.RED, 3, true));
                         cf_txt.setBorder(new LineBorder(Color.RED, 3, true));
-                        JOptionPane.showMessageDialog(this, "Operazione fallita Identificativo o codice Fiscale errato!!");
+                        JOptionPane.showMessageDialog(this, "Identificativo o Codice Fiscale errato");
                     }
                 } catch (Eccezione exc) {
                     JOptionPane.showMessageDialog(this, message, "Errore", JOptionPane.ERROR_MESSAGE);

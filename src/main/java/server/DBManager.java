@@ -8,8 +8,18 @@ import java.rmi.RemoteException;
 import java.sql.*;
 import java.util.LinkedList;
 
+/**
+ * classe che implementa <code>DBInterface</code>, utilizzata per ridefinire
+ * i metodi di quest'ultima e quindi esposta sul servizio remoto <code>rmi</code>
+ */
 public class DBManager implements DBInterface, Remote {
 
+    /**
+     * esegue le operazioni di update riguardanti il database(In particolare le operazioni di inserimento)
+     * @param query Stringa che contiene la Query da eseguire
+     * @param type tipo di errore che si può verificare
+     * @throws RemoteException
+     */
     @Override
     public void upData(String query, String type) throws RemoteException{
         Connection conn;
@@ -24,13 +34,19 @@ public class DBManager implements DBInterface, Remote {
         }
     }
 
+    /**
+     * metodo che gestisce le query di Select
+     * @param query Stringa che contiene la query da eseguire
+     * @param s stringa contenente i campi del database
+     * @return Struttura dati contenente i risultati restituiti dalla query
+     * @throws RemoteException
+     */
     @Override
     public LinkedList<String[]> selectData(String query, String[] s) throws RemoteException{
         Connection conn;
         ResultSet rs;
         LinkedList<String[]> l= new LinkedList<String[]>();
         String[] appoggio;
-        System.out.println(query);
         try {
             conn = connected("", CredenzialiDB.getUser(), CredenzialiDB.getPassword());
             Statement st = conn.createStatement();
@@ -49,8 +65,15 @@ public class DBManager implements DBInterface, Remote {
         }
         return l;
     }
+
+    /**
+     *metodo utilizzato per verificare che una data query non restituisca tuple
+     * @param query Stringa contenente la query da eseguire
+     * @return
+     * @throws RemoteException
+     */
     @Override
-     public boolean resultIsNull(String query) throws RemoteException{
+     public boolean resultExists(String query) throws RemoteException{
         Connection conn;
         ResultSet rs;
         boolean b;
@@ -69,6 +92,14 @@ public class DBManager implements DBInterface, Remote {
 
     }
 
+    /**
+     * metodo utilizzato per connetersi con il database
+     * @param type tipo di errore che si può verificare
+     * @param username username utilizzato dal server per accedere al database
+     * @param password
+     * @return oggetto contenente un'istanza di connessione con il database
+     * @throws RemoteException
+     */
     protected static Connection connected(String type, String username, String password) throws RemoteException{
         Connection conn = null;
         try {

@@ -213,10 +213,8 @@ public class ClientGUI extends JFrame implements ActionListener {
         if (e.getSource() == connetti) {
             Registry registry = null;
             try {
-                //registry = LocateRegistry.getRegistry(ip,PORT);
                 registry = LocateRegistry.getRegistry(txt_ip.getText(),Integer.parseInt(txt_port.getText()));
                 dbobj = (DBInterface) registry.lookup("DBInterface");
-
                 JOptionPane.showMessageDialog(this,"Connessione al server riuscita");
                 new CentriVaccinaliGUI();
                 this.dispose();
