@@ -73,7 +73,7 @@ public class DBManager implements DBInterface, Remote {
      * @throws RemoteException
      */
     @Override
-     public boolean resultIsNull(String query) throws RemoteException{
+     public boolean resultExists(String query) throws RemoteException{
         Connection conn;
         ResultSet rs;
         boolean b;

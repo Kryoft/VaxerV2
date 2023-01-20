@@ -349,10 +349,20 @@ public abstract class Utility {
      */
     public static boolean controlloCoppiaCFId(String codice_fiscale, int id) {
         Vaccinato vaccinato = DBClient.getVaccinatoByCF(codice_fiscale);
-        System.out.println("ControlloCoppiaCFId:(" + codice_fiscale + ", " + id + ") (" + vaccinato.getCodiceFiscale() + ", " + vaccinato.getId() + ")");
         return vaccinato != null && vaccinato.getId() == id;
     }
 
+    /**
+     * Metodo utilizzato per controllare la correttezza se un codice fiscale è già associato ad un account
+     *
+     * @param codice_fiscale  codice fiscale
+     * @return <code>true</code> se la il codice fiscale è già associato ad un account
+     * @author Manuel Marceca
+     */
+    public static boolean esisteCF(String codice_fiscale) {
+        Vaccinato vaccinato = DBClient.getVaccinatoByCF(codice_fiscale);
+        return vaccinato != null;
+    }
 
 
     /**

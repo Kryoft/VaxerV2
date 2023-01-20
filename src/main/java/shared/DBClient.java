@@ -172,7 +172,7 @@ public class DBClient {
         }
         if(l.size()>0) {
             for (int i = 0; i < l.size(); i++) {
-                indice = Integer.parseInt(l.get(0)[1]);
+                indice = Integer.parseInt(l.get(i)[1]);
                 EventoAvverso evento = new EventoAvverso(SwingAwt.decidiEvento(l.get(i)[0]), indice, l.get(i)[2], nome_centro, l.get(i)[3]);
                 eventi.add(evento);
             }
@@ -182,7 +182,15 @@ public class DBClient {
 
     public static boolean checkEventoGiaSegnalato(EventoAvverso evento){
         try {
-            return ClientGUI.dbobj.resultIsNull(SelectQuery.checkEventoGiaSegnalato(evento));
+            return ClientGUI.dbobj.resultExists(SelectQuery.checkEventoGiaSegnalato(evento));
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean checkCFinRegistrati(String cf){
+        try {
+            return ClientGUI.dbobj.resultExists(SelectQuery.checkCFinRegistrati(cf));
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -214,6 +222,8 @@ public class DBClient {
         return risultati;
     }
 
+
+
     /**
      * Metodo utilizzato per ottenere dal database un oggetto di tipo <code>Vaccinato</code> dato
      * il suo codice fiscale
@@ -229,12 +239,13 @@ public class DBClient {
         String[] s ={"Data","Vaccino","Nome_Centro","Identificativo","Nome_Vaccinato","cognome"};
         LinkedList<String[]> l = null;
         try {
-           l= ClientGUI.dbobj.selectData(SelectQuery.getVaccinatoByCF(cf),s);
-            int id= Integer.parseInt(l.get(0)[3]);
+            l= ClientGUI.dbobj.selectData(SelectQuery.getVaccinatoByCF(cf),s);
 
+            if(!l.isEmpty()) {
+                int id = Integer.parseInt(l.get(0)[3]);
                 Vaccinato.Vaccino rs_vaccino = Utility.decidiVaccino(l.get(0)[1]);
-                vaccinato = new Vaccinato(null, rs_vaccino,l.get(0)[2],id,l.get(0)[4],
-                        l.get(0)[5], cf);
+                vaccinato = new Vaccinato(null, rs_vaccino, l.get(0)[2], id, l.get(0)[4], l.get(0)[5], cf);
+            }
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

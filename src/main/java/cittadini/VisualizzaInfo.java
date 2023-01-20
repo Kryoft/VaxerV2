@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -97,9 +98,8 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
         ArrayList<Quadrupla<String, Float, Integer,Float>> dati_centro =
                 DBClient.getValoriPerEventoAvverso(strutture_vaccinali.getNomeCentro());
 
-
         num_segnalazioni_label.setText("Numero di Segnalazioni: " + numero_segnalazioni);
-        media_label.setText("Severità media: " + media);
+        media_label.setText("Severità media: " + new DecimalFormat("0.000").format(media));
 
         menu = new JButton("Torna al menu");
 

@@ -97,6 +97,12 @@ public class SelectQuery {
         return select_iscritto;
     }
 
+    public static String checkCFinRegistrati(String cf){
+        cf = putApices(cf);
+        String select_iscritto = "SELECT cod_fiscale FROM "+ CITTADINI_REGISTRATI +" WHERE Cod_Fiscale = " + cf + ";";
+        return select_iscritto;
+    }
+
     public static String getCittadinoByUsername(String username){
         username = putApices(username);
         String select_iscritto = "SELECT Email, "+ CENTRI_VACCINALI +".nome AS Nome_Centro, "+ VACCINATI +".Nome AS Nome_Vaccinato, " +
