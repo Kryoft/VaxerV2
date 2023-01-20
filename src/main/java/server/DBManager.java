@@ -8,6 +8,10 @@ import java.rmi.RemoteException;
 import java.sql.*;
 import java.util.LinkedList;
 
+/**
+ * classe che implementa <code>DBInterface</code>, utilizzata per ridefinire
+ * i metodi di quest'ultima e quindi esposta sul servizio remoto <code>rmi</code>
+ */
 public class DBManager implements DBInterface, Remote {
 
     /**
@@ -31,8 +35,8 @@ public class DBManager implements DBInterface, Remote {
     }
 
     /**
-     *
-     * @param query Stringa che contiene la Query da eseguire
+     * metodo che gestisce le query di Select
+     * @param query Stringa che contiene la query da eseguire
      * @param s stringa contenente i campi del database
      * @return Struttura dati contenente i risultati restituiti dalla query
      * @throws RemoteException
@@ -43,7 +47,6 @@ public class DBManager implements DBInterface, Remote {
         ResultSet rs;
         LinkedList<String[]> l= new LinkedList<String[]>();
         String[] appoggio;
-        System.out.println(query);
         try {
             conn = connected("", CredenzialiDB.getUser(), CredenzialiDB.getPassword());
             Statement st = conn.createStatement();
@@ -64,7 +67,7 @@ public class DBManager implements DBInterface, Remote {
     }
 
     /**
-     *
+     *metodo utilizzato per verificare che una data query non restituisca tuple
      * @param query Stringa contenente la query da eseguire
      * @return
      * @throws RemoteException

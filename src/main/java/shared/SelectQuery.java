@@ -17,7 +17,6 @@ public class SelectQuery {
 
 
     private static String putApices(String s){ return "'" + s + "'";}
-
     public static String insertCentro(CentroVaccinale centro){
         IndirizzoComposto indirizzo = centro.getIndirizzo();
 
@@ -129,8 +128,8 @@ public class SelectQuery {
 
     public static String getValoriPerEventoAvverso(String nome_centro){
         String cod_centro = putApices(String.valueOf(DBClient.getIdCentroByName(nome_centro)));
-        String select = "SELECT Nome_Evento, AVG(indice) AS Media_Indici, COUNT(Indice) AS Numero_Segnalazioni " +
-                "FROM "+ LOG_EVENTI +" WHERE Cod_Centro = "+ cod_centro +" GROUP BY Nome_Evento";
+        String select = "SELECT Nome_Evento, AVG(indice) AS Media_Indici, COUNT(Indice) AS Numero_Segnalazioni,ROUND(stddev_pop(Indice),2) AS std_popolazione " +
+                "FROM "+ LOG_EVENTI +"  WHERE Cod_Centro = "+ cod_centro +" GROUP BY Nome_Evento ORDER BY Numero_Segnalazioni DESC";
         return select;
     }
 

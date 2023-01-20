@@ -1,8 +1,6 @@
 package server;
 
 import centrivaccinali.PlaceholderTextField;
-import interfaccia.DBInterface;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -27,11 +25,6 @@ public class RemoteManager extends ServerGraphics implements Remote {
             unknown_host="Server Host Irraggiungibile";
 
     /**
-     * oggetto <code>DBInterface</code> condiviso che verra condiviso sul server
-     */
-    private DBInterface stub=null;
-
-    /**
      * <code>JLabel</code> per indirizzo ip e porta del server
      */
     private final JLabel ip_label = new JLabel("INDIRIZZO IP"),
@@ -45,6 +38,12 @@ public class RemoteManager extends ServerGraphics implements Remote {
     /**
      * dimensione width degli oggetti <code>JButton</code>
      */
+
+    /**
+     * bottoni che corrispondono ad attivazione e disattivazione del server
+     */
+    protected JButton attiva = new JButton("Activate"),
+            disattiva = new JButton("Disable");
     private final int width_button = 150;
 
     /** Margine standardizzato e proporzionato a partire dal mio schermo, che ha display width pari a 1536
@@ -87,7 +86,7 @@ public class RemoteManager extends ServerGraphics implements Remote {
 
         layered_pane.add(ip, 2, 0);
         layeredPaneSettings(0, new Rectangle(second_column, first_row_y,                   //nome_centro
-                width_text, base_height), 15, 1, false);
+                width_text, base_height), 15, 1, true);
 
 //        ip.setEnabled(false);
 
@@ -99,34 +98,31 @@ public class RemoteManager extends ServerGraphics implements Remote {
         layeredPaneSettings(0, new Rectangle(second_column, second_row_y,                   //via
                 width_text, base_height), 15, 1, true);
 
-        layered_pane.add(conferma, 2, 0);
+        layered_pane.add(attiva, 2, 0);
         layeredPaneSettings(0, new Rectangle(third_row_x + width_buttons, third_row_y,      //conferma
                 width_button, 60), 18, 1, false);
 
-        layered_pane.add(annulla, 2, 0);
+        layered_pane.add(disattiva, 2, 0);
         layeredPaneSettings(0, new Rectangle(x_disable,third_row_y,      //conferma
                 width_button, 60), 18, 1, false);
 
         Color c = new Color(51, 153, 255);
-        conferma.setText("Activate");
-        conferma.setBackground(c);
-        conferma.setForeground(Color.white);
-        conferma.setFont(new Font("Courier", Font.BOLD, 20));
+        attiva.setBackground(c);
+        attiva.setForeground(Color.white);
+        attiva.setFont(new Font("Courier", Font.BOLD, 20));
 
-        annulla.setText("Disable");
-        annulla.setBackground(c);
-        annulla.setForeground(Color.white);
-        annulla.setFont(new Font("Courier", Font.BOLD, 20));
+        disattiva.setBackground(c);
+        disattiva.setForeground(Color.white);
+        disattiva.setFont(new Font("Courier", Font.BOLD, 20));
 
-        annulla.setEnabled(false);
+        disattiva.setEnabled(false);
 
-        conferma.addActionListener(this);
-        annulla.addActionListener(this);
-        stub = AcceptServer.create();
+        attiva.addActionListener(this);
+        disattiva.addActionListener(this);
         background_panel.setBorder(new LineBorder(c, 60, false));
         setVisible(true);
         try {
-            ip.setText(RemoteInformation.getIp_host());
+            ip.setText(RemoteInformation.setIp_default());
         } catch (UnknownHostException | NullPointerException un) {
             JOptionPane.showMessageDialog(this,unknown_host,"Errore",JOptionPane.ERROR_MESSAGE);
         }
@@ -139,12 +135,13 @@ public class RemoteManager extends ServerGraphics implements Remote {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == conferma) {
-            RemoteInformation.setPORT(porta.getText());
-            annulla.setEnabled(true);
-            conferma.setEnabled(false);
+        if (e.getSource() == attiva) {
+            disattiva.setEnabled(true);
+            attiva.setEnabled(false);
             try {
-                AcceptServer.attiva(stub);
+                RemoteInformation.setPORT(porta.getText());
+                RemoteInformation.setIp_host(ip.getText());
+                AcceptServer.attiva();
             } catch (AlreadyBoundException ex) {
                 JOptionPane.showMessageDialog(this,already_bound_exception,"Errore",JOptionPane.ERROR_MESSAGE);
             } catch (RemoteException ex) {
@@ -155,11 +152,13 @@ public class RemoteManager extends ServerGraphics implements Remote {
             JOptionPane.showMessageDialog(this,"Il server è attivo");
         }
 
-        if (e.getSource() == annulla) {
-            conferma.setEnabled(true);
-            annulla.setEnabled(false);
+        if (e.getSource() == disattiva) {
+            attiva.setEnabled(true);
+            disattiva.setEnabled(false);
             try {
-                AcceptServer.disattiva(stub);
+                RemoteInformation.setPORT(porta.getText());
+                RemoteInformation.setIp_host(ip.getText());
+                AcceptServer.disattiva();
             } catch (RemoteException ex) {
                 JOptionPane.showMessageDialog(this,ex.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
             } catch (NotBoundException ex) {

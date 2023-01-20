@@ -7,7 +7,7 @@ package cittadini;
 
 import centrivaccinali.CentroVaccinale;
 import shared.DBClient;
-import shared.Tripla;
+import shared.Quadrupla;
 import shared.Utility;
 
 import javax.swing.*;
@@ -94,7 +94,7 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
         int numero_segnalazioni = segnalazioni.size();
         double media = numero_segnalazioni == 0 ? 0.00d : somma_indici / numero_segnalazioni;
 
-        ArrayList<Tripla<String, Float, Integer>> dati_centro =
+        ArrayList<Quadrupla<String, Float, Integer,Float>> dati_centro =
                 DBClient.getValoriPerEventoAvverso(strutture_vaccinali.getNomeCentro());
 
 
@@ -147,10 +147,10 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
         backgroundSettings(0, new Rectangle(200, 700,           //menu
                 150, 50), 14, 1, false);
 
-        String[] colonne = {"Evento avverso", "Media", "Segnalazioni"};
-        JTable table = new JTable(0, 3);
+        String[] colonne = {"Evento avverso", "Media", "Segnalazioni","Standard_deviazione"};
+        JTable table = new JTable(0, 4);
         table.setEnabled(false);
-        table.setBounds(850,150,500,500);
+        table.setBounds(1000,150,500,500);
         JScrollPane scrollpane = new JScrollPane(table);
         scrollpane.setBounds(850, 150, 500, 500);
         scrollpane.setViewportView(table);
@@ -158,8 +158,8 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
 
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setColumnIdentifiers(colonne);
-        for(Tripla<String, Float, Integer> info_evento: dati_centro){
-            Object[] riga = {info_evento.getPrimo(), info_evento.getSecondo(), info_evento.getTerzo()};
+        for(Quadrupla<String, Float, Integer,Float> info_evento: dati_centro){
+            Object[] riga = {info_evento.getPrimo(), info_evento.getSecondo(), info_evento.getTerzo(), info_evento.getQuarto()};
             model.addRow(riga);
         }
 

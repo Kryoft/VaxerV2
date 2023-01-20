@@ -33,12 +33,6 @@ public abstract class ServerGraphics extends JFrame implements ActionListener {
             display_height = Utility.getDisplayHeight();
 
     /**
-     * creazione dei <code>JButton</code> utilizzati nelle interfacce che estenderanno questa
-     */
-    protected JButton conferma = new JButton("CONFERMA"),
-            annulla = new JButton("TORNA INDIETRO");
-
-    /**
      * dimensioni relative ai bottoni
      */
     protected final int base_height = 40,
@@ -108,7 +102,7 @@ public abstract class ServerGraphics extends JFrame implements ActionListener {
 
         layered_pane.add(panel, 0, 0);
         layered_pane.add(background_panel, 1, 0);
-        //pack();
+
     }
 
     /**

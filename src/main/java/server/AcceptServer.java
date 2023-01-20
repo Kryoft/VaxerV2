@@ -31,39 +31,29 @@ public class AcceptServer {
     /**
      * oggetto della classe <code>DBManager</code> che estende <code>DBInterface</code> e implementa i metodi utilizzati per l'accesso al database
      */
-    static DBManager obj = null;
+    static DBManager obj;
 
     /**
-     * espone l'oggetto sul server attraverso un apposito oggetto di tipo <code>Registry</code>
-     * @return oggetto di tipo DBInterface
-     * @throws RemoteException per l'utilizzo di Rmi
-     */
-    protected static DBInterface create() throws RemoteException {
-        obj = new DBManager();
-        stub = (DBInterface) UnicastRemoteObject.exportObject(obj, Integer.parseInt(RemoteInformation.getPORT()));
-        registry = LocateRegistry.createRegistry( Integer.parseInt(RemoteInformation.getPORT()));
-        return stub;
-    }
-
-    /**
-     * permette di collegare all'oggetto precedentemente esposto un nome riconoscibile dal client
-     * @param stub
+     * permette di esporre l'oggetto di tipo <code> DBManager</code> sulla porta dove il <code> Registry</code> è allocato
      * @throws AlreadyBoundException per evitare che il bind sia già esistente
      * @throws RemoteException per l'utilizzo di RMI
      * @throws UnknownHostException richiamato quando l'host è irraggiungibile
      */
-    protected static void attiva(DBInterface stub) throws AlreadyBoundException,RemoteException, UnknownHostException {
-        registry.bind("DBInterface", stub);
+    protected static void attiva() throws AlreadyBoundException,RemoteException, UnknownHostException {
+        registry = LocateRegistry.createRegistry( Integer.parseInt(RemoteInformation.getPORT()));
+        obj = new DBManager();
+        stub = (DBInterface) UnicastRemoteObject.exportObject(obj, Integer.parseInt(RemoteInformation.getPORT()));
+        registry.rebind("DBInterface", stub);
     }
 
     /**
      * permette di eliminare il link esistente tra l'oggetto stub, di tipo <code>DBInterface</code> il nome ad esso associato
-     * @param stub
      * @throws RemoteException
      * @throws NotBoundException
      */
 
-    protected static void disattiva(DBInterface stub) throws RemoteException, NotBoundException {
-        registry.unbind("DBInterface");
+    protected static void disattiva() throws RemoteException, NotBoundException {
+        UnicastRemoteObject.unexportObject(registry,true);
+        UnicastRemoteObject.unexportObject(obj,true);
     }
 }

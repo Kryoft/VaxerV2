@@ -1,7 +1,6 @@
 package server;
 
 import centrivaccinali.SwingAwt;
-import shared.DBException;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -39,6 +38,11 @@ public class DBConnection extends ServerGraphics{
     private final JPasswordField password = new JPasswordField(),
             conferma_password = new JPasswordField();
 
+    /**
+     * Bottone utilizzato per il tentativo di accesso al database
+     */
+
+    protected JButton accedi = new JButton("ACCEDI");
     /**
      * Margine standardizzato e proporzionato a partire dal mio schermo, che ha display width pari a 1536
      * @author Marceca Manuel
@@ -98,16 +102,16 @@ public class DBConnection extends ServerGraphics{
         layeredPaneSettings(0, new Rectangle(second_column, third_row_y,            //conf_pass
                 width_text, base_height), 20, 1, false);
 
-        layered_pane.add(conferma, 2, 0);
+        layered_pane.add(accedi, 2, 0);
         layeredPaneSettings(0, new Rectangle(fourth_row_x + width_buttons, fourth_row_y,      //connetti
                 250, 60), 18, 1, false);
         Color c = new Color(51, 153, 255);
-        conferma.setText("Connetti");
-        conferma.setBackground(c);
-        conferma.setForeground(Color.white);
-        conferma.setFont(new Font("Courier", Font.BOLD, 20));
+        accedi.setText("Connetti");
+        accedi.setBackground(c);
+        accedi.setForeground(Color.white);
+        accedi.setFont(new Font("Courier", Font.BOLD, 20));
 
-        conferma.addActionListener(this);
+        accedi.addActionListener(this);
         border = user.getBorder();
         background_panel.setBorder(new LineBorder(c, 60, false));
         setVisible(true);
@@ -119,7 +123,7 @@ public class DBConnection extends ServerGraphics{
      */
     @Override
     public void actionPerformed(ActionEvent e){
-        if (e.getSource() == conferma) {
+        if (e.getSource() == accedi) {
 
             Connection conn = null;
             CredenzialiDB.setUser(user.getText());
