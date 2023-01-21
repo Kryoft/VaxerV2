@@ -81,10 +81,6 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
         inizio_label = new JLabel("Informazioni Centro " + strutture_vaccinali.getNomeCentro());
         evento_label = new JLabel("Prospetto Riassuntivo Eventi Avversi");
 
-        //vaccinati = Utility.caricaFileInArrayList("./data/Vaccinati_" + strutture_vaccinali.getNomeCentro() + ".dati.txt");
-
-        //vaccinati = DBClient.getVaccinatiListByCentro(strutture_vaccinali.getNomeCentro());
-
         segnalazioni = DBClient.getSegnalazioniByCentro(strutture_vaccinali.getNomeCentro());
 
         double somma_indici = 0.00d;
@@ -184,7 +180,13 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
             background.getComponent(index).setForeground(Color.red);
     }
 
-
+    /**
+     * Metodo appartenente all'interfaccia ActionListener
+     *
+     * @param e
+     * @author Daniele Caspani
+     * @see ActionListener
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == menu) {
