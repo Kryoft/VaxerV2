@@ -23,7 +23,9 @@ import java.rmi.registry.Registry;
  */
 public class ClientGUI extends JFrame implements ActionListener {
 
-    public static DBInterface dbobj=null;
+    public static DBInterface dbobj = null;
+
+    private static JFrame current_window;
 
     private int display_width = Utility.getDisplayWidth(),
                 display_height = Utility.getDisplayHeight(),
@@ -58,7 +60,9 @@ public class ClientGUI extends JFrame implements ActionListener {
                         fourth_row_y = third_row_y + base_height + margin_button_y;
 
 
-    public ClientGUI() {
+    public ClientGUI(boolean redirected) {
+        if (redirected)
+            JOptionPane.showMessageDialog(this, "Connessione Persa", "Errore", JOptionPane.INFORMATION_MESSAGE);
         initWindow();
     }
 
@@ -77,6 +81,7 @@ public class ClientGUI extends JFrame implements ActionListener {
 
     private void initWindow() {
         settings();
+        current_window = this;
 
         background_panel.setLayout(null);
         background_panel.setOpaque(true);
@@ -84,108 +89,48 @@ public class ClientGUI extends JFrame implements ActionListener {
 
         instructions_label.setSize(title_width, title_height);
         background_panel.add(instructions_label, 2, 0);
-        panelSettings(0, new Rectangle(base_x,
-                        first_row_y,
-                        instructions_label.getWidth(),
-                        instructions_label.getHeight()),
-                20, 1);
+        panelSettings(0, new Rectangle(base_x, first_row_y,
+                        instructions_label.getWidth(), instructions_label.getHeight()),
+                        20, 1);
 
         ip_label.setSize(labels_width, base_height);
         background_panel.add(ip_label, 2, 0);
-        panelSettings(0, new Rectangle(base_x,
-                        second_row_y,
-                        ip_label.getWidth(),
-                        ip_label.getHeight()),
-                18, 0);
+        panelSettings(0, new Rectangle(base_x, second_row_y,
+                        ip_label.getWidth(), ip_label.getHeight()),
+                        18, 0);
 
         txt_ip.setSize(txt_width, base_height);
         txt_ip.setHorizontalAlignment(JTextField.CENTER);
         background_panel.add(txt_ip, 2, 0);
-        panelSettings(0, new Rectangle(txt_x,
-                        second_row_y,
+        panelSettings(0, new Rectangle(txt_x, second_row_y,
                         txt_ip.getWidth(), txt_ip.getHeight()),
-                18, 0);
+                        18, 0);
 
         port_label.setSize(labels_width, base_height);
         background_panel.add(port_label, 2, 0);
-        panelSettings(0, new Rectangle(base_x,
-                        third_row_y,
-                        port_label.getWidth(),
-                        port_label.getHeight()),
-                18, 0);
+        panelSettings(0, new Rectangle(base_x, third_row_y,
+                        port_label.getWidth(), port_label.getHeight()),
+                        18, 0);
 
         txt_port.setSize(txt_width, base_height);
         txt_port.setHorizontalAlignment(JTextField.CENTER);
         background_panel.add(txt_port, 2, 0);
-        panelSettings(0, new Rectangle(txt_x,
-                        third_row_y,
+        panelSettings(0, new Rectangle(txt_x, third_row_y,
                         txt_port.getWidth(), txt_port.getHeight()),
-                18, 0);
+                        18, 0);
 
         connetti.setSize(button_width, button_height);
         background_panel.add(connetti, 2, 0);
-        panelSettings(0, new Rectangle(button_x,
-                        fourth_row_y,
+        panelSettings(0, new Rectangle(button_x, fourth_row_y,
                         connetti.getWidth(), connetti.getHeight()),
-                20, 1);
+                        20, 1);
 
         connetti.addActionListener(this);
-
-        /*
-        instructions_label.setSize(350, 30);
-        background_panel.add(instructions_label, 2, 0);
-        panelSettings(0, new Rectangle((window_width/2) - (instructions_label.getWidth()/2),
-                                                first_row_y,
-                                                instructions_label.getWidth(),
-                                                instructions_label.getHeight()),
-                                                20, 1);
-
-        ip_label.setSize(50, 20);
-        background_panel.add(ip_label, 2, 0);
-        panelSettings(0, new Rectangle((window_width/2) - (ip_label.getWidth()/2) - window_width/5,
-                                                second_row_y,
-                                                ip_label.getWidth(),
-                                                ip_label.getHeight()),
-                                                18, 0);
-
-        txt_ip.setSize(txt_width, base_height);
-        txt_ip.setHorizontalAlignment(JTextField.CENTER);
-        background_panel.add(txt_ip, 2, 0);
-        panelSettings(0, new Rectangle((window_width/2) - txt_width/2,
-                                                (second_row_y - ((Math.abs(ip_label.getHeight() - base_height)/2))),
-                                                txt_width, base_height),
-                                                18, 0);
-
-        port_label.setSize(100, 20);
-        background_panel.add(port_label, 2, 0);
-        panelSettings(0, new Rectangle((window_width/2) - (port_label.getWidth()/2) - window_width/5,
-                                                third_row_y,
-                                                port_label.getWidth(),
-                                                port_label.getHeight()),
-                                                18, 0);
-
-        txt_port.setSize(txt_width, base_height);
-        txt_port.setHorizontalAlignment(JTextField.CENTER);
-        background_panel.add(txt_port, 2, 0);
-        panelSettings(0, new Rectangle((window_width/2) - txt_width/2,
-                                                (third_row_y - ((Math.abs(port_label.getHeight() - base_height)/2))),
-                                                txt_width, base_height),
-                                                18, 0);
-
-        connetti.setSize(button_width, button_height);
-        background_panel.add(connetti, 2, 0);
-        panelSettings(0, new Rectangle((window_width/2) - button_width/2,
-                                                (int) (window_height/1.9),
-                                                button_width, button_height),
-                                                20, 1);
-
-        connetti.addActionListener(this);
-        */
         setVisible(true);
     }
 
     public static void main(String[] args) {
-        new ClientGUI();
+        new ClientGUI(false);
     }
 
     /**
@@ -201,6 +146,15 @@ public class ClientGUI extends JFrame implements ActionListener {
         background_panel.getComponent(index).setFont(new Font("Arial", font, size));
     }
 
+    public static void setCurrentWindow(JFrame window) {
+        current_window = window;
+    }
+
+    public static void redirectToClientGUI() {
+        current_window.dispose();
+        new ClientGUI(true);
+    }
+
     /**
      * Metodo appartenente all'interfaccia ActionListener
      *
@@ -211,16 +165,14 @@ public class ClientGUI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == connetti) {
-            Registry registry = null;
+            Registry registry;
             try {
                 registry = LocateRegistry.getRegistry(txt_ip.getText(),Integer.parseInt(txt_port.getText()));
                 dbobj = (DBInterface) registry.lookup("DBInterface");
                 JOptionPane.showMessageDialog(this,"Connessione al server riuscita");
                 new CentriVaccinaliGUI();
                 this.dispose();
-            } catch (RemoteException ex) {
-                throw new RuntimeException(ex);
-            } catch (NotBoundException ex) {
+            } catch (RemoteException | NotBoundException ex) {
                 JOptionPane.showMessageDialog(this,"ERRORE: Connessione al server non riuscita");
                 throw new RuntimeException(ex);
             }

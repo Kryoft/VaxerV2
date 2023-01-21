@@ -8,55 +8,46 @@ import java.net.UnknownHostException;
  * utili per accedere al database
  */
 
-public class RemoteInformation {
+public abstract class RemoteInformation {
 
     /**
-     * informazioni riguardanti l'host locale
+     * ip dell'host server
      */
-    private static InetAddress address ;
+    private static String ip_address;
 
     /**
      * porta inizialmente di default per il servizio remoto, successivamente modificabile
      */
-    private static String PORT="54234";
-    /**
-     * ip dell'host server
-     */
-    private static String ip_host;
+    private static String PORT = "54234";
 
     /**
      * determina l'ip dinamicamente
      * @return
      * @throws UnknownHostException
      */
-
-    public static String setIp_default() throws UnknownHostException{
-        address= InetAddress.getLocalHost();
-        ip_host= address.getHostAddress();
-        return ip_host;
+    public static void setIpToLocalHost() throws UnknownHostException {
+        ip_address = InetAddress.getLocalHost().getHostAddress();
     }
 
     /**
      * setta l'ip nel caso in cui l'indirizzo calcolato dinamicamente sia di una macchina virtuale o comunque incorretto
      */
-
-    public static void setIp_host(String ip_host) {
-        RemoteInformation.ip_host = ip_host;
+    public static void setIpAddress(String ip_address) {
+        RemoteInformation.ip_address = ip_address;
     }
 
     /**
      * ritorna il valore del campo ip_host
      * @return
      */
-    public static String getIp_host()  {
-       return ip_host;
+    public static String getIpAddress()  {
+       return ip_address;
     }
 
     /**
      * ritorna il valore della porta
      * @return
      */
-
     public static String getPORT() {
         return PORT;
     }
@@ -65,7 +56,6 @@ public class RemoteInformation {
      * permette di stabilire il valore della porta
      * @param PORT
      */
-
     public static void setPORT(String PORT) {
         RemoteInformation.PORT = PORT;
     }

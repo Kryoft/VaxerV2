@@ -11,7 +11,6 @@ import cittadini.Vaccinato;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,9 +22,13 @@ public class DBClient {
      * @param centro l'oggetto <code>CentroVaccinale</code> da inserire
      * @author Manuel Marceca
      */
-    public static void insertCentro(CentroVaccinale centro) throws RemoteException {
-
-        ClientGUI.dbobj.upData(SelectQuery.insertCentro(centro),"CentroVaccinale");
+    public static void insertCentro(CentroVaccinale centro) {
+        try {
+            ClientGUI.dbobj.upData(SelectQuery.insertCentro(centro), "CentroVaccinale");
+        } catch (NullPointerException | RemoteException ex) {
+            ClientGUI.redirectToClientGUI();
+            throw new RuntimeException(ex);
+        }
     }
     /**
      * Metodo utilizzato per inserire un oggetto di tipo Vaccinato nel database, tabella VACCINATI,
@@ -37,8 +40,13 @@ public class DBClient {
      */
 
     //TODO Gestione cod_centro restituito non valido (valore -1)
-    public static int insertVaccinato(Vaccinato vaccinato) throws RemoteException {
-        ClientGUI.dbobj.upData(SelectQuery.insertVaccinato(vaccinato),"Vaccinato");
+    public static int insertVaccinato(Vaccinato vaccinato) {
+        try {
+            ClientGUI.dbobj.upData(SelectQuery.insertVaccinato(vaccinato), "Vaccinato");
+        } catch (NullPointerException | RemoteException ex) {
+            ClientGUI.redirectToClientGUI();
+            throw new RuntimeException(ex);
+        }
         return getVaccinatoIdByCF(vaccinato.getCodiceFiscale());
     }
 
@@ -48,8 +56,13 @@ public class DBClient {
      * @param cittadino l'oggetto <code>Cittadino</code> da inserire
      * @author Manuel Marceca
      */
-    public static void insertIscritto(Cittadino cittadino) throws RemoteException {
-            ClientGUI.dbobj.upData(SelectQuery.insertIscritto(cittadino),"Iscritto");
+    public static void insertIscritto(Cittadino cittadino) {
+        try {
+            ClientGUI.dbobj.upData(SelectQuery.insertIscritto(cittadino), "Iscritto");
+        } catch (NullPointerException | RemoteException ex) {
+            ClientGUI.redirectToClientGUI();
+            throw new RuntimeException(ex);
+        }
     }
 
     /**
@@ -58,9 +71,14 @@ public class DBClient {
      * @param eventoAvverso l'oggetto <code>EventoAvverso</code> da inserire
      * @author Manuel Marceca
      */
-    public static void insertEvento(EventoAvverso eventoAvverso) throws RemoteException {
+    public static void insertEvento(EventoAvverso eventoAvverso) {
         System.out.println(SelectQuery.insertEvento(eventoAvverso));
-        ClientGUI.dbobj.upData(SelectQuery.insertEvento(eventoAvverso),"Evento");
+        try {
+            ClientGUI.dbobj.upData(SelectQuery.insertEvento(eventoAvverso), "Evento");
+        } catch (NullPointerException | RemoteException ex) {
+            ClientGUI.redirectToClientGUI();
+            throw new RuntimeException(ex);
+        }
     }
     /**
      * Metodo utilizzato per ottenere dal database un oggetto di tipo <code>CentroVaccinale</code> dato
@@ -71,22 +89,23 @@ public class DBClient {
      * se il centro non è stato trovato
      * @author Manuel Marceca
      */
-    public static CentroVaccinale getCentroVaccinaleByName(String nome_centro){
-
+    public static CentroVaccinale getCentroVaccinaleByName(String nome_centro) {
         CentroVaccinale centro = null;
-        LinkedList<String[]> l=null;
-        String[] s= {"Nome","Tipologia","Nome_via","Num_civico","Comune","Sigla","Cap"};
+        ArrayList<String[]> lista;
+        String[] attributi = {"Nome","Tipologia","Nome_via","Num_civico","Comune","Sigla","Cap"};
         try {
-            l = ClientGUI.dbobj.selectData(SelectQuery.getCentroVaccinaleByName(nome_centro),s);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            lista = ClientGUI.dbobj.selectData(SelectQuery.getCentroVaccinaleByName(nome_centro),attributi);
+        } catch (NullPointerException | RemoteException ex) {
+            ClientGUI.redirectToClientGUI();
+            throw new RuntimeException(ex);
         }
-        if(l.size()>0){
-       int num_civico =Integer.parseInt(l.get(0)[3]);
-        CentroVaccinale.Tipologia tipologia_centro = Utility.decidiTipo(l.get(0)[1]);
-        IndirizzoComposto.Qualificatore qualificatore = Utility.decidiQualificatore(l.get(0)[1]);
-        IndirizzoComposto indirizzo_centro = new IndirizzoComposto(qualificatore,l.get(0)[2], num_civico, l.get(0)[4],l.get(0)[5],l.get(0)[6]);
-        centro = new CentroVaccinale(l.get(0)[0], tipologia_centro, indirizzo_centro);}
+        if (lista.size() > 0) {
+            int num_civico = Integer.parseInt(lista.get(0)[3]);
+            CentroVaccinale.Tipologia tipologia_centro = Utility.decidiTipo(lista.get(0)[1]);
+            IndirizzoComposto.Qualificatore qualificatore = Utility.decidiQualificatore(lista.get(0)[1]);
+            IndirizzoComposto indirizzo_centro = new IndirizzoComposto(qualificatore,lista.get(0)[2], num_civico, lista.get(0)[4],lista.get(0)[5],lista.get(0)[6]);
+            centro = new CentroVaccinale(lista.get(0)[0], tipologia_centro, indirizzo_centro);
+        }
         return centro;
     }
 
@@ -95,33 +114,34 @@ public class DBClient {
      * il suo nome
      *
      * @param nome_centro il nome del centro vaccinale del quale si desidera ottenere il codice
-     * @return Il codice del relativo nome del centro dato. Ritorna <code>-1</code> se il codice non è stato trovato
+     * @return Il codice del relativo nome del centro dato. Restituisce <code>-1</code> se il codice non è stato trovato
      * @author Manuel Marceca
      */
-    public static int getIdCentroByName(String nome_centro){
-
+    public static int getIdCentroByName(String nome_centro) {
         long codice_centro = -1;
-        LinkedList<String[]> l=null;
-        String[] s={"Codice"};
+        ArrayList<String[]> lista;
+        String[] attributi = {"Codice"};
         try {
-            l=ClientGUI.dbobj.selectData(SelectQuery.getIdCentroByName(nome_centro),s);
-           codice_centro= Long.parseLong(l.get(0)[0]);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            lista = ClientGUI.dbobj.selectData(SelectQuery.getIdCentroByName(nome_centro), attributi);
+            codice_centro = Long.parseLong(lista.get(0)[0]);
+        } catch (NullPointerException | RemoteException ex) {
+            ClientGUI.redirectToClientGUI();
+            throw new RuntimeException(ex);
         }
         return (int)codice_centro;
     }
 
-    public static String getCfFromUsername(String username){
+    public static String getCfFromUsername(String username) {
         String cod_fiscale = "";
-        LinkedList<String[]> l=null;
-        String[] s ={"cod_fiscale"};
+        ArrayList<String[]> lista;
+        String[] attributi = {"cod_fiscale"};
         try {
-            l = ClientGUI.dbobj.selectData(SelectQuery.getCfFromUsername(username),s);
-            cod_fiscale = l.get(0)[0];
-
-        }catch ( RemoteException exc){
-            Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, exc);
+            lista = ClientGUI.dbobj.selectData(SelectQuery.getCfFromUsername(username), attributi);
+            cod_fiscale = lista.get(0)[0];
+        } catch (NullPointerException | RemoteException ex) {
+            ClientGUI.redirectToClientGUI();
+            Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(ex);
         }
         return cod_fiscale;
     }
@@ -136,88 +156,89 @@ public class DBClient {
      *          se non è stata trovata alcuna corrispondenza
      * @author Manuel Marceca
      */
-    public static Cittadino getCittadinoByUsername(String username){
-
+    public static Cittadino getCittadinoByUsername(String username) {
         Cittadino iscritto = null;
-        String[] s ={"Email","Username","Password","Nome_Centro","Identificativo","Nome_Vaccinato","Cognome","Cf_Vaccinato"};
-        LinkedList<String[]> l =null;
+        String[] attributi = {"Email","Username","Password","Nome_Centro","Identificativo","Nome_Vaccinato","Cognome","Cf_Vaccinato"};
+        ArrayList<String[]> lista;
         try {
-            l = ClientGUI.dbobj.selectData(SelectQuery.getCittadinoByUsername(username), s);
-            if (l.size() > 0) {
-                int identificativo = Integer.parseInt(l.get(0)[4]);
-                Login login = new Login(l.get(0)[1], l.get(0)[2]);
+            lista = ClientGUI.dbobj.selectData(SelectQuery.getCittadinoByUsername(username), attributi);
+            if (lista.size() > 0) {
+                int identificativo = Integer.parseInt(lista.get(0)[4]);
+                Login login = new Login(lista.get(0)[1], lista.get(0)[2]);
 
-                iscritto = new Cittadino(l.get(1)[0], login, l.get(0)[3], identificativo,
-                        l.get(0)[5], l.get(0)[6], l.get(0)[7]);
+                iscritto = new Cittadino(lista.get(1)[0], login, lista.get(0)[3], identificativo,
+                        lista.get(0)[5], lista.get(0)[6], lista.get(0)[7]);
             }
-            } catch(RemoteException e){
-                throw new RuntimeException(e);
-            }
+        } catch (NullPointerException | RemoteException ex) {
+            ClientGUI.redirectToClientGUI();
+            throw new RuntimeException(ex);
+        }
         return iscritto;
     }
 
-    public static ArrayList<EventoAvverso> getSegnalazioniByCentro(String nome_centro){
-
-        String[] s = {"nome_evento","indice","note","cod_fiscale"};
-        LinkedList<String[]> l= null;
+    public static ArrayList<EventoAvverso> getSegnalazioniByCentro(String nome_centro) {
+        String[] attributi = {"nome_evento","indice","note","cod_fiscale"};
+        ArrayList<String[]> lista = null;
         int id_centro = getIdCentroByName(nome_centro);
         String id_centro_string = String.valueOf(id_centro);
-        int indice = 0;
-        ArrayList<EventoAvverso> eventi = new ArrayList();
-        try{
-           l= ClientGUI.dbobj.selectData(SelectQuery.getSegnalazioniByCentro(id_centro_string),s);
-
-        }catch( RemoteException se){
-            Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, se);
+        int indice;
+        ArrayList<EventoAvverso> eventi = new ArrayList<>();
+        try {
+           lista = ClientGUI.dbobj.selectData(SelectQuery.getSegnalazioniByCentro(id_centro_string), attributi);
+        } catch (NullPointerException | RemoteException ex) {
+            ClientGUI.redirectToClientGUI();
+            Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(ex);
         }
-        if(l.size()>0) {
-            for (int i = 0; i < l.size(); i++) {
-                indice = Integer.parseInt(l.get(i)[1]);
-                EventoAvverso evento = new EventoAvverso(SwingAwt.decidiEvento(l.get(i)[0]), indice, l.get(i)[2], nome_centro, l.get(i)[3]);
+        if (lista.size() > 0) {
+            for (String[] strings : lista) {
+                indice = Integer.parseInt(strings[1]);
+                EventoAvverso evento = new EventoAvverso(SwingAwt.decidiEvento(strings[0]), indice, strings[2], nome_centro, strings[3]);
                 eventi.add(evento);
             }
         }
         return eventi;
     }
 
-    public static boolean checkEventoGiaSegnalato(EventoAvverso evento){
+    public static boolean checkEventoGiaSegnalato(EventoAvverso evento) {
         try {
             return ClientGUI.dbobj.resultExists(SelectQuery.checkEventoGiaSegnalato(evento));
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
+        } catch (NullPointerException | RemoteException ex) {
+            ClientGUI.redirectToClientGUI();
+            throw new RuntimeException(ex);
         }
     }
 
-    public static boolean checkCFinRegistrati(String cf){
+    public static boolean checkCFinRegistrati(String cf) {
         try {
             return ClientGUI.dbobj.resultExists(SelectQuery.checkCFinRegistrati(cf));
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
+        } catch (NullPointerException | RemoteException ex) {
+            ClientGUI.redirectToClientGUI();
+            throw new RuntimeException(ex);
         }
     }
 
-    public static ArrayList<Quadrupla<String, Float, Integer,Float>> getValoriPerEventoAvverso(String nome_centro){
-
+    public static ArrayList<Quadrupla<String, Float, Integer, Float>> getValoriPerEventoAvverso(String nome_centro) {
         ArrayList<Quadrupla<String, Float, Integer,Float>> risultati = new ArrayList<>();
-        String[] s = {"Nome_Evento","Media_Indici","Numero_segnalazioni","Std_popolazione"};
-        LinkedList<String[]> l= null;
-        Float media ;
-        int n_segnalazioni;
-        float std ;
+        String[] attributi = {"Nome_Evento","Media_Indici","Numero_segnalazioni","Std_popolazione"};
+        ArrayList<String[]> lista;
+        float media;
+        int numero_segnalazioni;
+        float std;
         try {
-            l=ClientGUI.dbobj.selectData(SelectQuery.getValoriPerEventoAvverso(nome_centro),s);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            lista = ClientGUI.dbobj.selectData(SelectQuery.getValoriPerEventoAvverso(nome_centro), attributi);
+        } catch (NullPointerException | RemoteException ex) {
+            ClientGUI.redirectToClientGUI();
+            throw new RuntimeException(ex);
         }
 
-
-            for(int i=0;i<l.size();i++) {
-                media= Float.parseFloat(l.get(i)[1]);
-                n_segnalazioni= Integer.parseInt(l.get(i)[2]);
-                std = Float.parseFloat(l.get(i)[3]);
-                Quadrupla info_evento = new Quadrupla(l.get(i)[0], media, n_segnalazioni,std);
-                risultati.add(info_evento);
-            }
+        for (String[] strings : lista) {
+            media = Float.parseFloat(strings[1]);
+            numero_segnalazioni = Integer.parseInt(strings[2]);
+            std = Float.parseFloat(strings[3]);
+            Quadrupla<String, Float, Integer, Float> info_evento = new Quadrupla<>(strings[0], media, numero_segnalazioni, std);
+            risultati.add(info_evento);
+        }
 
         return risultati;
     }
@@ -233,21 +254,21 @@ public class DBClient {
      *          se non è stata trovata alcuna corrispondenza
      * @author Manuel Marceca
      */
-    public static Vaccinato getVaccinatoByCF(String cf){
-
+    public static Vaccinato getVaccinatoByCF(String cf) {
         Vaccinato vaccinato = null;
-        String[] s ={"Data","Vaccino","Nome_Centro","Identificativo","Nome_Vaccinato","cognome"};
-        LinkedList<String[]> l = null;
+        String[] attributi ={"Data","Vaccino","Nome_Centro","Identificativo","Nome_Vaccinato","cognome"};
+        ArrayList<String[]> lista;
         try {
-            l= ClientGUI.dbobj.selectData(SelectQuery.getVaccinatoByCF(cf),s);
+            lista = ClientGUI.dbobj.selectData(SelectQuery.getVaccinatoByCF(cf),attributi);
 
-            if(!l.isEmpty()) {
-                int id = Integer.parseInt(l.get(0)[3]);
-                Vaccinato.Vaccino rs_vaccino = Utility.decidiVaccino(l.get(0)[1]);
-                vaccinato = new Vaccinato(null, rs_vaccino, l.get(0)[2], id, l.get(0)[4], l.get(0)[5], cf);
+            if (!lista.isEmpty()) {
+                int id = Integer.parseInt(lista.get(0)[3]);
+                Vaccinato.Vaccino vaccino = Utility.decidiVaccino(lista.get(0)[1]);
+                vaccinato = new Vaccinato(null, vaccino, lista.get(0)[2], id, lista.get(0)[4], lista.get(0)[5], cf);
             }
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
+        } catch (NullPointerException | RemoteException ex) {
+            ClientGUI.redirectToClientGUI();
+            throw new RuntimeException(ex);
         }
         return vaccinato;
     }
@@ -261,16 +282,16 @@ public class DBClient {
      *          se l'identificativo non è stato trovato
      * @author Manuel Marceca
      */
-    public static int getVaccinatoIdByCF(String cf){
-
+    public static int getVaccinatoIdByCF(String cf) {
         int identificativo = -1;
-        String[] s ={"Identificativo"};
-        LinkedList<String[]> l = null;
+        String[] attributi = {"Identificativo"};
+        ArrayList<String[]> lista;
         try {
-            l=ClientGUI.dbobj.selectData(SelectQuery.getVaccinatoIdByCF(cf),s);
-            identificativo= Integer.parseInt(l.get(0)[0]);
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
+            lista = ClientGUI.dbobj.selectData(SelectQuery.getVaccinatoIdByCF(cf), attributi);
+            identificativo = Integer.parseInt(lista.get(0)[0]);
+        } catch (NullPointerException | RemoteException ex) {
+            ClientGUI.redirectToClientGUI();
+            throw new RuntimeException(ex);
         }
         return identificativo;
     }
@@ -280,33 +301,34 @@ public class DBClient {
 
 
 
-    public static ArrayList<String> cercaCentriByNome(String nome_centro){
-
-        ArrayList<String> nomi_trovati = new ArrayList<>();
-        String[] s ={"Nome"};
-        LinkedList<String[]> l = null;
-        try {
-            l=ClientGUI.dbobj.selectData(SelectQuery.cercaCentri(nome_centro),s);
-            for(int i=0;i<l.size();i++) {
-                nomi_trovati.add(l.get(i)[0]);
+    public static ArrayList<String> cercaCentriByNome(String nome_centro) {
+            ArrayList<String> nomi_trovati = new ArrayList<>();
+            String[] attributi = {"Nome"};
+            ArrayList<String[]> lista = null;
+            try {
+                lista = ClientGUI.dbobj.selectData(SelectQuery.cercaCentri(nome_centro), attributi);
+                for (String[] strings : lista) {
+                    nomi_trovati.add(strings[0]);
+                }
+            } catch (NullPointerException | RemoteException ex) {
+                ClientGUI.redirectToClientGUI();
+                throw new RuntimeException(ex);
             }
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
-        }
-        return nomi_trovati;
+            return nomi_trovati;
     }
 
-    public static ArrayList<String> cercaCentriByComuneETipologia(String comune, String tipologia){
+    public static ArrayList<String> cercaCentriByComuneETipologia(String comune, String tipologia) {
         ArrayList<String> nomi_trovati = new ArrayList<>();
-        String[] s ={"Nome"};
-        LinkedList<String[]> l = null;
+        String[] attributi = {"Nome"};
+        ArrayList<String[]> lista;
         try {
-            l=ClientGUI.dbobj.selectData(SelectQuery.cercaCentriByComuneETipologia(comune, tipologia),s);
-            for(int i=0;i<l.size();i++) {
-                nomi_trovati.add(l.get(i)[0]);
+            lista = ClientGUI.dbobj.selectData(SelectQuery.cercaCentriByComuneETipologia(comune, tipologia), attributi);
+            for (String[] strings : lista) {
+                nomi_trovati.add(strings[0]);
             }
-        } catch (RemoteException e) {
-            throw new RuntimeException(e);
+        } catch (NullPointerException | RemoteException ex) {
+            ClientGUI.redirectToClientGUI();
+            throw new RuntimeException(ex);
         }
         return nomi_trovati;
     }

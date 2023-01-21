@@ -90,9 +90,6 @@ public abstract class Ricerca extends JFrame implements ActionListener {
     public final int WIDTH_LISTA = (int)((3.0 / 5.0) * display_width);
     public final int HEIGHT_LISTA = (int)((3.0 / 5.0) * display_height);
     protected void creaLista() {
-
-
-
         int x_list = SwingAwt.centerItemOnXorY(display_width, WIDTH_LISTA);
         int y_list = SwingAwt.centerItemOnXorY(display_height, HEIGHT_LISTA);
 

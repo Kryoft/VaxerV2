@@ -10,6 +10,7 @@ import centrivaccinali.CentroVaccinale;
 import centrivaccinali.RegistraVaccinato;
 //import centrivaccinali.StruttureVaccinali;
 import centrivaccinali.SwingAwt;
+import shared.ClientGUI;
 import shared.DBClient;
 import shared.Utility;
 
@@ -57,7 +58,7 @@ public class RicercaComuneTipologia extends Ricerca {
      */
     public void initWindow() {
         settings("Ricerca per Comune e Tipologia");
-
+        ClientGUI.setCurrentWindow(this);
 
         int tipologia_label_width = 180;
         int combo_width = 200;
@@ -125,18 +126,6 @@ public class RicercaComuneTipologia extends Ricerca {
 
         creaLista();
 
-        /*
-         * A lista_centri viene aggiunto SelectionListener per assegnare all'oggetto di tipo
-         * StruttureVaccinali strutture_vaccinali l'elemento selezionato
-         */
-        lista_centri.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                String centro_selezionato = lista_centri.getSelectedValue();
-                strutture_vaccinali = DBClient.getCentroVaccinaleByName(centro_selezionato);
-            }
-        });
-
         setVisible(true);
     }
 
@@ -197,6 +186,8 @@ public class RicercaComuneTipologia extends Ricerca {
         }
 
         else if (e.getSource() == conferma) {
+            String centro_selezionato = lista_centri.getSelectedValue();
+            strutture_vaccinali = DBClient.getCentroVaccinaleByName(centro_selezionato);
             if (strutture_vaccinali == null)
                 JOptionPane.showMessageDialog(this, "Non e' stato selezionato alcun elemento", "Errore", JOptionPane.INFORMATION_MESSAGE);
             else {

@@ -6,6 +6,7 @@
 package cittadini;
 
 import centrivaccinali.CentriVaccinaliGUI;
+import shared.ClientGUI;
 import shared.DBClient;
 import shared.Utility;
 
@@ -89,6 +90,7 @@ public class CittadiniGUI extends JFrame implements ActionListener {
      */
     public void initWindow() {
         settings();
+        ClientGUI.setCurrentWindow(this);
 
         getContentPane().setLayout(null);
 

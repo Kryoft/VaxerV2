@@ -389,12 +389,8 @@ public abstract class Utility {
 
 
     public static String inserisciNuovoCentro(CentroVaccinale nuovo_centro){
-        try{
-            DBClient.insertCentro(nuovo_centro);
-            return "";
-        }catch(RemoteException e){
-            return "Errore nel database";
-        }
+        DBClient.insertCentro(nuovo_centro);
+        return "";
     }
 
 
@@ -404,12 +400,8 @@ public abstract class Utility {
     }
 
     public static String inserisciNuovoEvento(EventoAvverso evento) throws SQLException, RemoteException{
-        try{
-            DBClient.insertEvento(evento);
-            return "";
-        }catch(RemoteException e){
-            return "Errore nel database";
-        }
+        DBClient.insertEvento(evento);
+        return "";
     }
 
     /*

@@ -7,6 +7,7 @@ package cittadini;
 
 import centrivaccinali.*;
 
+import shared.ClientGUI;
 import shared.DBClient;
 import shared.Utility;
 
@@ -78,6 +79,7 @@ public class RegistraCittadini extends Registrazioni {
      */
     private void initWindow() {
         settings("Inserisci Cittadino");
+        ClientGUI.setCurrentWindow(this);
 
         layered_pane.add(nome_cognome_label, 2, 0);
         layeredPaneSettings(0, new Rectangle(labels_x, first_row_y,                  //nome_cognome_label
@@ -226,8 +228,6 @@ public class RegistraCittadini extends Registrazioni {
                     }
                 } catch (Eccezione exc) {
                     JOptionPane.showMessageDialog(this, message, "Errore", JOptionPane.ERROR_MESSAGE);
-                } catch (RemoteException ex) {
-                    throw new RuntimeException(ex);
                 }
                 //                       } else {
 //                            centro_txt.setBorder(new LineBorder(Color.RED, 3, true));

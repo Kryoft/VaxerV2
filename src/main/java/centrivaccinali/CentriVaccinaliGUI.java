@@ -7,6 +7,7 @@ package centrivaccinali;
 
 
 import cittadini.CittadiniGUI;
+import shared.ClientGUI;
 import shared.Utility;
 
 import javax.swing.*;
@@ -71,6 +72,7 @@ public class CentriVaccinaliGUI extends JFrame implements ActionListener {
      */
     private void initWindow() {
         settings();
+        ClientGUI.setCurrentWindow(this);
 
         // assegnazione immagine al bottone centro
         ImageIcon icon_centro = new ImageIcon(ClassLoader.getSystemResource("Hospital.png"));

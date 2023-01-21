@@ -11,6 +11,7 @@ import centrivaccinali.PlaceholderTextField;
 
 //import centrivaccinali.StruttureVaccinali;
 import centrivaccinali.SwingAwt;
+import shared.ClientGUI;
 import shared.DBClient;
 import shared.Utility;
 
@@ -56,6 +57,7 @@ public class RegistraEventiAvversi extends Registrazioni {
      */
     public void initWindow() {
         settings("Inserisci Evento Avverso");
+        ClientGUI.setCurrentWindow(this);
 
         //display_width = layered_pane.getWidth();
         //display_height = layered_pane.getHeight();

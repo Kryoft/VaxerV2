@@ -8,6 +8,7 @@ package centrivaccinali;
 import cittadini.CittadiniGUI;
 import cittadini.RicercaComuneTipologia;
 import cittadini.RicercaNomeCentro;
+import shared.ClientGUI;
 import shared.Utility;
 
 import javax.swing.*;
@@ -60,6 +61,7 @@ public class OperazioniCentroGUI extends JFrame implements ActionListener {
      */
     private void initWindow() {
         settings();
+        ClientGUI.setCurrentWindow(this);
 
         menu_button = new JButton("Menu");
         menu_button.setBounds(24, 669, 95, 35);

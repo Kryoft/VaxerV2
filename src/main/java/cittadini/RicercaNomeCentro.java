@@ -8,6 +8,7 @@ package cittadini;
 import centrivaccinali.RegistraVaccinato;
 //import centrivaccinali.StruttureVaccinali;
 import centrivaccinali.SwingAwt;
+import shared.ClientGUI;
 import shared.DBClient;
 
 import javax.swing.*;
@@ -51,6 +52,7 @@ public class RicercaNomeCentro extends Ricerca {
      */
     public void initWindow() {
         settings("Ricerca per Nome del Centro Vaccinale");
+        ClientGUI.setCurrentWindow(this);
 
         int centro_txt_width = 310;
 
@@ -107,20 +109,6 @@ public class RicercaNomeCentro extends Ricerca {
 
         creaLista();
 
-        /*
-         * A lista_centri viene aggiunto SelectionListener per assegnare all'oggetto di tipo
-         * CentroVaccinale strutture_vaccinali l'elemento selezionato
-         */
-        lista_centri.addListSelectionListener(new ListSelectionListener() {
-
-            //TODO! Rivedere indici, che ora non hanno più una logica, non utilizzando più gli array.
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                String centro_selezionato = lista_centri.getSelectedValue();
-                strutture_vaccinali = DBClient.getCentroVaccinaleByName(centro_selezionato);
-            }
-        });
-
         setVisible(true);
     }
 
@@ -161,6 +149,8 @@ public class RicercaNomeCentro extends Ricerca {
         }
 
         else if (e.getSource() == conferma) {
+            String centro_selezionato = lista_centri.getSelectedValue();
+            strutture_vaccinali = DBClient.getCentroVaccinaleByName(centro_selezionato);
             if (strutture_vaccinali == null)
                 JOptionPane.showMessageDialog(this, "Non e' stato selezionato alcun elemento", "Errore", JOptionPane.INFORMATION_MESSAGE);
             else {

@@ -6,6 +6,7 @@
 package centrivaccinali;
 
 import cittadini.Vaccinato;
+import shared.ClientGUI;
 import shared.Utility;
 
 import javax.swing.*;
@@ -68,6 +69,7 @@ public class RegistraVaccinato extends Registrazioni {
      */
     private void initWindow() {
         settings("Registra Vaccinato");
+        ClientGUI.setCurrentWindow(this);
 
         layered_pane.add(nome_centro_label, 2, 0);
         layeredPaneSettings(0, new Rectangle(first_row_x, first_row_y, width_label, base_height),

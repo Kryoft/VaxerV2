@@ -6,6 +6,7 @@
 package cittadini;
 
 import centrivaccinali.CentroVaccinale;
+import shared.ClientGUI;
 import shared.DBClient;
 import shared.Quadrupla;
 import shared.Utility;
@@ -69,6 +70,7 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
      */
     private void initWindow(CentroVaccinale strutture_vaccinali) {
         settings();
+        ClientGUI.setCurrentWindow(this);
 
         nome_label = new JLabel("Nome Centro: " + strutture_vaccinali.getNomeCentro());
         indirizzo_label = new JLabel("Indirizzo: " + strutture_vaccinali.getIndirizzo().getQualificatore() + " " + strutture_vaccinali.getIndirizzo().getNomeVia() + " " + strutture_vaccinali.getIndirizzo().getNumCivico());

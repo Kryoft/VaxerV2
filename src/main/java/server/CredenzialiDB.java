@@ -4,7 +4,7 @@ package server;
  * Si tratta di una classe utile per memorizzare user e password del db
  */
 
-public class CredenzialiDB {
+public abstract class CredenzialiDB {
 
     /**
      * user del database
@@ -14,7 +14,7 @@ public class CredenzialiDB {
     /**
      * password del database
      */
-    private static String password ="";
+    private static String password = "";
 
     /**
      * array di stringhe che contiene gli errori
@@ -34,7 +34,7 @@ public class CredenzialiDB {
      * @param valore
      * @param indice
      */
-    public static void setMessage(String valore,int indice){
+    public static void setMessage(int indice, String valore){
         message[indice] = valore ;
     }
 
@@ -68,20 +68,19 @@ public class CredenzialiDB {
      * metodo per verificare se i campi siano effettivamente stati riempiti
      * @return
      */
-    public static boolean isFull(){
+    public static boolean isFull() {
+        setMessage(0, "");
+        setMessage(1, "");
 
-        setMessage("",0);
-        setMessage("",1);
-
-        boolean b=true;
-        if(user.equals("")){
-            setMessage("Campo username vuoto",0);
-            b=false;
+        boolean b = true;
+        if (user.isBlank()) {
+            setMessage(0, "Campo username vuoto");
+            b = false;
         }
 
-        if(password.equals("")){
-            setMessage("Campo password vuoto",1);
-            b=false;
+        if (password.isBlank()) {
+            setMessage(1, "Campo password vuoto");
+            b = false;
         }
         return b;
     }
@@ -92,18 +91,18 @@ public class CredenzialiDB {
      * @param conferma_password
      * @return
      */
-    public static boolean isValid(String password,String conferma_password){
+    public static boolean isValid(String password, String conferma_password) {
+        boolean b = false;
 
-        boolean b=false;
-        if(isFull()) {
-            b=true;
-            setMessage("",0);
-            setMessage("",1);
-            if (!password.equals(getPassword())) {
-                setMessage("password incorretta", 0);
+        if (isFull()) {
+            b = true;
+            setMessage(0, "");
+            setMessage(1, "");
+            if (!password.equals(CredenzialiDB.password)) {
+                setMessage(0, "Password incorretta");
                 b = false;
             } else if (!password.equals(conferma_password)) {
-                setMessage("Le due password non coincidono", 1);
+                setMessage(1, "Le due password non coincidono");
                 b = false;
             }
         }

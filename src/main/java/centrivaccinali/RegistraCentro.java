@@ -6,6 +6,7 @@
 package centrivaccinali;
 
 
+import shared.ClientGUI;
 import shared.Utility;
 
 import javax.swing.*;
@@ -91,6 +92,7 @@ public class RegistraCentro extends Registrazioni {
      */
     private void initWindow() {
         settings("Registra Centro Vaccinale");
+        ClientGUI.setCurrentWindow(this);
 
         layered_pane.add(nome_label, 2, 0);
         layeredPaneSettings(0, new Rectangle(first_row_x, first_row_y,              //nome_label
