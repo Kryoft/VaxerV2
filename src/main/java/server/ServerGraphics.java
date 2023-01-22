@@ -6,41 +6,43 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Classe astratta che estende l'Interfaccia <code> JFrame</code>,utile per generalizzare alcune variabili riguardanti l'interfaccia grafica
+ * Classe astratta che estende l'Interfaccia <code>JFrame</code>, utile per generalizzare
+ * alcune variabili riguardanti l'interfaccia grafica
+ *
  * @author Daniele Caspani
  */
-
 public abstract class ServerGraphics extends JFrame implements ActionListener {
 
     /**
-     * dimensione standard delle caselle di testo
+     * Dimensione standard delle caselle di testo
      */
     protected final int width_text = 310;
 
     /**
-     * dimensione standard delle <code>JLabel</code>
+     * Dimensione standard delle <code>JLabel</code>
      */
     protected final int width_label = 250;
 
     /**
-     * dimensioni calcolate del proprio display
+     * Dimensioni calcolate del proprio display
      */
     protected int display_width = Utility.getDisplayWidth(),
             display_height = Utility.getDisplayHeight();
 
     /**
-     * dimensioni relative ai bottoni
+     * Dimensioni relative ai bottoni
      */
     protected final int base_height = 40,
             width_buttons = 200;
+
     /**
-     * bordo standard
+     * Bordo standard
      */
     protected Border border;
+
     /**
      * Contenitore che utilizza più livelli d'inserimento.
      */
@@ -70,7 +72,6 @@ public abstract class ServerGraphics extends JFrame implements ActionListener {
      *
      * @param title Titolo della finestra
      */
-
     protected void settings(String title) {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         //setResizable(false);  // Da rimuovere se si vuole permettere il ridimensionamento!
@@ -102,13 +103,6 @@ public abstract class ServerGraphics extends JFrame implements ActionListener {
 
         layered_pane.add(panel, 0, 0);
         layered_pane.add(background_panel, 1, 0);
-
     }
 
-    /**
-     * permette di gestire gli eventi relativi all'interfaccia grafica
-     * @param e the event to be processed
-     */
-
-    public abstract void actionPerformed(ActionEvent e);
 }

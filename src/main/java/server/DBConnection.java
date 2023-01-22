@@ -14,9 +14,8 @@ import java.util.Arrays;
 import static server.CredenzialiDB.message;
 
 /**
- * Classe che estende <code> ServerGraphics</code> e viene utilizzata dal server per verificare il corretto accesso al database.
+ * Classe che estende <code>ServerGraphics</code> e viene utilizzata dal server per accedere al DBMS.
  */
-
 public class DBConnection extends ServerGraphics {
 
     /**
@@ -27,7 +26,7 @@ public class DBConnection extends ServerGraphics {
             conferma_password_label = new JLabel("CONFERMA PASSWORD:");
 
     /**
-     * <code>JTextField</code> utilizzate per definire la casella di testo dello username.
+     * <code>JTextField</code> utilizzato per definire la casella di testo dello username.
      */
     private final JTextField user_text = new JTextField();
 
@@ -53,8 +52,7 @@ public class DBConnection extends ServerGraphics {
             second_column = first_row_x + width_label + margin,
             second_row_x = (display_width / 2) - (width_text + margin * 4),
             second_row_y = (int) (0.2 * display_height) + margin_y,
-
-    third_row_x = (display_width / 2) - (width_text + margin * 4),
+            third_row_x = (display_width / 2) - (width_text + margin * 4),
             third_row_y = (int) (0.2 * display_height) + margin_y * 2,
             fourth_row_x = second_column - 200,
             fourth_row_y = (int) (0.2 * display_height) + margin_y * 3;
@@ -69,7 +67,7 @@ public class DBConnection extends ServerGraphics {
     }
 
     /**
-     * Permette la definizione dell' interfaccia grafica tramite la classe <code> JFrame</code>.
+     * Inserisce i componenti necessari nella finestra e la rende visibile.
      *
      * @author Daniele Caspani
      */
@@ -117,7 +115,8 @@ public class DBConnection extends ServerGraphics {
     }
     /**
      * Metodo ereditato dall'interfaccia <code>ActionListener</code>
-     * @author Daniele Caspani, Marceca Manuel
+     *
+     * @author Daniele Caspani, Marceca Manuel, Cristian Corti
      */
     @Override
     public void actionPerformed(ActionEvent e) {

@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DBClient {
+public abstract class DBClient {
 
     /**
-     * Metodo utilizzato per inserire un oggetto di tipo <code>CentroVaccinale</code> nel database, tabella CENTROVACCINI
+     * Metodo utilizzato per inserire un oggetto di tipo <code>CentroVaccinale</code> nel database, tabella CENTRI_VACCINALI
      *
      * @param centro l'oggetto <code>CentroVaccinale</code> da inserire
      * @author Manuel Marceca
@@ -132,7 +132,7 @@ public class DBClient {
     }
 
     public static String getCfFromUsername(String username) {
-        String cod_fiscale = "";
+        String cod_fiscale;
         ArrayList<String[]> lista;
         String[] attributi = {"cod_fiscale"};
         try {
@@ -178,7 +178,7 @@ public class DBClient {
 
     public static ArrayList<EventoAvverso> getSegnalazioniByCentro(String nome_centro) {
         String[] attributi = {"nome_evento","indice","note","cod_fiscale"};
-        ArrayList<String[]> lista = null;
+        ArrayList<String[]> lista;
         int id_centro = getIdCentroByName(nome_centro);
         String id_centro_string = String.valueOf(id_centro);
         int indice;
@@ -304,7 +304,7 @@ public class DBClient {
     public static ArrayList<String> cercaCentriByNome(String nome_centro) {
             ArrayList<String> nomi_trovati = new ArrayList<>();
             String[] attributi = {"Nome"};
-            ArrayList<String[]> lista = null;
+            ArrayList<String[]> lista;
             try {
                 lista = ClientGUI.dbobj.selectData(SelectQuery.cercaCentri(nome_centro), attributi);
                 for (String[] strings : lista) {

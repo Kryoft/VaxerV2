@@ -7,40 +7,41 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 /**
- * classe che implementa <code>DBInterface</code>, utilizzata per ridefinire
- * i metodi di quest'ultima e quindi esposta sul servizio remoto <code>rmi</code>
+ * Classe che implementa <code>DBInterface</code>, utilizzata per ridefinire
+ * i metodi di quest'ultima e quindi esposta sul servizio remoto <code>RMI</code>
  */
 public class DBManager implements DBInterface, Remote {
 
     /**
-     * esegue le operazioni di update riguardanti il database (In particolare le operazioni di inserimento)
-     * @param query Stringa che contiene la Query da eseguire
-     * @param type tipo di errore che si può verificare
-     * @throws RemoteException
+     * Esegue le operazioni di update riguardanti il database (in particolare le operazioni d'inserimento)
+     *
+     * @param query stringa che contiene la query da eseguire
+     * @param source_window finestra da cui il comando viene chiamato
+     * @throws RemoteException nel caso di problemi con RMI
      */
     @Override
-    public void upData(String query, String type) throws RemoteException {
+    public void upData(String query, String source_window) throws RemoteException {
         Connection connection;
         try {
-            connection = connected(type, CredenzialiDB.getUser(), CredenzialiDB.getPassword());
+            connection = connected(source_window, CredenzialiDB.getUser(), CredenzialiDB.getPassword());
             Statement statement = connection.createStatement();
             statement.executeUpdate(query);
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            new DBException(type,e.getSQLState(),e.getMessage());
+            new DBException(source_window, e.getSQLState(), e.getMessage());
         }
     }
 
     /**
-     * metodo che gestisce le query di Select
-     * @param query Stringa che contiene la query da eseguire
-     * @param attributi stringa contenente i campi del database
-     * @return Struttura dati contenente i risultati restituiti dalla query
-     * @throws RemoteException
+     * Metodo che gestisce le query di Select
+     *
+     * @param query stringa che contiene la query da eseguire
+     * @param attributi stringa contenente i campi/attributi del database
+     * @return una struttura dati ArrayList contenente i risultati restituiti dalla query
+     * @throws RemoteException nel caso di problemi con RMI
      */
     @Override
     public ArrayList<String[]> selectData(String query, String[] attributi) throws RemoteException {
@@ -62,16 +63,17 @@ public class DBManager implements DBInterface, Remote {
             statement.close();
             connection.close();
         } catch (SQLException e) {
-            new DBException("",e.getSQLState(),e.getMessage());
+            new DBException("", e.getSQLState(), e.getMessage());
         }
         return lista;
     }
 
     /**
-     *metodo utilizzato per verificare che una data query non restituisca tuple
-     * @param query Stringa contenente la query da eseguire
-     * @return
-     * @throws RemoteException
+     * Metodo utilizzato per verificare che una data query non restituisca tuple
+     *
+     * @param query stringa contenente la query da eseguire
+     * @return <code>true</code> nel caso esiste una tupla successiva nel Database, <code>false</code> altrimenti.
+     * @throws RemoteException nel caso di problemi con RMI
      */
     @Override
      public boolean resultExists(String query) throws RemoteException {
@@ -87,21 +89,23 @@ public class DBManager implements DBInterface, Remote {
             connection.close();
             return b;
         } catch (SQLException e) {
-            new DBException("",e.getSQLState(),e.getMessage());
+            new DBException("", e.getSQLState(), e.getMessage());
             return false;
         }
-
     }
 
     /**
      * Metodo utilizzato per connettersi con il database
-     * @param type tipo di errore che si può verificare
+     *
+     * @param source_window finestra da cui il comando viene chiamato
      * @param username username utilizzato dal server per accedere al database
-     * @param password
-     * @return oggetto contenente un'istanza di connessione con il database
-     * @throws RemoteException
+     * @param password password del database
+     * @return un oggetto di tipo <code>Connection</code> contenente un'istanza di connessione con il database
+     * @throws RemoteException nel caso di problemi con RMI
+     *
+     * @see Connection
      */
-    protected static Connection connected(String type, String username, String password) throws RemoteException {
+    protected static Connection connected(String source_window, String username, String password) throws RemoteException {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(
@@ -112,7 +116,7 @@ public class DBManager implements DBInterface, Remote {
                 System.out.println("Failed to make connection!");
             }
         } catch (SQLException e) {
-            new DBException(type,e.getSQLState(),e.getMessage());
+            new DBException(source_window, e.getSQLState(), e.getMessage());
         }
 
         return connection;

@@ -1,63 +1,75 @@
 package server;
 
 /**
- * Si tratta di una classe utile per memorizzare user e password del db
+ * Classe astratta utile a memorizzare username e password per l'accesso al Database
  */
-
 public abstract class CredenzialiDB {
 
     /**
-     * user del database
+     * Username utilizzato per accedere al database
      */
     private static String user = "";
 
     /**
-     * password del database
+     * Password del database
      */
     private static String password = "";
 
     /**
-     * array di stringhe che contiene gli errori
+     * Array di stringhe utilizzato a contenere gli errori
      */
     public static String[] message = new String[2];
 
     /**
-     * restituisce password
-     * @return password
+     * Restituisce la password del database
+     *
+     * @return la password del database
      */
     public static String getPassword() {
         return password;
     }
 
     /**
-     * metodo che restituisce un array di stringhe contenente i vari errori
-     * @param valore
-     * @param indice
+     * Metodo che imposta un messaggio d'errore in un array di stringhe
+     *
+     * @param indice l'indice dell'array di cui si vuole modificare il messaggio
+     * @param valore il messaggio d'errore
+     *
+     * @return <code>true</code> o <code>false</code> rispettivamente nel caso in cui il messaggio
+     * è stato impostato oppure no. Il messaggio non viene impostato (e quindi questo metodo restituisce
+     * <code>false</code>) nel caso l'indice specificato come parametro sia < 0 o maggiore dei
+     * valori indice validi per l'array di stringhe.
      */
-    public static void setMessage(int indice, String valore){
-        message[indice] = valore ;
+    public static boolean setMessage(int indice, String valore) {
+        if (indice >= 0 && indice < message.length) {
+            message[indice] = valore;
+            return true;
+        }
+        return false;
     }
 
     /**
-     * permette di settare la password
-     * @param password
+     * Permette di settare la password
+     *
+     * @param password la password da impostare
      */
-
     public static void setPassword(String password) {
         CredenzialiDB.password = password;
     }
 
     /**
-     * restituisce lo username inserito
-     * @return user
+     * Restituisce lo username inserito
+     *
+     * @return lo username memorizzato da questo oggetto
      */
     public static String getUser() {
         return user;
     }
 
     /**
-     * permette di settare il valore della variabile <code>user</code>
-     * @param user
+     * Permette di settare il valore dello username
+     *
+     * @param user lo username desiderato
      */
 
     public static void setUser(String user) {
@@ -65,8 +77,9 @@ public abstract class CredenzialiDB {
     }
 
     /**
-     * metodo per verificare se i campi siano effettivamente stati riempiti
-     * @return
+     * Metodo per verificare se i campi (user e password) siano effettivamente stati riempiti
+     *
+     * @return <code>false</code> nel caso almeno uno dei campi (user o password) sia vuoto, <code>true</code> altrimenti
      */
     public static boolean isFull() {
         setMessage(0, "");
@@ -86,10 +99,12 @@ public abstract class CredenzialiDB {
     }
 
     /**
-     * metodo utilizzato per verificare se non ci sono errori relativi alla conferma della password
-     * @param password
-     * @param conferma_password
-     * @return
+     * Metodo utilizzato per verificare se non ci sono errori relativi alla conferma della password
+     *
+     * @param password la password scritta nel campo di testo relativo alla password
+     * @param conferma_password la password scritta nel campo di testo relativo alla conferma della password
+     * @return <code>true</code> nel caso tutti i campi siano stati riempiti correttamente e le due
+     * password coincidano, <code>false</code> altrimenti
      */
     public static boolean isValid(String password, String conferma_password) {
         boolean b = false;

@@ -6,13 +6,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.net.UnknownHostException;
 import java.rmi.AlreadyBoundException;
-import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- * classe che estende <code>ServerGraphics (e quindi JFrame)</code>
- * che serve a stabilire i parametri di comunicazione con il client (porta e IndirizzoIp)
+ * Classe che estende <code>ServerGraphics</code> (e quindi <code>JFrame</code>)
+ * utilizzata pe stabilire i parametri di comunicazione con il client (Indirizzo IP e porta)
  */
 
 public class RemoteManager extends ServerGraphics implements Remote {
@@ -24,7 +23,7 @@ public class RemoteManager extends ServerGraphics implements Remote {
                             unknown_host_exception = "Server Host Irraggiungibile";
 
     /**
-     * <code>JLabel</code> per indirizzo ip e porta del server
+     * <code>JLabel</code> per indirizzo IP e porta del server
      */
     private final JLabel ip_label = new JLabel("INDIRIZZO IP:"),
                             porta_label = new JLabel("PORTA:");
@@ -33,23 +32,22 @@ public class RemoteManager extends ServerGraphics implements Remote {
      * Caselle di Testo di tipo <code>JTextField</code> per indirizzo ip e porta del server
      */
     private JTextField ip_text = new JTextField(""),
-                                    porta_text = new JTextField(RemoteInformation.getPORT());
+                        porta_text = new JTextField(RemoteInformation.getPORT());
 
     /**
-     * bottoni che corrispondono ad attivazione e disattivazione del server
+     * Bottoni che corrispondono ad attivazione e disattivazione del server
      */
     protected JButton attiva = new JButton("Attiva"),
                         disattiva = new JButton("Disattiva");
 
     /**
-     * dimensione width degli oggetti <code>JButton</code>
+     * Dimensione width degli oggetti <code>JButton</code>
      */
     private final int width_button = 150;
 
     /** Margine standardizzato e proporzionato a partire dal mio schermo, che ha display width pari a 1536
-     *   @author Marceca Manuel
+     *  @author Marceca Manuel
      */
-
     private final int margin = display_width * 10 / 1536,
             margin_y = display_height/8,
             first_row_x = (display_width/2) - (width_text + margin*4),
@@ -59,20 +57,20 @@ public class RemoteManager extends ServerGraphics implements Remote {
             second_row_y = (int)(0.3 * display_height) + margin_y,
             third_row_x = second_column - 200,
             third_row_y = (int)(0.3 * display_height) + margin_y*2,
-
             x_disable= second_column - width_button + width_text;
+
     public RemoteManager() {
         try {
             initWindow();
         } catch (RemoteException e) {
-            JOptionPane.showMessageDialog(this,e.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         } catch (AlreadyBoundException e) {
-            JOptionPane.showMessageDialog(this,already_bound_exception,"Errore",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, already_bound_exception, "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     /**
-     * Permette l'inizializzazione dei componenti JFrame per quanto riguarda la registrazione del centro vaccinale
+     * Inserisce i componenti necessari nella finestra e la rende visibile.
      *
      * @author Daniele Caspani, Manuel Marceca
      */
@@ -132,7 +130,7 @@ public class RemoteManager extends ServerGraphics implements Remote {
     /**
      * Metodo ereditato dall'interfaccia <code>ActionListener</code>
      *
-     * @param e
+     * @param e evento che si è verificato
      */
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -162,8 +160,6 @@ public class RemoteManager extends ServerGraphics implements Remote {
                 AcceptServer.disattiva();
             } catch (RemoteException ex) {
                 JOptionPane.showMessageDialog(this,ex.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
-            } catch (NotBoundException ex) {
-                JOptionPane.showMessageDialog(this,already_bound_exception,"Errore",JOptionPane.ERROR_MESSAGE);
             }
             JOptionPane.showMessageDialog(this,"Il server è stato disabilitato");
         }
