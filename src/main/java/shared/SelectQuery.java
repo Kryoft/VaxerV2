@@ -6,6 +6,12 @@ import cittadini.Cittadino;
 import cittadini.EventoAvverso;
 import cittadini.Vaccinato;
 
+/**
+ * Classe associata a DBClient che costruisce le query necessarie alla comunicazione con il database per mezzo
+ * del server. I nomi dei metodi corrispondono ai rispettivi metodi di <code>DBClient</code>.
+ *
+ * @see DBClient
+ */
 public class SelectQuery {
 
     //TABELLE

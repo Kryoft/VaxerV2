@@ -23,6 +23,9 @@ import java.rmi.registry.Registry;
  */
 public class ClientGUI extends JFrame implements ActionListener {
 
+    /**
+     * È il riferimento all'interfaccia proxy utilizzata dal client per accedere ai servizi del server.
+     */
     public static DBInterface dbobj=null;
 
     private int display_width = Utility.getDisplayWidth(),
@@ -62,6 +65,12 @@ public class ClientGUI extends JFrame implements ActionListener {
         initWindow();
     }
 
+    /**
+     * Metodo utile per inizializzare la finestra JFrame e il <strong>LayeredPane</strong>,
+     * al quale verranno aggiunti tutti i vari componenti su diversi livelli.
+     *
+     * @author Cristian Corti
+     */
     private void settings() {
         setMinimumSize(new Dimension(minimum_width, minimum_height));
         setSize(window_width, window_height);
@@ -75,6 +84,13 @@ public class ClientGUI extends JFrame implements ActionListener {
         Utility.setWindowLogo(this, "logo.png");
     }
 
+
+    /**
+     * Metodo utile per l'inizializzazione dei componenti JFrame riguardanti l'inserimento
+     * degli eventi avversi.
+     *
+     * @author Cristian Corti
+     */
     private void initWindow() {
         settings();
 
@@ -88,7 +104,7 @@ public class ClientGUI extends JFrame implements ActionListener {
                         first_row_y,
                         instructions_label.getWidth(),
                         instructions_label.getHeight()),
-                20, 1);
+                        20, 1);
 
         ip_label.setSize(labels_width, base_height);
         background_panel.add(ip_label, 2, 0);
@@ -96,7 +112,7 @@ public class ClientGUI extends JFrame implements ActionListener {
                         second_row_y,
                         ip_label.getWidth(),
                         ip_label.getHeight()),
-                18, 0);
+                        18, 0);
 
         txt_ip.setSize(txt_width, base_height);
         txt_ip.setHorizontalAlignment(JTextField.CENTER);
@@ -104,7 +120,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         panelSettings(0, new Rectangle(txt_x,
                         second_row_y,
                         txt_ip.getWidth(), txt_ip.getHeight()),
-                18, 0);
+                        18, 0);
 
         port_label.setSize(labels_width, base_height);
         background_panel.add(port_label, 2, 0);
@@ -112,7 +128,7 @@ public class ClientGUI extends JFrame implements ActionListener {
                         third_row_y,
                         port_label.getWidth(),
                         port_label.getHeight()),
-                18, 0);
+                        18, 0);
 
         txt_port.setSize(txt_width, base_height);
         txt_port.setHorizontalAlignment(JTextField.CENTER);
@@ -120,69 +136,19 @@ public class ClientGUI extends JFrame implements ActionListener {
         panelSettings(0, new Rectangle(txt_x,
                         third_row_y,
                         txt_port.getWidth(), txt_port.getHeight()),
-                18, 0);
+                        18, 0);
 
         connetti.setSize(button_width, button_height);
         background_panel.add(connetti, 2, 0);
         panelSettings(0, new Rectangle(button_x,
                         fourth_row_y,
                         connetti.getWidth(), connetti.getHeight()),
-                20, 1);
+                        20, 1);
 
         connetti.addActionListener(this);
-
-        /*
-        instructions_label.setSize(350, 30);
-        background_panel.add(instructions_label, 2, 0);
-        panelSettings(0, new Rectangle((window_width/2) - (instructions_label.getWidth()/2),
-                                                first_row_y,
-                                                instructions_label.getWidth(),
-                                                instructions_label.getHeight()),
-                                                20, 1);
-
-        ip_label.setSize(50, 20);
-        background_panel.add(ip_label, 2, 0);
-        panelSettings(0, new Rectangle((window_width/2) - (ip_label.getWidth()/2) - window_width/5,
-                                                second_row_y,
-                                                ip_label.getWidth(),
-                                                ip_label.getHeight()),
-                                                18, 0);
-
-        txt_ip.setSize(txt_width, base_height);
-        txt_ip.setHorizontalAlignment(JTextField.CENTER);
-        background_panel.add(txt_ip, 2, 0);
-        panelSettings(0, new Rectangle((window_width/2) - txt_width/2,
-                                                (second_row_y - ((Math.abs(ip_label.getHeight() - base_height)/2))),
-                                                txt_width, base_height),
-                                                18, 0);
-
-        port_label.setSize(100, 20);
-        background_panel.add(port_label, 2, 0);
-        panelSettings(0, new Rectangle((window_width/2) - (port_label.getWidth()/2) - window_width/5,
-                                                third_row_y,
-                                                port_label.getWidth(),
-                                                port_label.getHeight()),
-                                                18, 0);
-
-        txt_port.setSize(txt_width, base_height);
-        txt_port.setHorizontalAlignment(JTextField.CENTER);
-        background_panel.add(txt_port, 2, 0);
-        panelSettings(0, new Rectangle((window_width/2) - txt_width/2,
-                                                (third_row_y - ((Math.abs(port_label.getHeight() - base_height)/2))),
-                                                txt_width, base_height),
-                                                18, 0);
-
-        connetti.setSize(button_width, button_height);
-        background_panel.add(connetti, 2, 0);
-        panelSettings(0, new Rectangle((window_width/2) - button_width/2,
-                                                (int) (window_height/1.9),
-                                                button_width, button_height),
-                                                20, 1);
-
-        connetti.addActionListener(this);
-        */
         setVisible(true);
     }
+
 
     public static void main(String[] args) {
         new ClientGUI();
