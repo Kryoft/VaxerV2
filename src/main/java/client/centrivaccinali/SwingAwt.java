@@ -31,14 +31,11 @@ public abstract class SwingAwt {
 
         if (vaccino_combo.getSelectedItem() == "JJ") {
             vaccino = Vaccinato.Vaccino.JJ;
-        }
-        if (vaccino_combo.getSelectedItem() == "AstraZeneca") {
+        } else if (vaccino_combo.getSelectedItem() == "AstraZeneca") {
             vaccino = Vaccinato.Vaccino.AstraZeneca;
-        }
-        if (vaccino_combo.getSelectedItem() == "Moderna") {
+        } else if (vaccino_combo.getSelectedItem() == "Moderna") {
             vaccino = Vaccinato.Vaccino.Moderna;
-        }
-        if (vaccino_combo.getSelectedItem() == "Pfizer") {
+        } else if (vaccino_combo.getSelectedItem() == "Pfizer") {
             vaccino = Vaccinato.Vaccino.Pfizer;
         }
         return vaccino;
@@ -75,11 +72,9 @@ public abstract class SwingAwt {
         CentroVaccinale.Tipologia tipologia = null;
         if (tipologia_combo.getSelectedItem() == "Ospedaliero") {
             tipologia = CentroVaccinale.Tipologia.OSPEDALIERO;
-        }
-        if (tipologia_combo.getSelectedItem() == "Aziendale") {
+        } else if (tipologia_combo.getSelectedItem() == "Aziendale") {
             tipologia = CentroVaccinale.Tipologia.AZIENDALE;
-        }
-        if (tipologia_combo.getSelectedItem() == "Hub") {
+        } else if (tipologia_combo.getSelectedItem() == "Hub") {
             tipologia = CentroVaccinale.Tipologia.HUB;
         }
         return tipologia;
@@ -97,11 +92,9 @@ public abstract class SwingAwt {
 
         if (qualifier_combo.getSelectedItem() == "Via") {
             qualifier = IndirizzoComposto.Qualificatore.VIA;
-        }
-        if (qualifier_combo.getSelectedItem() == "Viale") {
+        } else if (qualifier_combo.getSelectedItem() == "Viale") {
             qualifier = IndirizzoComposto.Qualificatore.VIALE;
-        }
-        if (qualifier_combo.getSelectedItem() == "Piazza") {
+        } else if (qualifier_combo.getSelectedItem() == "Piazza") {
             qualifier = IndirizzoComposto.Qualificatore.PIAZZA;
         }
         return qualifier;

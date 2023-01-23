@@ -131,7 +131,7 @@ public class DBConnection extends ServerGraphics {
 
             if (CredenzialiDB.isValid(password, conferma_password)) {
                 try {
-                    conn = DBManager.connected("", user, password);
+                    conn = DBManager.connected("DBConnection", user, password);
 
                     if (conn != null) {
                         SwingAwt.modificaBordo(user_text);

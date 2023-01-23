@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 /**
  * Classe astratta contenente tutti i metodi utili alla comunicazione con il database per mezzo del server.
  */
-public abstract class DBClient {
+public abstract class ClientToServerRequests {
 
     /**
      * Metodo utilizzato per inserire un oggetto di tipo <code>CentroVaccinale</code> nel database, tabella CENTRI_VACCINALI
@@ -180,7 +180,7 @@ public abstract class DBClient {
                 int identificativo = Integer.parseInt(lista.get(0)[4]);
                 Login login = new Login(lista.get(0)[1], lista.get(0)[2]);
 
-                iscritto = new Cittadino(lista.get(1)[0], login, lista.get(0)[3], identificativo,
+                iscritto = new Cittadino(lista.get(0)[0], login, lista.get(0)[3], identificativo,
                         lista.get(0)[5], lista.get(0)[6], lista.get(0)[7]);
             }
         } catch (NullPointerException | RemoteException ex) {

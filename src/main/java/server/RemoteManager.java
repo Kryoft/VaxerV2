@@ -20,7 +20,8 @@ public class RemoteManager extends ServerGraphics implements Remote {
      * Stringhe utilizzate per i messaggi di errore
      */
     private final String already_bound_exception = "Nome già utilizzato per un altro bind",
-                            unknown_host_exception = "Server Host Irraggiungibile";
+                            unknown_host_exception = "Server Host Irraggiungibile",
+                            number_format_exception = "La porta deve essere un numero fino ad un massimo di 65535";
 
     /**
      * <code>JLabel</code> per indirizzo IP e porta del server
@@ -32,7 +33,7 @@ public class RemoteManager extends ServerGraphics implements Remote {
      * Caselle di Testo di tipo <code>JTextField</code> per indirizzo ip e porta del server
      */
     private JTextField ip_text = new JTextField(""),
-                        porta_text = new JTextField(RemoteInformation.getPORT());
+                        porta_text = new JTextField(String.valueOf(RemoteInformation.getPORT()));
 
     /**
      * Bottoni che corrispondono ad attivazione e disattivazione del server
@@ -86,8 +87,6 @@ public class RemoteManager extends ServerGraphics implements Remote {
         layeredPaneSettings(0, new Rectangle(second_column, first_row_y,                    //ip_text
                 width_text, base_height), 15, 1, false);
 
-//        ip.setEnabled(false);
-
         layered_pane.add(porta_label, 2, 0);
         layeredPaneSettings(0, new Rectangle(second_row_x, second_row_y,                    //porta_label
                 width_label, base_height), 16, 1, false);
@@ -118,13 +117,12 @@ public class RemoteManager extends ServerGraphics implements Remote {
         attiva.addActionListener(this);
         disattiva.addActionListener(this);
         background_panel.setBorder(new LineBorder(c, 60, false));
+
+        RemoteInformation.setIpToLocalHost();
+        ip_text.setText(RemoteInformation.getIpAddress());
+        ip_text.setEditable(false);
+
         setVisible(true);
-        try {
-            RemoteInformation.setIpToLocalHost();
-            ip_text.setText(RemoteInformation.getIpAddress());
-        } catch (UnknownHostException | NullPointerException un) {
-            JOptionPane.showMessageDialog(this, unknown_host_exception,"Errore",JOptionPane.ERROR_MESSAGE);
-        }
     }
 
     /**
@@ -135,33 +133,32 @@ public class RemoteManager extends ServerGraphics implements Remote {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == attiva) {
-            disattiva.setEnabled(true);
-            attiva.setEnabled(false);
             try {
-                RemoteInformation.setIpAddress(ip_text.getText());
-                RemoteInformation.setPORT(porta_text.getText());
+                RemoteInformation.setPORT(Integer.parseInt(porta_text.getText().strip()));
                 AcceptServer.attiva();
+                disattiva.setEnabled(true);
+                attiva.setEnabled(false);
+                JOptionPane.showMessageDialog(this,"Il server è attivo");
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, number_format_exception, "Errore", JOptionPane.ERROR_MESSAGE);
             } catch (AlreadyBoundException ex) {
-                JOptionPane.showMessageDialog(this,already_bound_exception,"Errore",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, already_bound_exception, "Errore", JOptionPane.ERROR_MESSAGE);
             } catch (RemoteException ex) {
-                JOptionPane.showMessageDialog(this,ex.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this,ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
             } catch (UnknownHostException ex) {
-                JOptionPane.showMessageDialog(this, unknown_host_exception,"Errore",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, unknown_host_exception, "Errore", JOptionPane.ERROR_MESSAGE);
             }
-            JOptionPane.showMessageDialog(this,"Il server è attivo");
         }
 
         if (e.getSource() == disattiva) {
-            attiva.setEnabled(true);
-            disattiva.setEnabled(false);
             try {
-                RemoteInformation.setIpAddress(ip_text.getText());
-                RemoteInformation.setPORT(porta_text.getText());
                 AcceptServer.disattiva();
+                attiva.setEnabled(true);
+                disattiva.setEnabled(false);
+                JOptionPane.showMessageDialog(this, "Il server è stato disabilitato");
             } catch (RemoteException ex) {
-                JOptionPane.showMessageDialog(this,ex.getMessage(),"Errore",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
             }
-            JOptionPane.showMessageDialog(this,"Il server è stato disabilitato");
         }
     }
 }

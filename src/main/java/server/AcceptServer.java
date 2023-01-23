@@ -40,9 +40,9 @@ public abstract class AcceptServer {
      * @throws UnknownHostException nel caso l'host sia irraggiungibile
      */
     protected static void attiva() throws AlreadyBoundException,RemoteException, UnknownHostException {
-        registry = LocateRegistry.createRegistry(Integer.parseInt(RemoteInformation.getPORT()));
+        registry = LocateRegistry.createRegistry(RemoteInformation.getPORT());
         obj = new DBManager();
-        stub = (DBInterface) UnicastRemoteObject.exportObject(obj, Integer.parseInt(RemoteInformation.getPORT()));
+        stub = (DBInterface) UnicastRemoteObject.exportObject(obj, RemoteInformation.getPORT());
         registry.rebind("DBInterface", stub);
     }
 

@@ -5,10 +5,10 @@
  */
 package client.cittadini;
 
+import client.ClientToServerRequests;
 import client.centrivaccinali.RegistraVaccinato;
 import client.centrivaccinali.SwingAwt;
 import client.ClientGUI;
-import client.DBClient;
 
 import javax.swing.*;
 import java.awt.*;
@@ -146,7 +146,7 @@ public class RicercaNomeCentro extends Ricerca {
         list_model.removeAllElements();
         centri_trovati.clear();
         String nome_centro = centro_txt.getText();
-        centri_trovati = DBClient.cercaCentriByNome(nome_centro);
+        centri_trovati = ClientToServerRequests.cercaCentriByNome(nome_centro);
 
         int num_risultati = centri_trovati.size();
 
@@ -172,7 +172,7 @@ public class RicercaNomeCentro extends Ricerca {
      */
     private void confermaScelta() {
         String centro_selezionato = lista_centri.getSelectedValue();
-        strutture_vaccinali = DBClient.getCentroVaccinaleByName(centro_selezionato);
+        strutture_vaccinali = ClientToServerRequests.getCentroVaccinaleByName(centro_selezionato);
         if (strutture_vaccinali == null)
             JOptionPane.showMessageDialog(this, "Non e' stato selezionato alcun elemento", "Errore", JOptionPane.INFORMATION_MESSAGE);
         else {

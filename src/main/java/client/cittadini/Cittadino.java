@@ -199,15 +199,14 @@ public class Cittadino {
      * @param codice_fiscale codice fiscale
      * @param nome
      * @param cognome
-     * @return <code>true</code></ù> se la formattazione è corretta
+     * @return <code>true</code> se la formattazione è corretta
      * @author Daniele Caspani, Manuel Marceca
      * @see Pattern
      * @see Matcher
      */
     public boolean controllaCodiceFiscale(String codice_fiscale, String nome, String cognome) {
-
-        String s_cognome = "";
-        String s_nome = "";
+        String s_cognome;
+        String s_nome;
 
         nome = nome.toUpperCase();
         cognome = cognome.toUpperCase();
@@ -215,14 +214,14 @@ public class Cittadino {
         String consonanti = "";
         String vocali = "";
 
-        for(char c: cognome.toCharArray()){
+        for (char c: cognome.toCharArray()) {
             String l = String.valueOf(c);
-            if(Pattern.compile("[A-Z&&[^AEIOU]]").matcher(l).matches()){
+            if(Pattern.compile("[A-Z&&[^AEIOU]]").matcher(l).matches())
                 consonanti += l;
-            }else if(Pattern.compile("[AEIOU]").matcher(l).matches()){
+            else if(Pattern.compile("[AEIOU]").matcher(l).matches())
                 vocali += l;
-            }
         }
+
         String lettere = consonanti + vocali;
         if(lettere.length() >= 3){s_cognome = lettere.substring(0,3);}
         else{s_cognome = lettere;}
@@ -231,24 +230,24 @@ public class Cittadino {
 
         consonanti = "";
         vocali = "";
-        for(char c: nome.toCharArray()){
+        for(char c: nome.toCharArray()) {
             String l = String.valueOf(c);
-            if(Pattern.compile("[A-Z&&[^AEIOU]]").matcher(l).matches()){
+            if(Pattern.compile("[A-Z&&[^AEIOU]]").matcher(l).matches())
                 consonanti += l;
-            }else if(Pattern.compile("[AEIOU]").matcher(l).matches()){
+            else if(Pattern.compile("[AEIOU]").matcher(l).matches())
                 vocali += l;
-            }
         }
 
         if(consonanti.length() >= 4){s_nome = "" +  consonanti.charAt(0) + consonanti.charAt(2) + consonanti.charAt(3);}
         else if(consonanti.length() == 3){s_nome = consonanti;}
         else {
             lettere = consonanti + vocali;
-            if (lettere.length() >= 3) {s_nome = lettere.substring(0, 3);}
-            else {s_nome = lettere;}
-            while (s_nome.length() < 3) {
+            if (lettere.length() >= 3)
+                s_nome = lettere.substring(0, 3);
+            else
+                s_nome = lettere;
+            while (s_nome.length() < 3)
                 s_nome += "X";
-            }
         }
 
 

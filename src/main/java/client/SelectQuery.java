@@ -7,10 +7,10 @@ import client.cittadini.EventoAvverso;
 import client.cittadini.Vaccinato;
 
 /**
- * Classe associata a DBClient che costruisce le query necessarie alla comunicazione con il database per mezzo
- * del server. I nomi dei metodi corrispondono ai rispettivi metodi di <code>DBClient</code>.
+ * Classe associata a ClientToServerRequests che costruisce le query necessarie alla comunicazione con il database per mezzo
+ * del server. I nomi dei metodi corrispondono ai rispettivi metodi di <code>ClientToServerRequests</code>.
  *
- * @see DBClient
+ * @see ClientToServerRequests
  */
 public class SelectQuery {
 
@@ -42,7 +42,7 @@ public class SelectQuery {
     }
 
     public static String insertVaccinato(Vaccinato vaccinato){
-        String cod_centro = Integer.toString(DBClient.getIdCentroByName(vaccinato.getNomeCentro()));
+        String cod_centro = Integer.toString(ClientToServerRequests.getIdCentroByName(vaccinato.getNomeCentro()));
 
         String cod_fiscale = putApices(vaccinato.getCodiceFiscale());
         String nome = putApices(vaccinato.getNome());
@@ -67,7 +67,7 @@ public class SelectQuery {
     }
 
     public static String insertEvento(EventoAvverso evento_avverso){
-        String codice_centro = Integer.toString(DBClient.getIdCentroByName(evento_avverso.getNomeCentro()));
+        String codice_centro = Integer.toString(ClientToServerRequests.getIdCentroByName(evento_avverso.getNomeCentro()));
 
         String cod_fiscale = putApices(evento_avverso.getCod_fiscale());
         String cod_centro = putApices(codice_centro);
@@ -130,7 +130,7 @@ public class SelectQuery {
 
     public static String checkEventoGiaSegnalato(EventoAvverso evento){
         String cf = putApices(evento.getCod_fiscale());
-        String id_centro = putApices(String.valueOf(DBClient.getIdCentroByName(evento.getNomeCentro())));
+        String id_centro = putApices(String.valueOf(ClientToServerRequests.getIdCentroByName(evento.getNomeCentro())));
         String nome_evento = putApices(evento.getEvento().toString());
 
         String select = "SELECT * FROM "+ LOG_EVENTI +" " +
@@ -139,7 +139,7 @@ public class SelectQuery {
     }
 
     public static String getValoriPerEventoAvverso(String nome_centro){
-        String cod_centro = putApices(String.valueOf(DBClient.getIdCentroByName(nome_centro)));
+        String cod_centro = putApices(String.valueOf(ClientToServerRequests.getIdCentroByName(nome_centro)));
         String select = "SELECT Nome_Evento, AVG(indice) AS Media_Indici, COUNT(Indice) AS Numero_Segnalazioni,ROUND(stddev_pop(Indice),2) AS std_popolazione " +
                 "FROM "+ LOG_EVENTI +"  WHERE Cod_Centro = "+ cod_centro +" GROUP BY Nome_Evento ORDER BY Numero_Segnalazioni DESC";
         return select;
@@ -147,7 +147,7 @@ public class SelectQuery {
 
     public static String getVaccinatiListByCentro(String nome_centro){
 
-        String id_centro = String.valueOf(DBClient.getIdCentroByName(nome_centro));
+        String id_centro = String.valueOf(ClientToServerRequests.getIdCentroByName(nome_centro));
         String select_vaccinato = "SELECT Data, Vaccino, "+ CENTRI_VACCINALI +".Nome AS Nome_Centro, Identificativo, " +
                 VACCINATI +".Nome AS Nome_Vaccinato, Cognome FROM "+ VACCINATI +" JOIN "+ CENTRI_VACCINALI +" ON Cod_Centro = codice " +
                 "WHERE cod_centro = " + id_centro + ";";

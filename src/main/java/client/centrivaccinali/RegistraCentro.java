@@ -7,7 +7,7 @@ package client.centrivaccinali;
 
 
 import client.ClientGUI;
-import client.DBClient;
+import client.ClientToServerRequests;
 import shared.Utility;
 
 import javax.swing.*;
@@ -163,12 +163,12 @@ public class RegistraCentro extends Registrazioni {
     private void registraCentroVaccinale() {
         String message = null;
         IndirizzoComposto indirizzo;
-        String nome_centro = nome_centro_text.getText();
-        String via = via_text.getText();
+        String nome_centro = nome_centro_text.getText().strip();
+        String via = via_text.getText().strip();
         int numero_civico;
-        String comune = comune_text.getText().toUpperCase();
-        String sigla = sigla_text.getText().toUpperCase();
-        String cap = cap_text.getText();
+        String comune = comune_text.getText().toUpperCase().strip();
+        String sigla = sigla_text.getText().toUpperCase().strip();
+        String cap = cap_text.getText().strip();
         num_civico_text.setBorder(border);
         if (!nome_centro.equals("") && !via.equals("") && !comune.equals("") && !sigla.equals("") && !cap.equals("") && !nome_centro.equals("Nome centro") && !via.equals("Nome Via") && !comune.equals("COMUNE") && !sigla.equals("SIGLA") && !cap.equals("CAP")) {
             SwingAwt.modificaBordo(nome_centro_text);
@@ -215,7 +215,7 @@ public class RegistraCentro extends Registrazioni {
 
                     // Dati validi! Insert nel database...
 
-                    DBClient.insertCentro(nuovo_centro);
+                    ClientToServerRequests.insertCentro(nuovo_centro);
 
                     JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
                     new CentriVaccinaliGUI();

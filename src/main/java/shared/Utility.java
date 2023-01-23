@@ -5,7 +5,7 @@
  */
 package shared;
 
-import client.DBClient;
+import client.ClientToServerRequests;
 import client.centrivaccinali.IndirizzoComposto;
 import client.centrivaccinali.CentroVaccinale;
 import client.cittadini.Cittadino;
@@ -65,11 +65,9 @@ public abstract class Utility {
                 return CentroVaccinale.Tipologia.HUB;
             case "OSPEDALIERO":
                 return CentroVaccinale.Tipologia.OSPEDALIERO;
-            case "AZIENDALE":
-                return CentroVaccinale.Tipologia.AZIENDALE;
 
             default:
-                return CentroVaccinale.Tipologia.OSPEDALIERO;
+                return CentroVaccinale.Tipologia.AZIENDALE;
         }
     }
 
@@ -83,8 +81,6 @@ public abstract class Utility {
      */
     public static IndirizzoComposto.Qualificatore decidiQualificatore(String tipo) {
         switch (tipo.toUpperCase()){
-            case "VIA":
-                return IndirizzoComposto.Qualificatore.VIA;
             case "PIAZZA":
                 return IndirizzoComposto.Qualificatore.PIAZZA;
             case "VIALE":
@@ -111,9 +107,6 @@ public abstract class Utility {
                 return Vaccinato.Vaccino.Moderna;
             case "ASTRAZENECA":
                 return Vaccinato.Vaccino.AstraZeneca;
-            case "PFIZER":
-                return Vaccinato.Vaccino.Pfizer;
-
             default:
                 return Vaccinato.Vaccino.Pfizer;
         }
@@ -128,7 +121,7 @@ public abstract class Utility {
      * @author Manuel Marceca
      */
     public static boolean esisteCentro(String nome_centro) throws SQLException{
-        return DBClient.getCentroVaccinaleByName(nome_centro) != null;
+        return ClientToServerRequests.getCentroVaccinaleByName(nome_centro) != null;
     }
 
     /**
@@ -139,7 +132,7 @@ public abstract class Utility {
      * @author Manuel Marceca
      */
     public static boolean loginOk(Login login) {
-        Cittadino cittadino = DBClient.getCittadinoByUsername(login.getUserId());
+        Cittadino cittadino = ClientToServerRequests.getCittadinoByUsername(login.getUserId());
 
         if(cittadino != null){
             return login.getPassword().equals(cittadino.getLogin().getPassword());
@@ -155,7 +148,7 @@ public abstract class Utility {
      * @author Manuel Marceca
      */
     public static boolean esisteUsername(String username){
-        return DBClient.getCittadinoByUsername(username) != null;
+        return ClientToServerRequests.getCittadinoByUsername(username) != null;
     }
 
 
@@ -168,7 +161,7 @@ public abstract class Utility {
      * @author Manuel Marceca
      */
     public static boolean controlloCoppiaCFId(String codice_fiscale, int id) {
-        Vaccinato vaccinato = DBClient.getVaccinatoByCF(codice_fiscale);
+        Vaccinato vaccinato = ClientToServerRequests.getVaccinatoByCF(codice_fiscale);
         return vaccinato != null && vaccinato.getId() == id;
     }
 

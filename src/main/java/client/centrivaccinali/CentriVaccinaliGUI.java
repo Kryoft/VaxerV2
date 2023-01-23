@@ -49,12 +49,13 @@ public class CentriVaccinaliGUI extends JFrame implements ActionListener {
      * @author Cristian Corti
      */
     private void settings() {
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        // setExtendedState(JFrame.MAXIMIZED_BOTH);  // ingrandisce al massimo la finestra
+
         // istruzioni utili nel caso l'utente voglia ridimensionare la finestra
         setMinimumSize(new Dimension(800, 450));  // non permette alla finestra di essere ridimensionata al di sotto dei valori specificati
         setSize((int) (display_width / 1.5), (int) (display_height / 1.5));
-//        setBounds(100, 100, (int) (display_width / 1.5), (int) (display_height / 1.5));  // sostituita da setSize(...);
-        ////
+        // setBounds(100, 100, (int) (display_width / 1.5), (int) (display_height / 1.5));  // sostituita da setSize(...);
+
         setLocationRelativeTo(null);  // utilizzata per centrare la finestra quando non è maximized
         setTitle("Seleziona Tipo di Utente");
         setFocusable(true);

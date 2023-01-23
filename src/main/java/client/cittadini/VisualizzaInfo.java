@@ -7,7 +7,7 @@ package client.cittadini;
 
 import client.centrivaccinali.CentroVaccinale;
 import client.ClientGUI;
-import client.DBClient;
+import client.ClientToServerRequests;
 import shared.Quadrupla;
 import shared.Utility;
 
@@ -83,7 +83,7 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
         inizio_label = new JLabel("Informazioni Centro " + strutture_vaccinali.getNomeCentro());
         evento_label = new JLabel("Prospetto Riassuntivo Eventi Avversi");
 
-        segnalazioni = DBClient.getSegnalazioniByCentro(strutture_vaccinali.getNomeCentro());
+        segnalazioni = ClientToServerRequests.getSegnalazioniByCentro(strutture_vaccinali.getNomeCentro());
 
         double somma_indici = 0.00d;
         for(EventoAvverso s: segnalazioni){
@@ -94,7 +94,7 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
         double media = numero_segnalazioni == 0 ? 0.00d : somma_indici / numero_segnalazioni;
 
         ArrayList<Quadrupla<String, Float, Integer,Float>> dati_centro =
-                DBClient.getValoriPerEventoAvverso(strutture_vaccinali.getNomeCentro());
+                ClientToServerRequests.getValoriPerEventoAvverso(strutture_vaccinali.getNomeCentro());
 
         num_segnalazioni_label.setText("Numero di Segnalazioni: " + numero_segnalazioni);
         media_label.setText("Severità media: " + new DecimalFormat("0.000").format(media));

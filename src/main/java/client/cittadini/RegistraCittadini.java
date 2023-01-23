@@ -5,10 +5,10 @@
  */
 package client.cittadini;
 
+import client.ClientToServerRequests;
 import client.centrivaccinali.*;
 
 import client.ClientGUI;
-import client.DBClient;
 import shared.Utility;
 
 import javax.swing.*;
@@ -156,14 +156,14 @@ public class RegistraCittadini extends Registrazioni {
     private void registraCittadino() {
         try {
             Utility.run();
-            String nome = nome_txt.getText();
-            String cognome = cognome_txt.getText();
-            String cf = cf_txt.getText().toUpperCase();
-            int id = Integer.parseInt(id_txt.getText());
-            String user = user_txt.getText();
+            String nome = nome_txt.getText().strip();
+            String cognome = cognome_txt.getText().strip();
+            String cf = cf_txt.getText().toUpperCase().strip();
+            int id = Integer.parseInt(id_txt.getText().strip());
+            String user = user_txt.getText().strip();
             String password = password_txt.getText();
-            String email = email_txt.getText();
-            String centro = struttura_vaccinale.getNomeCentro();
+            String email = email_txt.getText().strip();
+            String centro = struttura_vaccinale.getNomeCentro().strip();
             String message = null;
             Cittadino c = new Cittadino();
             Login l;
@@ -194,14 +194,14 @@ public class RegistraCittadini extends Registrazioni {
                         l = new Login(user, password);
                         if (!Utility.esisteUsername(l.getUserId())) {
 
-                            if(!DBClient.checkCFinRegistrati(cf)) {
+                            if(!ClientToServerRequests.checkCFinRegistrati(cf)) {
                                 c = new Cittadino(email, l, centro, id, nome, cognome, cf);
                                 cf_txt.setBorder(border);
                                 id_txt.setBorder(border);
                                 user_txt.setBorder(border);
                                 password_txt.setBorder(border);
 
-                                DBClient.insertIscritto(c);
+                                ClientToServerRequests.insertIscritto(c);
 
                                 JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
                                 new CentriVaccinaliGUI();
@@ -239,7 +239,7 @@ public class RegistraCittadini extends Registrazioni {
                 JOptionPane.showMessageDialog(this, "Riempire tutti i campi", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (NumberFormatException ec) {
-            JOptionPane.showMessageDialog(this, "Errore di formattazione dovuto a valore numerico non rispettato", "Error112", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Errore di formattazione dovuto a valore numerico non rispettato", "Errore", JOptionPane.WARNING_MESSAGE);
         }
     }
 

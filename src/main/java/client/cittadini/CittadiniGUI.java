@@ -5,10 +5,10 @@
  */
 package client.cittadini;
 
+import client.ClientToServerRequests;
 import client.centrivaccinali.CentriVaccinaliGUI;
 import client.ClientGUI;
 import client.centrivaccinali.SwingAwt;
-import client.DBClient;
 import shared.Utility;
 
 import javax.swing.*;
@@ -237,7 +237,7 @@ public class CittadiniGUI extends JFrame implements ActionListener {
                     JComboBox<Object> comboBox = new JComboBox<>(ricerca);
                     int option = JOptionPane.showConfirmDialog(null, comboBox, "Ricerca del centro in cui hai effettuato la vaccinazione", JOptionPane.OK_CANCEL_OPTION);
 
-                    String cod_fiscale = DBClient.getCfFromUsername(login.getUserId());
+                    String cod_fiscale = ClientToServerRequests.getCfFromUsername(login.getUserId());
 
                     if (option == JOptionPane.OK_OPTION) {
                         if (comboBox.getSelectedIndex() == 0) {

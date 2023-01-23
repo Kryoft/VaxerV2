@@ -10,7 +10,7 @@ import client.centrivaccinali.RegistraVaccinato;
 import client.centrivaccinali.SwingAwt;
 
 import client.ClientGUI;
-import client.DBClient;
+import client.ClientToServerRequests;
 
 import javax.swing.*;
 import java.awt.*;
@@ -148,11 +148,11 @@ public class RicercaComuneTipologia extends Ricerca {
         lista_centri.setBackground(Color.LIGHT_GRAY);
         centri_trovati.clear();
         list_model.removeAllElements();
-        String comune = comune_txt.getText().toUpperCase();
+        String comune = comune_txt.getText().toUpperCase().strip();
         CentroVaccinale.Tipologia tipologia = SwingAwt.decidiTipologia(centro_combo);
 
         if (tipologia != null) {
-            centri_trovati = DBClient.cercaCentriByComuneETipologia(comune, tipologia.toString());
+            centri_trovati = ClientToServerRequests.cercaCentriByComuneETipologia(comune, tipologia.toString());
 
             int num_risultati = centri_trovati.size();
 
@@ -180,7 +180,7 @@ public class RicercaComuneTipologia extends Ricerca {
      */
     private void confermaScelta() {
         String centro_selezionato = lista_centri.getSelectedValue();
-        strutture_vaccinali = DBClient.getCentroVaccinaleByName(centro_selezionato);
+        strutture_vaccinali = ClientToServerRequests.getCentroVaccinaleByName(centro_selezionato);
         if (strutture_vaccinali == null)
             JOptionPane.showMessageDialog(this, "Non e' stato selezionato alcun elemento", "Errore", JOptionPane.INFORMATION_MESSAGE);
         else {

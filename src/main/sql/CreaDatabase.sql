@@ -35,12 +35,12 @@ create table CITTADINI_REGISTRATI(
 
 
 create table LOG_EVENTI(
-	Cod_evento SERIAL PRIMARY KEY,
 	Cod_Centro Integer,
 	Cod_Fiscale varchar(30),
 	Nome_Evento varchar(80),
 	Indice smallint CHECK(indice between 0 AND 5),
 	Note varchar(256),
+	Cod_evento SERIAL PRIMARY KEY,
 
 	foreign key (Cod_Fiscale) references CITTADINI_REGISTRATI(Cod_Fiscale)
 		on update cascade

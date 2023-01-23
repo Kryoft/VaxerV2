@@ -5,22 +5,18 @@
  */
 package client.cittadini;
 
+import client.ClientToServerRequests;
 import client.centrivaccinali.CentriVaccinaliGUI;
 import client.centrivaccinali.CentroVaccinale;
 import client.centrivaccinali.PlaceholderTextField;
 import client.centrivaccinali.SwingAwt;
 import client.ClientGUI;
-import client.DBClient;
-import client.DBException;
-import shared.Utility;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.RemoteException;
-import java.sql.SQLException;
 
 /**
  * Classe dedicata all'inserzione di un evento avverso. Accessibile solo avendo a disposizione un
@@ -160,15 +156,15 @@ public class RegistraEventiAvversi extends Registrazioni {
         String note = note_text.getText();
         EventoAvverso.Eventi evento = SwingAwt.decidiEvento((String)evento_combo.getSelectedItem());
 
-        int Indice = Integer.parseInt(indice_severita_text.getText());
+        int Indice = Integer.parseInt(indice_severita_text.getText().strip());
         EventoAvverso ev = new EventoAvverso(evento, Indice, note, centro, cod_fiscale);
         System.out.println("cod_fiscale:" + cod_fiscale);
         if (!evento.equals("")) {
             evento_text.setBorder(border);
             if (Indice >= 1 && Indice <= 5) {
                 if (note.length() < 256) {
-                    if(!DBClient.checkEventoGiaSegnalato(ev)) {
-                        DBClient.insertEvento(ev);
+                    if(!ClientToServerRequests.checkEventoGiaSegnalato(ev)) {
+                        ClientToServerRequests.insertEvento(ev);
                         nome_centro_text.setBorder(border);
                         indice_severita_text.setBorder(border);
                         JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");

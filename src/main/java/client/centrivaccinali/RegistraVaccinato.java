@@ -5,18 +5,15 @@
  */
 package client.centrivaccinali;
 
-import client.DBClient;
+import client.ClientToServerRequests;
 import client.cittadini.Vaccinato;
 import client.ClientGUI;
-import shared.Utility;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.RemoteException;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
@@ -152,13 +149,13 @@ public class RegistraVaccinato extends Registrazioni {
      * @author Manuel Marceca
      */
     private void registraVaccinato() {
-        String centro = centro_vaccinale.getNomeCentro();
-        String nome = nome_text.getText();
-        String cognome = cognome_text.getText();
-        String data_string = data_text.getText();
+        String centro = centro_vaccinale.getNomeCentro().strip();
+        String nome = nome_text.getText().strip();
+        String cognome = cognome_text.getText().strip();
+        String data_string = data_text.getText().strip();
         DateFormat data_formatted = DateFormat.getDateInstance(DateFormat.SHORT);
         Date data;
-        String codice_fiscale = cf_text.getText().toUpperCase();
+        String codice_fiscale = cf_text.getText().toUpperCase().strip();
         //short id = 0;
         Vaccinato nuovo_vaccinato = new Vaccinato();
         try {
@@ -185,7 +182,7 @@ public class RegistraVaccinato extends Registrazioni {
 
                     */
                     nuovo_vaccinato = new Vaccinato(data, SwingAwt.decidiVaccino(vaccino_combo), centro, nome, cognome, codice_fiscale);
-                    int id = DBClient.insertVaccinato(nuovo_vaccinato);
+                    int id = ClientToServerRequests.insertVaccinato(nuovo_vaccinato);
 
                     JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
                     JOptionPane.showMessageDialog(this, "L'Identificativo associato e' " + (id));
