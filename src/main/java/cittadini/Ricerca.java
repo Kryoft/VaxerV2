@@ -23,8 +23,6 @@ import java.util.HashSet;
  */
 public abstract class Ricerca extends JFrame implements ActionListener {
 
-    //protected int display_width = Utility.getDisplayWidth(),
-         //           display_height = Utility.getDisplayHeight();
     protected int display_width = Utility.getDisplayWidth(),
             display_height = Utility.getDisplayHeight();
     protected CentroVaccinale strutture_vaccinali = null;
@@ -63,9 +61,7 @@ public abstract class Ricerca extends JFrame implements ActionListener {
      */
     protected void settings(String title) {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //setSize(display_width, display_height);
         setSize(display_width, display_height);
-        //get actual window size
         display_height = getHeight();
         display_width = getWidth();
 

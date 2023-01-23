@@ -15,10 +15,13 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
-import java.sql.SQLException;
 
 
+/**
+ * Classe dedicata alla registrazione di un cittadino vaccinato al sistema per mezzo di un account.
+ */
 public class RegistraCittadini extends Registrazioni {
 
     private final JLabel nome_cognome_label = new JLabel("Nome e cognome:", SwingConstants.CENTER),
@@ -147,6 +150,10 @@ public class RegistraCittadini extends Registrazioni {
         setVisible(true);
     }
 
+    /**
+     * Metodo necessario alla registrazione di un nuovo utente compreso di vari controlli
+     * di correttezza dei dati inseriti dall'utente.
+     */
     private void registraCittadino() {
         try {
             Utility.run();
@@ -169,9 +176,7 @@ public class RegistraCittadini extends Registrazioni {
                 password_txt.setBorder(border);
                 user_txt.setBorder(border);
 
-//                    if (Utility.esisteCentro(0, centro, "./data/CentriVaccinali.dati.txt")) {
                 centro_txt.setBorder(border);
-                //TODO Gestione SQLException
                 try {
                     if (!c.mailSyntaxCheck(email)) {
                         email_txt.setBorder(new LineBorder(Color.RED, 3, true));
@@ -197,8 +202,6 @@ public class RegistraCittadini extends Registrazioni {
                                 user_txt.setBorder(border);
                                 password_txt.setBorder(border);
 
-                                //Utility.scriviFile("./data/log.txt", l.toString());
-                                //Utility.scriviFile("./data/Cittadini_Registrati.dati.txt", c.toString());
                                 DBClient.insertIscritto(c);
 
                                 JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
@@ -207,12 +210,10 @@ public class RegistraCittadini extends Registrazioni {
                             }
                             else{
                                 cf_txt.setBorder(new LineBorder(Color.RED, 3, true));
-                                //password_txt.setBorder(new LineBorder(Color.RED, 3, true));
                                 JOptionPane.showMessageDialog(this, "Codice fiscale già associato ad un account");
                             }
                         } else {
                             user_txt.setBorder(new LineBorder(Color.RED, 3, true));
-                            //password_txt.setBorder(new LineBorder(Color.RED, 3, true));
                             JOptionPane.showMessageDialog(this, "Username già in uso");
                         }
                     } else {
@@ -229,14 +230,6 @@ public class RegistraCittadini extends Registrazioni {
                 } catch (Eccezione exc) {
                     JOptionPane.showMessageDialog(this, message, "Errore", JOptionPane.ERROR_MESSAGE);
                 }
-                //                       } else {
-//                            centro_txt.setBorder(new LineBorder(Color.RED, 3, true));
-                //                           JOptionPane.showMessageDialog(this, "Centro Insesistente o non registrato all'applicazione", "Errore", JOptionPane.ERROR_MESSAGE);
-                //                      }
-                //} catch(SQLException se){
-                //    Logger.getLogger(centrivaccinali.Registrazioni.class.getName()).log(Level.SEVERE, null, se);
-                //              }
-
             } else {
                 SwingAwt.modificaBordo(nome_txt);
                 SwingAwt.modificaBordo(cognome_txt);
@@ -251,6 +244,12 @@ public class RegistraCittadini extends Registrazioni {
         }
     }
 
+    /**
+     * Metodo appartenente all'interfaccia ActionListener, equivalente alla pressione di un pulsante.
+     *
+     * @param e evento che si è verificato
+     * @see ActionListener
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == conferma) {

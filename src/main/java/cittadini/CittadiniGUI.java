@@ -7,6 +7,7 @@ package cittadini;
 
 import centrivaccinali.CentriVaccinaliGUI;
 import shared.ClientGUI;
+import centrivaccinali.SwingAwt;
 import shared.DBClient;
 import shared.Utility;
 
@@ -139,82 +140,130 @@ public class CittadiniGUI extends JFrame implements ActionListener {
     }
 
     /**
-     * Metodo appartenente all'interfaccia ActionListener
+     * Metodo appartenente all'interfaccia ActionListener, equivalente alla pressione di un pulsante.
      *
      * @param e evento che si è verificato
-     * @author Daniele Caspani
      * @see ActionListener
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+
         if (e.getSource() == menu_button) {
-            new CentriVaccinaliGUI();
-            this.dispose();
-        } else if (e.getSource() == registrati_button) {
-//            new RegistraCittadini();
-//            this.dispose();
-            JComboBox<Object> comboBox = new JComboBox<>(ricerca);
-            int option = JOptionPane.showConfirmDialog(null, comboBox, "Ricerca del centro in cui hai effettuato la vaccinazione", JOptionPane.OK_CANCEL_OPTION);
-
-            if (option == JOptionPane.OK_OPTION) {
-                if (comboBox.getSelectedIndex() == 0) {
-                    new RicercaNomeCentro(3);
-                    dispose();
-                } else if (comboBox.getSelectedIndex() == 1) {
-                    new RicercaComuneTipologia(3);
-                    dispose();
-                }
-            }
-        } else if (e.getSource() == informazioni_button) {
-            JComboBox<Object> comboBox = new JComboBox<>(ricerca);
-            int option = JOptionPane.showConfirmDialog(null, comboBox, "Ricerca del centro di cui visualizzare le informazioni", JOptionPane.OK_CANCEL_OPTION);
-
-            if (option == JOptionPane.OK_OPTION) {
-                if (comboBox.getSelectedIndex() == 0) {
-                    new RicercaNomeCentro(1);
-                    dispose();
-                } else if (comboBox.getSelectedIndex() == 1) {
-                    new RicercaComuneTipologia(1);
-                    dispose();
-                }
-            }
-        } else if (e.getSource() == evento_avverso_button) {
-            int chosen_option;
-            boolean logged_in = false;
-
-            do {
-                chosen_option = JOptionPane.showConfirmDialog(null, message, "Esegui il Login per Segnalare un Evento Avverso", JOptionPane.OK_CANCEL_OPTION);
-                if (chosen_option == JOptionPane.OK_OPTION) {
-                    Login login = new Login(username.getText(), password.getText());
-                    if (Utility.loginOk(login)) {
-                        logged_in = true;
-//                        new RegistraEventiAvversi();
-//                        dispose();
-
-                        JComboBox<Object> comboBox = new JComboBox<>(ricerca);
-                        int option = JOptionPane.showConfirmDialog(null, comboBox, "Ricerca del centro in cui hai effettuato la vaccinazione", JOptionPane.OK_CANCEL_OPTION);
-
-                        String cod_fiscale = DBClient.getCfFromUsername(login.getUserId());
-
-                        if (option == JOptionPane.OK_OPTION) {
-                            if (comboBox.getSelectedIndex() == 0) {
-                                new RicercaNomeCentro(4, cod_fiscale);
-                                dispose();
-                            } else if (comboBox.getSelectedIndex() == 1) {
-                                new RicercaComuneTipologia(4, cod_fiscale);
-                                dispose();
-                            }
-                        }
-                    } else {
-                        password.setBorder(new LineBorder(Color.RED, 3, true));
-                        username.setBorder(new LineBorder(Color.RED, 3, true));
-                        error.setText("UserID o Password non corretti");
-                        error.setForeground(Color.RED);
-                    }
-                } else
-                    // TODO: Resettare il colore dei campi username e password dopo che si clicca 'Cancel'
-                    break;
-            } while (!logged_in);
+            this.goToMenu();
         }
+
+        else if (e.getSource() == registrati_button) {
+            this.avviaRegistrazioneCittadino();
+        }
+
+        else if (e.getSource() == informazioni_button) {
+            this.avviaInfoCentro();
+        }
+
+        else if (e.getSource() == evento_avverso_button) {
+            this.avviaSegnalazioneEventi();
+        }
+    }
+
+    /**
+     * Metodo chiamato alla pressione del tasto "Menu". Reindirizza al menu principale.
+     * @author Manuel Marceca
+     */
+    private void goToMenu(){
+        new CentriVaccinaliGUI();
+        this.dispose();
+    }
+
+    /**
+     * Metodo chiamato alla pressione del tasto "Registrati". Avvia la procedura di registrazione utenti.
+     * @author Manuel Marceca
+     */
+    private void avviaRegistrazioneCittadino(){
+        JComboBox<Object> comboBox = new JComboBox<>(ricerca);
+        int option = JOptionPane.showConfirmDialog(null, comboBox,
+                "Ricerca del centro in cui hai effettuato la vaccinazione",
+                JOptionPane.OK_CANCEL_OPTION);
+
+        if (option == JOptionPane.OK_OPTION) {
+            if (comboBox.getSelectedIndex() == 0) {
+                new RicercaNomeCentro(3);
+                dispose();
+            } else if (comboBox.getSelectedIndex() == 1) {
+                new RicercaComuneTipologia(3);
+                dispose();
+            }
+        }
+    }
+
+    /**
+     * Metodo chiamato alla pressione del tasto "Visualizza informazioni". Avvia la procedura di
+     * visualizzazione delle informazioni per centro vaccinale, partendo dalla ricerca del centro
+     * in questione.
+     * @author Manuel Marceca
+     */
+    private void avviaInfoCentro(){
+        JComboBox<Object> comboBox = new JComboBox<>(ricerca);
+        int option = JOptionPane.showConfirmDialog(null, comboBox,
+                "Ricerca del centro di cui visualizzare le informazioni",
+                JOptionPane.OK_CANCEL_OPTION);
+
+        if (option == JOptionPane.OK_OPTION) {
+            if (comboBox.getSelectedIndex() == 0) {
+                new RicercaNomeCentro(1);
+                dispose();
+            } else if (comboBox.getSelectedIndex() == 1) {
+                new RicercaComuneTipologia(1);
+                dispose();
+            }
+        }
+    }
+
+    /**
+     * Metodo chiamato alla pressione del tasto "Evento Avverso". Avvia la procedura di segnalazione
+     * degli eventi avversi, partendo dal login utente.
+     * @author Manuel Marceca
+     */
+    private void avviaSegnalazioneEventi(){
+        int chosen_option;
+        boolean logged_in = false;
+
+        do {
+            chosen_option = JOptionPane.showConfirmDialog(null, message, "Esegui il Login per Segnalare un Evento Avverso", JOptionPane.OK_CANCEL_OPTION);
+            if (chosen_option == JOptionPane.OK_OPTION) {
+                Login login = new Login(username.getText(), password.getText());
+                if (Utility.loginOk(login)) {
+                    logged_in = true;
+
+                    JComboBox<Object> comboBox = new JComboBox<>(ricerca);
+                    int option = JOptionPane.showConfirmDialog(null, comboBox, "Ricerca del centro in cui hai effettuato la vaccinazione", JOptionPane.OK_CANCEL_OPTION);
+
+                    String cod_fiscale = DBClient.getCfFromUsername(login.getUserId());
+
+                    if (option == JOptionPane.OK_OPTION) {
+                        if (comboBox.getSelectedIndex() == 0) {
+                            new RicercaNomeCentro(4, cod_fiscale);
+                            dispose();
+                        } else if (comboBox.getSelectedIndex() == 1) {
+                            new RicercaComuneTipologia(4, cod_fiscale);
+                            dispose();
+                        }
+                    }
+                } else {
+                    password.setBorder(new LineBorder(Color.RED, 3, true));
+                    username.setBorder(new LineBorder(Color.RED, 3, true));
+                    error.setText("UserID o Password non corretti");
+                    error.setForeground(Color.RED);
+                }
+            } else if(chosen_option == JOptionPane.CANCEL_OPTION || chosen_option == JOptionPane.CLOSED_OPTION) {
+                password.setText("nd");
+                username.setText("nd");
+                SwingAwt.modificaBordo(password);
+                SwingAwt.modificaBordo(username);
+                password.setText("");
+                username.setText("");
+                error.setText("");
+                break;
+            }
+        } while (!logged_in);
     }
 }

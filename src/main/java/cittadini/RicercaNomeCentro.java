@@ -6,7 +6,6 @@
 package cittadini;
 
 import centrivaccinali.RegistraVaccinato;
-//import centrivaccinali.StruttureVaccinali;
 import centrivaccinali.SwingAwt;
 import shared.ClientGUI;
 import shared.DBClient;
@@ -18,14 +17,34 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Questa classe implementa la ricerca di un centro vaccinale registrato all'applicazione tramite
+ * il suo nome.
+ */
 public class RicercaNomeCentro extends Ricerca {
 
     private final JLabel centro_label = new JLabel("Nome Centro:");
     private final JTextField centro_txt = new JTextField();
 
+    private final int centro_txt_width = 310, centro_label_width = 300, button_width = 160;
+
+    private final int first_row_height = 41, button_height = 50, cerca_size = 40;
+    private final int margin = 20;
+
+    private final int centro_txt_x = SwingAwt.centerItemOnXorY(display_width, centro_txt_width),
+            centro_label_x = centro_txt_x - centro_label_width,
+            cerca_x = centro_txt_x + centro_txt_width + 2,
+            button_annulla_x = SwingAwt.centerItemOnXorY(display_width,
+            button_width * 2 + (int)((1.0 / 3.0) * display_width)),
+            button_conferma_x = button_annulla_x + button_width + (int)((1.0 / 3.0) * display_width);
+
+    private final int first_row_y = SwingAwt.centerItemOnXorY(display_height,
+            cerca_size + HEIGHT_LISTA + button_height + margin * 2),
+            button_row_y = first_row_y + cerca_size + margin * 2 + HEIGHT_LISTA;
+
+
     /**
-     * Questa classe implementa la ricerca di un centro vaccinale registrato all'applicazione tramite
-     * il suo nome.
+     * Questo costruttore imposta l'operazione da effettuare in base allo stato precedente.
      *
      * @param operazione Questo parametro viene utilizzato per "ricordare" l'operazione che va eseguita
      *                   dopo la selezione di un centro vaccinale. I valori possibili sono:
@@ -39,6 +58,19 @@ public class RicercaNomeCentro extends Ricerca {
         initWindow();
     }
 
+    /**
+     * Questo costruttore imposta l'operazione da effettuare in base allo stato precedente.
+     *
+     * @param operazione Questo parametro viene utilizzato per "ricordare" l'operazione che va eseguita
+     *                   dopo la selezione di un centro vaccinale. I valori possibili sono:
+     *                   <p> 1 - Visualizzazione delle informazioni riguardanti il centro selezionato </p>
+     *                   <p> 2 - Registrazione di un vaccinato </p>
+     *                   <p> 3 - Registrazione di un cittadino all'applicazione </p>
+     *                   <p> 4 - Inserimento eventi avversi post-vaccinazione </p>
+     *
+     * @param cod_fiscale Un dato passato occasionalmente in determinati stati dell'applicazione per controlli
+     *                    di tipo logico.
+     */
     public RicercaNomeCentro(int operazione, String cod_fiscale){
         operazione_scelta = operazione;
         this.cod_fiscale = cod_fiscale;
@@ -46,7 +78,8 @@ public class RicercaNomeCentro extends Ricerca {
     }
 
     /**
-     * Metodo utilizzato per inizializzare i vari componenti JFrame nella finestra relativa alla ricerca per nome del centro
+     * Metodo utilizzato per inizializzare i vari componenti JFrame nella finestra relativa alla
+     * ricerca per nome del centro
      *
      * @author Daniele Caspani
      */
@@ -54,54 +87,25 @@ public class RicercaNomeCentro extends Ricerca {
         settings("Ricerca per Nome del Centro Vaccinale");
         ClientGUI.setCurrentWindow(this);
 
-        int centro_txt_width = 310;
-
-        int first_row_height = 41;
-
-        int centro_label_width = 300;
-        int button_height = 50;
-        int button_width = 160;
-        int margin = 20;
-        int cerca_size = 40;
-
-        int centro_txt_x = SwingAwt.centerItemOnXorY(display_width, centro_txt_width);
-        int centro_label_x = centro_txt_x - centro_label_width;
-        int cerca_x = centro_txt_x + centro_txt_width + 2;
-
-
-        int first_row_y = SwingAwt.centerItemOnXorY(display_height,
-                cerca_size + HEIGHT_LISTA + button_height + margin * 2);
-        int button_row_y = first_row_y + cerca_size + margin * 2 + HEIGHT_LISTA;
-
-        int button_annulla_x = SwingAwt.centerItemOnXorY(display_width,
-                button_width * 2 + (int)((1.0 / 3.0) * display_width));
-        int button_conferma_x = button_annulla_x + button_width + (int)((1.0 / 3.0) * display_width);
-
-//        centro_combo.setSelectedIndex(0);   // istruzione inutile?
-
         background.add(centro_label, 0);
-        backgroundSettings(0, new Rectangle(centro_label_x, first_row_y,            //centro_label
+        backgroundSettings(0, new Rectangle(centro_label_x, first_row_y,                //centro_label
                 centro_label_width, first_row_height), 16, 1, false);
 
         background.add(centro_txt, 0);
-        backgroundSettings(0, new Rectangle(centro_txt_x, first_row_y,            //centro_txt
+        backgroundSettings(0, new Rectangle(centro_txt_x, first_row_y,                  //centro_txt
                 centro_txt_width, first_row_height), 16, 0, false);
 
         background.add(cerca, 0);
-        backgroundSettings(0, new Rectangle(cerca_x, first_row_y,            //cerca
+        backgroundSettings(0, new Rectangle(cerca_x, first_row_y,                       //cerca
                 cerca_size, cerca_size), 15, 0, true);
 
         background.add(annulla, 0);
-        backgroundSettings(0, new Rectangle(button_annulla_x, button_row_y,            //annulla
+        backgroundSettings(0, new Rectangle(button_annulla_x, button_row_y,             //annulla
                 button_width, button_height), 15, 1, false);
 
         background.add(conferma, 0).setEnabled(false);
-        //backgroundSettings(0, new Rectangle(1790, 965,          //conferma
-        //        120, 35), 15, 1, false);
-
-        backgroundSettings(0, new Rectangle(button_conferma_x, button_row_y,          //conferma
+        backgroundSettings(0, new Rectangle(button_conferma_x, button_row_y,            //conferma
                         button_width, button_height), 15, 1, false);
-
 
         cerca.addActionListener(this);
         conferma.addActionListener(this);
@@ -122,52 +126,75 @@ public class RicercaNomeCentro extends Ricerca {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == cerca) {
-            conferma.setEnabled(false);
-            list_model.removeAllElements();
-            centri_trovati.clear();
-            //String copy;
-            String nome_centro = centro_txt.getText();
-            //String[] a;
-            centri_trovati = DBClient.cercaCentriByNome(nome_centro);
-            //Iterator<String> it = centri_trovati.iterator();
-
-            int num_risultati = centri_trovati.size();
-            //if (!nome_centro.isBlank()) {
-                for(String nome: centri_trovati) {
-                    list_model.addElement(nome);
-                }
-
-                if (num_risultati == 0) {
-                    JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo, Nessun elemento trovato");
-                } else if (num_risultati > 0) {
-                    lista_centri.setBackground(Color.LIGHT_GRAY);
-                    JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo, Elementi trovati: " + num_risultati);
-                    conferma.setEnabled(true);
-                }
-            //} else
-            //    JOptionPane.showMessageDialog(this, "Errore: Campo nome centro vaccinale non valorizzato");
+            avviaRicerca();
         }
 
         else if (e.getSource() == conferma) {
-            String centro_selezionato = lista_centri.getSelectedValue();
-            strutture_vaccinali = DBClient.getCentroVaccinaleByName(centro_selezionato);
-            if (strutture_vaccinali == null)
-                JOptionPane.showMessageDialog(this, "Non e' stato selezionato alcun elemento", "Errore", JOptionPane.INFORMATION_MESSAGE);
-            else {
-                switch (operazione_scelta) {
-                    case 1 -> new VisualizzaInfo(strutture_vaccinali);
-                    case 2 -> new RegistraVaccinato(strutture_vaccinali);
-                    case 3 -> new RegistraCittadini(strutture_vaccinali);
-                    case 4 -> new RegistraEventiAvversi(strutture_vaccinali, cod_fiscale);
-                    default -> { }
-                }
-                this.dispose();
-            }
+            confermaScelta();
+        }
 
-        } else if (e.getSource() == annulla) {
-            new CittadiniGUI();
+        else if (e.getSource() == annulla) {
+            goToCittadiniGUI();
+        }
+    }
+
+    /**
+     * Metodo chiamato alla pressione del tasto "cerca" che effettua la ricerca del
+     * centro e mostra i risultati a schermo.
+     * @author Manuel Marceca
+     */
+    private void avviaRicerca() {
+        conferma.setEnabled(false);
+        list_model.removeAllElements();
+        centri_trovati.clear();
+        String nome_centro = centro_txt.getText();
+        centri_trovati = DBClient.cercaCentriByNome(nome_centro);
+
+        int num_risultati = centri_trovati.size();
+
+        for(String nome: centri_trovati) {
+            list_model.addElement(nome);
+        }
+
+        if (num_risultati == 0) {
+            JOptionPane.showMessageDialog(this,
+                    "Operazione Completata Con Successo, Nessun elemento trovato");
+        } else if (num_risultati > 0) {
+            lista_centri.setBackground(Color.LIGHT_GRAY);
+            JOptionPane.showMessageDialog(this,
+                    "Operazione Completata Con Successo, Elementi trovati: " + num_risultati);
+            conferma.setEnabled(true);
+        }
+    }
+
+    /**
+     * Metodo chiamato alla pressione del tasto "Conferma" che recupera i dati del centro selezionato
+     * e li utilizza per avviare una nuova finestra in base allo stato dell'applicazione.
+     * @author Cristian Corti
+     */
+    private void confermaScelta() {
+        String centro_selezionato = lista_centri.getSelectedValue();
+        strutture_vaccinali = DBClient.getCentroVaccinaleByName(centro_selezionato);
+        if (strutture_vaccinali == null)
+            JOptionPane.showMessageDialog(this, "Non e' stato selezionato alcun elemento", "Errore", JOptionPane.INFORMATION_MESSAGE);
+        else {
+            switch (operazione_scelta) {
+                case 1 -> new VisualizzaInfo(strutture_vaccinali);
+                case 2 -> new RegistraVaccinato(strutture_vaccinali);
+                case 3 -> new RegistraCittadini(strutture_vaccinali);
+                case 4 -> new RegistraEventiAvversi(strutture_vaccinali, cod_fiscale);
+                default -> { }
+            }
             this.dispose();
         }
+    }
+
+    /**
+     * Metodo chiamato alla pressione del tasto "Annulla" che reindirizza l'utente a CittadiniGUI.
+     */
+    private void goToCittadiniGUI() {
+        new CittadiniGUI();
+        this.dispose();
     }
 
 }

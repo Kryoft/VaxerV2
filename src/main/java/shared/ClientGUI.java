@@ -23,6 +23,9 @@ import java.rmi.registry.Registry;
  */
 public class ClientGUI extends JFrame implements ActionListener {
 
+    /**
+     * È il riferimento all'interfaccia proxy utilizzata dal client per accedere ai servizi del server.
+     */
     public static DBInterface dbobj = null;
 
     private static JFrame current_window;
@@ -66,6 +69,12 @@ public class ClientGUI extends JFrame implements ActionListener {
         initWindow();
     }
 
+    /**
+     * Metodo utile per inizializzare la finestra JFrame e il <strong>LayeredPane</strong>,
+     * al quale verranno aggiunti tutti i vari componenti su diversi livelli.
+     *
+     * @author Cristian Corti
+     */
     private void settings() {
         setMinimumSize(new Dimension(minimum_width, minimum_height));
         setSize(window_width, window_height);
@@ -79,6 +88,13 @@ public class ClientGUI extends JFrame implements ActionListener {
         Utility.setWindowLogo(this, "logo.png");
     }
 
+
+    /**
+     * Metodo utile per l'inizializzazione dei componenti JFrame riguardanti l'inserimento
+     * degli eventi avversi.
+     *
+     * @author Cristian Corti
+     */
     private void initWindow() {
         settings();
         current_window = this;

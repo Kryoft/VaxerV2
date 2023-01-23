@@ -11,7 +11,7 @@ import java.util.Date;
  * Classe utilizzata per l'inserimento dei vaccinati da parte dei centri vaccinali;
  * Estende la classe <code>Cittadini</code>.
  *
- * @author daniele Caspani
+ * @author Daniele Caspani
  */
 public class Vaccinato extends Cittadino {
 

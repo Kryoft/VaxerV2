@@ -17,6 +17,11 @@ import java.util.regex.Pattern;
 public class Cittadino {
 
     private String email, nome_centro, nome, cognome, codice_fiscale;
+
+    /**
+     * Campo di tipo Login, contenente quindi la coppia (username, password).
+     * @see Login
+     */
     private Login login;
     private int id;
 

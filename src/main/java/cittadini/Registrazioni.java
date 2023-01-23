@@ -6,7 +6,7 @@
 package cittadini;
 
 import centrivaccinali.CentroVaccinale;
-//import centrivaccinali.StruttureVaccinali;
+
 import shared.Utility;
 
 import javax.swing.*;
@@ -48,9 +48,6 @@ public abstract class Registrazioni extends JFrame implements ActionListener {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setSize(display_width, display_height);
 
-        //display_height = getHeight();
-        //display_width = getWidth();
-
         setLocationRelativeTo(null);
         setTitle(title);
         setFocusable(true);
@@ -83,7 +80,6 @@ public abstract class Registrazioni extends JFrame implements ActionListener {
 
         layered_pane.add(panel, 0, 0);
         layered_pane.add(background_panel, 1, 0);
-        //pack();
     }
 
     /**

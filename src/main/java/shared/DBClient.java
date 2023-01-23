@@ -14,13 +14,16 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Classe astratta contenente tutti i metodi utili alla comunicazione con il database per mezzo del server.
+ */
 public abstract class DBClient {
 
     /**
      * Metodo utilizzato per inserire un oggetto di tipo <code>CentroVaccinale</code> nel database, tabella CENTRI_VACCINALI
      *
      * @param centro l'oggetto <code>CentroVaccinale</code> da inserire
-     * @author Manuel Marceca
+     * @author Manuel Marceca, Daniele Caspani
      */
     public static void insertCentro(CentroVaccinale centro) {
         try {
@@ -30,16 +33,15 @@ public abstract class DBClient {
             throw new RuntimeException(ex);
         }
     }
+
     /**
      * Metodo utilizzato per inserire un oggetto di tipo Vaccinato nel database, tabella VACCINATI,
      * e fornire l'identificativo unico rappresentante il vaccinato, il quale è generato dal database.
      *
      * @param vaccinato l'oggetto <code>Vaccinato</code> da inserire
      * @return L'identificativo univoco del vaccinato
-     * @author Manuel Marceca
+     * @author Manuel Marceca, Daniele Caspani
      */
-
-    //TODO Gestione cod_centro restituito non valido (valore -1)
     public static int insertVaccinato(Vaccinato vaccinato) {
         try {
             ClientGUI.dbobj.upData(SelectQuery.insertVaccinato(vaccinato), "Vaccinato");
@@ -54,11 +56,11 @@ public abstract class DBClient {
      * Metodo utilizzato per inserire un oggetto di tipo <code>Cittadino</code> nel database, tabella <code>Iscritti</code>
      *
      * @param cittadino l'oggetto <code>Cittadino</code> da inserire
-     * @author Manuel Marceca
+     * @author Manuel Marceca, Daniele Caspani
      */
     public static void insertIscritto(Cittadino cittadino) {
         try {
-            ClientGUI.dbobj.upData(SelectQuery.insertIscritto(cittadino), "Iscritto");
+        ClientGUI.dbobj.upData(SelectQuery.insertIscritto(cittadino), "Iscritto");
         } catch (NullPointerException | RemoteException ex) {
             ClientGUI.redirectToClientGUI();
             throw new RuntimeException(ex);
@@ -69,10 +71,9 @@ public abstract class DBClient {
      * Metodo utilizzato per inserire un oggetto di tipo <code>EventoAvverso</code> nel database, tabella <code>EVENTI</code>
      *
      * @param eventoAvverso l'oggetto <code>EventoAvverso</code> da inserire
-     * @author Manuel Marceca
+     * @author Manuel Marceca, Daniele Caspani
      */
     public static void insertEvento(EventoAvverso eventoAvverso) {
-        System.out.println(SelectQuery.insertEvento(eventoAvverso));
         try {
             ClientGUI.dbobj.upData(SelectQuery.insertEvento(eventoAvverso), "Evento");
         } catch (NullPointerException | RemoteException ex) {
@@ -80,6 +81,7 @@ public abstract class DBClient {
             throw new RuntimeException(ex);
         }
     }
+
     /**
      * Metodo utilizzato per ottenere dal database un oggetto di tipo <code>CentroVaccinale</code> dato
      * il relativo campo <code>nome_centro</code>
@@ -87,7 +89,7 @@ public abstract class DBClient {
      * @param nome_centro il nome del centro vaccinale il cui oggetto si desidera ottenere
      * @return l'oggetto <code>CentroVaccinale</code> relativo al nome del centro dato. Ritorna <code>null</code>
      * se il centro non è stato trovato
-     * @author Manuel Marceca
+     * @author Manuel Marceca, Daniele Caspani
      */
     public static CentroVaccinale getCentroVaccinaleByName(String nome_centro) {
         CentroVaccinale centro = null;
@@ -115,7 +117,7 @@ public abstract class DBClient {
      *
      * @param nome_centro il nome del centro vaccinale del quale si desidera ottenere il codice
      * @return Il codice del relativo nome del centro dato. Restituisce <code>-1</code> se il codice non è stato trovato
-     * @author Manuel Marceca
+     * @author Manuel Marceca, Daniele Caspani
      */
     public static int getIdCentroByName(String nome_centro) {
         long codice_centro = -1;
@@ -128,9 +130,18 @@ public abstract class DBClient {
             ClientGUI.redirectToClientGUI();
             throw new RuntimeException(ex);
         }
+
         return (int)codice_centro;
     }
 
+    /**
+     * Metodo utilizzato per ottenere dal database il codice fiscale di un utente registrato dato
+     * il suo username.
+     *
+     * @param username l'username dell'utente in questione
+     * @return il codice fiscale associato all'utente
+     * @author Manuel Marceca, Daniele Caspani
+     */
     public static String getCfFromUsername(String username) {
         String cod_fiscale;
         ArrayList<String[]> lista;
@@ -143,6 +154,7 @@ public abstract class DBClient {
             Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, ex);
             throw new RuntimeException(ex);
         }
+
         return cod_fiscale;
     }
 
@@ -154,7 +166,7 @@ public abstract class DBClient {
      * @param username l'username del cittadino che si desidera ottenere
      * @return Un oggetto di tipo <code>Cittadino</code> relativo all'username dato. Ritorna <code>null</code>
      *          se non è stata trovata alcuna corrispondenza
-     * @author Manuel Marceca
+     * @author Manuel Marceca, Daniele Caspani
      */
     public static Cittadino getCittadinoByUsername(String username) {
         Cittadino iscritto = null;
@@ -176,6 +188,14 @@ public abstract class DBClient {
         return iscritto;
     }
 
+    /**
+     * Metodo che, dato il nome di un centro vaccinale, ne restituisce le relative segnalazioni
+     * sotto forma di <code>ArrayList</code> di oggetti di tipo <code>EventoAvverso</code>.
+     *
+     * @param nome_centro Il nome del centro vaccinale del quale si vogliono recuperare le segnalazioni
+     * @return Un'<code>ArrayList</code> di oggetti di tipo <code>EventoAvverso</code> relativi al centro
+     * @author Manuel Marceca, Daniele Caspani
+     */
     public static ArrayList<EventoAvverso> getSegnalazioniByCentro(String nome_centro) {
         String[] attributi = {"nome_evento","indice","note","cod_fiscale"};
         ArrayList<String[]> lista;
@@ -197,9 +217,19 @@ public abstract class DBClient {
                 eventi.add(evento);
             }
         }
+
         return eventi;
     }
 
+    /**
+     * Metodo che, dato un evento, controlla che tale evento non sia già stato segnalato altre
+     * volte dallo stesso utente nello stesso centro vaccinale.
+     *
+     * @param evento L'oggetto <code>EventoAvverso</code> di cui si sta effettuando la verifica
+     * @return <code>true</code> se l'evento è già stato segnalato dallo stesso utente nello
+     * stesso centro vaccinale
+     * @author Manuel Marceca, Daniele Caspani
+     */
     public static boolean checkEventoGiaSegnalato(EventoAvverso evento) {
         try {
             return ClientGUI.dbobj.resultExists(SelectQuery.checkEventoGiaSegnalato(evento));
@@ -209,6 +239,15 @@ public abstract class DBClient {
         }
     }
 
+    /**
+     * Metodo che, dato un codice fiscale, verifica che non ci sia già un account associato allo
+     * stesso codice fiscale. Questo metodo ha lo scopo di confermare il constraint di unicità
+     * del campo codice fiscale del database.
+     *
+     * @param cf Il codice fiscale di cui si vuole verificare l'unicità
+     * @return <code>true</code> se esiste già un account associato al codice fiscale <code>cf</code>
+     * @author Manuel Marceca, Daniele Caspani
+     */
     public static boolean checkCFinRegistrati(String cf) {
         try {
             return ClientGUI.dbobj.resultExists(SelectQuery.checkCFinRegistrati(cf));
@@ -218,6 +257,24 @@ public abstract class DBClient {
         }
     }
 
+    /**
+     * Metodo che, dato il nome di un centro vaccinale, trae, per ogni tipo di segnalazione trovata,
+     * le seguenti informazioni:
+     * <ul><ul>
+     *      <li>Nome dell'evento</li>
+     *      <li>Media degli indici dell'evento</li>
+     *      <li>Numero di segnalazioni dell'evento</li>
+     *      <li>Standard deviazione degli indici dell'evento</li>
+     * </ul></ul>
+     * Tali informazioni sono poi impacchettate in un oggetto di tipo <code>Quadrupla</code> e incodate
+     * in un'<code>ArrayList</code>, la quale sarà restituita al termine del metodo.
+     *
+     * @param nome_centro Il nome del centro dal quale si desidera estrapolare le informazioni sugli
+     *                    eventi segnalati
+     * @return Un'<code>ArrayList</code> di oggetti <code>Quadrupla</code>
+     * @see Quadrupla
+     * @author Manuel Marceca, Daniele Caspani
+     */
     public static ArrayList<Quadrupla<String, Float, Integer, Float>> getValoriPerEventoAvverso(String nome_centro) {
         ArrayList<Quadrupla<String, Float, Integer,Float>> risultati = new ArrayList<>();
         String[] attributi = {"Nome_Evento","Media_Indici","Numero_segnalazioni","Std_popolazione"};
@@ -252,7 +309,7 @@ public abstract class DBClient {
      * @param cf il codice fiscale corrispondente al vaccinato che si desidera ottenere
      * @return Un oggetto di tipo <code>Vaccinato</code> relativo al codice fiscale dato. Ritorna <code>null</code>
      *          se non è stata trovata alcuna corrispondenza
-     * @author Manuel Marceca
+     * @author Manuel Marceca, Daniele Caspani
      */
     public static Vaccinato getVaccinatoByCF(String cf) {
         Vaccinato vaccinato = null;
@@ -270,6 +327,7 @@ public abstract class DBClient {
             ClientGUI.redirectToClientGUI();
             throw new RuntimeException(ex);
         }
+
         return vaccinato;
     }
 
@@ -280,7 +338,7 @@ public abstract class DBClient {
      * @param cf il codice fiscale corrispondente al vaccinato che si desidera ottenere
      * @return l'identificativo univoco del vaccinato relativo al codice fiscale dato. Ritorna <code>-1</code>
      *          se l'identificativo non è stato trovato
-     * @author Manuel Marceca
+     * @author Manuel Marceca, Daniele Caspani
      */
     public static int getVaccinatoIdByCF(String cf) {
         int identificativo = -1;
@@ -293,14 +351,20 @@ public abstract class DBClient {
             ClientGUI.redirectToClientGUI();
             throw new RuntimeException(ex);
         }
+
         return identificativo;
     }
 
-
-    ///Utils
-
-
-
+    /**
+     * Metodo utile alla ricerca di centri vaccinali che, dato un nome di un centro vaccinale,
+     * restituisce un'<code>ArrayList</code> di nomi di centri vaccinali recuperati dal database
+     * il quale nome corrisponde, anche solo in parte, al nome dato.
+     *
+     * @param nome_centro Il nome del centro che si desidera cercare
+     * @return Un'<code>ArrayList</code> di oggetti <code>String</code> contenenti i nomi dei
+     *         centri vaccinali trovati
+     * @author Manuel Marceca, Daniele Caspani
+     */
     public static ArrayList<String> cercaCentriByNome(String nome_centro) {
             ArrayList<String> nomi_trovati = new ArrayList<>();
             String[] attributi = {"Nome"};
@@ -314,9 +378,21 @@ public abstract class DBClient {
                 ClientGUI.redirectToClientGUI();
                 throw new RuntimeException(ex);
             }
+
             return nomi_trovati;
     }
 
+    /**
+     * Metodo utile alla ricerca di centri vaccinali che, dati il comune e la tipologia di centro vaccinale,
+     * restituisce un'<code>ArrayList</code> di nomi di centri vaccinali recuperati dal database
+     * le cui caratteristiche corrispondono a quelle date.
+     *
+     * @param comune Il comune del centro che si desidera cercare
+     * @param tipologia La tipologia del centro che si desidera cercare
+     * @return Un'<code>ArrayList</code> di oggetti <code>String</code> contenenti i nomi dei
+     *         centri vaccinali trovati
+     * @author Manuel Marceca, Daniele Caspani
+     */
     public static ArrayList<String> cercaCentriByComuneETipologia(String comune, String tipologia) {
         ArrayList<String> nomi_trovati = new ArrayList<>();
         String[] attributi = {"Nome"};
@@ -330,6 +406,7 @@ public abstract class DBClient {
             ClientGUI.redirectToClientGUI();
             throw new RuntimeException(ex);
         }
+
         return nomi_trovati;
     }
 }

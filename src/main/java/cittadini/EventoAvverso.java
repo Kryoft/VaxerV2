@@ -13,10 +13,15 @@ package cittadini;
  */
 public class EventoAvverso {
 
+    /**
+     * Campo di tipo enum contenente l'enumerativo che rappresenta un evento avverso.
+     */
     private EventoAvverso.Eventi evento;
-
-
     private String nome_centro, cod_fiscale, note_opzionali;
+
+    /**
+     * Un valore da 1 a 5 che rappresenta la gravità dell'evento avverso.
+     */
     private int indice;
 
     public EventoAvverso(Eventi evento, int indice, String note_opzionali, String nome_centro, String cod_fiscale) {
@@ -117,6 +122,11 @@ public class EventoAvverso {
         return evento + "," + indice + "," + note_opzionali + "," + nome_centro;
     }
 
+
+    /**
+     * Classe enumerativa contenente i vari tipi di evento avverso riconosciuti dall'applicazione.
+     * @author Manuel Marceca
+     */
     public enum Eventi {
         Emicrania,
         Dolori_Addominali,
@@ -134,6 +144,10 @@ public class EventoAvverso {
         Lombalgia,
         Altro;
 
+        /**
+         * Metodo utile alla corretta formattazione testuale dei vari tipi enumerativi.
+         * @author Manuel Marceca
+         */
         @Override
         public String toString() {
             return switch (this) {
@@ -147,6 +161,10 @@ public class EventoAvverso {
             };
         }
 
+        /**
+         * Metodo che restituisce i vari eventi avversi sotto forma di array di stringhe.
+         * @author Manuel Marceca
+         */
         public static String[] getEventiToStringArray(){
             String[] out = new String[Eventi.values().length];
             int i = 0;
