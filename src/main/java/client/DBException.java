@@ -3,19 +3,28 @@ package client;
 import java.sql.SQLException;
 
 /**
- * ...
+ * Permette la gestione delle eccezioni di tipo SQL sul server
  *
  * @author Daniele Caspani
  */
 public class DBException extends SQLException {
-    public DBException() {
-        super();
-    }
-
+    /**
+     * costruttore che restituisce una stampa dell'errore SQL catturato
+     * @param source_window tipologia di errore
+     * @param sql_state id dell'errore individuato dal metodo <code>SQLState</code>
+     * @param message messaggio di errore dell'eccezione
+     */
     public DBException(String source_window, String sql_state, String message) {
         System.err.println(manageException(source_window, sql_state, message));
     }
 
+    /**
+     * metodo che gestisce diversi tipi di eccezioni che si possono verificare nelle operazioni collegate al database
+     * @param source_window tipologia di errore
+     * @param state id dell'errore individuato dal metodo <code>SQLState</code>
+     * @param message messaggio di errore dell'eccezione
+     * @return messaggio di errore
+     */
     public String manageException(String source_window, String state, String message){
         String exception_message = null;
         switch (state) {

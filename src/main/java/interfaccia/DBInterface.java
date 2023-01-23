@@ -5,8 +5,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 /**
- * ...
- *
+ * Interfaccia utilizzata da client e server per comunicare grazie l'utilizzo di un <code>Registry</code> che ne contiene un riferimento.
  * @author Daniele Caspani
  */
 public interface DBInterface extends Remote {
