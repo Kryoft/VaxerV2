@@ -3,14 +3,14 @@
  * Cristian Corti, 744359, CO
  * Daniele Caspani, 744628, CO
  */
-package cittadini;
+package client.cittadini;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
 /**
- * La classe Cittadini comprende le informazioni relative ai cittadini registrati all'applicazione.
+ * La classe Cittadini comprende le informazioni relative ai client.cittadini registrati all'applicazione.
  *
  * @author Daniele Caspani
  */

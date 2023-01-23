@@ -1,13 +1,15 @@
-package shared;
+package client;
 
-import centrivaccinali.IndirizzoComposto;
-import centrivaccinali.CentroVaccinale;
-import centrivaccinali.Registrazioni;
-import centrivaccinali.SwingAwt;
-import cittadini.Cittadino;
-import cittadini.EventoAvverso;
-import cittadini.Login;
-import cittadini.Vaccinato;
+import client.centrivaccinali.IndirizzoComposto;
+import client.centrivaccinali.CentroVaccinale;
+import client.centrivaccinali.Registrazioni;
+import client.centrivaccinali.SwingAwt;
+import client.cittadini.Cittadino;
+import client.cittadini.EventoAvverso;
+import client.cittadini.Login;
+import client.cittadini.Vaccinato;
+import shared.Quadrupla;
+import shared.Utility;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;

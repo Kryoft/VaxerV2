@@ -3,16 +3,14 @@
  * Cristian Corti, 744359, CO
  * Daniele Caspani, 744628, CO
  */
-package cittadini;
+package client.cittadini;
 
-import centrivaccinali.RegistraVaccinato;
-import centrivaccinali.SwingAwt;
-import shared.ClientGUI;
-import shared.DBClient;
+import client.centrivaccinali.RegistraVaccinato;
+import client.centrivaccinali.SwingAwt;
+import client.ClientGUI;
+import client.DBClient;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -3,13 +3,12 @@
  * Cristian Corti, 744359, CO
  * Daniele Caspani, 744628, CO
  */
-package centrivaccinali;
+package client.centrivaccinali;
 
-import cittadini.EventoAvverso;
-import cittadini.Vaccinato;
+import client.cittadini.EventoAvverso;
+import client.cittadini.Vaccinato;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 

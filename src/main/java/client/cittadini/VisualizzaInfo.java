@@ -3,11 +3,11 @@
  * Cristian Corti, 744359, CO
  * Daniele Caspani, 744628, CO
  */
-package cittadini;
+package client.cittadini;
 
-import centrivaccinali.CentroVaccinale;
-import shared.ClientGUI;
-import shared.DBClient;
+import client.centrivaccinali.CentroVaccinale;
+import client.ClientGUI;
+import client.DBClient;
 import shared.Quadrupla;
 import shared.Utility;
 

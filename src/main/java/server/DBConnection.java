@@ -1,6 +1,6 @@
 package server;
 
-import centrivaccinali.SwingAwt;
+import client.centrivaccinali.SwingAwt;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

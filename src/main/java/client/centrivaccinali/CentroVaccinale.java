@@ -3,7 +3,7 @@
  * Cristian Corti, 744359, CO
  * Daniele Caspani, 744628, CO
  */
-package centrivaccinali;
+package client.centrivaccinali;
 
 /**
  * Si tratta della classe che memorizza tutte le informazioni relative a un centro vaccinale:

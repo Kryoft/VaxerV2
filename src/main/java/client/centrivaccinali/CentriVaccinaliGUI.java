@@ -3,11 +3,11 @@
  * Cristian Corti, 744359, CO
  * Daniele Caspani, 744628, CO
  */
-package centrivaccinali;
+package client.centrivaccinali;
 
 
-import cittadini.CittadiniGUI;
-import shared.ClientGUI;
+import client.cittadini.CittadiniGUI;
+import client.ClientGUI;
 import shared.Utility;
 
 import javax.swing.*;
@@ -21,7 +21,7 @@ import java.awt.event.ActionListener;
  * l'interfaccia <code>ActionListener</code>;</p>
  * Si tratta della schermata principale a cui l'utente arriva dopo essersi connesso a un server tramite l'inserimento
  * dell'IP e della porta e viene utilizzata per la scelta del tipo di utente (Cittadino o Centro Vaccinale)
- * attraverso il bottone <code>centro</code> e il bottone <code>cittadini</code>
+ * attraverso il bottone <code>centro</code> e il bottone <code>client.cittadini</code>
  *
  * @author Daniele Caspani
  * @author Cristian Corti
@@ -80,7 +80,7 @@ public class CentriVaccinaliGUI extends JFrame implements ActionListener {
         icon_centro = new ImageIcon(img_centro);
         centro_button.setIcon(icon_centro);
 
-        // assegnazione immagine al bottone cittadini
+        // assegnazione immagine al bottone client.cittadini
         ImageIcon icon_cittadini = new ImageIcon(ClassLoader.getSystemResource("Person.png"));
         Image img_cittadini = icon_cittadini.getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH);
         icon_cittadini = new ImageIcon(img_cittadini);

@@ -3,7 +3,7 @@
  * Cristian Corti, 744359, CO
  * Daniele Caspani, 744628, CO
  */
-package centrivaccinali;
+package client.centrivaccinali;
 
 /**
  * Si tratta di un'eccezione generale utilizzata per la verifica della corretta formattazione di codice fiscale, sigla e comune

@@ -3,10 +3,11 @@
  * Cristian Corti, 744359, CO
  * Daniele Caspani, 744628, CO
  */
-package centrivaccinali;
+package client.centrivaccinali;
 
-import cittadini.Vaccinato;
-import shared.ClientGUI;
+import client.DBClient;
+import client.cittadini.Vaccinato;
+import client.ClientGUI;
 import shared.Utility;
 
 import javax.swing.*;
@@ -184,7 +185,7 @@ public class RegistraVaccinato extends Registrazioni {
 
                     */
                     nuovo_vaccinato = new Vaccinato(data, SwingAwt.decidiVaccino(vaccino_combo), centro, nome, cognome, codice_fiscale);
-                    int id = Utility.inserisciNuovoVaccinato(nuovo_vaccinato);
+                    int id = DBClient.insertVaccinato(nuovo_vaccinato);
 
                     JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
                     JOptionPane.showMessageDialog(this, "L'Identificativo associato e' " + (id));
@@ -206,9 +207,7 @@ public class RegistraVaccinato extends Registrazioni {
             data_text.setBorder(new LineBorder(Color.RED, 3, true));
             JOptionPane.showMessageDialog(this, "Formato della data errato", "Errore", JOptionPane.ERROR_MESSAGE);
         } //catch (IOException | URISyntaxException ex) {
-        catch (SQLException | RemoteException ex) {
-            throw new RuntimeException(ex);
-        }
+
         //  Logger.getLogger(Registrazioni.class.getName()).log(Level.SEVERE, null, ex);
     }
 

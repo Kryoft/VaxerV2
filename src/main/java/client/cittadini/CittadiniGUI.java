@@ -3,12 +3,12 @@
  * Cristian Corti, 744359, CO
  * Daniele Caspani, 744628, CO
  */
-package cittadini;
+package client.cittadini;
 
-import centrivaccinali.CentriVaccinaliGUI;
-import shared.ClientGUI;
-import centrivaccinali.SwingAwt;
-import shared.DBClient;
+import client.centrivaccinali.CentriVaccinaliGUI;
+import client.ClientGUI;
+import client.centrivaccinali.SwingAwt;
+import client.DBClient;
 import shared.Utility;
 
 import javax.swing.*;
@@ -20,7 +20,7 @@ import java.awt.event.ActionListener;
 
 /**
  * La classe CittadiniGUI estende <code>JFrame</code> e implementa <code>ActionListener</code>.
- * Offre 3 opzioni per i cittadini:
+ * Offre 3 opzioni per i client.cittadini:
  * Registrazione all'applicazione attraverso il bottone <code>Registrati</code>;
  * Visualizzare informazioni relative a un dato centro (con una ricerca per nome centro o per comune e tipologia)
  * attraverso il bottone <code>Visualizza informazioni</code>;

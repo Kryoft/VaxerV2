@@ -1,10 +1,10 @@
-package shared;
+package client;
 
-import centrivaccinali.CentroVaccinale;
-import centrivaccinali.IndirizzoComposto;
-import cittadini.Cittadino;
-import cittadini.EventoAvverso;
-import cittadini.Vaccinato;
+import client.centrivaccinali.CentroVaccinale;
+import client.centrivaccinali.IndirizzoComposto;
+import client.cittadini.Cittadino;
+import client.cittadini.EventoAvverso;
+import client.cittadini.Vaccinato;
 
 /**
  * Classe associata a DBClient che costruisce le query necessarie alla comunicazione con il database per mezzo

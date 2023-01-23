@@ -3,12 +3,12 @@
  * Cristian Corti, 744359, CO
  * Daniele Caspani, 744628, CO
  */
-package cittadini;
+package client.cittadini;
 
-import centrivaccinali.*;
+import client.centrivaccinali.*;
 
-import shared.ClientGUI;
-import shared.DBClient;
+import client.ClientGUI;
+import client.DBClient;
 import shared.Utility;
 
 import javax.swing.*;
@@ -16,7 +16,6 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.RemoteException;
 
 
 /**

@@ -3,17 +3,16 @@
  * Cristian Corti, 744359, CO
  * Daniele Caspani, 744628, CO
  */
-package cittadini;
+package client.cittadini;
 
-import centrivaccinali.CentroVaccinale;
-import centrivaccinali.SwingAwt;
+import client.centrivaccinali.CentroVaccinale;
+import client.centrivaccinali.SwingAwt;
 import shared.Utility;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 /**
  * In questa classe vengono implementate le ricerche per comune e tipologia e per nome del centro;

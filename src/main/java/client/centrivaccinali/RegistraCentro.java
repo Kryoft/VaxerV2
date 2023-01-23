@@ -3,10 +3,11 @@
  * Cristian Corti, 744359, CO
  * Daniele Caspani, 744628, CO
  */
-package centrivaccinali;
+package client.centrivaccinali;
 
 
-import shared.ClientGUI;
+import client.ClientGUI;
+import client.DBClient;
 import shared.Utility;
 
 import javax.swing.*;
@@ -214,9 +215,7 @@ public class RegistraCentro extends Registrazioni {
 
                     // Dati validi! Insert nel database...
 
-                    //TODO gestione eccezioni lanciate dal metodo inserisciNuovoCentro()
-                    Utility.inserisciNuovoCentro(nuovo_centro);
-                    //Utility.scriviFile("./data/CentriVaccinali.dati.txt", nuovo_centro.toString());
+                    DBClient.insertCentro(nuovo_centro);
 
                     JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
                     new CentriVaccinaliGUI();

@@ -5,16 +5,15 @@
  */
 package shared;
 
-import centrivaccinali.IndirizzoComposto;
-import centrivaccinali.CentroVaccinale;
-import cittadini.Cittadino;
-import cittadini.EventoAvverso;
-import cittadini.Login;
-import cittadini.Vaccinato;
+import client.DBClient;
+import client.centrivaccinali.IndirizzoComposto;
+import client.centrivaccinali.CentroVaccinale;
+import client.cittadini.Cittadino;
+import client.cittadini.Login;
+import client.cittadini.Vaccinato;
 
 import javax.swing.*;
 import java.awt.*;
-import java.rmi.RemoteException;
 import java.sql.SQLException;
 
 
@@ -171,37 +170,6 @@ public abstract class Utility {
     public static boolean controlloCoppiaCFId(String codice_fiscale, int id) {
         Vaccinato vaccinato = DBClient.getVaccinatoByCF(codice_fiscale);
         return vaccinato != null && vaccinato.getId() == id;
-    }
-
-
-    /**
-     * Metodo utile all'inserzione di un nuovo centro vaccinale nel database.
-     *
-     * @param nuovo_centro un oggetto <code>CentroVaccinale</code>
-     * @return un oggetto <code>String</code> rappresentante l'esito dell'operazione
-     * @see CentroVaccinale
-     * @author Manuel Marceca
-     */
-    public static String inserisciNuovoCentro(CentroVaccinale nuovo_centro){
-        DBClient.insertCentro(nuovo_centro);
-        return "";
-    }
-
-    /**
-     *
-     * @param nuovo_vaccinato
-     * @return
-     * @throws SQLException
-     * @throws RemoteException
-     */
-    public static int inserisciNuovoVaccinato(Vaccinato nuovo_vaccinato) throws  SQLException, RemoteException{
-
-       return DBClient.insertVaccinato(nuovo_vaccinato);
-    }
-
-    public static String inserisciNuovoEvento(EventoAvverso evento) throws SQLException, RemoteException{
-        DBClient.insertEvento(evento);
-        return "";
     }
 
 }

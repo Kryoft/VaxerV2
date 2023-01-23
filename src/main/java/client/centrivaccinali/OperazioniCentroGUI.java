@@ -3,12 +3,12 @@
  * Cristian Corti, 744359, CO
  * Daniele Caspani, 744628, CO
  */
-package centrivaccinali;
+package client.centrivaccinali;
 
-import cittadini.CittadiniGUI;
-import cittadini.RicercaComuneTipologia;
-import cittadini.RicercaNomeCentro;
-import shared.ClientGUI;
+import client.cittadini.CittadiniGUI;
+import client.cittadini.RicercaComuneTipologia;
+import client.cittadini.RicercaNomeCentro;
+import client.ClientGUI;
 import shared.Utility;
 
 import javax.swing.*;

@@ -1,4 +1,4 @@
-package shared;
+package client;
 
 import java.sql.SQLException;
 

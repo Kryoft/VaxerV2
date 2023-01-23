@@ -3,9 +3,9 @@
  * Cristian Corti, 744359, CO
  * Daniele Caspani, 744628, CO
  */
-package cittadini;
+package client.cittadini;
 
-import centrivaccinali.CentroVaccinale;
+import client.centrivaccinali.CentroVaccinale;
 
 import shared.Utility;
 
@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 /**
  * Classe che estende <code>JFrame</code> e implementa l'interfaccia <code>ActionListener</code>;
  * Contiene il codice per la creazione delle GUI per la registrazione degli eventi avversi e
- * dei cittadini.
+ * dei client.cittadini.
  *
  * @author Daniele Caspani, Cristian Corti
  */

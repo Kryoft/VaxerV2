@@ -3,15 +3,15 @@
  * Cristian Corti, 744359, CO
  * Daniele Caspani, 744628, CO
  */
-package cittadini;
+package client.cittadini;
 
-import centrivaccinali.CentriVaccinaliGUI;
-import centrivaccinali.CentroVaccinale;
-import centrivaccinali.PlaceholderTextField;
-import centrivaccinali.SwingAwt;
-import shared.ClientGUI;
-import shared.DBClient;
-import shared.DBException;
+import client.centrivaccinali.CentriVaccinaliGUI;
+import client.centrivaccinali.CentroVaccinale;
+import client.centrivaccinali.PlaceholderTextField;
+import client.centrivaccinali.SwingAwt;
+import client.ClientGUI;
+import client.DBClient;
+import client.DBException;
 import shared.Utility;
 
 import javax.swing.*;
@@ -21,7 +21,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 /**
  * Classe dedicata all'inserzione di un evento avverso. Accessibile solo avendo a disposizione un
@@ -156,45 +155,41 @@ public class RegistraEventiAvversi extends Registrazioni {
      * @author Manuel Marceca
      */
     private void confermaEvento() {
-        try{
-            String centro = struttura_vaccinale.getNomeCentro();
-            String note = note_text.getText();
-            EventoAvverso.Eventi evento = SwingAwt.decidiEvento((String)evento_combo.getSelectedItem());
 
-            int Indice = Integer.parseInt(indice_severita_text.getText());
-            EventoAvverso ev = new EventoAvverso(evento, Indice, note, centro, cod_fiscale);
-            System.out.println("cod_fiscale:" + cod_fiscale);
-            if (!evento.equals("")) {
-                evento_text.setBorder(border);
-                if (Indice >= 1 && Indice <= 5) {
-                    if (note.length() < 256) {
-                        if(!DBClient.checkEventoGiaSegnalato(ev)) {
-                            Utility.inserisciNuovoEvento(ev);
-                            nome_centro_text.setBorder(border);
-                            indice_severita_text.setBorder(border);
-                            JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
-                            new CentriVaccinaliGUI();
-                            this.dispose();
-                        } else{
-                            JOptionPane.showMessageDialog(this, "Questo evento avverso è già stato segnalato", "Errore", JOptionPane.ERROR_MESSAGE);
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(this, "I caratteri delle note opzionali non possono essere più di 256", "Errore Formato", JOptionPane.ERROR_MESSAGE);
+        String centro = struttura_vaccinale.getNomeCentro();
+        String note = note_text.getText();
+        EventoAvverso.Eventi evento = SwingAwt.decidiEvento((String)evento_combo.getSelectedItem());
+
+        int Indice = Integer.parseInt(indice_severita_text.getText());
+        EventoAvverso ev = new EventoAvverso(evento, Indice, note, centro, cod_fiscale);
+        System.out.println("cod_fiscale:" + cod_fiscale);
+        if (!evento.equals("")) {
+            evento_text.setBorder(border);
+            if (Indice >= 1 && Indice <= 5) {
+                if (note.length() < 256) {
+                    if(!DBClient.checkEventoGiaSegnalato(ev)) {
+                        DBClient.insertEvento(ev);
+                        nome_centro_text.setBorder(border);
+                        indice_severita_text.setBorder(border);
+                        JOptionPane.showMessageDialog(this, "Operazione Completata Con Successo");
+                        new CentriVaccinaliGUI();
+                        this.dispose();
+                    } else{
+                        JOptionPane.showMessageDialog(this, "Questo evento avverso è già stato segnalato", "Errore", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
-                    indice_severita_text.setBorder(new LineBorder(Color.RED, 3, true));
-                    JOptionPane.showMessageDialog(this, "Inserire un indice che va da 1 a 5", "Errore Formato", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "I caratteri delle note opzionali non possono essere più di 256", "Errore Formato", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-
-                SwingAwt.modificaBordo(evento_text);
-                JOptionPane.showMessageDialog(this, "Riempire tutti i campi", "Error", JOptionPane.ERROR_MESSAGE);
+                indice_severita_text.setBorder(new LineBorder(Color.RED, 3, true));
+                JOptionPane.showMessageDialog(this, "Inserire un indice che va da 1 a 5", "Errore Formato", JOptionPane.ERROR_MESSAGE);
             }
-        }catch (SQLException se){
-            new DBException("RegistraEventiAvversi", se.getSQLState(), se.getMessage());
-        }catch (RemoteException re){
-            throw new RuntimeException();
+        } else {
+
+            SwingAwt.modificaBordo(evento_text);
+            JOptionPane.showMessageDialog(this, "Riempire tutti i campi", "Error", JOptionPane.ERROR_MESSAGE);
         }
+
     }
 
     /**

@@ -3,7 +3,7 @@
  * Cristian Corti, 744359, CO
  * Daniele Caspani, 744628, CO
  */
-package cittadini;
+package client.cittadini;
 
 /**
  * Classe contenente le informazioni relative all' evento avverso:

@@ -1,8 +1,9 @@
-package shared;
+package client;
 
-import centrivaccinali.CentriVaccinaliGUI;
-import centrivaccinali.SwingAwt;
+import client.centrivaccinali.CentriVaccinaliGUI;
+import client.centrivaccinali.SwingAwt;
 import interfaccia.DBInterface;
+import shared.Utility;
 
 import javax.swing.*;
 import java.awt.*;
