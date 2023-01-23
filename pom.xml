@@ -73,7 +73,7 @@
                 <executions>
 
                     <execution>
-                        <id>drop database</id>
+                        <id>drop database if exists</id>
                         <phase>compile</phase>
                         <goals>
                             <goal>execute</goal>
@@ -121,50 +121,44 @@
                 </executions>
             </plugin>
 
-            <!--create executable jar-->
+            <!--Create executable .jars-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.4.1</version>
                 <executions>
+
+                    <execution>
+                        <id>shade-client</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <outputFile>jar/Client/ClientCV.jar</outputFile>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>shared.ClientGUI</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+
                     <execution>
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <outputFile>jar/Server/ServerCV.jar</outputFile>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>centrivaccinali.CentriVaccinaliGUI</mainClass>
+                                    <mainClass>server.DBConnection</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
                     </execution>
-                </executions>
-            </plugin>
 
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.3.0</version>
-                <executions>
-                    <execution>
-                        <id>copy-jar</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${basedir}/jar</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>target</directory>
-                                    <includes>
-                                        <include>VaxerV2-1.0-SNAPSHOT.jar</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
                 </executions>
             </plugin>
 

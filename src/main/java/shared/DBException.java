@@ -2,6 +2,11 @@ package shared;
 
 import java.sql.SQLException;
 
+/**
+ * ...
+ *
+ * @author Daniele Caspani
+ */
 public class DBException extends SQLException {
     public DBException() {
         super();
