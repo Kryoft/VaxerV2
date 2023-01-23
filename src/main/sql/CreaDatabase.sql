@@ -1,10 +1,10 @@
 create table CENTRI_VACCINALI(
 	Codice SERIAL,
-    Nome varchar(80) NOT NULL,
+      Nome varchar(80) NOT NULL,
 	Comune varchar(100),
 	Sigla char(2),
-	Tipologia varchar(15), 
-	Qualificatore varchar(10), 
+	Tipologia varchar(15),
+	Qualificatore varchar(10),
 	Nome_via varchar(50),
      	Num_civico smallint,
     	Cap char(5),
@@ -35,13 +35,12 @@ create table CITTADINI_REGISTRATI(
 
 
 create table LOG_EVENTI(
-
+	Cod_evento SERIAL PRIMARY KEY,
 	Cod_Centro Integer,
 	Cod_Fiscale varchar(30),
 	Nome_Evento varchar(80),
 	Indice smallint CHECK(indice between 0 AND 5),
 	Note varchar(256),
-	Cod Evento SERIAL primary key
 
 	foreign key (Cod_Fiscale) references CITTADINI_REGISTRATI(Cod_Fiscale)
 		on update cascade
@@ -50,7 +49,7 @@ create table LOG_EVENTI(
 	foreign key(Cod_Centro) references CENTRI_VACCINALI(codice)
 		on update cascade
 		on delete no action,
-	
+
 	Constraint Log UNIQUE(Cod_Fiscale,Nome_Evento)
 );
 

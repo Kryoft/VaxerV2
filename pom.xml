@@ -81,7 +81,7 @@
                         <configuration>
                             <url>jdbc:postgresql://localhost:5432/</url>
                             <username>postgres</username>
-                            <password>admin</password>
+                            <password>pastyyna</password>
                             <autocommit>true</autocommit>
                             <sqlCommand>DROP DATABASE IF EXISTS "ProgettoB"</sqlCommand>
                         </configuration>
@@ -96,7 +96,7 @@
                         <configuration>
                             <url>jdbc:postgresql://localhost:5432/</url>
                             <username>postgres</username>
-                            <password>admin</password>
+                            <password>pastyyna</password>
                             <autocommit>true</autocommit>
                             <sqlCommand>CREATE DATABASE "ProgettoB"</sqlCommand>
                         </configuration>
@@ -111,7 +111,7 @@
                         <configuration>
                             <url>jdbc:postgresql://localhost:5432/ProgettoB</url>
                             <username>postgres</username>
-                            <password>admin</password>
+                            <password>pastyyna</password>
                             <autocommit>true</autocommit>
                             <srcFiles>
                                 <srcFile>src/main/sql/CreaDatabase.sql</srcFile>
@@ -127,47 +127,39 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.4.1</version>
                 <executions>
+
+                    <execution>
+                        <id>shade-client</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <outputFile>jar/CLIENT/Vaxer_client.jar</outputFile>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>shared.ClientGUI</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
                     <execution>
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <outputFile>jar/SERVER/Vaxer_server.jar</outputFile>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>centrivaccinali.CentriVaccinaliGUI</mainClass>
+                                    <mainClass>server.DBConnection</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
                     </execution>
+
                 </executions>
             </plugin>
-
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.3.0</version>
-                <executions>
-                    <execution>
-                        <id>copy-jar</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${basedir}/jar</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>target</directory>
-                                    <includes>
-                                        <include>VaxerV2-1.0-SNAPSHOT.jar</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
         </plugins>
     </build>
 

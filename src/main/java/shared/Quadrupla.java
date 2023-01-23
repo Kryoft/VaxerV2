@@ -3,10 +3,10 @@ package shared;
 /**
  * Semplice struttura dati rappresentante una tupla di quattro elementi.
  *
- * @param <T> Un'oggetto di qualsiasi tipo
- * @param <U> Un'oggetto di qualsiasi tipo
- * @param <V> Un'oggetto di qualsiasi tipo
- * @param <S> Un'oggetto di qualsiasi tipo
+ * @param <T> Un oggetto di qualsiasi tipo
+ * @param <U> Un oggetto di qualsiasi tipo
+ * @param <V> Un oggetto di qualsiasi tipo
+ * @param <S> Un oggetto di qualsiasi tipo
  */
 public class Quadrupla<T, U, V,S> {
     private final T primo;

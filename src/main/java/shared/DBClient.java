@@ -29,6 +29,7 @@ public class DBClient {
     public static void insertCentro(CentroVaccinale centro) throws RemoteException {
         ClientGUI.dbobj.upData(SelectQuery.insertCentro(centro),"CentroVaccinale");
     }
+
     /**
      * Metodo utilizzato per inserire un oggetto di tipo Vaccinato nel database, tabella VACCINATI,
      * e fornire l'identificativo unico rappresentante il vaccinato, il quale è generato dal database.
@@ -37,8 +38,6 @@ public class DBClient {
      * @return L'identificativo univoco del vaccinato
      * @author Manuel Marceca, Daniele Caspani
      */
-
-    //TODO Gestione cod_centro restituito non valido (valore -1)
     public static int insertVaccinato(Vaccinato vaccinato) throws RemoteException {
         ClientGUI.dbobj.upData(SelectQuery.insertVaccinato(vaccinato),"Vaccinato");
         return getVaccinatoIdByCF(vaccinato.getCodiceFiscale());
