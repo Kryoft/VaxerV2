@@ -166,7 +166,7 @@ public class RegistraEventiAvversi extends Registrazioni {
         if (!evento.equals("")) {
             evento_text.setBorder(border);
             if (Indice >= 1 && Indice <= 5) {
-                if (note.length() < 256) {
+                if (note.length() <     256) {
                     if(!DBClient.checkEventoGiaSegnalato(ev)) {
                         DBClient.insertEvento(ev);
                         nome_centro_text.setBorder(border);
