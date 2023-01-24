@@ -96,7 +96,7 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
         ArrayList<Quadrupla<String, Float, Integer,Float>> dati_centro =
                 ClientToServerRequests.getValoriPerEventoAvverso(strutture_vaccinali.getNomeCentro());
 
-        num_segnalazioni_label.setText("Numero di Segnalazioni: " + numero_segnalazioni);
+        num_segnalazioni_label.setText("Numero di Segnalazioni: " + (int)numero_segnalazioni);
         media_label.setText("Severità media: " + new DecimalFormat("0.000").format(media));
 
         menu = new JButton("Torna al menu");
