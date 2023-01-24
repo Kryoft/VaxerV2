@@ -31,12 +31,13 @@ public class RegistraCittadini extends Registrazioni {
     private final JTextField cf_txt = new JTextField(),
                                 centro_txt = new JTextField();
 
-    private final PlaceholderTextField nome_txt = new PlaceholderTextField("nome"),
-                                        cognome_txt = new PlaceholderTextField("cognome"),
-                                        email_txt = new PlaceholderTextField("email"),
-                                        password_txt = new PlaceholderTextField("password"),
-                                        user_txt = new PlaceholderTextField("user id"),
-                                        id_txt = new PlaceholderTextField(" Identificativo ");
+    private final PlaceholderTextField nome_txt = new PlaceholderTextField(" nome"),
+                                        cognome_txt = new PlaceholderTextField(" cognome"),
+                                        email_txt = new PlaceholderTextField(" email"),
+                                        //password_txt = new PlaceholderTextField("password"),
+                                        user_txt = new PlaceholderTextField(" user id"),
+                                        id_txt = new PlaceholderTextField(" identificativo ");
+    private final JPasswordField password_txt = new JPasswordField();
 
     private final int labels_width = 180,
             base_txt_width = 220,
@@ -161,7 +162,7 @@ public class RegistraCittadini extends Registrazioni {
             String cf = cf_txt.getText().toUpperCase().strip();
             int id = Integer.parseInt(id_txt.getText().strip());
             String user = user_txt.getText().strip();
-            String password = password_txt.getText();
+            String password = String.valueOf(password_txt.getPassword());
             String email = email_txt.getText().strip();
             String centro = struttura_vaccinale.getNomeCentro().strip();
             String message = null;

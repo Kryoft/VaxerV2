@@ -96,7 +96,7 @@ public abstract class ClientToServerRequests {
     public static CentroVaccinale getCentroVaccinaleByName(String nome_centro) {
         CentroVaccinale centro = null;
         ArrayList<String[]> lista;
-        String[] attributi = {"Nome","Tipologia","Nome_via","Num_civico","Comune","Sigla","Cap"};
+        String[] attributi = {"Nome","Tipologia","Qualificatore","Nome_via","Num_civico","Comune","Sigla","Cap"};
         try {
             lista = ClientGUI.dbobj.selectData(SelectQuery.getCentroVaccinaleByName(nome_centro),attributi);
         } catch (NullPointerException | RemoteException ex) {
@@ -104,10 +104,10 @@ public abstract class ClientToServerRequests {
             throw new RuntimeException(ex);
         }
         if (lista.size() > 0) {
-            int num_civico = Integer.parseInt(lista.get(0)[3]);
+            int num_civico = Integer.parseInt(lista.get(0)[4]);
             CentroVaccinale.Tipologia tipologia_centro = Utility.decidiTipo(lista.get(0)[1]);
-            IndirizzoComposto.Qualificatore qualificatore = Utility.decidiQualificatore(lista.get(0)[1]);
-            IndirizzoComposto indirizzo_centro = new IndirizzoComposto(qualificatore,lista.get(0)[2], num_civico, lista.get(0)[4],lista.get(0)[5],lista.get(0)[6]);
+            IndirizzoComposto.Qualificatore qualificatore = Utility.decidiQualificatore(lista.get(0)[2]);
+            IndirizzoComposto indirizzo_centro = new IndirizzoComposto(qualificatore,lista.get(0)[3], num_civico, lista.get(0)[5],lista.get(0)[6],lista.get(0)[7]);
             centro = new CentroVaccinale(lista.get(0)[0], tipologia_centro, indirizzo_centro);
         }
         return centro;

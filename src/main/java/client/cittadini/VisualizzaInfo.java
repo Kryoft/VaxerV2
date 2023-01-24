@@ -90,7 +90,7 @@ public class VisualizzaInfo extends JFrame implements ActionListener {
             somma_indici += s.getIndice();
         }
 
-        int numero_segnalazioni = segnalazioni.size();
+        double numero_segnalazioni = segnalazioni.size();
         double media = numero_segnalazioni == 0 ? 0.00d : somma_indici / numero_segnalazioni;
 
         ArrayList<Quadrupla<String, Float, Integer,Float>> dati_centro =

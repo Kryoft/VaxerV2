@@ -2,7 +2,7 @@ create table CENTRI_VACCINALI(
 	Codice SERIAL,
       Nome varchar(80) NOT NULL,
 	Comune varchar(100),
-	Sigla char(2),
+	Sigla char(4),
 	Tipologia varchar(15),
 	Qualificatore varchar(10),
 	Nome_via varchar(50),

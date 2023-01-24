@@ -204,7 +204,7 @@ public class IndirizzoComposto {
      * @author Daniele Caspani
      */
     public boolean controllaSigla(String sigla) {
-        if (sigla.length() == 2) {
+        if (sigla.length() == 2 || sigla.equals("ROMA")) {
             for (char c: sigla.toCharArray()) {
                 if (Character.isDigit(c))
                     return false;
