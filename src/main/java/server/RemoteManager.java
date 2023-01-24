@@ -139,14 +139,14 @@ public class RemoteManager extends ServerGraphics implements Remote {
                 disattiva.setEnabled(true);
                 attiva.setEnabled(false);
                 JOptionPane.showMessageDialog(this,"Il server è attivo");
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, number_format_exception, "Errore", JOptionPane.ERROR_MESSAGE);
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(this, number_format_exception, "Errore", JOptionPane.WARNING_MESSAGE);
             } catch (AlreadyBoundException ex) {
-                JOptionPane.showMessageDialog(this, already_bound_exception, "Errore", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, already_bound_exception, "Errore", JOptionPane.WARNING_MESSAGE);
             } catch (RemoteException ex) {
-                JOptionPane.showMessageDialog(this,ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this,ex.getMessage(), "Errore", JOptionPane.WARNING_MESSAGE);
             } catch (UnknownHostException ex) {
-                JOptionPane.showMessageDialog(this, unknown_host_exception, "Errore", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, unknown_host_exception, "Errore", JOptionPane.WARNING_MESSAGE);
             }
         }
 
@@ -157,7 +157,7 @@ public class RemoteManager extends ServerGraphics implements Remote {
                 disattiva.setEnabled(false);
                 JOptionPane.showMessageDialog(this, "Il server è stato disabilitato");
             } catch (RemoteException ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Errore", JOptionPane.WARNING_MESSAGE);
             }
         }
     }

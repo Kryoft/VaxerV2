@@ -9,6 +9,8 @@ import client.ClientToServerRequests;
 import client.centrivaccinali.*;
 
 import client.ClientGUI;
+import shared.PlaceholderPasswordField;
+import shared.PlaceholderTextField;
 import shared.Utility;
 
 import javax.swing.*;
@@ -37,7 +39,7 @@ public class RegistraCittadini extends Registrazioni {
                                         //password_txt = new PlaceholderTextField("password"),
                                         user_txt = new PlaceholderTextField(" user id"),
                                         id_txt = new PlaceholderTextField(" identificativo ");
-    private final JPasswordField password_txt = new JPasswordField();
+    private final PlaceholderPasswordField password_txt = new PlaceholderPasswordField("password");
 
     private final int labels_width = 180,
             base_txt_width = 220,
@@ -141,7 +143,6 @@ public class RegistraCittadini extends Registrazioni {
         layered_pane.add(annulla, 2, 0);
         layeredPaneSettings(0, new Rectangle(annulla_x, buttons_y,                 //annulla
                 button_width, button_height), 18, 1, false);
-
 
         conferma.addActionListener(this);
         annulla.addActionListener(this);

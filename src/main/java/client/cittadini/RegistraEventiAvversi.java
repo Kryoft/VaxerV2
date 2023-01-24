@@ -8,7 +8,7 @@ package client.cittadini;
 import client.ClientToServerRequests;
 import client.centrivaccinali.CentriVaccinaliGUI;
 import client.centrivaccinali.CentroVaccinale;
-import client.centrivaccinali.PlaceholderTextField;
+import shared.PlaceholderTextField;
 import client.centrivaccinali.SwingAwt;
 import client.ClientGUI;
 

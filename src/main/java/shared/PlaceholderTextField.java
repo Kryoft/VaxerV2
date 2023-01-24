@@ -3,7 +3,7 @@
  * Cristian Corti, 744359, CO
  * Daniele Caspani, 744628, CO
  */
-package client.centrivaccinali;
+package shared;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,9 +31,9 @@ public class PlaceholderTextField extends JTextField {
 
             @Override
             public void focusGained(FocusEvent e) {
-                if (getText().equals(promptText)) {
-                    setForeground(Color.BLACK);
+                if (getText().equals(promptText) && getForeground().equals(Color.lightGray)) {
                     setText("");
+                    setForeground(Color.BLACK);
                 }
             }
         });

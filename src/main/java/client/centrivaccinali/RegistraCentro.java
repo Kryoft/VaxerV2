@@ -8,6 +8,7 @@ package client.centrivaccinali;
 
 import client.ClientGUI;
 import client.ClientToServerRequests;
+import shared.PlaceholderTextField;
 import shared.Utility;
 
 import javax.swing.*;

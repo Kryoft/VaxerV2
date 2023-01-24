@@ -190,10 +190,11 @@ public class ClientGUI extends JFrame implements ActionListener {
                 new CentriVaccinaliGUI();
                 this.dispose();
             } catch (RemoteException | NotBoundException ex) {
-                JOptionPane.showMessageDialog(this,"ERRORE: Connessione al server non riuscita");
+                JOptionPane.showMessageDialog(this,"ERRORE: Connessione al server non riuscita", "Errore", JOptionPane.WARNING_MESSAGE);
                 throw new RuntimeException(ex);
+            } catch (IllegalArgumentException iae) {
+                JOptionPane.showMessageDialog(this, "ERRORE: La porta deve essere un numero fino ad un massimo di 65535", "Errore", JOptionPane.WARNING_MESSAGE);
             }
-
         }
     }
 }
