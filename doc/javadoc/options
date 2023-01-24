@@ -1,0 +1,24 @@
+-classpath
+'C:/Users/marce/.m2/repository/org/postgresql/postgresql/42.5.1/postgresql-42.5.1.jar'
+-encoding
+'UTF-8'
+-protected
+-source
+'18'
+-sourcepath
+'C:/Users/marce/Desktop/Universita/primo semestre 22-23/Lab A-B/Lab B/Progetto/VaxerV2/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2023. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/marce/Desktop/Universita/primo semestre 22-23/Lab A-B/Lab B/Progetto/VaxerV2/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'VaxerV2 1.0-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'VaxerV2 1.0-SNAPSHOT API'

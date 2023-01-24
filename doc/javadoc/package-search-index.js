@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"client"},{"l":"client.centrivaccinali"},{"l":"client.cittadini"},{"l":"interfaccia"},{"l":"server"},{"l":"shared"}];updateSearchResults();
